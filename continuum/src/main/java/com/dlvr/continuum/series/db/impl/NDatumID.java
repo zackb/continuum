@@ -3,7 +3,6 @@ package com.dlvr.continuum.series.db.impl;
 import com.dlvr.continuum.series.datum.Datum;
 import com.dlvr.continuum.series.datum.Tags;
 import com.dlvr.continuum.series.db.DatumID;
-import com.dlvr.continuum.series.db.ID;
 import com.dlvr.continuum.util.Bytes;
 
 import java.nio.ByteBuffer;

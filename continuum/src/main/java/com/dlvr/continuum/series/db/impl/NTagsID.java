@@ -74,6 +74,7 @@ public class NTagsID implements TagsID {
         return cachedId;
     }
 
+    //TODO: dog slow
     @Override
     public Tags tags() {
         int split = positions.length / 2;
