@@ -1,7 +1,7 @@
 package com.dlvr.continuum.util;
 
 import com.dlvr.continuum.series.datum.Datum;
-import com.dlvr.continuum.series.datum.impl.BaseDatum;
+import com.dlvr.continuum.series.datum.impl.NDatum;
 import com.dlvr.util.BSON;
 
 import java.nio.ByteBuffer;
@@ -55,7 +55,7 @@ public class Bytes {
     }
 
     public static Datum Datum(byte[] bytes) {
-        return BSON.decodeObject(bytes, BaseDatum.class);
+        return BSON.decodeObject(bytes, NDatum.class);
     }
 
     private static final Charset utf8 = Charset.forName("UTF-8");

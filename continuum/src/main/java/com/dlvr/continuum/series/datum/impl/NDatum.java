@@ -3,14 +3,15 @@ package com.dlvr.continuum.series.datum.impl;
 import com.dlvr.continuum.series.datum.Fields;
 import com.dlvr.continuum.series.datum.Datum;
 import com.dlvr.continuum.series.datum.Tags;
+import com.dlvr.continuum.series.db.ID;
 
 /**
  * Base Datum implementation
  */
-public class BaseDatum implements Datum {
+public class NDatum implements Datum {
     public String name;
-    public BaseTags tags;
-    public BaseFields fields;
+    public NTags tags;
+    public NFields fields;
     public double value;
     public Long timestamp;
 
@@ -38,7 +39,7 @@ public class BaseDatum implements Datum {
     }
 
     @Override
-    public String ID() {
+    public ID ID() {
         if (id == null) {
             id = name() + "\\x00" + tags().ID() + "\\x00" + timestamp();
         }

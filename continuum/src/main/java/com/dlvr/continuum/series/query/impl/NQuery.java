@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Base Query implementation
  */
-public class BaseQuery implements Query {
+public class NQuery implements Query {
     public String name;
     public Function function;
     public long start;

@@ -2,7 +2,6 @@ package com.dlvr.continuum.util;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.series.datum.Datum;
-import com.dlvr.util.JSON;
 import org.junit.Test;
 
 import java.util.HashMap;

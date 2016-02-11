@@ -3,12 +3,12 @@ package com.dlvr.continuum;
 import com.dlvr.continuum.series.datum.Datum;
 import com.dlvr.continuum.series.datum.Fields;
 import com.dlvr.continuum.series.datum.Tags;
-import com.dlvr.continuum.series.datum.impl.BaseFields;
-import com.dlvr.continuum.series.datum.impl.BaseDatum;
-import com.dlvr.continuum.series.datum.impl.BaseTags;
+import com.dlvr.continuum.series.datum.impl.NFields;
+import com.dlvr.continuum.series.datum.impl.NDatum;
+import com.dlvr.continuum.series.datum.impl.NTags;
 import com.dlvr.continuum.series.query.Function;
 import com.dlvr.continuum.series.query.Query;
-import com.dlvr.continuum.series.query.impl.BaseQuery;
+import com.dlvr.continuum.series.query.impl.NQuery;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -27,11 +27,11 @@ public class Continuum {
     }
 
     public static Tags tags(Map<String, String> tags) {
-        return new BaseTags(tags);
+        return new NTags(tags);
     }
 
     public static Fields fields(Map<String, Object> fields) {
-        return new BaseFields(fields);
+        return new NFields(fields);
     }
 
     public static QueryBuilder query(String name) {
@@ -40,18 +40,18 @@ public class Continuum {
 
     public static class DatumBuilder {
 
-        private final BaseDatum target = new BaseDatum();
+        private final NDatum target = new NDatum();
 
         private DatumBuilder() {}
         DatumBuilder(String name) {
             target.name = name;
         }
         public DatumBuilder tags(Tags tags) {
-            target.tags = (BaseTags)tags;
+            target.tags = (NTags)tags;
             return this;
         }
         public DatumBuilder fields(Fields fields) {
-            target.fields = (BaseFields)fields;
+            target.fields = (NFields)fields;
             return this;
         }
         public DatumBuilder timestamp(long timestamp) {
@@ -68,7 +68,7 @@ public class Continuum {
     }
 
     static class QueryBuilder {
-        private final BaseQuery target = new BaseQuery();
+        private final NQuery target = new NQuery();
         private QueryBuilder() {}
         QueryBuilder(String name) {
             target.name = name;

@@ -9,11 +9,11 @@ import java.util.Map;
 /**
  * Base Fields implementation
  */
-public class BaseFields extends HashMap<String, Object> implements Fields {
+public class NFields extends HashMap<String, Object> implements Fields {
 
-    BaseFields() { super(); }
+    NFields() { super(); }
 
-    public BaseFields(Map<String, Object> raw) {
+    public NFields(Map<String, Object> raw) {
         super(raw);
     }
 

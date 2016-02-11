@@ -9,14 +9,14 @@ import java.util.*;
 /**
  * Base Tags implementation
  */
-public class BaseTags extends HashMap<String, String> implements Tags {
+public class NTags extends HashMap<String, String> implements Tags {
 
     private transient List<String> sortedNames;
     private transient NTagsID cachedId;
 
-    BaseTags() { super(); }
+    NTags() { super(); }
 
-    public BaseTags(Map<String, String> raw) {
+    public NTags(Map<String, String> raw) {
         super(raw);
     }
 
