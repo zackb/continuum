@@ -5,7 +5,7 @@ import com.dlvr.continuum.series.datum.Datum;
 /**
  * Created by zack on 2/11/16.
  */
-public interface Iterator extends java.util.Iterator<ID> {
+public interface Iterator extends java.util.Iterator<DatumID> {
     /**
      * Retreive the Datum with the ID of current()
      * @return unmarshalled datum

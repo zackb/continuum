@@ -1,7 +1,7 @@
 package com.dlvr.continuum.series.db.impl;
 
 import com.dlvr.continuum.series.datum.Datum;
-import com.dlvr.continuum.series.db.ID;
+import com.dlvr.continuum.series.db.DatumID;
 import com.dlvr.continuum.series.db.Iterator;
 import com.dlvr.continuum.util.Bytes;
 import org.rocksdb.RocksIterator;
@@ -45,7 +45,7 @@ public class RockIterator implements Iterator {
     }
 
     @Override
-    public ID next() {
+    public DatumID next() {
         it.next();
         return Bytes.DatumID(it.key());
     }

@@ -16,6 +16,9 @@ public class NDatumID implements DatumID {
 
     private final transient byte[] cachedId;
     private final transient int[] positions;
+    private final transient byte[] name;
+    private final transient byte[] tags;
+    private final transient byte[] timestamp;
 
     public NDatumID(byte[] bytes) {
         int count = 0;
@@ -27,22 +30,25 @@ public class NDatumID implements DatumID {
             if (bytes[i] == b) positions[posi++] = i;
         }
         this.cachedId = bytes;
+        name = Bytes.range(cachedId, 0, positions[0]);
+        tags = Bytes.range(cachedId, positions[0] + 1, positions[positions.length - 1] - 2);
+        timestamp = Bytes.range(cachedId, positions[positions.length - 1] - 1, cachedId.length);
     }
 
     public NDatumID(Datum datum) {
-        byte[] name = Bytes.bytes(datum.name());
-        byte[] tags = datum.tags().ID().bytes();
-        byte[] ts = Bytes.bytes(datum.timestamp());
-        byte[] id = new byte[name.length + tags.length + ts.length + 2];
+        name = Bytes.bytes(datum.name());
+        tags = datum.tags().ID().bytes();
+        timestamp = Bytes.bytes(datum.timestamp());
+        byte[] id = new byte[name.length + tags.length + timestamp.length + 2];
 
-        positions = new int[] {name.length + 1, tags.length + 1, ts.length + 2};
+        positions = new int[] { name.length + 1, tags.length + 1, timestamp.length + 2 };
 
         ByteBuffer buff = ByteBuffer.wrap(id);
         buff.put(name);
         buff.put(b);
         buff.put(tags);
         buff.put(b);
-        buff.put(ts);
+        buff.put(timestamp);
         cachedId = id;
     }
 
@@ -58,16 +64,16 @@ public class NDatumID implements DatumID {
 
     @Override
     public String name() {
-        return Bytes.String(Bytes.range(cachedId, 0, positions[0]));
+        return Bytes.String(name);
     }
 
     @Override
     public Tags tags() {
-        return new NTagsID(Bytes.range(cachedId, positions[0] + 1, positions[positions.length - 1] - 2)).tags();
+        return new NTagsID(tags).tags();
     }
 
     @Override
     public long timestamp() {
-        return Bytes.Long(Bytes.range(cachedId, positions[positions.length - 1] - 1, cachedId.length));
+        return Bytes.Long(timestamp);
     }
 }

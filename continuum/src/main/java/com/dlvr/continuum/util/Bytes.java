@@ -2,6 +2,7 @@ package com.dlvr.continuum.util;
 
 import com.dlvr.continuum.series.datum.Datum;
 import com.dlvr.continuum.series.datum.impl.NDatum;
+import com.dlvr.continuum.series.db.DatumID;
 import com.dlvr.continuum.series.db.ID;
 import com.dlvr.continuum.series.db.impl.NDatumID;
 import com.dlvr.util.BSON;
@@ -32,7 +33,7 @@ public class Bytes {
         return b1 << 24 | (b2 & 0xFF) << 16 | (b3 & 0xFF) << 8 | (b4 & 0xFF);
     }
 
-    public static ID DatumID(byte[] bytes) {
+    public static DatumID DatumID(byte[] bytes) {
         return new NDatumID(bytes);
     }
 
