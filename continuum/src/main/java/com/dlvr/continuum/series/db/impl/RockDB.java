@@ -56,7 +56,7 @@ public class RockDB implements DB {
 
     @Override
     public Iterator iterator() {
-        return new RockIterator(rock.badDontDo().newIterator());
+        return new RockIterator(rock);
     }
 
     @Override

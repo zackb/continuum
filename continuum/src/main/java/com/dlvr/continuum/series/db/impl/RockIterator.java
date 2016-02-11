@@ -15,8 +15,8 @@ public class RockIterator implements Iterator {
 
     private RockIterator() { }
 
-    RockIterator(RocksIterator it) {
-        this.it = it;
+    RockIterator(RockSlab slab) {
+        this.it = slab.badDontDo().newIterator();
     }
 
     @Override
