@@ -3,6 +3,8 @@ package com.dlvr.continuum.series.db.impl;
 import com.dlvr.continuum.io.file.impl.FileSystemReference;
 import com.dlvr.continuum.series.datum.Datum;
 import com.dlvr.continuum.series.db.DB;
+import com.dlvr.continuum.series.db.ID;
+import com.dlvr.continuum.series.db.Iterator;
 import com.dlvr.continuum.series.query.Query;
 import com.dlvr.continuum.series.query.QueryResult;
 
@@ -34,7 +36,22 @@ public class RockDB implements DB {
 
     @Override
     public QueryResult query(Query query) {
-        return null;
+        QueryResult result = null;
+        Iterator itr = null;
+        try {
+            itr = new RockIterator(rock.badDontDo().newIterator());
+            itr.seekToFirst();
+            while (itr.hasNext()) {
+                ID id = itr.next();
+                System.out.println(id.string());
+                for (byte b : id.string().getBytes()) {
+                    System.out.printf("%02X ", b);
+                }
+            }
+        } finally {
+            if (itr != null) itr.close();
+        }
+        return result;
     }
 
     @Override

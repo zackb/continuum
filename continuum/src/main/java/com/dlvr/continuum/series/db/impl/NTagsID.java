@@ -11,30 +11,42 @@ import java.util.List;
  */
 public class NTagsID implements ID {
 
-    private transient String cachedId;
+    private static final byte b = 0x0;
+
+    private transient byte[] cachedId;
 
     public NTagsID(Tags tags) {
-        String id = "";
+        byte[] id = new byte[1024];
         List<String> names = tags.names();
         int len = names.size();
 
-        for (String name : names)
-            id += name + "\\x00";
+        int pos = 0;
+        byte[] tmp;
+
+        for (String name : names) {
+            tmp = Bytes.bytes(name);
+            id = Bytes.append(id, pos, tmp);
+            pos += tmp.length;
+            id[pos++] = b;
+        }
 
         for (int i = 0; i < names.size(); i++) {
-            id += tags.get(names.get(i));
-            if (i < len - 1) id += "\\x00";
+            String val = tags.get(names.get(i));
+            tmp = Bytes.bytes(val);
+            id = Bytes.append(id, pos, tmp);
+            pos += tmp.length;
+            if (i < len - 1) id[pos++] = b;
         }
-        cachedId = id;
+        cachedId = Bytes.range(id, 0, pos);
     }
 
     @Override
     public String string() {
-        return cachedId;
+        return Bytes.String(cachedId);
     }
 
     @Override
     public byte[] bytes() {
-        return Bytes.bytes(string());
+        return cachedId;
     }
 }

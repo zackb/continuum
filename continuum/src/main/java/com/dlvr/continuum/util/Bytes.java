@@ -81,6 +81,13 @@ public class Bytes {
         return c;
     }
 
+    public static byte[] concat(byte[] a, byte b) {
+        byte[] c = new byte[a.length + 1];
+        System.arraycopy(a, 0, c, 0, a.length);
+        c[c.length - 1] = b;
+        return c;
+    }
+
     public static byte[] append(byte[] target, int pos, byte[] addition) {
         return append(target, pos, addition, addition.length);
     }

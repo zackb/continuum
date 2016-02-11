@@ -48,6 +48,10 @@ public class RockSlab implements Slab {
         rock.merge(key, value);
     }
 
+    RocksDB badDontDo() {
+        return this.rock;
+    }
+
     @Override
     public void close() {
         if (rock != null) {
