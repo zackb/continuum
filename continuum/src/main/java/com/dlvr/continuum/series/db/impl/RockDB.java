@@ -7,6 +7,7 @@ import com.dlvr.continuum.series.db.ID;
 import com.dlvr.continuum.series.db.Iterator;
 import com.dlvr.continuum.series.query.Query;
 import com.dlvr.continuum.series.query.QueryResult;
+import com.dlvr.continuum.util.Bytes;
 
 import static com.dlvr.continuum.util.Bytes.*;
 
@@ -26,11 +27,14 @@ public class RockDB implements DB {
     }
 
     public RockDB(String name, FileSystemReference baseRef) throws Exception {
-        this.rock = new RockSlab(name, (FileSystemReference)baseRef.getEndpoint().get(name));
+        FileSystemReference dataDirRef = baseRef.getChild(name);
+        this.rock = new RockSlab(name, dataDirRef);
     }
 
     @Override
     public void write(Datum datum) throws Exception {
+        byte[] bytes = datum.ID().bytes();
+        System.out.println("Write: " + Bytes.String(bytes));
         rock.put(datum.ID().bytes(), bytes(datum));
     }
 
@@ -43,7 +47,6 @@ public class RockDB implements DB {
             itr.seekToFirst();
             while (itr.hasNext()) {
                 ID id = itr.next();
-                System.out.println(id.string());
                 for (byte b : id.bytes()) {
                     System.out.printf("%02X ", b);
                 }

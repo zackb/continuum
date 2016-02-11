@@ -28,7 +28,7 @@ public class DBTest {
         fields.put("fields1", "vfield");
         fields.put("fields4", "fieldv");
 
-        DB db = new RockDB("fooe", reference);
+        RockDB db = new RockDB("fooe", reference);
         Datum d = datum("zack")
                 .timestamp(System.currentTimeMillis())
                 .tags(tags(tags))
@@ -38,5 +38,6 @@ public class DBTest {
         db.write(d);
 
         db.query(null);
+        db.getSlab().getReference().delete();
     }
 }

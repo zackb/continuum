@@ -75,6 +75,12 @@ public class Bytes {
         return new String(bytes);
     }
 
+    public static byte[] copy(byte[] a) {
+        byte[] c = new byte[a.length];
+        System.arraycopy(a, 0, c, 0, a.length);
+        return c;
+    }
+
     public static byte[] concat(byte[] a, byte[] b) {
         byte[] c = new byte[a.length + b.length];
         System.arraycopy(a, 0, c, 0, a.length);

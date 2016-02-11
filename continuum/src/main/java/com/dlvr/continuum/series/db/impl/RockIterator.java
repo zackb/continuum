@@ -46,8 +46,9 @@ public class RockIterator implements Iterator {
 
     @Override
     public DatumID next() {
+        DatumID id = Bytes.DatumID(it.key());
         it.next();
-        return Bytes.DatumID(it.key());
+        return id;
     }
 
     @Override

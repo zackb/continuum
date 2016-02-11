@@ -22,6 +22,10 @@ public class IteratorTest {
         Map<String, String> map = new HashMap<>();
         map.put("foo", "bar");
         map.put("baz", "bat");
+
+        Map<String, String> map2 = new HashMap<>();
+        map2.put("zack", "bar");
+        map2.put("fuz", "da'vinci");
         RockDB db = new RockDB("fooe", reference);
         long ts1 = System.currentTimeMillis();
         long ts2 = ts1 + 100;
@@ -34,23 +38,27 @@ public class IteratorTest {
         );
         db.write(
                 datum("testiterate")
-                        .tags(tags(map))
+                        .tags(tags(map2))
                         .value(12341)
                         .timestamp(ts2)
                         .build()
         );
         Iterator itr = db.iterator();
 
-        System.out.println("Ts1: " + ts1);
-        System.out.println("Ts2: " + ts2);
-
         int i = 0;
         itr.seekToFirst();
         while (itr.hasNext()) {
-            i++;
             DatumID id = itr.next();
-            System.out.println(id.name());
-            System.out.println(id.timestamp());
+            if (i == 0) {
+                assertEquals("testiterate", id.name());
+                assertEquals("bar", id.tags().get("foo"));
+                assertEquals("bat", id.tags().get("baz"));
+            } else if (i == 1){
+                assertEquals("testiterate", id.name());
+                assertEquals("da'vinci", id.tags().get("fuz"));
+                assertEquals("bar", id.tags().get("zack"));
+            }
+            i++;
         }
         itr.close();
         db.getSlab().getReference().delete();
