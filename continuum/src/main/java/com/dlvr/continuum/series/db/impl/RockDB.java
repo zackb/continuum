@@ -11,14 +11,19 @@ import static com.dlvr.continuum.util.Bytes.*;
 /**
  * SeriesDB implemented with RocksDB
  */
-public class RockSeriesDB implements SeriesDB {
-
-    private final FileSystemReference baseRef;
+public class RockDB implements SeriesDB {
 
     private final RockSlab rock;
 
-    public RockSeriesDB(String name, FileSystemReference baseRef) throws Exception {
-        this.baseRef = baseRef;
+    private RockDB() throws Exception {
+        throw new Exception();
+    }
+
+    public RockDB(RockSlab slab) {
+        this.rock = slab;
+    }
+
+    public RockDB(String name, FileSystemReference baseRef) throws Exception {
         this.rock = new RockSlab(name, baseRef.getFullPath());
     }
 
