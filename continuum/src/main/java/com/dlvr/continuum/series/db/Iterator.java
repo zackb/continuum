@@ -12,6 +12,12 @@ public interface Iterator extends java.util.Iterator<DatumID> {
      */
     Datum get();
 
+    /**
+     * Retreive the value of the datum. This can save decoding time if the full Datum object is not needed
+     * @return value
+     */
+    double value();
+
     void seekToFirst();
 
     void seek(byte[] target);

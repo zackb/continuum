@@ -15,7 +15,9 @@ import static org.junit.Assert.*;
  * Created by zack on 2/11/16.
  */
 public class DBTest {
-    FileSystemReference reference = new FileSystemReference("/Users/zack/Desktop/DBBB");
+
+    FileSystemReference reference = new FileSystemReference("/tmp/continuum/test.com.dlvr.DBTest");
+
     @Test
     public void testScan() throws Exception {
         Map<String, String> tags = new HashMap<>();
@@ -28,7 +30,9 @@ public class DBTest {
         fields.put("fields1", "vfield");
         fields.put("fields4", "fieldv");
 
-        RockDB db = new RockDB("fooe", reference);
+        String name = "testScan";
+        reference.getChild(name).delete();
+        RockDB db = new RockDB(name, reference);
         Datum d = datum("zack")
                 .timestamp(System.currentTimeMillis())
                 .tags(tags(tags))

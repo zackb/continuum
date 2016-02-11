@@ -15,10 +15,11 @@ import static org.junit.Assert.*;
  */
 public class IteratorTest {
 
-    FileSystemReference reference = new FileSystemReference("/Users/zack/Desktop/DBBB");
+    FileSystemReference reference = new FileSystemReference("/tmp/continuum/test.com.dlvr.IteratorTest");
 
     @Test
     public void testIterate() throws Exception {
+        String name = "testIterate";
         Map<String, String> map = new HashMap<>();
         map.put("foo", "bar");
         map.put("baz", "bat");
@@ -26,7 +27,8 @@ public class IteratorTest {
         Map<String, String> map2 = new HashMap<>();
         map2.put("zack", "bar");
         map2.put("fuz", "da'vinci");
-        RockDB db = new RockDB("fooe", reference);
+        reference.getChild(name).delete();
+        RockDB db = new RockDB(name, reference);
         long ts1 = System.currentTimeMillis();
         long ts2 = ts1 + 100;
         db.write(

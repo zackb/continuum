@@ -3,7 +3,6 @@ package com.dlvr.continuum.util;
 import com.dlvr.continuum.series.datum.Datum;
 import com.dlvr.continuum.series.datum.impl.NDatum;
 import com.dlvr.continuum.series.db.DatumID;
-import com.dlvr.continuum.series.db.ID;
 import com.dlvr.continuum.series.db.impl.NDatumID;
 import com.dlvr.util.BSON;
 

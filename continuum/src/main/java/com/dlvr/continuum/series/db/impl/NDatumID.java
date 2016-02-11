@@ -12,7 +12,7 @@ import java.nio.ByteBuffer;
  */
 public class NDatumID implements DatumID {
 
-    private static final byte b = 0x00;
+    private static final byte b = 0x0;
 
     private final transient byte[] cachedId;
     private final transient int[] positions;

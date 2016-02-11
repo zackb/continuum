@@ -3,11 +3,12 @@ package com.dlvr.continuum.series.db.impl;
 import com.dlvr.continuum.io.file.impl.FileSystemReference;
 import com.dlvr.continuum.series.datum.Datum;
 import com.dlvr.continuum.series.db.DB;
+import com.dlvr.continuum.series.db.DatumID;
 import com.dlvr.continuum.series.db.ID;
 import com.dlvr.continuum.series.db.Iterator;
 import com.dlvr.continuum.series.query.Query;
 import com.dlvr.continuum.series.query.QueryResult;
-import com.dlvr.continuum.util.Bytes;
+import com.dlvr.util.BSON;
 
 import static com.dlvr.continuum.util.Bytes.*;
 
@@ -15,6 +16,8 @@ import static com.dlvr.continuum.util.Bytes.*;
  * DB implemented with RocksDB
  */
 public class RockDB implements DB {
+
+    private static final byte b = 0x0;
 
     private final RockSlab rock;
 
@@ -33,9 +36,18 @@ public class RockDB implements DB {
 
     @Override
     public void write(Datum datum) throws Exception {
-        byte[] bytes = datum.ID().bytes();
-        System.out.println("Write: " + Bytes.String(bytes));
         rock.put(datum.ID().bytes(), bytes(datum));
+    }
+
+    /**
+     * Encode datum as bytes[bson] + 0x0 + bytes[value]
+     * @param datum to encode body
+     * @return body
+     */
+    private static byte[] body(Datum datum) {
+        byte[] bson = BSON.encode(datum);
+        byte[] value = bytes(datum.value());
+        return null;
     }
 
     @Override
@@ -46,10 +58,7 @@ public class RockDB implements DB {
             itr = iterator();
             itr.seekToFirst();
             while (itr.hasNext()) {
-                ID id = itr.next();
-                for (byte b : id.bytes()) {
-                    System.out.printf("%02X ", b);
-                }
+                DatumID id = itr.next();
             }
         } finally {
             if (itr != null) itr.close();

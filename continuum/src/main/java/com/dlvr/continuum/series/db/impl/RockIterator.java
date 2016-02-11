@@ -25,6 +25,11 @@ public class RockIterator implements Iterator {
     }
 
     @Override
+    public double value() {
+        throw new Error("Not implemented");
+    }
+
+    @Override
     public void seekToFirst() {
         it.seekToFirst();
     }
