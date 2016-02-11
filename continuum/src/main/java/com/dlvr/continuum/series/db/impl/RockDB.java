@@ -1,17 +1,17 @@
 package com.dlvr.continuum.series.db.impl;
 
 import com.dlvr.continuum.io.file.impl.FileSystemReference;
-import com.dlvr.continuum.series.db.SeriesDB;
 import com.dlvr.continuum.series.datum.Datum;
+import com.dlvr.continuum.series.db.DB;
 import com.dlvr.continuum.series.query.Query;
 import com.dlvr.continuum.series.query.QueryResult;
 
 import static com.dlvr.continuum.util.Bytes.*;
 
 /**
- * SeriesDB implemented with RocksDB
+ * DB implemented with RocksDB
  */
-public class RockDB implements SeriesDB {
+public class RockDB implements DB {
 
     private final RockSlab rock;
 

@@ -7,7 +7,7 @@ import com.dlvr.continuum.series.query.QueryResult;
 /**
  * Time series datastore
  */
-public interface SeriesDB {
+public interface DB {
 
     /**
      * Write a datapoint to the time series database
