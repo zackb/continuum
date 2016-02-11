@@ -3,6 +3,7 @@ package com.dlvr.continuum.series.db;
 import com.dlvr.continuum.series.datum.Datum;
 import com.dlvr.continuum.series.datum.Tags;
 import com.dlvr.continuum.series.db.impl.NDatumID;
+import com.dlvr.continuum.series.db.impl.NTagsID;
 import com.dlvr.continuum.util.Bytes;
 import org.junit.Test;
 
@@ -17,13 +18,23 @@ import static com.dlvr.continuum.Continuum.*;
  */
 public class IDTests {
     @Test
-    public void testTagsIdUnmarshall() {
+    public void testTagsIdMmarshall() {
         byte[] e = { 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
         Map<String, String> map = new HashMap<>();
         map.put("foo", "bar");
         map.put("baz", "bat");
         Tags tags = tags(map);
         assertArrayEquals(e, tags.ID().bytes());
+    }
+
+    @Test
+    public void testTagsIdUnmarshallMeta() {
+        byte[] e = { 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
+        TagsID id = new NTagsID(e);
+        Tags tags = id.tags();
+        assertEquals("bat", tags.get("baz"));
+        assertEquals("bar", tags.get("foo"));
+        assertArrayEquals(e, id.bytes());
     }
 
     @Test
@@ -47,5 +58,8 @@ public class IDTests {
         expected = Bytes.concat(expected, Bytes.bytes(ts));
         DatumID id = new NDatumID(expected);
         assertEquals("zame", id.name());
+        assertEquals(ts, id.timestamp());
+        assertEquals("bar", id.tags().get("fooz"));
+        assertEquals("bat", id.tags().get("baz"));
     }
 }

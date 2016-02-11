@@ -15,8 +15,8 @@ public class NDatumID implements DatumID {
 
     private static final byte b = 0x00;
 
-    private transient byte[] cachedId;
-    private final int[] positions;
+    private final transient byte[] cachedId;
+    private final transient int[] positions;
 
     public NDatumID(byte[] bytes) {
         int count = 0;
@@ -64,11 +64,11 @@ public class NDatumID implements DatumID {
 
     @Override
     public Tags tags() {
-        return null;
+        return new NTagsID(Bytes.range(cachedId, positions[0] + 1, positions[positions.length - 1] - 2)).tags();
     }
 
     @Override
     public long timestamp() {
-        return 0;
+        return Bytes.Long(Bytes.range(cachedId, positions[positions.length - 1] - 1, cachedId.length));
     }
 }
