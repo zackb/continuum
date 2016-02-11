@@ -12,7 +12,6 @@ import java.util.*;
 public class NTags extends HashMap<String, String> implements Tags {
 
     private transient List<String> sortedNames;
-    private transient NTagsID cachedId;
 
     NTags() { super(); }
 
@@ -42,9 +41,7 @@ public class NTags extends HashMap<String, String> implements Tags {
 
     @Override
     public ID ID() {
-        if (cachedId == null) {
-            cachedId = new NTagsID(this);
-        }
-        return cachedId;
+        // TODO: Cache? Mutability?
+        return new NTagsID(this);
     }
 }

@@ -24,7 +24,7 @@ public class RockSeriesDB implements SeriesDB {
 
     @Override
     public void write(Datum datum) throws Exception {
-        rock.put(bytes(datum.ID()), bytes(datum));
+        rock.put(datum.ID().bytes(), bytes(datum));
     }
 
     @Override

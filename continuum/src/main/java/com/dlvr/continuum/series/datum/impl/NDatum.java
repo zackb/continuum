@@ -4,6 +4,7 @@ import com.dlvr.continuum.series.datum.Fields;
 import com.dlvr.continuum.series.datum.Datum;
 import com.dlvr.continuum.series.datum.Tags;
 import com.dlvr.continuum.series.db.ID;
+import com.dlvr.continuum.series.db.impl.NDatumID;
 
 /**
  * Base Datum implementation
@@ -14,8 +15,6 @@ public class NDatum implements Datum {
     public NFields fields;
     public double value;
     public Long timestamp;
-
-    private String id;
 
     @Override
     public String name() {
@@ -40,9 +39,7 @@ public class NDatum implements Datum {
 
     @Override
     public ID ID() {
-        if (id == null) {
-            id = name() + "\\x00" + tags().ID() + "\\x00" + timestamp();
-        }
-        return id;
+        // TODO: Cache? Mutability?
+        return new NDatumID(this);
     }
 }
