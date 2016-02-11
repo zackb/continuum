@@ -171,6 +171,10 @@ public class FileSystemReference implements Reference {
         return getFile().listFiles();
     }
 
+    public FileSystemReference getChild(String path) {
+        return new FileSystemReference(getFullPath(), path);
+    }
+
     @Override
     public String toString() {
         return getFullPath();
