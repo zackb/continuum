@@ -56,5 +56,4 @@ public class IteratorTest {
         db.getSlab().getReference().delete();
         assertEquals(2, i);
     }
-
 }

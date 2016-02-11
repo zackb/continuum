@@ -1,6 +1,5 @@
 package com.dlvr.continuum.series.db.impl;
 
-import com.dlvr.continuum.io.file.Reference;
 import com.dlvr.continuum.io.file.impl.FileSystemReference;
 import com.dlvr.continuum.series.db.Slab;
 import org.rocksdb.*;
@@ -44,7 +43,7 @@ public class RockSlab implements Slab {
         rock.merge(key, value);
     }
 
-    RocksDB badDontDo() {
+    RocksDB getRocksDB() {
         return this.rock;
     }
 
