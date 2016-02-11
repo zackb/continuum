@@ -1,10 +1,9 @@
 package com.dlvr.continuum.series.db.impl;
 
+import com.dlvr.continuum.io.file.Reference;
+import com.dlvr.continuum.io.file.impl.FileSystemReference;
 import com.dlvr.continuum.series.db.Slab;
 import org.rocksdb.*;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 /**
  * Slab implemented with RocksDB
@@ -13,23 +12,20 @@ import java.nio.file.Paths;
 public class RockSlab implements Slab {
 
     private RocksDB rock;
-    private final String dataDir;
     public final String name;
     private boolean closed;
+    private FileSystemReference dataDirRef;
 
-    public RockSlab(String name, String dataDir) throws Exception {
+    public RockSlab(String name, FileSystemReference dataDirRef) throws Exception {
         this.name = name;
-        this.dataDir = dataDir;
+        this.dataDirRef = dataDirRef;
         RocksDB.loadLibrary();
         open();
     }
 
     public void open() throws Exception {
-        if (!Files.exists(Paths.get(dataDir))) {
-            Files.createDirectories(Paths.get(dataDir));
-        }
-
-        this.rock = RocksDB.open(createOptions(), dataDir);
+        dataDirRef.mkdir();
+        rock = RocksDB.open(createOptions(), dataDirRef.getFullPath());
         closed = false;
     }
 
@@ -58,6 +54,10 @@ public class RockSlab implements Slab {
             rock.close();
         }
         closed = true;
+    }
+
+    public FileSystemReference getReference() {
+        return dataDirRef;
     }
 
     private static Options createOptions() {

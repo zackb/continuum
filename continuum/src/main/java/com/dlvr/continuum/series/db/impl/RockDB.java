@@ -26,7 +26,7 @@ public class RockDB implements DB {
     }
 
     public RockDB(String name, FileSystemReference baseRef) throws Exception {
-        this.rock = new RockSlab(name, baseRef.getFullPath());
+        this.rock = new RockSlab(name, (FileSystemReference)baseRef.getEndpoint().get(name));
     }
 
     @Override
@@ -39,12 +39,12 @@ public class RockDB implements DB {
         QueryResult result = null;
         Iterator itr = null;
         try {
-            itr = new RockIterator(rock.badDontDo().newIterator());
+            itr = iterator();
             itr.seekToFirst();
             while (itr.hasNext()) {
                 ID id = itr.next();
                 System.out.println(id.string());
-                for (byte b : id.string().getBytes()) {
+                for (byte b : id.bytes()) {
                     System.out.printf("%02X ", b);
                 }
             }
@@ -55,7 +55,16 @@ public class RockDB implements DB {
     }
 
     @Override
+    public Iterator iterator() {
+        return new RockIterator(rock.badDontDo().newIterator());
+    }
+
+    @Override
     public void close() {
         rock.close();
+    }
+
+    public RockSlab getSlab() {
+        return rock;
     }
 }

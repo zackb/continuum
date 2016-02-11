@@ -1,5 +1,6 @@
 package com.dlvr.continuum.io.file.impl;
 
+import com.dlvr.continuum.io.file.Endpoint;
 import com.dlvr.continuum.io.file.Reference;
 import com.dlvr.util.IOUtil;
 import com.dlvr.util.StringUtil;
@@ -21,16 +22,19 @@ public class FileSystemReference implements Reference {
 
     private final String base;
     private final String path;
+    private final FileSystemEndpoint endpoint;
 
     public FileSystemReference(String base, String path) {
         this.base = base;
         this.path = path;
+        this.endpoint = new FileSystemEndpoint(base);
     }
 
     public FileSystemReference(String fullPath) {
         Path path = Paths.get(fullPath);
         this.base = path.getParent().toAbsolutePath().toString();
         this.path = path.getFileName().toString();
+        this.endpoint = new FileSystemEndpoint(base);
     }
 
     @Override
@@ -116,6 +120,10 @@ public class FileSystemReference implements Reference {
             created = true;
         }
         return created;
+    }
+
+    public Endpoint<FileSystemReference> getEndpoint() {
+        return endpoint;
     }
 
     @Override

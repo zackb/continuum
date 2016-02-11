@@ -22,6 +22,13 @@ public interface DB {
     QueryResult query(Query query) throws Exception;
 
     /**
+     * Database Iterator
+     * WARN: The caller must call {#close()} on the result to avoid resource leaks
+     * @return database iterator
+     */
+    Iterator iterator();
+
+    /**
      * Attempt to flush and close the data store and free all resources
      * @throws Exception
      */
