@@ -1,6 +1,8 @@
 package com.dlvr.continuum.series.datum.impl;
 
 import com.dlvr.continuum.series.datum.Tags;
+import com.dlvr.continuum.series.db.ID;
+import com.dlvr.continuum.series.db.impl.NTagsID;
 
 import java.util.*;
 
@@ -10,7 +12,7 @@ import java.util.*;
 public class BaseTags extends HashMap<String, String> implements Tags {
 
     private transient List<String> sortedNames;
-    private transient String cachedId;
+    private transient NTagsID cachedId;
 
     BaseTags() { super(); }
 
@@ -39,20 +41,9 @@ public class BaseTags extends HashMap<String, String> implements Tags {
     }
 
     @Override
-    public String ID() {
+    public ID ID() {
         if (cachedId == null) {
-            String id = "";
-            List<String> names = names();
-            int len = names.size();
-
-            for (String name : names)
-                id += name + "\\x00";
-
-            for (int i = 0; i < names.size(); i++) {
-                id += get(names.get(i));
-                if (i < len - 1) id += "\\x00";
-            }
-            cachedId = id;
+            cachedId = new NTagsID(this);
         }
         return cachedId;
     }

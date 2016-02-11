@@ -1,5 +1,7 @@
 package com.dlvr.continuum.series.datum;
 
+import com.dlvr.continuum.series.db.ID;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -11,5 +13,5 @@ public interface Tags extends Map<String, String>, Serializable {
     String put(String key, String value);
     String get(String key);
     List<String> names();
-    String ID();
+    ID ID();
 }
