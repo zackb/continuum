@@ -1,7 +1,7 @@
-package com.dlvr.continuum.series.point.impl;
+package com.dlvr.continuum.series.datum.impl;
 
 
-import com.dlvr.continuum.series.point.Fields;
+import com.dlvr.continuum.series.datum.Fields;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +10,9 @@ import java.util.Map;
  * Base Fields implementation
  */
 public class BaseFields extends HashMap<String, Object> implements Fields {
+
+    BaseFields() { super(); }
+
     public BaseFields(Map<String, Object> raw) {
         super(raw);
     }

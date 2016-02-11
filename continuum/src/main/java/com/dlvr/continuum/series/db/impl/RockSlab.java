@@ -6,8 +6,6 @@ import org.rocksdb.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static com.dlvr.continuum.util.Bytes.*;
-
 /**
  * Slab implemented with RocksDB
  * Created by zack on 2/10/16.
@@ -36,18 +34,18 @@ public class RockSlab implements Slab {
     }
 
     @Override
-    public byte[] get(String key) throws Exception {
-        return rock.get(bytes(key));
+    public byte[] get(byte[] key) throws Exception {
+        return rock.get(key);
     }
 
     @Override
-    public void put(String key, byte[] value) throws Exception {
-        rock.put(bytes(key), value);
+    public void put(byte[] key, byte[] value) throws Exception {
+        rock.put(key, value);
     }
 
     @Override
-    public void merge(String key, byte[] value) throws Exception {
-        rock.merge(bytes(key), value);
+    public void merge(byte[] key, byte[] value) throws Exception {
+        rock.merge(key, value);
     }
 
     @Override

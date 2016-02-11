@@ -9,21 +9,21 @@ public interface Slab {
      * @param key id of data
      * @return bytes of data
      */
-    byte[] get(String key) throws Exception;
+    byte[] get(byte[] key) throws Exception;
 
     /**
      * Store some data by key
      * @param key to store, duplicates' will be push()'d
      * @param value some bytes to store
      */
-    void put(String key, byte[] value) throws Exception;
+    void put(byte[] key, byte[] value) throws Exception;
 
     /**
      * Store some data by key and push duplicate values instead of overwriting
      * @param key to store, duplicates' will be push()'d
      * @param value some bytes to store
      */
-    void merge(String key, byte[] value) throws Exception;
+    void merge(byte[] key, byte[] value) throws Exception;
 
     /**
      * Close the data store and free all resources

@@ -1,11 +1,11 @@
 package com.dlvr.continuum;
 
-import com.dlvr.continuum.series.point.Fields;
-import com.dlvr.continuum.series.point.Point;
-import com.dlvr.continuum.series.point.Tags;
-import com.dlvr.continuum.series.point.impl.BaseFields;
-import com.dlvr.continuum.series.point.impl.BasePoint;
-import com.dlvr.continuum.series.point.impl.BaseTags;
+import com.dlvr.continuum.series.datum.Datum;
+import com.dlvr.continuum.series.datum.Fields;
+import com.dlvr.continuum.series.datum.Tags;
+import com.dlvr.continuum.series.datum.impl.BaseFields;
+import com.dlvr.continuum.series.datum.impl.BaseDatum;
+import com.dlvr.continuum.series.datum.impl.BaseTags;
 import com.dlvr.continuum.series.query.Function;
 import com.dlvr.continuum.series.query.Query;
 import com.dlvr.continuum.series.query.impl.BaseQuery;
@@ -22,8 +22,8 @@ public class Continuum {
         System.out.printf("Hello");
     }
 
-    public static PointBuilder point(String name) {
-        return new PointBuilder(name);
+    public static DatumBuilder datum(String name) {
+        return new DatumBuilder(name);
     }
 
     public static Tags tags(Map<String, String> tags) {
@@ -38,31 +38,31 @@ public class Continuum {
         return new QueryBuilder(name);
     }
 
-    static class PointBuilder {
+    public static class DatumBuilder {
 
-        private final BasePoint target = new BasePoint();
+        private final BaseDatum target = new BaseDatum();
 
-        private PointBuilder() {}
-        PointBuilder(String name) {
+        private DatumBuilder() {}
+        DatumBuilder(String name) {
             target.name = name;
         }
-        public PointBuilder tags(Tags tags) {
-            target.tags = tags;
+        public DatumBuilder tags(Tags tags) {
+            target.tags = (BaseTags)tags;
             return this;
         }
-        public PointBuilder fields(Fields fields) {
-            target.fields = fields;
+        public DatumBuilder fields(Fields fields) {
+            target.fields = (BaseFields)fields;
             return this;
         }
-        public PointBuilder timestamp(long timestamp) {
+        public DatumBuilder timestamp(long timestamp) {
             target.timestamp = timestamp;
             return this;
         }
-        public PointBuilder value(double value) {
+        public DatumBuilder value(double value) {
             target.value = value;
             return this;
         }
-        public Point build() {
+        public Datum build() {
             return target;
         }
     }

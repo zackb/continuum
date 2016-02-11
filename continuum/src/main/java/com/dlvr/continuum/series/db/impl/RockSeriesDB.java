@@ -2,10 +2,11 @@ package com.dlvr.continuum.series.db.impl;
 
 import com.dlvr.continuum.io.file.impl.FileSystemReference;
 import com.dlvr.continuum.series.db.SeriesDB;
-import com.dlvr.continuum.series.point.Point;
+import com.dlvr.continuum.series.datum.Datum;
 import com.dlvr.continuum.series.query.Query;
 import com.dlvr.continuum.series.query.QueryResult;
-import com.dlvr.continuum.util.Bytes;
+
+import static com.dlvr.continuum.util.Bytes.*;
 
 /**
  * SeriesDB implemented with RocksDB
@@ -22,8 +23,8 @@ public class RockSeriesDB implements SeriesDB {
     }
 
     @Override
-    public void write(Point point) throws Exception {
-        rock.merge(key(point), Bytes.bytes(point.value()));
+    public void write(Datum datum) throws Exception {
+        rock.put(bytes(datum.ID()), bytes(datum));
     }
 
     @Override
@@ -31,15 +32,7 @@ public class RockSeriesDB implements SeriesDB {
         return null;
     }
 
-    private static String key(Point point) {
-        String key = point.name();
-        for (String tag : point.tags().names()) {
-            key += ':' + point.tags().get(tag);
-        }
-        key += ':' + point.timestamp();
-        return key;
-    }
-
+    @Override
     public void close() {
         rock.close();
     }

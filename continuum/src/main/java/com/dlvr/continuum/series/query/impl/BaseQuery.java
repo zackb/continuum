@@ -1,7 +1,7 @@
 package com.dlvr.continuum.series.query.impl;
 
-import com.dlvr.continuum.series.point.Fields;
-import com.dlvr.continuum.series.point.Tags;
+import com.dlvr.continuum.series.datum.Fields;
+import com.dlvr.continuum.series.datum.Tags;
 import com.dlvr.continuum.series.query.Function;
 import com.dlvr.continuum.series.query.Query;
 
