@@ -36,11 +36,12 @@ public class DBTest {
                 .timestamp(System.currentTimeMillis())
                 .tags(tags(tags))
                 .fields(fields(fields))
-                .value(1234)
+                .value(12346555.0000000000D)
                 .build();
         db.write(d);
 
         db.query(null);
+        db.close();
         db.getSlab().getReference().delete();
     }
 }

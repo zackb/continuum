@@ -7,7 +7,7 @@ import java.util.List;
  */
 public interface QueryResult {
     String name();
-    Double value();
+    double value();
     List<QueryResult> children();
     Const.Type type();
 }

@@ -8,7 +8,9 @@ import com.dlvr.continuum.series.datum.impl.NFields;
 import com.dlvr.continuum.series.datum.impl.NTags;
 import com.dlvr.continuum.series.query.Function;
 import com.dlvr.continuum.series.query.Query;
+import com.dlvr.continuum.series.query.QueryResult;
 import com.dlvr.continuum.series.query.impl.NQuery;
+import com.dlvr.continuum.series.query.impl.NQueryResult;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -18,6 +20,7 @@ import java.util.concurrent.TimeUnit;
  * Created by zack on 2/10/16.
  */
 public class Continuum {
+
     public static void sayHello() {
         System.out.printf("Hello");
     }
@@ -36,6 +39,10 @@ public class Continuum {
 
     public static QueryBuilder query(String name) {
         return new QueryBuilder(name);
+    }
+
+    public static QueryResultBuilder result(String name) {
+        return new QueryResultBuilder(name);
     }
 
     public static class DatumBuilder {
@@ -99,6 +106,22 @@ public class Continuum {
         }
 
         public Query build() {
+            return target;
+        }
+    }
+
+    static class QueryResultBuilder {
+        private final NQueryResult target = new NQueryResult();
+        private QueryResultBuilder() { }
+        QueryResultBuilder(String name) {
+            target.name = name;
+        }
+        public QueryResultBuilder value(double value) {
+            target.value = value;
+            return this;
+        }
+
+        public QueryResult build() {
             return target;
         }
     }

@@ -8,7 +8,7 @@ public class Const {
 
     public static final char WILDCARD = '*';
 
-    enum Type {
+    public enum Type {
         LEAF,NODE
     }
 }

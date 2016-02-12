@@ -66,6 +66,7 @@ public class IteratorTest {
             i++;
         } while (itr.next());
         itr.close();
+        db.close();
         db.getSlab().getReference().delete();
         assertEquals(2, i);
     }

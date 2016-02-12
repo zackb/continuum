@@ -7,6 +7,7 @@ import com.dlvr.continuum.series.db.DatumID;
 import com.dlvr.continuum.series.db.Iterator;
 import com.dlvr.continuum.series.query.Query;
 import com.dlvr.continuum.series.query.QueryResult;
+import com.dlvr.continuum.series.query.impl.Collector;
 import com.dlvr.util.BSON;
 
 import static com.dlvr.continuum.util.Bytes.Double;
@@ -74,30 +75,29 @@ public class RockDB implements DB {
      * @return
      */
     static double decodeValue(byte[] bytes) {
-        int pos = 0;
-        for (int i = bytes.length - 1; i > 0; i--) {
-            if (bytes[i] == b) {
-                pos = i + 1;
-                break;
-            }
-        }
-        return Double(range(bytes, pos, bytes.length));
+        return Double(range(bytes, bytes.length - 8, bytes.length));
     }
 
     @Override
     public QueryResult query(Query query) {
         QueryResult result = null;
         Iterator itr = null;
+        Collector collector = new Collector();
         try {
             itr = iterator();
             itr.seekToFirst();
             do {
-                DatumID id = itr.id();
+                collect(collector, itr, query);
             } while (itr.next());
         } finally {
             if (itr != null) itr.close();
         }
         return result;
+    }
+
+    private void collect(Collector collector, Iterator iterator, Query query) {
+        //DatumID id = iterator.id();
+        collector.collect(iterator.value());
     }
 
     @Override
