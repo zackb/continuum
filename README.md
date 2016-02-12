@@ -27,7 +27,7 @@ TODO: Javadocs [available on the web](http://url.com/to/docs).
 ```
 
 ##Goals
- Leverage LSM (Log Structured Merge) disk and memory (mmap) based trees like RocksDB, LevelDB, BerkeleyDB and similar flat file datastores, to efficiently store and retrieve data.
+ Leverage LSM (Log Structured Merge) disk and memory (mmap) based trees like RocksDB, LevelDB, BerkeleyDB and similar datastores, to efficiently store and retrieve data.
 
 ####TimeSeries Data (space/time): (ScoreCard and Portal)
  - Small number of unique time series with very large data volume
