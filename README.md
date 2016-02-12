@@ -8,7 +8,7 @@ Including:
  - Streaming master/slave replication
  - Limited "database" server
 
-TODO: Javadocs [is available on the web](http://url.com/to/docs).
+TODO: Javadocs [available on the web](http://url.com/to/docs).
 
 ## Building
 
