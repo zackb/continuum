@@ -1,23 +1,26 @@
-Query
+#Query
  - Best ID bytes to scan with
  - Collectors
  - Filters
  - QueryID implements ID
  - Iterator.prev()
 
-Compaction
+#Compaction
  - Retention Policy
 
-Load Test
+#Load Test
  - Reader thread(s) and writer thread(s)
    - Observable<Datum> fakeDatumGenerator()
     and can .buffer() to test batch
     Metrics dump every x seconds thread
-Microsecond Resolution
-Backup/Restore
-    Streaming {Input,Output} backup and restore via incremental backup/restore
-        snapshots? pruning snapshots?
-Scaling
+
+#Microsecond Resolution
+
+#Backup/Restore
+ - Streaming {Input,Output} backup and restore via incremental backup/restore
+   - snapshots? pruning snapshots?
+
+#Scaling
  - add disks via ShardRockSlab (or ShardedSlab? no)
  - add slaves/read replicas
  - application level sharding by key or time
