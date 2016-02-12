@@ -1,14 +1,17 @@
 Query
- Best ID bytes to scan with
- Collectors
-    Filters
-    QueryID implements ID
-    Iterator.prev()
+ - Best ID bytes to scan with
+ - Collectors
+ - Filters
+ - QueryID implements ID
+ - Iterator.prev()
+
 Compaction
+ - Retention Policy
+
 Load Test
-    Reader thread(s) and writer thread(s)
-        Observable<Datum> fakeDatumGenerator()
-            and can .buffer() to test batch
+ - Reader thread(s) and writer thread(s)
+   - Observable<Datum> fakeDatumGenerator()
+    and can .buffer() to test batch
     Metrics dump every x seconds thread
 Microsecond Resolution
 Backup/Restore
@@ -30,5 +33,3 @@ Store all session, metric, series data in continuum?
   with one caveat: must know the timestamp or time range of the session
     that other dbs dont have the luxury
     if you can be lenient, duplicate session ids allowed?
-
-
