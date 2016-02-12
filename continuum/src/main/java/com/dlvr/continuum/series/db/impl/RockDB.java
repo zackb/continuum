@@ -9,6 +9,7 @@ import com.dlvr.continuum.series.query.Query;
 import com.dlvr.continuum.series.query.QueryResult;
 import com.dlvr.util.BSON;
 
+import static com.dlvr.continuum.util.Bytes.Double;
 import static com.dlvr.continuum.util.Bytes.*;
 
 /**

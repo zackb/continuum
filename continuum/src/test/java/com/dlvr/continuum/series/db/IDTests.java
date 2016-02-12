@@ -10,8 +10,10 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-import static com.dlvr.continuum.Continuum.*;
+import static com.dlvr.continuum.Continuum.datum;
+import static com.dlvr.continuum.Continuum.tags;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by zack on 2/10/16.

@@ -2,8 +2,6 @@ package com.dlvr.continuum;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by zack on 2/10/16.
  */

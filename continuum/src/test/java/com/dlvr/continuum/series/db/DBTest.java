@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.dlvr.continuum.Continuum.*;
-import static org.junit.Assert.*;
 
 /**
  * Created by zack on 2/11/16.
