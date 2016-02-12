@@ -1,11 +1,30 @@
-TODO: Do this
+# Continuum
+
+continuum is a JVM library for storing and analyzing large amounts of time series data.
+
+The API has been godoc'ed and [is available on the
+web](http://godoc.org/github.com/jmhodges/levigo).
+
+## Building
+
+    gradle clean jar test
+
+TODO: Maven
 
 
-Metrics:
-    timestamp optimized (too many series session_id)
-    series size is huge but length is tiny (session_id is the key)
+## Goals
+Take advatage of RocksDB, LevelDB, BerkeleyDB or similar flat file formats to efficiently store and retrieve data.
+
+Key Data:
+ - For aggregating small amounts of data into buckets by a unique key
+ - Large number of unique keys with small amount of data
+ - Example: Analytics data events grouped by user id
 Series:
-    measurement name optimized (most efficient if not many series)
-    usually want to access the timeline of that measuerment 
+ - Small number of unique time series with very large data volume
+ - Infinite storage using retention policies and data downsampling (RRD, Whisper, InfluxDB inspired)
 
 prefixType: time,key to build key
+
+## Maintainer
+ 
+    Maintained by Zack @ DLVR `zack@dlvr.com`
