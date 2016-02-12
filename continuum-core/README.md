@@ -1,7 +1,7 @@
 #Continuum core
 
 ###TimeSeries
-Key: <name>:<tag1>:<tag2>:<value1>:<value2>:<timestamp>
+Key: \<name>:<tag1>:<tag2>:<value1>:<value2>:<timestamp>
 Value: <blob>:<double>
 
 ###TimeKeyValue
