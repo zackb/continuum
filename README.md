@@ -20,17 +20,17 @@ TODO: Javadocs [available on the web](http://url.com/to/docs).
 
 TODO: Maven
 
-## Goals
-Leverage LSM (Log Structured Merge) disk and memory (mmap) based trees like RocksDB, LevelDB, BerkeleyDB and similar flat file datastores, to efficiently store and retrieve data.
+##Goals
+ Leverage LSM (Log Structured Merge) disk and memory (mmap) based trees like RocksDB, LevelDB, BerkeleyDB and similar flat file datastores, to efficiently store and retrieve data.
 
-##TimeSeries Data (time/space): (ScoreCard and Portal)
+####TimeSeries Data (time/space): (ScoreCard and Portal)
  - Small number of unique time series with very large data volume
  - Infinite storage using retention policies and data downsampling (RRDTool, Whisper, InfluxDB inspired)
  - Downsampling OK
  - Example: "Realtime" performance metrics, measurements of cpu, or weather temperature readings over time
  - Core only
 
-##TimeKey Data (time/key:key:value): (Sesssion and Metrics)
+####TimeKey Data (time/key:key:value): (Sesssion and Metrics)
  - For aggregating small amounts of data into buckets by a unique key
  - Large number of unique keys with small amount of data
  - Age out over time
