@@ -40,10 +40,6 @@ Key Data (time/key:key:value): (Metrics)
  - Example: "Realtime" analytics data events grouped by session/user id
  - Core only
 
-(time/key/key:value): (Session)
-
-
-
 ###Scaling
  - add disks via ShardRockSlab (or ShardedSlab? no)
  - add slaves/read replicas
