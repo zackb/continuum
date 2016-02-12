@@ -1,6 +1,6 @@
 Query
-    Best ID bytes to scan with
-    Collectors
+ Best ID bytes to scan with
+ Collectors
     Filters
     QueryID implements ID
     Iterator.prev()
