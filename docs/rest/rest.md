@@ -1,0 +1,80 @@
+---
+title: Continuum REST API
+brand: dlvr
+version: 0.1.0
+---
+
+# Continuum REST API
+
+### All API calls start with
+
+<pre class="base">
+https://series.dlvr.com/api/1.0
+</pre>
+
+### Path
+
+For this documentation, we will assume every request begins with the above path.
+
+### Format
+
+All calls are returned in **JSON**.
+
+### Authentication and Authorization
+
+All calls require https and BASIC authentication
+
+### Status Codes
+
+- **200** Successful GET and PUT.
+- **201** Successful POST.
+- **202** Successful Provision queued.
+- **401** Unauthenticated.
+- **403** Unauthorized.
+- **409** Unsuccessful POST, PUT, or DELETE (Will return an errors object)
+
+
+
+# Read
+
+## GET /read
+
+Query time series or time key value data. Required fields are start, end, name. Optional values are tagname=tagvalue query parameters, interval for histogram responses, function agregate to run on the data.
+
+#### example request
+Get ten days worth of average values of temperature in LAX in one day intervals.
+
+    $ curl -k -u dlvr:dlvr https://series.dlvr.com/api/1.0/read/temperature?location=lax&start=0&end=10d&function=avg&interval=1d
+
+#### response
+
+    {
+      "data": [
+        {12348567: 90.1},
+        {12345567: 89.354678},
+        {12346567: 92.9},
+        {12347567: 90.0},
+        {12348567: 90.0004},
+        {12349567: 87.123},
+        {12350567: 94.555},
+        {12351567: 92.5},
+        {12352567: 81.0},
+        {12353567: 80.999},
+      ],
+      "execution_time": 2,
+    }
+
+
+
+## POST /write
+
+Creates new a new datum. Api will respond with status 201 the datum will have been created, 202 the data has been queued, or 403 if the authentication credentials lack the required privileges.
+
+#### example request
+
+    $ curl https://series.dlvr.com/api/1.0/write \
+      -F "name=temperature" \
+      -F "value=90.1" \
+      -F "location=lax" \
+      -F "timestamp=12348567"
+

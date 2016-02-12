@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Continuum REST API</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="media/css/restdown.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+</head>
+<body>
+<div id="header">
+    <h1>Continuum REST API Documentation</h1>
+</div>
+
+    <div id="sidebar">
+<ul>
+  <li><div><a href="#read">Read</a></div>
+  <ul>
+    <li><div><a href="#GET-/read"><span class="method justendpoint"><span class="endpoint"><span class="verb">GET</span> <span class="path">/read</span></span></span></a></div></li>
+    <li><div><a href="#POST-/write"><span class="method justendpoint"><span class="endpoint"><span class="verb">POST</span> <span class="path">/write</span></span></span></a></div></li>
+  </ul></li>
+</ul>
+
+    </div>
+    <div id="content">
+
+<h1>Continuum REST API</h1>
+<div class="intro">
+
+
+<h3>All API calls start with</h3>
+
+<pre class="base">
+https://series.dlvr.com/api/1.0
+</pre>
+
+<h3>Path</h3>
+
+<p>For this documentation, we will assume every request begins with the above path.</p>
+
+<h3>Format</h3>
+
+<p>All calls are returned in <strong>JSON</strong>.</p>
+
+<h3>Authentication and Authorization</h3>
+
+<p>All calls require https and BASIC authentication</p>
+
+<h3>Status Codes</h3>
+
+<ul>
+<li><strong>200</strong> Successful GET and PUT.</li>
+<li><strong>201</strong> Successful POST.</li>
+<li><strong>202</strong> Successful Provision queued.</li>
+<li><strong>401</strong> Unauthenticated.</li>
+<li><strong>403</strong> Unauthorized.</li>
+<li><strong>409</strong> Unsuccessful POST, PUT, or DELETE (Will return an errors object)</li>
+</ul>
+
+
+</div>
+<h1 id="read">Read</h1>
+
+<h2 id="GET-/read"><span class="method justendpoint"><span class="endpoint"><span class="verb">GET</span> <span class="path">/read</span></span></span></h2>
+
+<p>Query time series or time key value data. Required fields are start, end, name. Optional values are tagname=tagvalue query parameters, interval for histogram responses, function agregate to run on the data.</p>
+
+<h4 id="example-request">example request</h4>
+
+<p>Get ten days worth of average values of temperature in LAX in one day intervals.</p>
+
+<pre class="shell"><code>curl -k -u dlvr:dlvr https://series.dlvr.com/api/1.0/read/temperature?location=lax&amp;start=0&amp;end=10d&amp;function=avg&amp;interval=1d
+</code></pre>
+
+<h4 id="response">response</h4>
+
+<pre><code>{
+  "data": [
+    {12348567: 90.1},
+    {12345567: 89.354678},
+    {12346567: 92.9},
+    {12347567: 90.0},
+    {12348567: 90.0004},
+    {12349567: 87.123},
+    {12350567: 94.555},
+    {12351567: 92.5},
+    {12352567: 81.0},
+    {12353567: 80.999},
+  ],
+  "execution_time": 2,
+}
+</code></pre>
+
+<h2 id="POST-/write"><span class="method justendpoint"><span class="endpoint"><span class="verb">POST</span> <span class="path">/write</span></span></span></h2>
+
+<p>Creates new a new datum. Api will respond with status 201 the datum will have been created, 202 the data has been queued, or 403 if the authentication credentials lack the required privileges.</p>
+
+<h4 id="example-request-2">example request</h4>
+
+<pre class="shell"><code>curl https://series.dlvr.com/api/1.0/write \
+  -F "name=temperature" \
+  -F "value=90.1" \
+  -F "location=lax" \
+  -F "timestamp=12348567"
+</code></pre>
+
+    </div> <!-- #content -->
+<script type="text/javascript" charset="utf-8">
+$(function() {
+    var headerHeight = $("#header").height();
+
+    var sections = $("#content h1[id], #content h2[id]");
+    var sectionOffsets = [];
+    var slack = 100;  // Give the section scroll some slack (in pixels).
+    sections.each(function(elem) {
+        sectionOffsets.push($(this).offset().top - headerHeight - slack);
+    });
+
+    var currSectionIdx = -1;
+    function getSectionIdx(scrollDistance) {
+        if (scrollDistance < sectionOffsets[0]) {
+            return -1;
+        } else {
+            for (var id = sectionOffsets.length; id > 0; id--) {
+                if (scrollDistance > sectionOffsets[id - 1]) {
+                    return id - 1;
+                    break;
+                }
+            }
+        }
+    }
+
+    /** {{{ http://code.activestate.com/recipes/577787/ (r2) */
+    _slugify_strip_re = /[^\w\s-]/g;
+    _slugify_hyphenate_re = /[-\s]+/g;
+    function slugify(s) {
+      s = s.replace(_slugify_strip_re, '').trim().toLowerCase();
+      s = s.replace(_slugify_hyphenate_re, '-');
+      return s;
+    }
+    /** end of http://code.activestate.com/recipes/577787/ }}} */
+
+    /* See <https://github.com/trentm/restdown/issues/11>. */
+    function safechars(s) {
+      return s.replace(_slugify_strip_re, '');
+    }
+
+    $("#content").scroll(function() {
+        var scrollDistance = $("#content").scrollTop();
+        var sectionIdx = getSectionIdx(scrollDistance);
+
+        if (sectionIdx !== currSectionIdx) {
+            $("#sidebar li>div").removeClass("current");
+            currSectionIdx = sectionIdx;
+            if (currSectionIdx >= 0) {
+                var heading = $(sections[currSectionIdx]).text();
+                var possibleAnchors = [
+                    slugify(heading), // h1 or non-method h2
+                    heading.replace(/ /g, '-'), // h2 method, just name or just endpoint
+                    heading.slice(0, heading.lastIndexOf(' (')).trimRight().replace(/ /g, '-'), // h2 method, name and endpoint
+                ];
+                for (var i=0; i < possibleAnchors.length; i++) {
+                    var anchor = safechars(possibleAnchors[i]);
+                    try {
+                        $("#sidebar a[href=#" + anchor + "]").parent().addClass("current");
+                    } catch (e) {
+                        /* Ignore error if no such element. */
+                        console.log(e)
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+
+</body>
+</html>

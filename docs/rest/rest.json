@@ -1,0 +1,7 @@
+{
+  "endpoints": [
+    "GET    /read",
+    "POST   /write"
+  ],
+  "version": "0.1.0"
+}
