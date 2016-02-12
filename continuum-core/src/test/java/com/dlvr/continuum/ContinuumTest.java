@@ -1,7 +1,7 @@
 package com.dlvr.continuum;
 
 import com.dlvr.continuum.io.file.impl.FileSystemReference;
-import com.dlvr.continuum.series.datum.Datum;
+import com.dlvr.continuum.db.datum.Datum;
 import org.junit.Test;
 
 /**

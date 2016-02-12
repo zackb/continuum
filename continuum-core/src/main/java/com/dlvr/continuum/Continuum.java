@@ -1,19 +1,19 @@
 package com.dlvr.continuum;
 
 import com.dlvr.continuum.io.file.impl.FileSystemReference;
-import com.dlvr.continuum.series.datum.Datum;
-import com.dlvr.continuum.series.datum.Fields;
-import com.dlvr.continuum.series.datum.Tags;
-import com.dlvr.continuum.series.datum.impl.NDatum;
-import com.dlvr.continuum.series.datum.impl.NFields;
-import com.dlvr.continuum.series.datum.impl.NTags;
-import com.dlvr.continuum.series.db.DB;
-import com.dlvr.continuum.series.db.impl.RockDB;
-import com.dlvr.continuum.series.query.Function;
-import com.dlvr.continuum.series.query.Query;
-import com.dlvr.continuum.series.query.QueryResult;
-import com.dlvr.continuum.series.query.impl.NQuery;
-import com.dlvr.continuum.series.query.impl.NQueryResult;
+import com.dlvr.continuum.db.datum.Datum;
+import com.dlvr.continuum.db.datum.Fields;
+import com.dlvr.continuum.db.datum.Tags;
+import com.dlvr.continuum.db.datum.impl.NDatum;
+import com.dlvr.continuum.db.datum.impl.NFields;
+import com.dlvr.continuum.db.datum.impl.NTags;
+import com.dlvr.continuum.db.DB;
+import com.dlvr.continuum.db.impl.RockDB;
+import com.dlvr.continuum.db.query.Function;
+import com.dlvr.continuum.db.query.Query;
+import com.dlvr.continuum.db.query.QueryResult;
+import com.dlvr.continuum.db.query.impl.NQuery;
+import com.dlvr.continuum.db.query.impl.NQueryResult;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
