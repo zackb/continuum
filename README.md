@@ -12,7 +12,7 @@ TODO: Javadocs [is available on the web](http://url.com/to/docs).
 
     make intall
     or
-    gradle clean jar test
+    gradlew install
 
 TODO: Maven
 
