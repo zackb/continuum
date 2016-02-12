@@ -2,15 +2,23 @@
 ###Premise
 Using log-structured-merge trees, memory mapped files, and two sepcialized schema designs, continuum can efficiently store, retrieve, and analyze data for ScoreCard, Portal, Session, and Metrics
 
+###Concepts
+
 #####TimeSeries
 Key: \<name>:\<tag1>:\<tag2>:\<value1>:\<value2>:\<timestamp>
 
 Value: \<blob>:\<double>
 
 #####TimeKeyValue
-Key: \<timestamp>:\<name>:\<tag1>:\<tag2>:\<value1>:\<value2>
+ Key: \<timestamp>:\<name>:\<tag1>:\<tag2>:\<value1>:\<value2>
 
-Value: \<blob>:\<object>
+ Value: \<blob>:\<object>
+
+####Space
+ Compaction based on retention policies
+ 
+####Time
+ Streaming cold and hot data through cold and hot storage 
 
 #TODO
 
