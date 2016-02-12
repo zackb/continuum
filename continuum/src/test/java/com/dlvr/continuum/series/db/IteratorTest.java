@@ -34,14 +34,14 @@ public class IteratorTest {
         db.write(
             datum("testiterate")
                     .tags(tags(map))
-                    .value(1234)
+                    .value(123456.3D)
                     .timestamp(ts1)
                     .build()
         );
         db.write(
                 datum("testiterate")
                         .tags(tags(map2))
-                        .value(12341)
+                        .value(12341.01234D)
                         .timestamp(ts2)
                         .build()
         );
@@ -55,11 +55,12 @@ public class IteratorTest {
                 assertEquals("testiterate", id.name());
                 assertEquals("bar", id.tags().get("foo"));
                 assertEquals("bat", id.tags().get("baz"));
-                assertEquals(1234, itr.value(), 0.0001);
+                assertEquals(123456.3D, itr.value(), 0.0001);
             } else if (i == 1) {
                 assertEquals("testiterate", id.name());
                 assertEquals("da'vinci", id.tags().get("fuz"));
                 assertEquals("bar", id.tags().get("zack"));
+                assertEquals(12341.01234, itr.value(), 0.0001);
             }
             i++;
         } while (itr.next());
