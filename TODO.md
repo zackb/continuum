@@ -1,8 +1,7 @@
 #Query
- - Best ID bytes to scan with
  - Collectors
  - Filters
- - QueryID implements ID
+ - QueryID implements ID (Best ID bytes to scan with)
  - Iterator.prev()
 
 #Compaction
