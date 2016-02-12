@@ -31,7 +31,7 @@ All calls require https and BASIC authentication
 - **202** Successful Provision queued.
 - **401** Unauthenticated.
 - **403** Unauthorized.
-- **409** Unsuccessful POST, PUT, or DELETE (Will return an errors object)
+- **409** Unsuccessful POST or DELETE (Will return an errors object)
 
 
 
@@ -39,7 +39,7 @@ All calls require https and BASIC authentication
 
 ## GET /read
 
-Query time series or time key value data. Required fields are start, end, name. Optional values are tagname=tagvalue query parameters, interval for histogram responses, function agregate to run on the data.
+Query time series or time key value data. Required fields are start, end, name. Optional values are tagname=tagvalue query parameters, interval for histogram responses, function aggregate to apply to the data.
 
 #### example request
 Get ten days worth of average values of temperature in LAX in one day intervals.
@@ -68,7 +68,7 @@ Get ten days worth of average values of temperature in LAX in one day intervals.
 
 ## POST /write
 
-Creates new a new datum. Api will respond with status 201 the datum will have been created, 202 the data has been queued, or 403 if the authentication credentials lack the required privileges.
+Creates new a new datum. Api will respond with status 201 the datum will have been created, 202 the datum has been queued, or 403 if the authentication credentials lack the required privileges.
 
 #### example request
 
