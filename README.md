@@ -18,7 +18,14 @@ TODO: Javadocs [available on the web](http://url.com/to/docs).
 
     ./gradlew install
 
-TODO: Maven
+### Maven
+```
+		<dependency>
+			<groupId>com.dlvrb</groupId>
+			<artifactId>xontinuum-core</artifactId>
+			<version>0.1</version>
+		</dependency>
+```
 
 ##Goals
  Leverage LSM (Log Structured Merge) disk and memory (mmap) based trees like RocksDB, LevelDB, BerkeleyDB and similar flat file datastores, to efficiently store and retrieve data.
