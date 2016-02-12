@@ -5,20 +5,20 @@ Using log-structured-merge trees, memory mapped files, and two sepcialized schem
 ###Concepts
 
 #####TimeSeries
-Key: \<name>:\<tag1>:\<tag2>:\<value1>:\<value2>:\<timestamp>
+    Key: <name>:<tag1>:<tag2>:<value1>:<value2>:<timestamp>
 
-Value: \<blob>:\<double>
+    Value: <blob>:<double>
 
 #####TimeKeyValue
- Key: \<timestamp>:\<name>:\<tag1>:\<tag2>:\<value1>:\<value2>
+    Key: <timestamp>:<name>:<tag1>:<tag2>:<value1>:<value2>
 
- Value: \<blob>:\<object>
+    Value: <blob>:<object>
 
 ####Space
- Compaction based on retention policies
+    Compaction based on retention policies
  
 ####Time
- Streaming cold and hot data through cold and hot storage 
+    Streaming cold and hot data through cold and hot storage 
 
 #TODO
 
