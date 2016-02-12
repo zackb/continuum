@@ -17,6 +17,10 @@ class FileSystemEndpoint implements Endpoint<FileSystemReference> {
 
     private final String base;
 
+    /**
+     * Get a handle to the filesystem givena base path
+     * @param base path
+     */
     public FileSystemEndpoint(String base) {
         this.base = base;
     }
@@ -46,6 +50,10 @@ class FileSystemEndpoint implements Endpoint<FileSystemReference> {
         return FileSystemReference.class;
     }
 
+    /**
+     * Create a temporary file in {#TMP_FILE_PREFIX}
+     * @return
+     */
     public FileSystemReference createTemporaryFile() {
         return new FileSystemReference(base, TMP_FILE_PREFIX + ((int)Math.random() * 2000) + '.' + System.currentTimeMillis());
     }

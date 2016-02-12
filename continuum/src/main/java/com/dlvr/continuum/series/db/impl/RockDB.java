@@ -91,9 +91,9 @@ public class RockDB implements DB {
         try {
             itr = iterator();
             itr.seekToFirst();
-            while (itr.next()) {
+            do {
                 DatumID id = itr.id();
-            }
+            } while (itr.next());
         } finally {
             if (itr != null) itr.close();
         }
