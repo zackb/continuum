@@ -36,7 +36,7 @@ public class DBTest {
         String name = "testScan";
         reference.getChild(name).delete();
         RockDB db = new RockDB(name, reference);
-        Datum d = datum("zack")
+        Datum d = datum().name("zack")
                 .timestamp(System.currentTimeMillis())
                 .tags(tags(tags))
                 .fields(fields(fields))
@@ -44,7 +44,7 @@ public class DBTest {
                 .build();
         db.write(d);
 
-        d = datum("zack")
+        d = datum().name("zack")
                 .timestamp(System.currentTimeMillis() + 10)
                 .tags(tags(tags))
                 .fields(fields(fields))

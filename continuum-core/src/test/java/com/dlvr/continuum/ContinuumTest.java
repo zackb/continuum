@@ -1,6 +1,7 @@
 package com.dlvr.continuum;
 
 import com.dlvr.continuum.io.file.impl.FileSystemReference;
+import com.dlvr.continuum.series.datum.Datum;
 import org.junit.Test;
 
 /**
@@ -17,10 +18,27 @@ public class ContinuumTest {
 
     @Test
     public void testSanity() throws Exception {
-        Continuum continuum = Continuum.continuum()
-                                .id("testSanity")
-                                .base(reference)
-                                .open();
-        continuum.delete();
+        Continuum continuum = null;
+        try {
+            continuum = Continuum.continuum()
+                    .id("testSanity")
+                    .base(reference)
+                    .open();
+        } finally { if (continuum != null) continuum.delete(); }
+    }
+
+    @Test
+    public void testWriteRead() throws Exception {
+        Continuum continuum = null;
+        try {
+            continuum = Continuum.continuum()
+                    .id("testWriteRead")
+                    .base(reference)
+                    .open();
+
+            Datum datum = Continuum.datum().name("test1")
+                                .build();
+
+        } finally { if (continuum != null) continuum.delete(); }
     }
 }

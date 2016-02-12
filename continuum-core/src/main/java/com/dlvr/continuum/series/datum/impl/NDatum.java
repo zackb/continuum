@@ -12,9 +12,17 @@ import com.dlvr.continuum.series.db.impl.NDatumID;
 public class NDatum implements Datum {
     public String name;
     public NTags tags;
+    public Long timestamp;
     public NFields fields;
     public double value;
-    public Long timestamp;
+
+    public NDatum(String name, NTags tags, long timestamp, NFields fields, double value) {
+        this.name = name;
+        this.tags = tags;
+        this.timestamp = timestamp;
+        this.fields = fields;
+        this.value = value;
+    }
 
     @Override
     public String name() {

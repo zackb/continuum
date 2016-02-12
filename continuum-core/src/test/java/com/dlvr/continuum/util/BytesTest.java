@@ -48,7 +48,7 @@ public class BytesTest {
         fields.put("2field2", 74190D);
 
         long ts = System.currentTimeMillis();
-        Datum datum = Continuum.datum("test1")
+        Datum datum = Continuum.datum().name("test1")
                 .tags(Continuum.tags(tags))
                 .fields(Continuum.fields(fields))
                 .timestamp(ts)

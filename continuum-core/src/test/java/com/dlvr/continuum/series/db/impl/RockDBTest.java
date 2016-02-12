@@ -20,7 +20,7 @@ public class RockDBTest {
         Map<String, String> map = new HashMap<>();
         map.put("foo", "bar");
         map.put("baz", "bat");
-        Datum d = datum("foo")
+        Datum d = datum().name("foo")
                 .tags(tags(map))
                 .value(12345.45)
                 .build();

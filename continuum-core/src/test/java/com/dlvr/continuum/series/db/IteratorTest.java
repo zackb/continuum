@@ -33,14 +33,14 @@ public class IteratorTest {
         long ts1 = System.currentTimeMillis();
         long ts2 = ts1 + 100;
         db.write(
-            datum("testiterate")
+            datum().name("testiterate")
                     .tags(tags(map))
                     .value(123456.3D)
                     .timestamp(ts1)
                     .build()
         );
         db.write(
-                datum("testiterate")
+                datum().name("testiterate")
                         .tags(tags(map2))
                         .value(12341.01234D)
                         .timestamp(ts2)

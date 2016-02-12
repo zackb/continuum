@@ -48,7 +48,7 @@ public class IDTests {
         Map<String, String> map = new HashMap<>();
         map.put("fooz", "bar");
         map.put("baz", "bat");
-        Datum d = datum("zame").tags(tags(map)).timestamp(ts).value(1235).build();
+        Datum d = datum().name("zame").tags(tags(map)).timestamp(ts).value(1235).build();
         assertArrayEquals(expected, d.ID().bytes());
     }
 

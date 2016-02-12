@@ -18,6 +18,8 @@ import com.dlvr.continuum.series.query.impl.NQueryResult;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static com.dlvr.continuum.util.Util.*;
+
 /**
  * Root interface to library
  * Created by zack on 2/10/16.
@@ -36,8 +38,8 @@ public class Continuum {
         System.out.printf("People of Earth, how are you?\n");
     }
 
-    public static DatumBuilder datum(String name) {
-        return new DatumBuilder(name);
+    public static DatumBuilder datum() {
+        return new DatumBuilder();
     }
 
     public static Tags tags(Map<String, String> tags) {
@@ -64,6 +66,14 @@ public class Continuum {
         this.type = type;
         this.base = base;
         this.db = new RockDB(id, base);
+    }
+
+    /**
+     * Access the backing datastore for this continuum
+     * @return DB datastore engine
+     */
+    public DB getDb() {
+        return this.db;
     }
 
     /**
@@ -118,30 +128,34 @@ public class Continuum {
 
     public static class DatumBuilder {
 
-        private final NDatum target = new NDatum();
-
+        private String name;
+        private NTags tags;
+        private NFields fields;
+        private long timestamp;
+        private double value;
         private DatumBuilder() {}
-        DatumBuilder(String name) {
-            target.name = name;
+        public DatumBuilder name(String name) {
+            this.name = name;
+            return this;
         }
         public DatumBuilder tags(Tags tags) {
-            target.tags = (NTags)tags;
+            this.tags = (NTags)tags;
             return this;
         }
         public DatumBuilder fields(Fields fields) {
-            target.fields = (NFields)fields;
+            this.fields = (NFields)fields;
             return this;
         }
         public DatumBuilder timestamp(long timestamp) {
-            target.timestamp = timestamp;
+            this.timestamp = timestamp;
             return this;
         }
         public DatumBuilder value(double value) {
-            target.value = value;
+            this.value = value;
             return this;
         }
         public Datum build() {
-            return target;
+            return new NDatum(name, tags, timestamp, fields, value);
         }
     }
 
@@ -199,11 +213,5 @@ public class Continuum {
 
     private enum StorageType {
         SERIES,KEYVALUE
-    }
-
-    private void checkNotNull(String name, Object value) throws NullPointerException {
-        if (value == null) {
-            throw new NullPointerException("Option: '" + name + "'must be set");
-        }
     }
 }
