@@ -36,6 +36,10 @@ public class Bytes {
         return new NDatumID(bytes);
     }
 
+    public static byte[] bytes(DatumID id) {
+        return id.bytes();
+    }
+
     public static byte[] bytes(double value) {
         byte[] bytes = new byte[8];
         ByteBuffer.wrap(bytes).putDouble(value);
