@@ -19,6 +19,9 @@
 
 ###Microsecond Resolution
 
+###Javadocs
+ - Generate and host
+
 ###Performance
  - Copy is BSON Best?
  - Test no tags
