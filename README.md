@@ -26,6 +26,13 @@ Series Data:
  - Infinite storage using retention policies and data downsampling (RRD, Whisper, InfluxDB inspired)
  - Example: Measurements of cpu or weather temperature readings over time
 
+###Scaling
+ - add disks via ShardRockSlab (or ShardedSlab? no)
+ - add slaves/read replicas
+ - application level sharding by key or time
+ - will never be support for clustering
+
+
 ## Maintainer
  
 Maintained by Zack @ DLVR `zack@dlvr.com`

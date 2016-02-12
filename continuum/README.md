@@ -1,3 +1,7 @@
+#Continuum core
+
+#TODO
+
 ###Query
  - Collectors
  - Filters
@@ -15,19 +19,14 @@
 
 ###Microsecond Resolution
 
-###Backup/Restore
- - Streaming {Input,Output} backup and restore via incremental backup/restore
-   - snapshots? pruning snapshots?
-
-###Scaling
- - add disks via ShardRockSlab (or ShardedSlab? no)
- - add slaves/read replicas
- - application level sharding by key or time
-
 ###Performance
  - Copy is BSON Best?
  - Test no tags
  - Remove tags from body (in id?)
+
+###Backup/Restore
+ - Streaming {Input,Output} backup and restore via incremental backup/restore
+   - snapshots? pruning snapshots?
 
 ###Store all session, metric, series data in continuum?
  - Is it possible?
