@@ -1,12 +1,12 @@
 #Continuum core
 
 ###TimeSeries
-Key: \<name>:<tag1>:<tag2>:<value1>:<value2>:<timestamp>
-Value: <blob>:<double>
+Key: \<name>:\<tag1>:\<tag2>:\<value1>:\<value2>:\<timestamp>
+Value: \<blob>:\<double>
 
 ###TimeKeyValue
-Key: <timestamp>:<name>:<tag1>:<tag2>:<value1>:<value2>
-Value: <blob>:<object>
+Key: \<timestamp>:\<name>:\<tag1>:\<tag2>:\<value1>:\<value2>
+Value: \<blob>:\<object>
 
 #TODO
 
