@@ -23,7 +23,7 @@ TODO: Maven
 ##Goals
  Leverage LSM (Log Structured Merge) disk and memory (mmap) based trees like RocksDB, LevelDB, BerkeleyDB and similar flat file datastores, to efficiently store and retrieve data.
 
-####TimeSeries Data (time/space): (ScoreCard and Portal)
+####TimeSeries Data (space/time): (ScoreCard and Portal)
  - Small number of unique time series with very large data volume
  - Infinite storage using retention policies and data downsampling (RRDTool, Whisper, InfluxDB inspired)
  - Downsampling OK
