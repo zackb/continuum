@@ -1,2 +1,2 @@
 default:
-	restdown -m . rest.md
+	restdown -m . README.md
