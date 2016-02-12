@@ -1,7 +1,8 @@
 # Continuum
 
 continuum is a JVM library for storing and analyzing large amounts of time series data.
-Additional tools include
+Including:
+ - Core library for storage, retreival, and analysis of time series and key/list data
  - REST Interface
  - Streaming master/slave replication
  - Limited "database" server
