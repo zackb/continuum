@@ -11,7 +11,7 @@ TODO: Javadocs [available on the web](http://url.com/to/docs).
 
 ## Building
 
-    make intall
+    make install
     
  or
 
