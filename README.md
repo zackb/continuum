@@ -21,7 +21,7 @@ TODO: Javadocs [is available on the web](http://url.com/to/docs).
 TODO: Maven
 
 ## Goals
-Take advatage of RocksDB, LevelDB, BerkeleyDB or similar flat file formats to efficiently store and retrieve data.
+Leverage LSM (Log Structured Merge) disk and memory (mmap) based trees like RocksDB, LevelDB, BerkeleyDB and similar flat file datastores, to efficiently store and retrieve data.
 
 Series Data (time/space): (ScoreCard, Portal)
  - Small number of unique time series with very large data volume
