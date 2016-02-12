@@ -20,13 +20,18 @@ public class RockIterator implements Iterator {
     }
 
     @Override
+    public DatumID id() {
+        return Bytes.DatumID(it.key());
+    }
+
+    @Override
     public Datum get() {
-        return Bytes.Datum(it.value());
+        return RockDB.decodeDatum(it.value());
     }
 
     @Override
     public double value() {
-        throw new Error("Not implemented");
+        return RockDB.decodeValue(it.value());
     }
 
     @Override
@@ -50,10 +55,9 @@ public class RockIterator implements Iterator {
     }
 
     @Override
-    public DatumID next() {
-        DatumID id = Bytes.DatumID(it.key());
+    public boolean next() {
         it.next();
-        return id;
+        return hasNext();
     }
 
     @Override

@@ -5,7 +5,10 @@ import com.dlvr.continuum.series.datum.Datum;
 /**
  * Created by zack on 2/11/16.
  */
-public interface Iterator extends java.util.Iterator<DatumID> {
+public interface Iterator {
+
+    DatumID id();
+
     /**
      * Retreive the Datum with the ID of current()
      * @return unmarshalled datum
@@ -23,6 +26,10 @@ public interface Iterator extends java.util.Iterator<DatumID> {
     void seek(byte[] target);
 
     void seekToLast();
+
+    boolean hasNext();
+
+    boolean next();
 
     /**
      * Closes the iterator and releases underlying resources

@@ -49,19 +49,20 @@ public class IteratorTest {
 
         int i = 0;
         itr.seekToFirst();
-        while (itr.hasNext()) {
-            DatumID id = itr.next();
+        do {
+            DatumID id = itr.id();
             if (i == 0) {
                 assertEquals("testiterate", id.name());
                 assertEquals("bar", id.tags().get("foo"));
                 assertEquals("bat", id.tags().get("baz"));
-            } else if (i == 1){
+                assertEquals(1234, itr.value(), 0.0001);
+            } else if (i == 1) {
                 assertEquals("testiterate", id.name());
                 assertEquals("da'vinci", id.tags().get("fuz"));
                 assertEquals("bar", id.tags().get("zack"));
             }
             i++;
-        }
+        } while (itr.next());
         itr.close();
         db.getSlab().getReference().delete();
         assertEquals(2, i);
