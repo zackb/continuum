@@ -1,11 +1,13 @@
 #Continuum core
+###Premise
+Using log-structured-merge trees, memory mapped files, and two sepcialized schema designs, continuum can efficiently store, retrieve, and analyze data for ScoreCard, Portal, Session, and Metrics
 
-###TimeSeries
+####TimeSeries
 Key: \<name>:\<tag1>:\<tag2>:\<value1>:\<value2>:\<timestamp>
 
 Value: \<blob>:\<double>
 
-###TimeKeyValue
+####TimeKeyValue
 Key: \<timestamp>:\<name>:\<tag1>:\<tag2>:\<value1>:\<value2>
 
 Value: \<blob>:\<object>
