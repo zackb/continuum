@@ -44,7 +44,7 @@ TODO: Javadocs [available on the web](http://url.com/to/docs).
   - Fast data: hot, open sets of newest data
   - Slow data: rolling window of data through ColdStorage (S3, NAS)
  - Example: "Realtime" analytics data events grouped by session/user id
- - Core only
+ - Core, Repl
 
 ###Scaling
  - add disks via ShardRockSlab (or ShardedSlab? no)
