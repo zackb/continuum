@@ -2,7 +2,7 @@
 
 continuum is a JVM library for storing and analyzing large amounts of time based data.
 
- - Core library for storage, retreival, and analysis of time series and time key data
+ - Core library for storage, retreival, and analysis of time series and time key value data
  - REST Interface
  - Streaming master/slave replication
  - Limited "database" server
@@ -36,7 +36,7 @@ TODO: Javadocs [available on the web](http://url.com/to/docs).
  - Example: "Realtime" performance metrics, measurements of cpu, or weather temperature readings over time
  - Core only
 
-####TimeKey Data (time/key:key:value): (Session and Metrics)
+####TimeKeyValue Data (time/key:value): (Session and Metrics)
  - For aggregating small amounts of data into buckets by a unique key
  - Large number of unique keys with small amount of data
  - Age out over time
