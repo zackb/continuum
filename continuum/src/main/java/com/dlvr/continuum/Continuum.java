@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class Continuum {
 
     public static void sayHello() {
-        System.out.printf("Hello");
+        System.out.printf("People of Earth, how are you?\n");
     }
 
     public static DatumBuilder datum(String name) {
