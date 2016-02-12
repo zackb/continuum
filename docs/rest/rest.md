@@ -40,7 +40,7 @@ All calls require https and either BASIC authentication OR Token based [OAuth2.0
 Query time series or time key value data. Required fields are start, end, name. Optional values are tagname=tagvalue query parameters, interval for histogram responses, function aggregate to apply to the data.
 
 #### example request
-Get ten days worth of average values of temperature in LAX in one day intervals.
+Get ten days worth of average temperature values in LAX in one day intervals.
 
     $ curl -k -u dlvr:dlvr https://series.dlvr.com/api/1.0/read/temperature?location=lax&start=0&end=10d&function=avg&interval=1d
 
@@ -66,7 +66,7 @@ Get ten days worth of average values of temperature in LAX in one day intervals.
 
 ## POST /write
 
-Creates new a new datum. Api will respond with status 201 the datum will have been created, 202 the datum has been queued, or 403 if the authentication credentials lack the required privileges.
+Creates a new datum. Api will respond with status 201 the datum has been created, 202 the datum has been queued, or 403 the authentication credentials lack the required privileges.
 
 #### example request
 
