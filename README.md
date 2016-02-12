@@ -27,9 +27,9 @@ TODO: Javadocs [available on the web](http://url.com/to/docs).
 ```
 
 ##Goals
-Use memory mapped files and log-structured-merge trees (LSM) to efficienty store, retreive, and analyze larege amounts of time-based data.
-
-Leverage existing underlying code technologies like RocksDB, LevelDB, BerkeleyDB and similar datastores.
+1. Use memory mapped files and log-structured-merge trees (LSM) to efficienty store, retreive, and analyze larege amounts of time-based data.
+2. Leverage existing underlying code technologies like RocksDB, LevelDB, BerkeleyDB and similar datastores.
+3. Employ time-to-live (TTL) or downsampling (RRD) to efficeintly use disk space.
 
 ####TimeSeries Data (space/time): (ScoreCard and Portal)
  - Small number of unique time series with very large data volume
