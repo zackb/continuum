@@ -21,8 +21,8 @@ TODO: Javadocs [available on the web](http://url.com/to/docs).
 ### Maven
 ```
 		<dependency>
-			<groupId>com.dlvrb</groupId>
-			<artifactId>xontinuum-core</artifactId>
+			<groupId>com.dlvr</groupId>
+			<artifactId>continuum-core</artifactId>
 			<version>0.1</version>
 		</dependency>
 ```
