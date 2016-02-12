@@ -6,8 +6,6 @@ version: 0.1.0
 
 # Continuum REST API
 
-### All API calls start with
-
 <pre class="base">
 https://series.dlvr.com/api/1.0
 </pre>
@@ -18,7 +16,7 @@ For this documentation, we will assume every request begins with the above path.
 
 ### Format
 
-All calls are returned in **JSON**.
+All calls accept and return data in **JSON**.
 
 ### Authentication and Authorization
 
