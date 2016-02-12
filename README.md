@@ -23,15 +23,26 @@ TODO: Maven
 ## Goals
 Take advatage of RocksDB, LevelDB, BerkeleyDB or similar flat file formats to efficiently store and retrieve data.
 
-Key Data:
+Series Data (time/space): (ScoreCard, Portal)
+ - Small number of unique time series with very large data volume
+ - Infinite storage using retention policies and data downsampling (RRDTool, Whisper, InfluxDB inspired)
+ - Downsampling OK
+ - Example: "Realtime" performance metrics, measurements of cpu, or weather temperature readings over time
+ - Core only
+
+Key Data (time/key:key:value): (Metrics)
  - For aggregating small amounts of data into buckets by a unique key
  - Large number of unique keys with small amount of data
- - Example: Analytics data events grouped by user id
+ - Age out over time
+ - Stream 
+  - Fast data: hot, open sets of newest data
+  - Slow data: rolling window of data through ColdStorage (S3, NAS)
+ - Example: "Realtime" analytics data events grouped by session/user id
+ - Core only
 
-Series Data:
- - Small number of unique time series with very large data volume
- - Infinite storage using retention policies and data downsampling (RRD, Whisper, InfluxDB inspired)
- - Example: Measurements of cpu or weather temperature readings over time
+(time/key/key:value): (Session)
+
+
 
 ###Scaling
  - add disks via ShardRockSlab (or ShardedSlab? no)
