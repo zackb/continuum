@@ -16,6 +16,8 @@ public class NDatum implements Datum {
     public NFields fields;
     public double value;
 
+    public NDatum() { }
+
     public NDatum(String name, NTags tags, long timestamp, NFields fields, double value) {
         this.name = name;
         this.tags = tags;

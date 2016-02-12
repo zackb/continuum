@@ -56,11 +56,6 @@ public class Bytes {
         return ByteBuffer.wrap(bytes).getLong();
     }
 
-
-    public static byte[] serde(Datum datum) {
-        return datum.ID().bytes();
-    }
-
     public static byte[] bytes(Datum datum) {
         return BSON.encode(datum);
     }
