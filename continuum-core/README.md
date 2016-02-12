@@ -27,10 +27,6 @@
  - Test no tags
  - Remove tags from body (in id?)
 
-###Backup/Restore
- - Streaming {Input,Output} backup and restore via incremental backup/restore
-   - snapshots? pruning snapshots?
-
 ###Store all session, metric, series data in continuum?
  - Is it possible?
   - CAN ROCKS SCAN BEST BY TIMESTAMP OR SESSION ID (sequential vs random)
