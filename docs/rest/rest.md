@@ -20,7 +20,7 @@ All calls accept and return data in **JSON**.
 
 ### Authentication and Authorization
 
-All calls require https and BASIC authentication
+All calls require https and either BASIC authentication OR Token based [OAuth2.0 Client Credentials](https://tools.ietf.org/html/rfc6749#section-1.3.4).
 
 ### Status Codes
 
