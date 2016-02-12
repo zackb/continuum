@@ -1,35 +1,35 @@
-#Query
+###Query
  - Collectors
  - Filters
  - QueryID implements ID (Best ID bytes to scan with)
  - Iterator.prev()
 
-#Compaction
+###Compaction
  - Retention Policy
 
-#Load Test
+###Load Test
  - Reader thread(s) and writer thread(s)
    - Observable<Datum> fakeDatumGenerator()
      - and can .buffer() to test batch
    - Metrics dump every x seconds thread
 
-#Microsecond Resolution
+###Microsecond Resolution
 
-#Backup/Restore
+###Backup/Restore
  - Streaming {Input,Output} backup and restore via incremental backup/restore
    - snapshots? pruning snapshots?
 
-#Scaling
+###Scaling
  - add disks via ShardRockSlab (or ShardedSlab? no)
  - add slaves/read replicas
  - application level sharding by key or time
 
-#Performance
+###Performance
  - Copy is BSON Best?
  - Test no tags
  - Remove tags from body (in id?)
 
-#Store all session, metric, series data in continuum?
+###Store all session, metric, series data in continuum?
  - Is it possible?
   - CAN ROCKS SCAN BEST BY TIMESTAMP OR SESSION ID (sequential vs random)
   - with one caveat: must know the timestamp or time range of the session
