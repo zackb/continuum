@@ -3,7 +3,7 @@ package com.dlvr.continuum.series.datum.impl;
 import com.dlvr.continuum.series.datum.Datum;
 import com.dlvr.continuum.series.datum.Fields;
 import com.dlvr.continuum.series.datum.Tags;
-import com.dlvr.continuum.series.db.ID;
+import com.dlvr.continuum.series.db.DatumID;
 import com.dlvr.continuum.series.db.impl.NDatumID;
 
 /**
@@ -38,7 +38,7 @@ public class NDatum implements Datum {
     }
 
     @Override
-    public ID ID() {
+    public DatumID ID() {
         // TODO: Cache? Mutability?
         return new NDatumID(this);
     }

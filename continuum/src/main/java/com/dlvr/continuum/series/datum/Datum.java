@@ -1,6 +1,6 @@
 package com.dlvr.continuum.series.datum;
 
-import com.dlvr.continuum.series.db.ID;
+import com.dlvr.continuum.series.db.DatumID;
 
 import java.io.Serializable;
 
@@ -12,7 +12,7 @@ public interface Datum extends Serializable {
     /**
      *
      */
-    ID ID();
+    DatumID ID();
 
     /**
      * Measurement name

@@ -74,7 +74,7 @@ public class Continuum {
         }
     }
 
-    static class QueryBuilder {
+    public static class QueryBuilder {
         private final NQuery target = new NQuery();
         private QueryBuilder() {}
         QueryBuilder(String name) {
@@ -110,7 +110,7 @@ public class Continuum {
         }
     }
 
-    static class QueryResultBuilder {
+    public static class QueryResultBuilder {
         private final NQueryResult target = new NQueryResult();
         private QueryResultBuilder() { }
         QueryResultBuilder(String name) {

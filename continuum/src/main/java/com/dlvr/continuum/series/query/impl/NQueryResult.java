@@ -14,12 +14,12 @@ public class NQueryResult implements QueryResult {
 
     @Override
     public String name() {
-        return null;
+        return name;
     }
 
     @Override
     public double value() {
-        return 0.0d;
+        return value;
     }
 
     @Override

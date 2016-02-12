@@ -1,5 +1,7 @@
 package com.dlvr.continuum.series.query.impl;
 
+import com.dlvr.continuum.series.query.Function;
+
 /**
  * Query result collector
  * Created by zack on 2/11/16.
@@ -34,5 +36,20 @@ public class Collector {
 
     public double sum() {
         return sum;
+    }
+
+    public double value(Function function) {
+
+        double value;
+
+        switch (function) {
+            case AVG:
+                value = avg();
+                break;
+            default:
+                throw new Error("Not implemented: " + function);
+        }
+
+        return value;
     }
 }

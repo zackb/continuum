@@ -5,6 +5,7 @@ import com.dlvr.continuum.series.datum.Datum;
 import com.dlvr.continuum.series.db.DB;
 import com.dlvr.continuum.series.db.DatumID;
 import com.dlvr.continuum.series.db.Iterator;
+import com.dlvr.continuum.series.query.Function;
 import com.dlvr.continuum.series.query.Query;
 import com.dlvr.continuum.series.query.QueryResult;
 import com.dlvr.continuum.series.query.impl.Collector;
@@ -12,6 +13,7 @@ import com.dlvr.util.BSON;
 
 import static com.dlvr.continuum.util.Bytes.Double;
 import static com.dlvr.continuum.util.Bytes.*;
+import static com.dlvr.continuum.Continuum.*;
 
 /**
  * DB implemented with RocksDB
@@ -80,7 +82,6 @@ public class RockDB implements DB {
 
     @Override
     public QueryResult query(Query query) {
-        QueryResult result = null;
         Iterator itr = null;
         Collector collector = new Collector();
         try {
@@ -92,7 +93,10 @@ public class RockDB implements DB {
         } finally {
             if (itr != null) itr.close();
         }
-        return result;
+
+        return result(query.function().name())
+                .value(collector.value(query.function()))
+                .build();
     }
 
     private void collect(Collector collector, Iterator iterator, Query query) {
