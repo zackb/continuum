@@ -21,6 +21,7 @@ Key Data:
 Series Data:
  - Small number of unique time series with very large data volume
  - Infinite storage using retention policies and data downsampling (RRD, Whisper, InfluxDB inspired)
+ - Example: Measurements of cpu or weather temperature readings over time
 
 ## Maintainer
  
