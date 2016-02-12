@@ -4,11 +4,14 @@ continuum is a JVM library for storing and analyzing large amounts of time serie
 Additional tools include
  - REST Interface
  - Streaming master/slave replication
+ - Limited "database" server
 
 TODO: Javadocs [is available on the web](http://url.com/to/docs).
 
 ## Building
 
+    make intall
+    or
     gradle clean jar test
 
 TODO: Maven
