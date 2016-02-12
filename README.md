@@ -14,7 +14,7 @@ TODO: Javadocs [is available on the web](http://url.com/to/docs).
     
  or
 
-    gradlew install
+    ./gradlew install
 
 TODO: Maven
 
