@@ -49,4 +49,4 @@ Key Data (time/key:key:value): (Metrics)
 
 ## Maintainer
  
-Maintained by Zack @ DLVR `zack@dlvr.com`
+Zack @ DLVR `zack@dlvr.com`
