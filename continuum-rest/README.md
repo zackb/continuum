@@ -46,7 +46,7 @@ Get ten days worth of average temperature values in LAX in one day intervals.
 
 #### response
 
-    {86400000
+    {
       "data": [
         {1455355748946: 90.1},
         {1455269348946: 89.354678},
