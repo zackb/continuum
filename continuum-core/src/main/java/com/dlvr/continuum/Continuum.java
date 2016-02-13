@@ -33,7 +33,7 @@ public class Continuum {
 
     private final String id;
 
-    private final StorageType type;
+    private final Dimension dimension;
 
     private final DB db;
 
@@ -63,12 +63,12 @@ public class Continuum {
         return new QueryResultBuilder(name);
     }
 
-    private Continuum(String id, StorageType type, List<FileSystemReference> bases) throws Exception {
+    private Continuum(String id, Dimension dimension, List<FileSystemReference> bases) throws Exception {
         checkNotNull("id", id);
-        checkNotNull("type", type);
+        checkNotNull("dimension", dimension);
         checkNotNull("base", bases);
         this.id = id;
-        this.type = type;
+        this.dimension = dimension;
         this.bases = bases;
 
         List<Slab> slabs = new ArrayList<>();
@@ -117,15 +117,15 @@ public class Continuum {
     }
 
     public static Builder series() {
-        return new Builder().type(StorageType.SERIES);
+        return new Builder().dimension(Dimension.SERIES);
     }
 
     public static Builder kv() {
-        return new Builder().type(StorageType.KEYVALUE);
+        return new Builder().dimension(Dimension.KEYVALUE);
     }
 
     public static class Builder {
-        private StorageType type = StorageType.SERIES;
+        private Dimension dimension = Dimension.SERIES;
         private List<FileSystemReference> base = new ArrayList<>();
         private String id = "default";
         public Builder id(String id) {
@@ -142,12 +142,12 @@ public class Continuum {
             }
             return this;
         }
-        public Builder type(StorageType type) {
-            this.type = type;
+        public Builder dimension(Dimension dimension) {
+            this.dimension = dimension;
             return this;
         }
         public Continuum open() throws Exception {
-            return new Continuum(id, type, base);
+            return new Continuum(id, dimension, base);
         }
     }
 
@@ -236,7 +236,7 @@ public class Continuum {
         }
     }
 
-    private enum StorageType {
+    private enum Dimension {
         SERIES,KEYVALUE
     }
 }
