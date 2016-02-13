@@ -2,6 +2,9 @@ package com.dlvr.continuum.db.impl;
 
 import com.dlvr.continuum.db.QueryID;
 import com.dlvr.continuum.db.datum.Tags;
+import com.dlvr.continuum.util.Bytes;
+
+import java.nio.ByteBuffer;
 
 /**
  * Time Key Value based QueryID implementation
@@ -9,7 +12,25 @@ import com.dlvr.continuum.db.datum.Tags;
  */
 public class KVQueryID implements QueryID {
 
-    public KVQueryID(double start, double end, String name, Tags tags) {
+    private static final byte b = 0x0;
+
+    private final byte[] id;
+
+    public KVQueryID(double start, String name, Tags tags) {
+
+        byte[] bstart = Bytes.bytes(start);   // start at time
+        byte[] bname = Bytes.bytes(name);     // and name
+        byte[] btags = NQueryID.encode(tags); // same tags encoding logic as series
+        id = new byte[bstart.length + bname.length + btags.length + 2];
+
+        ByteBuffer buff = ByteBuffer.wrap(id);
+        buff.put(bstart);
+        buff.put(b);
+        buff.put(bname);
+        buff.put(b);
+        buff.put(btags);
+
+        throw new Error("This needs testing");
     }
 
     @Override

@@ -34,7 +34,7 @@ public class NQueryID implements QueryID {
      * @param tags to use
      * @return bytes to use for query
      */
-    private byte[] encode(Tags tags) {
+    static byte[] encode(Tags tags) {
         byte[] bid = new byte[1024];
         List<String> names = tags.names();
         int len = names.size();
@@ -45,7 +45,7 @@ public class NQueryID implements QueryID {
         for (int i = 0; i < names.size(); i++) {
             String name = names.get(i);
             tmp = Bytes.bytes(name);
-            bid = Bytes.append(id, pos, tmp);
+            bid = Bytes.append(bid, pos, tmp);
             pos += tmp.length;
             bid[pos++] = b;
         }
