@@ -22,7 +22,11 @@ public class RockIterator implements Iterator {
 
     @Override
     public AtomID id() {
-        return Bytes.AtomID(it.key());
+        if (dimension == Continuum.Dimension.SERIES)
+            return Bytes.SAtomID(it.key());
+        else if (dimension == Continuum.Dimension.KEYVALUE)
+            return Bytes.SAtomID(it.key());
+        throw new Error("Wha? The Spiders From Mars?");
     }
 
     @Override

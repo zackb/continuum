@@ -34,7 +34,11 @@ public class Bytes {
         return b1 << 24 | (b2 & 0xFF) << 16 | (b3 & 0xFF) << 8 | (b4 & 0xFF);
     }
 
-    public static AtomID AtomID(byte[] bytes) {
+    public static AtomID SAtomID(byte[] bytes) {
+        return new SAtomID(bytes);
+    }
+
+    public static AtomID KAtomID(byte[] bytes) {
         return new SAtomID(bytes);
     }
 
