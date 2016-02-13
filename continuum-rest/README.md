@@ -9,7 +9,7 @@ version: 0.1.0
 <pre class="base">
 https://continuum.dlvr.com/api/1.0
 </pre>
-
+[DOCS](https://is.gd/2qRT3y)
 ### Path
 
 For this documentation, we will assume every request begins with the above path.
