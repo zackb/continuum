@@ -1,4 +1,4 @@
-package com.dlvr.continuum.db.scan;
+package com.dlvr.continuum.db.slice;
 
 /**
  * Constants and Enums

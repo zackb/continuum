@@ -19,7 +19,7 @@ public class Slabs implements Slab {
     }
 
     private int hash(byte[] key) {
-        // TODO: KEYVALUE instead
+        // TODO: SPACE instead
         // parse atom name to use as shard key
         AtomID id = Bytes.SAtomID(key);
         return Math.abs(id.name().hashCode() % slabs.size());

@@ -1,14 +1,14 @@
-package com.dlvr.continuum.core.db.scan;
+package com.dlvr.continuum.core.db.slice;
 
-import com.dlvr.continuum.db.scan.Const;
-import com.dlvr.continuum.db.scan.ScanResult;
+import com.dlvr.continuum.db.slice.Const;
+import com.dlvr.continuum.db.slice.SliceResult;
 
 import java.util.List;
 
 /**
- * Tree structured results from a db scan
+ * Tree structured results from a db slice
  */
-public class NScanResult implements ScanResult {
+public class NSliceResult implements SliceResult {
     public String name;
     public double value;
 
@@ -23,7 +23,7 @@ public class NScanResult implements ScanResult {
     }
 
     @Override
-    public List<ScanResult> children() {
+    public List<SliceResult> children() {
         return null;
     }
 

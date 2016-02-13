@@ -33,7 +33,7 @@ public class IteratorTest {
         map2.put("zack", "bar");
         map2.put("fuz", "da'vinci");
         reference.getChild(name).delete();
-        RockDB db = new RockDB(Continuum.Dimension.SERIES, name, reference);
+        RockDB db = new RockDB(Continuum.Dimension.TIME, name, reference);
         long ts1 = System.currentTimeMillis();
         long ts2 = ts1 + 100;
         db.write(

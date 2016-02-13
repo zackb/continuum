@@ -1,11 +1,11 @@
-package com.dlvr.continuum.core.db.scan;
+package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.db.Iterator;
-import com.dlvr.continuum.db.scan.Collector;
-import com.dlvr.continuum.db.scan.Scan;
+import com.dlvr.continuum.db.slice.Collector;
+import com.dlvr.continuum.db.slice.Slice;
 
 /**
- * Atom scan collector
+ * Atom slice collector
  * Created by zack on 2/11/16.
  */
 public class StatsCollector implements Collector {
@@ -15,10 +15,10 @@ public class StatsCollector implements Collector {
     private long count = 0;
     private double sum = 0.0d;
 
-    private final Scan scan;
+    private final Slice slice;
 
-    public StatsCollector(Scan scan) {
-        this.scan = scan;
+    public StatsCollector(Slice slice) {
+        this.slice = slice;
     }
 
     @Override
@@ -54,12 +54,12 @@ public class StatsCollector implements Collector {
 
         double value;
 
-        switch (scan.function()) {
+        switch (slice.function()) {
             case AVG:
                 value = avg();
                 break;
             default:
-                throw new Error("Not implemented: " + scan.function());
+                throw new Error("Not implemented: " + slice.function());
         }
 
         return value;

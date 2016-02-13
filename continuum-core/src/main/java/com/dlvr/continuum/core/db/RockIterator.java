@@ -23,9 +23,9 @@ public class RockIterator implements Iterator {
 
     @Override
     public AtomID id() {
-        if (dimension == Continuum.Dimension.SERIES)
+        if (dimension == Continuum.Dimension.TIME)
             return Bytes.SAtomID(it.key());
-        else if (dimension == Continuum.Dimension.KEYVALUE)
+        else if (dimension == Continuum.Dimension.SPACE)
             return Bytes.KAtomID(it.key());
         throw new ZiggyStardustError();
     }

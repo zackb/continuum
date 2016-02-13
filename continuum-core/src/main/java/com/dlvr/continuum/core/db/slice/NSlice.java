@@ -1,18 +1,18 @@
-package com.dlvr.continuum.core.db.scan;
+package com.dlvr.continuum.core.db.slice;
 
-import com.dlvr.continuum.db.ScanID;
+import com.dlvr.continuum.db.SliceID;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
-import com.dlvr.continuum.core.db.SScanID;
-import com.dlvr.continuum.db.scan.Function;
-import com.dlvr.continuum.db.scan.Scan;
+import com.dlvr.continuum.core.db.SSliceID;
+import com.dlvr.continuum.db.slice.Function;
+import com.dlvr.continuum.db.slice.Slice;
 
 import java.util.concurrent.TimeUnit;
 
 /**
- * Base Scan implementation
+ * Base Slice implementation
  */
-public class NScan implements Scan {
+public class NSlice implements Slice {
     public String name;
     public Function function;
     public long start;
@@ -23,10 +23,10 @@ public class NScan implements Scan {
     public double value;
 
     @Override
-    public ScanID ID() {
+    public SliceID ID() {
         //TODO:
         // Cache/Mutability?
-        return new SScanID(name, particles);
+        return new SSliceID(name, particles);
     }
 
     @Override

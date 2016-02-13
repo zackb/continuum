@@ -3,8 +3,8 @@ package com.dlvr.continuum.db.db;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.core.db.RockDB;
-import com.dlvr.continuum.db.scan.Function;
-import com.dlvr.continuum.db.scan.ScanResult;
+import com.dlvr.continuum.db.slice.Function;
+import com.dlvr.continuum.db.slice.SliceResult;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class DBTest {
     FileSystemReference reference = new FileSystemReference("/tmp/continuum/test.com.dlvr.DBTest");
 
     @Test
-    public void testScan() throws Exception {
+    public void testSlice() throws Exception {
         Map<String, String> particles = new HashMap<>();
         particles.put("tag1", "tagvalue1");
         particles.put("tag2", "2tagvalue2");
@@ -33,9 +33,9 @@ public class DBTest {
         fields.put("fields1", "vfield");
         fields.put("fields4", "fieldv");
 
-        String name = "testScan";
+        String name = "testSlice";
         reference.getChild(name).delete();
-        RockDB db = new RockDB(Dimension.SERIES, name, reference);
+        RockDB db = new RockDB(Dimension.TIME, name, reference);
         Atom d = satom().name("zack")
                 .timestamp(System.currentTimeMillis())
                 .particles(particles(particles))
@@ -57,7 +57,7 @@ public class DBTest {
         d = db.get(id);
         assertEquals(12346555.0000000000D, d.value() , 0.001);
         */
-        ScanResult res = db.scan(scan("test").function(Function.AVG).build());
+        SliceResult res = db.slice(slice("test").function(Function.AVG).build());
         double avg = res.value();
         assertEquals((12346555.0000000000D + 98898.124D)/ 2, avg, 0.00001);
         db.close();

@@ -1,17 +1,17 @@
 package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.core.db.scan.Filters;
+import com.dlvr.continuum.core.db.slice.Filters;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.db.Slab;
-import com.dlvr.continuum.db.scan.Filter;
-import com.dlvr.continuum.db.scan.Scan;
-import com.dlvr.continuum.db.scan.ScanResult;
-import com.dlvr.continuum.core.db.scan.Collectors;
-import com.dlvr.continuum.db.scan.Collector;
+import com.dlvr.continuum.db.slice.Filter;
+import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.core.db.slice.Collectors;
+import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.util.Bytes;
 import com.dlvr.util.BSON;
 
@@ -91,31 +91,31 @@ public class RockDB implements DB {
     }
 
     @Override
-    public ScanResult scan(Scan scan) {
+    public SliceResult slice(Slice slice) {
         Iterator itr = null;
-        Collector collector = Collectors.forScan(scan);
-        Filter filter = Filters.forScan(scan);
+        Collector collector = Collectors.forSlice(slice);
+        Filter filter = Filters.forSlice(slice);
         try {
             itr = iterator();
-            itr.seek(scan.ID().bytes());
+            itr.seek(slice.ID().bytes());
             do {
-                collect(collector, scan, itr);
-                filter(filter, scan, itr);
+                collect(collector, slice, itr);
+                filter(filter, slice, itr);
             } while (itr.next());
         } finally {
             if (itr != null) itr.close();
         }
 
-        return result(scan.function().name())
+        return result(slice.function().name())
                 .value(collector.value())
                 .build();
     }
 
-    private void collect(Collector collector, Scan scan, Iterator iterator) {
+    private void collect(Collector collector, Slice slice, Iterator iterator) {
         collector.collect(iterator);
     }
 
-    private void filter(Filter filter, Scan scan, Iterator iterator) {
+    private void filter(Filter filter, Slice slice, Iterator iterator) {
         if (filter == null) return;
         filter.filter(iterator);
     }

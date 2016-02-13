@@ -10,11 +10,11 @@ import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.db.Slab;
-import com.dlvr.continuum.db.scan.Function;
-import com.dlvr.continuum.db.scan.Scan;
-import com.dlvr.continuum.db.scan.ScanResult;
-import com.dlvr.continuum.core.db.scan.NScan;
-import com.dlvr.continuum.core.db.scan.NScanResult;
+import com.dlvr.continuum.db.slice.Function;
+import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.core.db.slice.NSlice;
+import com.dlvr.continuum.core.db.slice.NSliceResult;
 import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.io.file.Reference;
 import com.dlvr.continuum.util.Maths;
@@ -44,16 +44,16 @@ public class Continuum implements Closeable {
         System.out.printf("People of Earth, how are you?\n");
     }
 
-    public static AtomBuilder atom() {
-        return new AtomBuilder();
+    public AtomBuilder atom() {
+        return new AtomBuilder().dimension(dimension);
     }
 
     public static AtomBuilder satom() {
-        return new AtomBuilder().dimension(Dimension.SERIES);
+        return new AtomBuilder().dimension(Dimension.TIME);
     }
 
     public static AtomBuilder katom() {
-        return new AtomBuilder().dimension(Dimension.KEYVALUE);
+        return new AtomBuilder().dimension(Dimension.SPACE);
     }
 
     public static Particles particles(Map<String, String> particles) {
@@ -64,12 +64,12 @@ public class Continuum implements Closeable {
         return new NFields(fields);
     }
 
-    public static ScanBuilder scan(String name) {
-        return new ScanBuilder(name);
+    public static SliceBuilder slice(String name) {
+        return new SliceBuilder(name);
     }
 
-    public static ScanResultBuilder result(String name) {
-        return new ScanResultBuilder(name);
+    public static SliceResultBuilder result(String name) {
+        return new SliceResultBuilder(name);
     }
 
     private Continuum(String id, Dimension dimension, List<FileSystemReference> bases) throws Exception {
@@ -132,12 +132,10 @@ public class Continuum implements Closeable {
 
     /**
      * Compact atoms into quarks given a given time range and size
-     * @param start
-     * @param end
-     * @param interval (retention policy)
+     * @param slice time slice to compact
      * @throws Exception
      */
-    public void contract(Scan(start, end, interval)) throws Exception() {
+    public void contract(Slice slice) throws Exception {
 
     }
 
@@ -148,27 +146,25 @@ public class Continuum implements Closeable {
 
     }
 
-    public void delete(Scan(start, end)) throws Exception {
+    public void delete(Slice slice) throws Exception {
 
     }
 
-    public Reference clone(Scan(start, end)) throws Exception {
-
+    public Reference clone(Slice slice) throws Exception {
+        return null;
     }
-
-    public void
 
     // TODO: Dont even need this? atom.id knows what to do
     public static Builder series() {
-        return new Builder().dimension(Dimension.SERIES);
+        return new Builder().dimension(Dimension.TIME);
     }
 
     public static Builder kv() {
-        return new Builder().dimension(Dimension.KEYVALUE);
+        return new Builder().dimension(Dimension.SPACE);
     }
 
     public static class Builder {
-        private Dimension dimension = Dimension.SERIES;
+        private Dimension dimension = Dimension.TIME;
         private List<FileSystemReference> base = new ArrayList<>();
         private String id = "continuum";
         public Builder id(String id) {
@@ -228,68 +224,68 @@ public class Continuum implements Closeable {
             return this;
         }
         public Atom build() {
-            if (dimension == Dimension.SERIES)
+            if (dimension == Dimension.TIME)
                 return new SAtom(name, particles, timestamp, fields, value);
-            else if (dimension == Dimension.KEYVALUE)
+            else if (dimension == Dimension.SPACE)
                 return new KAtom(name, particles, timestamp, fields, value);
             throw new ZiggyStardustError();
         }
     }
 
-    public static class ScanBuilder {
-        private final NScan target = new NScan();
-        private ScanBuilder() {}
-        ScanBuilder(String name) {
+    public static class SliceBuilder {
+        private final NSlice target = new NSlice();
+        private SliceBuilder() {}
+        SliceBuilder(String name) {
             target.name = name;
         }
-        public ScanBuilder start(long start) {
+        public SliceBuilder start(long start) {
             target.start = start;
             return this;
         }
-        public ScanBuilder end(long end) {
+        public SliceBuilder end(long end) {
             target.end = end;
             return this;
         }
-        public ScanBuilder interval(TimeUnit interval) {
+        public SliceBuilder interval(TimeUnit interval) {
             target.interval = interval;
             return this;
         }
-        public ScanBuilder function(Function function) {
+        public SliceBuilder function(Function function) {
             target.function = function;
             return this;
         }
-        public ScanBuilder particles(Particles particles) {
+        public SliceBuilder particles(Particles particles) {
             target.particles = particles;
             return this;
         }
-        public ScanBuilder fields(Fields fields) {
+        public SliceBuilder fields(Fields fields) {
             target.fields = fields;
             return this;
         }
 
-        public Scan build() {
+        public Slice build() {
             return target;
         }
     }
 
-    public static class ScanResultBuilder {
-        private final NScanResult target = new NScanResult();
-        private ScanResultBuilder() { }
-        ScanResultBuilder(String name) {
+    public static class SliceResultBuilder {
+        private final NSliceResult target = new NSliceResult();
+        private SliceResultBuilder() { }
+        SliceResultBuilder(String name) {
             target.name = name;
         }
-        public ScanResultBuilder value(double value) {
+        public SliceResultBuilder value(double value) {
             target.value = value;
             return this;
         }
 
-        public ScanResult build() {
+        public SliceResult build() {
             return target;
         }
     }
 
     public enum Dimension {
-        SERIES,KEYVALUE
+        SPACE, TIME
     }
 
     private static Atom createAtom() {
