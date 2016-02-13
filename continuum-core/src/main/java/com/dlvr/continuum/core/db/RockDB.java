@@ -1,11 +1,13 @@
 package com.dlvr.continuum.core.db;
 
+import com.dlvr.continuum.core.db.query.Filters;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.db.Slab;
+import com.dlvr.continuum.db.query.Filter;
 import com.dlvr.continuum.db.query.Query;
 import com.dlvr.continuum.db.query.QueryResult;
 import com.dlvr.continuum.core.db.query.Collectors;
@@ -85,11 +87,13 @@ public class RockDB implements DB {
     public QueryResult query(Query query) {
         Iterator itr = null;
         Collector collector = Collectors.forQuery(query);
+        Filter filter = Filters.forQuery(query);
         try {
             itr = iterator();
-            itr.seekToFirst();
+            itr.seek(query.ID().bytes());
             do {
-                collect(collector, itr);
+                collect(collector, query, itr);
+                filter(filter, query, itr);
             } while (itr.next());
         } finally {
             if (itr != null) itr.close();
@@ -100,8 +104,13 @@ public class RockDB implements DB {
                 .build();
     }
 
-    private void collect(Collector collector, Iterator iterator) {
+    private void collect(Collector collector, Query query, Iterator iterator) {
         collector.collect(iterator);
+    }
+
+    private void filter(Filter filter, Query query, Iterator iterator) {
+        if (filter == null) return;
+        filter.filter(iterator);
     }
 
     @Override

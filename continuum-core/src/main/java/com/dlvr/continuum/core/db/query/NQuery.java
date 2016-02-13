@@ -24,6 +24,8 @@ public class NQuery implements Query {
 
     @Override
     public QueryID ID() {
+        //TODO:
+        // Cache/Mutability?
         return new SQueryID(name, particles);
     }
 

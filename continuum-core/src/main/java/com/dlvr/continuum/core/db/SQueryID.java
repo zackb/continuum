@@ -20,7 +20,7 @@ public class SQueryID implements QueryID {
 
     public SQueryID(String name, Particles particles) {
         byte[] bname = Bytes.bytes(name);
-        byte[] bparticles = encode(particles);
+        byte[] bparticles = particles == null ? new byte[0] : encode(particles);
         id = new byte[bname.length + bparticles.length + 1];
 
         ByteBuffer buff = ByteBuffer.wrap(id);
