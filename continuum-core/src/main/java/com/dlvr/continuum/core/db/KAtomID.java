@@ -32,8 +32,8 @@ public class KAtomID implements AtomID {
         }
         this.cachedId = bytes;
         timestamp = Bytes.range(cachedId, 0, positions[0]);
-        name = Bytes.range(cachedId, positions[positions.length - 1] - 1, cachedId.length);
-        tags = Bytes.range(cachedId, positions[0] + 1, positions[positions.length - 1] - 2);
+        name = Bytes.range(cachedId, positions[0] + 1, positions[1]);
+        tags = Bytes.range(cachedId, positions[1] + 1, positions[positions.length - 1]);
     }
 
     public KAtomID(Atom atom) {

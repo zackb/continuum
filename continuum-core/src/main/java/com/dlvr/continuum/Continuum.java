@@ -1,14 +1,12 @@
 package com.dlvr.continuum;
 
+import com.dlvr.continuum.core.atom.*;
 import com.dlvr.continuum.core.db.RockSlab;
 import com.dlvr.continuum.core.db.Slabs;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Tags;
-import com.dlvr.continuum.core.atom.NAtom;
-import com.dlvr.continuum.core.atom.NFields;
-import com.dlvr.continuum.core.atom.NTags;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.db.Slab;
@@ -45,6 +43,14 @@ public class Continuum {
 
     public static AtomBuilder atom() {
         return new AtomBuilder();
+    }
+
+    public static AtomBuilder satom() {
+        return new AtomBuilder().dimension(Dimension.SERIES);
+    }
+
+    public static AtomBuilder katom() {
+        return new AtomBuilder().dimension(Dimension.KEYVALUE);
     }
 
     public static Tags tags(Map<String, String> tags) {
@@ -158,6 +164,7 @@ public class Continuum {
         private NFields fields;
         private long timestamp;
         private double value;
+        private Dimension dimension;
         private AtomBuilder() {}
         public AtomBuilder name(String name) {
             this.name = name;
@@ -179,8 +186,16 @@ public class Continuum {
             this.value = value;
             return this;
         }
+        public AtomBuilder dimension(Dimension dimension) {
+            this.dimension = dimension;
+            return this;
+        }
         public Atom build() {
-            return new NAtom(name, tags, timestamp, fields, value);
+            if (dimension == Dimension.SERIES)
+                return new SAtom(name, tags, timestamp, fields, value);
+            else if (dimension == Dimension.KEYVALUE)
+                return new KAtom(name, tags, timestamp, fields, value);
+            throw new Error("Wha? The Spiders From Mars?");
         }
     }
 
@@ -236,7 +251,7 @@ public class Continuum {
         }
     }
 
-    private enum Dimension {
+    public enum Dimension {
         SERIES,KEYVALUE
     }
 }

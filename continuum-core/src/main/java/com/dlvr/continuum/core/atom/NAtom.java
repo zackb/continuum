@@ -3,13 +3,11 @@ package com.dlvr.continuum.core.atom;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Tags;
-import com.dlvr.continuum.db.AtomID;
-import com.dlvr.continuum.core.db.SAtomID;
 
 /**
- * Base Atom implementation
+ * An atom in the continuum
  */
-public class NAtom implements Atom {
+abstract public class NAtom implements Atom {
     public String name;
     public NTags tags;
     public Long timestamp;
@@ -45,11 +43,5 @@ public class NAtom implements Atom {
     @Override
     public Long timestamp() {
         return timestamp;
-    }
-
-    @Override
-    public AtomID ID() {
-        // TODO: Cache? Mutability?
-        return new SAtomID(this);
     }
 }

@@ -1,7 +1,9 @@
 package com.dlvr.continuum.util;
 
 import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.core.atom.KAtom;
 import com.dlvr.continuum.core.atom.NAtom;
+import com.dlvr.continuum.core.atom.SAtom;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.core.db.SAtomID;
 import com.dlvr.util.BSON;
@@ -60,12 +62,20 @@ public class Bytes {
         return ByteBuffer.wrap(bytes).getLong();
     }
 
+    public static byte[] bytes(SAtom atom) {
+        return BSON.encode(atom);
+    }
+
     public static byte[] bytes(Atom atom) {
         return BSON.encode(atom);
     }
 
-    public static Atom Atom(byte[] bytes) {
-        return BSON.decodeObject(bytes, NAtom.class);
+    public static Atom SAtom(byte[] bytes) {
+        return BSON.decodeObject(bytes, SAtom.class);
+    }
+
+    public static Atom KAtom(byte[] bytes) {
+        return BSON.decodeObject(bytes, KAtom.class);
     }
 
     private static final Charset utf8 = Charset.forName("UTF-8");

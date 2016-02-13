@@ -48,7 +48,7 @@ public class BytesTest {
         fields.put("2field2", 74190D);
 
         long ts = System.currentTimeMillis();
-        Atom atom = Continuum.atom().name("test1")
+        Atom atom = Continuum.satom().name("test1")
                 .tags(Continuum.tags(tags))
                 .fields(Continuum.fields(fields))
                 .timestamp(ts)
@@ -56,7 +56,7 @@ public class BytesTest {
                 .build();
         byte[] bytes = Bytes.bytes(atom);
 
-        atom = Bytes.Atom(bytes);
+        atom = Bytes.SAtom(bytes);
         assertEquals("test1", atom.name());
         assertEquals(3, atom.tags().size());
         assertEquals("tagvalue1", atom.tags().get("tag1"));

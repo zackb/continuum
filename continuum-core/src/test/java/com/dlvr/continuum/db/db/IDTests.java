@@ -1,5 +1,7 @@
 package com.dlvr.continuum.db.db;
 
+import com.dlvr.continuum.Continuum;
+import com.dlvr.continuum.core.db.KAtomID;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.TagsID;
 import com.dlvr.continuum.atom.Atom;
@@ -12,7 +14,8 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.dlvr.continuum.Continuum.atom;
+import static com.dlvr.continuum.Continuum.satom;
+import static com.dlvr.continuum.Continuum.katom;
 import static com.dlvr.continuum.Continuum.tags;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -42,7 +45,7 @@ public class IDTests {
     }
 
     @Test
-    public void testAtomIdMarshall() {
+    public void testSeriesAtomIdMarshall() {
         long ts = 1455219259015L;
         byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
         byte[] expected = Bytes.concat(e, (byte)0x0);
@@ -50,12 +53,12 @@ public class IDTests {
         Map<String, String> map = new HashMap<>();
         map.put("fooz", "bar");
         map.put("baz", "bat");
-        Atom d = atom().name("zame").tags(tags(map)).timestamp(ts).value(1235).build();
+        Atom d = satom().name("zame").tags(tags(map)).timestamp(ts).value(1235).build();
         assertArrayEquals(expected, d.ID().bytes());
     }
 
     @Test
-    public void testAtomIdUnMarshall() {
+    public void testSeriesAtomIdUnMarshall() {
         long ts = 1455219259015L;
         byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
         byte[] expected = Bytes.concat(e, (byte)0x0);
@@ -67,4 +70,30 @@ public class IDTests {
         assertEquals("bat", id.tags().get("baz"));
     }
 
+    @Test
+    public void testKeyValueAtomIdMarshall() {
+        long ts = 1455219259015L;
+        byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
+
+        byte[] expected = Bytes.concat(Bytes.bytes(ts), (byte)0x0);
+        expected = Bytes.concat(expected, e);
+        Map<String, String> map = new HashMap<>();
+        map.put("fooz", "bar");
+        map.put("baz", "bat");
+        Atom d = katom().name("zame").tags(tags(map)).timestamp(ts).value(1235).build();
+        assertArrayEquals(expected, d.ID().bytes());
+    }
+
+    @Test
+    public void testKeyValueAtomIdUnMarshall() {
+        long ts = 1455219259015L;
+        byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
+        byte[] expected = Bytes.concat(Bytes.bytes(ts), (byte)0x0);
+        expected = Bytes.concat(expected, e);
+        AtomID id = new KAtomID(expected);
+        assertEquals("zame", id.name());
+        assertEquals(ts, id.timestamp());
+        assertEquals("bar", id.tags().get("fooz"));
+        assertEquals("bat", id.tags().get("baz"));
+    }
 }

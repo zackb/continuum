@@ -36,7 +36,7 @@ public class ContinuumTest {
                     .base(reference)
                     .open();
 
-            Atom atom = Continuum.atom().name("test1")
+            Atom atom = Continuum.satom().name("test1")
                                 .build();
 
         } finally { if (continuum != null) continuum.delete(); }

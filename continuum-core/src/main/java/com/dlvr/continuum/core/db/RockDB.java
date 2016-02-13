@@ -65,7 +65,8 @@ public class RockDB implements DB {
      * @return
      */
     static Atom decodeAtom(byte[] bytes) {
-        return Bytes.Atom(bytes);
+        // TODO KATOM!
+        return Bytes.SAtom(bytes);
     }
 
     /**
