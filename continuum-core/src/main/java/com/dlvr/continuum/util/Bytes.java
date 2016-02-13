@@ -1,9 +1,9 @@
 package com.dlvr.continuum.util;
 
-import com.dlvr.continuum.db.datum.Datum;
-import com.dlvr.continuum.db.datum.impl.NDatum;
+import com.dlvr.continuum.datum.Datum;
+import com.dlvr.continuum.core.datum.NDatum;
 import com.dlvr.continuum.db.DatumID;
-import com.dlvr.continuum.db.impl.NDatumID;
+import com.dlvr.continuum.core.db.SDatumID;
 import com.dlvr.util.BSON;
 
 import java.nio.ByteBuffer;
@@ -33,7 +33,7 @@ public class Bytes {
     }
 
     public static DatumID DatumID(byte[] bytes) {
-        return new NDatumID(bytes);
+        return new SDatumID(bytes);
     }
 
     public static byte[] bytes(DatumID id) {

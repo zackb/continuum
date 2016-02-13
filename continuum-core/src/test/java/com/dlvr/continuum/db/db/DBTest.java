@@ -1,8 +1,8 @@
 package com.dlvr.continuum.db.db;
 
-import com.dlvr.continuum.io.file.impl.FileSystemReference;
-import com.dlvr.continuum.db.datum.Datum;
-import com.dlvr.continuum.db.impl.RockDB;
+import com.dlvr.continuum.core.io.file.FileSystemReference;
+import com.dlvr.continuum.datum.Datum;
+import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.db.query.Function;
 import com.dlvr.continuum.db.query.QueryResult;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.dlvr.continuum.db.query.impl;
+package com.dlvr.continuum.core.db.query;
 
 import com.dlvr.continuum.db.query.Const;
 import com.dlvr.continuum.db.query.QueryResult;

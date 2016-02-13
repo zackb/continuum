@@ -1,13 +1,14 @@
-package com.dlvr.continuum.db.query.impl;
+package com.dlvr.continuum.core.db.query;
 
 import com.dlvr.continuum.db.Iterator;
+import com.dlvr.continuum.db.query.Collector;
 import com.dlvr.continuum.db.query.Query;
 
 /**
  * Query result collector
  * Created by zack on 2/11/16.
  */
-public class StatsCollector implements ICollector {
+public class StatsCollector implements Collector {
 
     private double max = 0d;
     private double min = 0d;

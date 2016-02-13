@@ -1,6 +1,6 @@
-package com.dlvr.continuum.db.impl;
+package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.io.file.impl.FileSystemReference;
+import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.db.Slab;
 import org.rocksdb.*;
 

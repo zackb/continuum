@@ -1,6 +1,6 @@
 package com.dlvr.continuum.db;
 
-import com.dlvr.continuum.db.datum.Datum;
+import com.dlvr.continuum.datum.Datum;
 
 /**
  * Created by zack on 2/11/16.

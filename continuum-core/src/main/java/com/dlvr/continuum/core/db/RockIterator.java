@@ -1,6 +1,6 @@
-package com.dlvr.continuum.db.impl;
+package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.db.datum.Datum;
+import com.dlvr.continuum.datum.Datum;
 import com.dlvr.continuum.db.DatumID;
 import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.util.Bytes;

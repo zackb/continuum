@@ -2,10 +2,10 @@ package com.dlvr.continuum.db.db;
 
 import com.dlvr.continuum.db.DatumID;
 import com.dlvr.continuum.db.TagsID;
-import com.dlvr.continuum.db.datum.Datum;
-import com.dlvr.continuum.db.datum.Tags;
-import com.dlvr.continuum.db.impl.NDatumID;
-import com.dlvr.continuum.db.impl.NTagsID;
+import com.dlvr.continuum.datum.Datum;
+import com.dlvr.continuum.datum.Tags;
+import com.dlvr.continuum.core.db.SDatumID;
+import com.dlvr.continuum.core.db.NTagsID;
 import com.dlvr.continuum.util.Bytes;
 import org.junit.Test;
 
@@ -60,7 +60,7 @@ public class IDTests {
         byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
         byte[] expected = Bytes.concat(e, (byte)0x0);
         expected = Bytes.concat(expected, Bytes.bytes(ts));
-        DatumID id = new NDatumID(expected);
+        DatumID id = new SDatumID(expected);
         assertEquals("zame", id.name());
         assertEquals(ts, id.timestamp());
         assertEquals("bar", id.tags().get("fooz"));

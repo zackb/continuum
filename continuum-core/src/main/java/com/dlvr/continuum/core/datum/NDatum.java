@@ -1,10 +1,10 @@
-package com.dlvr.continuum.db.datum.impl;
+package com.dlvr.continuum.core.datum;
 
-import com.dlvr.continuum.db.datum.Datum;
-import com.dlvr.continuum.db.datum.Fields;
-import com.dlvr.continuum.db.datum.Tags;
+import com.dlvr.continuum.datum.Datum;
+import com.dlvr.continuum.datum.Fields;
+import com.dlvr.continuum.datum.Tags;
 import com.dlvr.continuum.db.DatumID;
-import com.dlvr.continuum.db.impl.NDatumID;
+import com.dlvr.continuum.core.db.SDatumID;
 
 /**
  * Base Datum implementation
@@ -50,6 +50,6 @@ public class NDatum implements Datum {
     @Override
     public DatumID ID() {
         // TODO: Cache? Mutability?
-        return new NDatumID(this);
+        return new SDatumID(this);
     }
 }

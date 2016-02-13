@@ -1,4 +1,4 @@
-package com.dlvr.continuum.io.file.impl;
+package com.dlvr.continuum.core.io.file;
 
 import com.dlvr.continuum.io.file.Endpoint;
 import com.dlvr.util.IOUtil;

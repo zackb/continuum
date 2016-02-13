@@ -1,7 +1,7 @@
-package com.dlvr.continuum.db.impl;
+package com.dlvr.continuum.core.db;
 
 import com.dlvr.continuum.db.QueryID;
-import com.dlvr.continuum.db.datum.Tags;
+import com.dlvr.continuum.datum.Tags;
 import com.dlvr.continuum.util.Bytes;
 
 import java.nio.ByteBuffer;
@@ -20,7 +20,7 @@ public class KVQueryID implements QueryID {
 
         byte[] bstart = Bytes.bytes(start);   // start at time
         byte[] bname = Bytes.bytes(name);     // and name
-        byte[] btags = NQueryID.encode(tags); // same tags encoding logic as series
+        byte[] btags = SQueryID.encode(tags); // same tags encoding logic as series
         id = new byte[bstart.length + bname.length + btags.length + 2];
 
         ByteBuffer buff = ByteBuffer.wrap(id);

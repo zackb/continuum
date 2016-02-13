@@ -2,8 +2,8 @@ package com.dlvr.continuum.db.db;
 
 import com.dlvr.continuum.db.DatumID;
 import com.dlvr.continuum.db.Iterator;
-import com.dlvr.continuum.io.file.impl.FileSystemReference;
-import com.dlvr.continuum.db.impl.RockDB;
+import com.dlvr.continuum.core.io.file.FileSystemReference;
+import com.dlvr.continuum.core.db.RockDB;
 import org.junit.Test;
 
 import java.util.HashMap;

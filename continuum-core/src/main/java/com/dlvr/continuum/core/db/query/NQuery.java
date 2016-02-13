@@ -1,9 +1,9 @@
-package com.dlvr.continuum.db.query.impl;
+package com.dlvr.continuum.core.db.query;
 
 import com.dlvr.continuum.db.QueryID;
-import com.dlvr.continuum.db.datum.Fields;
-import com.dlvr.continuum.db.datum.Tags;
-import com.dlvr.continuum.db.impl.NQueryID;
+import com.dlvr.continuum.datum.Fields;
+import com.dlvr.continuum.datum.Tags;
+import com.dlvr.continuum.core.db.SQueryID;
 import com.dlvr.continuum.db.query.Function;
 import com.dlvr.continuum.db.query.Query;
 
@@ -24,7 +24,7 @@ public class NQuery implements Query {
 
     @Override
     public QueryID ID() {
-        return new NQueryID(name, tags);
+        return new SQueryID(name, tags);
     }
 
     @Override

@@ -1,7 +1,7 @@
-package com.dlvr.continuum.db.impl;
+package com.dlvr.continuum.core.db;
 
 import com.dlvr.continuum.db.QueryID;
-import com.dlvr.continuum.db.datum.Tags;
+import com.dlvr.continuum.datum.Tags;
 import com.dlvr.continuum.db.query.Const;
 import com.dlvr.continuum.util.Bytes;
 
@@ -12,13 +12,13 @@ import java.util.List;
  * Series based QueryID implementation
  * Created by zack on 2/12/16.
  */
-public class NQueryID implements QueryID {
+public class SQueryID implements QueryID {
 
     private static final byte b = 0x0;
 
     private final byte[] id;
 
-    public NQueryID(String name, Tags tags) {
+    public SQueryID(String name, Tags tags) {
         byte[] bname = Bytes.bytes(name);
         byte[] btags = encode(tags);
         id = new byte[bname.length + btags.length + 1];

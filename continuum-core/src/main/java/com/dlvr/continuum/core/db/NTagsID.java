@@ -1,7 +1,7 @@
-package com.dlvr.continuum.db.impl;
+package com.dlvr.continuum.core.db;
 
 import com.dlvr.continuum.Continuum;
-import com.dlvr.continuum.db.datum.Tags;
+import com.dlvr.continuum.datum.Tags;
 import com.dlvr.continuum.db.TagsID;
 import com.dlvr.continuum.util.Bytes;
 

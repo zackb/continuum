@@ -1,11 +1,11 @@
-package com.dlvr.continuum.db.query.impl;
+package com.dlvr.continuum.db.query;
 
 import com.dlvr.continuum.db.Iterator;
 
 /**
  * Created by zack on 2/11/16.
  */
-public interface ICollector {
+public interface Collector {
     void collect(Iterator iterator);
     double value();
 }

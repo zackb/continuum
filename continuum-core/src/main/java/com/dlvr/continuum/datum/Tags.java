@@ -1,4 +1,4 @@
-package com.dlvr.continuum.db.datum;
+package com.dlvr.continuum.datum;
 
 import com.dlvr.continuum.db.TagsID;
 

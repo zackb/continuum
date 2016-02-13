@@ -1,14 +1,14 @@
-package com.dlvr.continuum.db.impl;
+package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.io.file.impl.FileSystemReference;
-import com.dlvr.continuum.db.datum.Datum;
+import com.dlvr.continuum.core.io.file.FileSystemReference;
+import com.dlvr.continuum.datum.Datum;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.db.DatumID;
 import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.db.query.Query;
 import com.dlvr.continuum.db.query.QueryResult;
-import com.dlvr.continuum.db.query.impl.Collector;
-import com.dlvr.continuum.db.query.impl.ICollector;
+import com.dlvr.continuum.core.db.query.Collectors;
+import com.dlvr.continuum.db.query.Collector;
 import com.dlvr.util.BSON;
 
 import static com.dlvr.continuum.util.Bytes.Double;
@@ -83,7 +83,7 @@ public class RockDB implements DB {
     @Override
     public QueryResult query(Query query) {
         Iterator itr = null;
-        ICollector collector = Collector.forQuery(query);
+        Collector collector = Collectors.forQuery(query);
         try {
             itr = iterator();
             itr.seekToFirst();
@@ -99,7 +99,7 @@ public class RockDB implements DB {
                 .build();
     }
 
-    private void collect(ICollector collector, Iterator iterator) {
+    private void collect(Collector collector, Iterator iterator) {
         collector.collect(iterator);
     }
 

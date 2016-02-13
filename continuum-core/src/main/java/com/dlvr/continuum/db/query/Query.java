@@ -1,8 +1,8 @@
 package com.dlvr.continuum.db.query;
 
 import com.dlvr.continuum.db.QueryID;
-import com.dlvr.continuum.db.datum.Fields;
-import com.dlvr.continuum.db.datum.Tags;
+import com.dlvr.continuum.datum.Fields;
+import com.dlvr.continuum.datum.Tags;
 
 import java.util.concurrent.TimeUnit;
 

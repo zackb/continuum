@@ -1,6 +1,6 @@
 package com.dlvr.continuum.db;
 
-import com.dlvr.continuum.db.datum.Datum;
+import com.dlvr.continuum.datum.Datum;
 import com.dlvr.continuum.db.query.Query;
 import com.dlvr.continuum.db.query.QueryResult;
 
