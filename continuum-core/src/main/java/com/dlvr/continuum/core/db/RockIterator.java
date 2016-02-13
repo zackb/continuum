@@ -4,7 +4,7 @@ import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Iterator;
-import com.dlvr.continuum.except.NoSuchDimensionError;
+import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.util.Bytes;
 import org.rocksdb.RocksIterator;
 
@@ -27,7 +27,7 @@ public class RockIterator implements Iterator {
             return Bytes.SAtomID(it.key());
         else if (dimension == Continuum.Dimension.KEYVALUE)
             return Bytes.KAtomID(it.key());
-        throw new NoSuchDimensionError();
+        throw new ZiggyStardustError();
     }
 
     @Override

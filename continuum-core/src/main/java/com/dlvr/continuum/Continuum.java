@@ -15,7 +15,7 @@ import com.dlvr.continuum.db.scan.Scan;
 import com.dlvr.continuum.db.scan.ScanResult;
 import com.dlvr.continuum.core.db.scan.NScan;
 import com.dlvr.continuum.core.db.scan.NScanResult;
-import com.dlvr.continuum.except.NoSuchDimensionError;
+import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.io.file.Reference;
 import com.dlvr.continuum.util.Maths;
 import com.dlvr.util.Metrics;
@@ -232,7 +232,7 @@ public class Continuum implements Closeable {
                 return new SAtom(name, particles, timestamp, fields, value);
             else if (dimension == Dimension.KEYVALUE)
                 return new KAtom(name, particles, timestamp, fields, value);
-            throw new NoSuchDimensionError();
+            throw new ZiggyStardustError();
         }
     }
 
