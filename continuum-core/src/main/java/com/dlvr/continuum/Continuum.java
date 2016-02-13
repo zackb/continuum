@@ -289,6 +289,20 @@ public class Continuum implements Closeable {
     }
 
     static class LoadTest {
+
+        private final Continuum continuum;
+
+        LoadTest(Continuum continuum) {
+            this.continuum = continuum;
+        }
+
+        private final TimerTask timer = new MetricTimer().schedule(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(Metrics.report());
+            }
+        }, 5000);
+
         private static Atom createAtom() {
             return Continuum.satom()
                     .name("series" + Maths.randInt(0, 100))
@@ -299,26 +313,29 @@ public class Continuum implements Closeable {
 
         // 50MB/10M metrics
         public static void main(String[] args) throws Exception {
-            int iterations = 2000000000; //Integer.MAX_VALUE;
             FileSystemReference ref = new FileSystemReference("/tmp/LOAD");
             Builder b = series().base(ref);
-            TimerTask timer = new MetricTimer().schedule(new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println(Metrics.report());
-                }
-            }, 5000);
+            LoadTest test = null;
             try (Continuum c = b.open()){
-                final Continuum continuum = c;
-                for (int i = 0; i < iterations; i++) {
-                    Metrics.time("write", () -> {
-                        continuum.getDb().write(createAtom());
-                        return null;
-                    });
-                }
+                test = new LoadTest(c);
+                test.load(c);
             } finally {
+                if (test != null) test.stop();
                 //ref.delete();
-                timer.cancel();
+            }
+        }
+
+        private void stop() {
+            timer.cancel();
+        }
+
+        private void load(final Continuum continuum) {
+            int iterations = 2000000000; //Integer.MAX_VALUE;
+            for (int i = 0; i < iterations; i++) {
+                Metrics.time("write", () -> {
+                    continuum.getDb().write(createAtom());
+                    return null;
+                });
             }
         }
 
