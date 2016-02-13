@@ -1,4 +1,4 @@
-package com.dlvr.continuum.db.query;
+package com.dlvr.continuum.db.scan;
 
 /**
  * Constants and Enums

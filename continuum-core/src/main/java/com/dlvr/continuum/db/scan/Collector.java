@@ -1,9 +1,9 @@
-package com.dlvr.continuum.db.query;
+package com.dlvr.continuum.db.scan;
 
 import com.dlvr.continuum.db.Iterator;
 
 /**
- * Scan result collection and analyzation
+ * Scan atom collection and analyzation
  * Created by zack on 2/11/16.
  */
 public interface Collector {

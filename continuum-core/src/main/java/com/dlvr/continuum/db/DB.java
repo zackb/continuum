@@ -1,8 +1,8 @@
 package com.dlvr.continuum.db;
 
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.db.query.Query;
-import com.dlvr.continuum.db.query.QueryResult;
+import com.dlvr.continuum.db.scan.Scan;
+import com.dlvr.continuum.db.scan.ScanResult;
 
 /**
  * Time db datastore
@@ -24,10 +24,10 @@ public interface DB {
     Atom get(AtomID id) throws Exception;
 
     /**
-     * Execute a query and return results
-     * @return query result including aggregate functions, date ranges, and groupings if applicatble
+     * Execute a scan and return results
+     * @return scan result including aggregate functions, date ranges, and groupings if applicatble
      */
-    QueryResult query(Query query) throws Exception;
+    ScanResult scan(Scan scan) throws Exception;
 
     /**
      * Database Iterator

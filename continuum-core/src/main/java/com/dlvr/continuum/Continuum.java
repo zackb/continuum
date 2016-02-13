@@ -10,18 +10,17 @@ import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.db.Slab;
-import com.dlvr.continuum.db.query.Function;
-import com.dlvr.continuum.db.query.Query;
-import com.dlvr.continuum.db.query.QueryResult;
-import com.dlvr.continuum.core.db.query.NQuery;
-import com.dlvr.continuum.core.db.query.NQueryResult;
+import com.dlvr.continuum.db.scan.Function;
+import com.dlvr.continuum.db.scan.Scan;
+import com.dlvr.continuum.db.scan.ScanResult;
+import com.dlvr.continuum.core.db.scan.NScan;
+import com.dlvr.continuum.core.db.scan.NScanResult;
 import com.dlvr.continuum.except.NoSuchDimensionError;
 import com.dlvr.continuum.io.file.Reference;
 import com.dlvr.continuum.util.Maths;
 import com.dlvr.util.Metrics;
 
 import java.io.Closeable;
-import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -65,12 +64,12 @@ public class Continuum implements Closeable {
         return new NFields(fields);
     }
 
-    public static QueryBuilder query(String name) {
-        return new QueryBuilder(name);
+    public static ScanBuilder scan(String name) {
+        return new ScanBuilder(name);
     }
 
-    public static QueryResultBuilder result(String name) {
-        return new QueryResultBuilder(name);
+    public static ScanResultBuilder result(String name) {
+        return new ScanResultBuilder(name);
     }
 
     private Continuum(String id, Dimension dimension, List<FileSystemReference> bases) throws Exception {
@@ -138,22 +137,22 @@ public class Continuum implements Closeable {
      * @param interval (retention policy)
      * @throws Exception
      */
-    public void contract(long start, long end, TimeUnit interval) throws Exception() {
+    public void contract(Scan(start, end, interval)) throws Exception() {
 
     }
 
     /**
      * Expand a continuum (universe)? from cold storage data
      */
-    public void expand(Reference reference) {
+    public void expand(Reference reference) throws Exception {
 
     }
 
-    public void delete(long start, long end) throws Exception {
+    public void delete(Scan(start, end)) throws Exception {
 
     }
 
-    public Reference clone(long start, long end) throws Exception {
+    public Reference clone(Scan(start, end)) throws Exception {
 
     }
 
@@ -237,54 +236,54 @@ public class Continuum implements Closeable {
         }
     }
 
-    public static class QueryBuilder {
-        private final NQuery target = new NQuery();
-        private QueryBuilder() {}
-        QueryBuilder(String name) {
+    public static class ScanBuilder {
+        private final NScan target = new NScan();
+        private ScanBuilder() {}
+        ScanBuilder(String name) {
             target.name = name;
         }
-        public QueryBuilder start(long start) {
+        public ScanBuilder start(long start) {
             target.start = start;
             return this;
         }
-        public QueryBuilder end(long end) {
+        public ScanBuilder end(long end) {
             target.end = end;
             return this;
         }
-        public QueryBuilder interval(TimeUnit interval) {
+        public ScanBuilder interval(TimeUnit interval) {
             target.interval = interval;
             return this;
         }
-        public QueryBuilder function(Function function) {
+        public ScanBuilder function(Function function) {
             target.function = function;
             return this;
         }
-        public QueryBuilder particles(Particles particles) {
+        public ScanBuilder particles(Particles particles) {
             target.particles = particles;
             return this;
         }
-        public QueryBuilder fields(Fields fields) {
+        public ScanBuilder fields(Fields fields) {
             target.fields = fields;
             return this;
         }
 
-        public Query build() {
+        public Scan build() {
             return target;
         }
     }
 
-    public static class QueryResultBuilder {
-        private final NQueryResult target = new NQueryResult();
-        private QueryResultBuilder() { }
-        QueryResultBuilder(String name) {
+    public static class ScanResultBuilder {
+        private final NScanResult target = new NScanResult();
+        private ScanResultBuilder() { }
+        ScanResultBuilder(String name) {
             target.name = name;
         }
-        public QueryResultBuilder value(double value) {
+        public ScanResultBuilder value(double value) {
             target.value = value;
             return this;
         }
 
-        public QueryResult build() {
+        public ScanResult build() {
             return target;
         }
     }

@@ -1,20 +1,20 @@
-package com.dlvr.continuum.db.query;
+package com.dlvr.continuum.db.scan;
 
-import com.dlvr.continuum.db.QueryID;
+import com.dlvr.continuum.db.ScanID;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
 
 import java.util.concurrent.TimeUnit;
 
 /**
- * Query interface to time db
+ * Scanning interface to space time db
  */
-public interface Query {
+public interface Scan {
 
     /**
-     * Non-unique id for this query
+     * Non-unique id for this scan
      */
-    QueryID ID();
+    ScanID ID();
 
     /**
      * The measurement name to scan for
@@ -38,28 +38,28 @@ public interface Query {
 
     /**
      * Aggregation function for result's 'value' field.
-     * If non-null, query results are aggreagate values.
-     * If null, query results will have raw measurement values
+     * If non-null, scan results are aggreagate values.
+     * If null, scan results will have raw measurement values
      * @return aggregation function
      */
     Function function();
 
     /**
-     * Timestamp to begin query range (the smallest timestamp), expresed in millisecond epoch
+     * Timestamp to begin scan range (the smallest timestamp), expresed in millisecond epoch
      * @return unix epoch in milliseconds
      */
     long start();
 
     /**
-     * Timestamp to end query range (the largest timestamp), expresed in millisecond epoch
+     * Timestamp to end scan range (the largest timestamp), expresed in millisecond epoch
      * @return unix epoch in milliseconds
      */
     long end();
 
     /**
      * Date range interval to bucket results
-     * If non-null, query results are bucketed into date ranges using the {#getFunction()} aggreagate function
-     * If null, query results are atom-in-time values
+     * If non-null, scan results are bucketed into date ranges using the {#getFunction()} aggreagate function
+     * If null, scan results are atom-in-time values
      * @return time unit
      */
     TimeUnit interval();

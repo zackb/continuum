@@ -1,17 +1,17 @@
 package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.core.db.query.Filters;
+import com.dlvr.continuum.core.db.scan.Filters;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.db.Slab;
-import com.dlvr.continuum.db.query.Filter;
-import com.dlvr.continuum.db.query.Query;
-import com.dlvr.continuum.db.query.QueryResult;
-import com.dlvr.continuum.core.db.query.Collectors;
-import com.dlvr.continuum.db.query.Collector;
+import com.dlvr.continuum.db.scan.Filter;
+import com.dlvr.continuum.db.scan.Scan;
+import com.dlvr.continuum.db.scan.ScanResult;
+import com.dlvr.continuum.core.db.scan.Collectors;
+import com.dlvr.continuum.db.scan.Collector;
 import com.dlvr.continuum.util.Bytes;
 import com.dlvr.util.BSON;
 
@@ -91,31 +91,31 @@ public class RockDB implements DB {
     }
 
     @Override
-    public QueryResult query(Query query) {
+    public ScanResult scan(Scan scan) {
         Iterator itr = null;
-        Collector collector = Collectors.forQuery(query);
-        Filter filter = Filters.forQuery(query);
+        Collector collector = Collectors.forScan(scan);
+        Filter filter = Filters.forScan(scan);
         try {
             itr = iterator();
-            itr.seek(query.ID().bytes());
+            itr.seek(scan.ID().bytes());
             do {
-                collect(collector, query, itr);
-                filter(filter, query, itr);
+                collect(collector, scan, itr);
+                filter(filter, scan, itr);
             } while (itr.next());
         } finally {
             if (itr != null) itr.close();
         }
 
-        return result(query.function().name())
+        return result(scan.function().name())
                 .value(collector.value())
                 .build();
     }
 
-    private void collect(Collector collector, Query query, Iterator iterator) {
+    private void collect(Collector collector, Scan scan, Iterator iterator) {
         collector.collect(iterator);
     }
 
-    private void filter(Filter filter, Query query, Iterator iterator) {
+    private void filter(Filter filter, Scan scan, Iterator iterator) {
         if (filter == null) return;
         filter.filter(iterator);
     }

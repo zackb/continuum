@@ -1,18 +1,18 @@
-package com.dlvr.continuum.core.db.query;
+package com.dlvr.continuum.core.db.scan;
 
-import com.dlvr.continuum.db.QueryID;
+import com.dlvr.continuum.db.ScanID;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
-import com.dlvr.continuum.core.db.SQueryID;
-import com.dlvr.continuum.db.query.Function;
-import com.dlvr.continuum.db.query.Query;
+import com.dlvr.continuum.core.db.SScanID;
+import com.dlvr.continuum.db.scan.Function;
+import com.dlvr.continuum.db.scan.Scan;
 
 import java.util.concurrent.TimeUnit;
 
 /**
- * Base Query implementation
+ * Base Scan implementation
  */
-public class NQuery implements Query {
+public class NScan implements Scan {
     public String name;
     public Function function;
     public long start;
@@ -23,10 +23,10 @@ public class NQuery implements Query {
     public double value;
 
     @Override
-    public QueryID ID() {
+    public ScanID ID() {
         //TODO:
         // Cache/Mutability?
-        return new SQueryID(name, particles);
+        return new SScanID(name, particles);
     }
 
     @Override

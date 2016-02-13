@@ -1,11 +1,11 @@
-package com.dlvr.continuum.core.db.query;
+package com.dlvr.continuum.core.db.scan;
 
 import com.dlvr.continuum.db.Iterator;
-import com.dlvr.continuum.db.query.Collector;
-import com.dlvr.continuum.db.query.Query;
+import com.dlvr.continuum.db.scan.Collector;
+import com.dlvr.continuum.db.scan.Scan;
 
 /**
- * Query result collector
+ * Atom scan collector
  * Created by zack on 2/11/16.
  */
 public class StatsCollector implements Collector {
@@ -15,10 +15,10 @@ public class StatsCollector implements Collector {
     private long count = 0;
     private double sum = 0.0d;
 
-    private final Query query;
+    private final Scan scan;
 
-    public StatsCollector(Query query) {
-        this.query = query;
+    public StatsCollector(Scan scan) {
+        this.scan = scan;
     }
 
     @Override
@@ -54,12 +54,12 @@ public class StatsCollector implements Collector {
 
         double value;
 
-        switch (query.function()) {
+        switch (scan.function()) {
             case AVG:
                 value = avg();
                 break;
             default:
-                throw new Error("Not implemented: " + query.function());
+                throw new Error("Not implemented: " + scan.function());
         }
 
         return value;

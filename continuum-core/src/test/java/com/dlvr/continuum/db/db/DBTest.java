@@ -3,8 +3,8 @@ package com.dlvr.continuum.db.db;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.core.db.RockDB;
-import com.dlvr.continuum.db.query.Function;
-import com.dlvr.continuum.db.query.QueryResult;
+import com.dlvr.continuum.db.scan.Function;
+import com.dlvr.continuum.db.scan.ScanResult;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public class DBTest {
         d = db.get(id);
         assertEquals(12346555.0000000000D, d.value() , 0.001);
         */
-        QueryResult res = db.query(query("test").function(Function.AVG).build());
+        ScanResult res = db.scan(scan("test").function(Function.AVG).build());
         double avg = res.value();
         assertEquals((12346555.0000000000D + 98898.124D)/ 2, avg, 0.00001);
         db.close();

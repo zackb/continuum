@@ -1,14 +1,14 @@
-package com.dlvr.continuum.core.db.query;
+package com.dlvr.continuum.core.db.scan;
 
-import com.dlvr.continuum.db.query.Const;
-import com.dlvr.continuum.db.query.QueryResult;
+import com.dlvr.continuum.db.scan.Const;
+import com.dlvr.continuum.db.scan.ScanResult;
 
 import java.util.List;
 
 /**
- * Tree structured results from a db query
+ * Tree structured results from a db scan
  */
-public class NQueryResult implements QueryResult {
+public class NScanResult implements ScanResult {
     public String name;
     public double value;
 
@@ -23,7 +23,7 @@ public class NQueryResult implements QueryResult {
     }
 
     @Override
-    public List<QueryResult> children() {
+    public List<ScanResult> children() {
         return null;
     }
 

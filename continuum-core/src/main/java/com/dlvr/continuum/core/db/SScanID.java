@@ -1,24 +1,24 @@
 package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.db.QueryID;
+import com.dlvr.continuum.db.ScanID;
 import com.dlvr.continuum.atom.Particles;
-import com.dlvr.continuum.db.query.Const;
+import com.dlvr.continuum.db.scan.Const;
 import com.dlvr.continuum.util.Bytes;
 
 import java.nio.ByteBuffer;
 import java.util.List;
 
 /**
- * Series based QueryID implementation
+ * Series based ScanID implementation
  * Created by zack on 2/12/16.
  */
-public class SQueryID implements QueryID {
+public class SScanID implements ScanID {
 
     private static final byte b = 0x0;
 
     private final byte[] id;
 
-    public SQueryID(String name, Particles particles) {
+    public SScanID(String name, Particles particles) {
         byte[] bname = Bytes.bytes(name);
         byte[] bparticles = particles == null ? new byte[0] : encode(particles);
         id = new byte[bname.length + bparticles.length + 1];
@@ -32,7 +32,7 @@ public class SQueryID implements QueryID {
     /**
      * build tag/value structure omitting values with wildcard
      * @param particles to use
-     * @return bytes to use for query
+     * @return bytes to use for scan
      */
     static byte[] encode(Particles particles) {
         byte[] bid = new byte[1024];

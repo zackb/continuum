@@ -1,26 +1,26 @@
 package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.db.QueryID;
+import com.dlvr.continuum.db.ScanID;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.util.Bytes;
 
 import java.nio.ByteBuffer;
 
 /**
- * Time Key Value based QueryID implementation
+ * Time Key Value based ScanID implementation
  * Created by zack on 2/12/16.
  */
-public class KQueryID implements QueryID {
+public class KScanID implements ScanID {
 
     private static final byte b = 0x0;
 
     private final byte[] id;
 
-    public KQueryID(double start, String name, Particles particles) {
+    public KScanID(double start, String name, Particles particles) {
 
         byte[] bstart = Bytes.bytes(start);   // start at time
         byte[] bname = Bytes.bytes(name);     // and name
-        byte[] bparticles = SQueryID.encode(particles); // same particles encoding logic as series
+        byte[] bparticles = SScanID.encode(particles); // same particles encoding logic as series
         id = new byte[bstart.length + bname.length + bparticles.length + 2];
 
         ByteBuffer buff = ByteBuffer.wrap(id);
