@@ -288,46 +288,48 @@ public class Continuum implements Closeable {
         SPACE, TIME
     }
 
-    private static Atom createAtom() {
-        return Continuum.satom()
-                .name("series" + Maths.randInt(0, 100))
-                .value(Maths.randDouble(Double.MIN_VALUE, Double.MAX_VALUE))
-                .timestamp(System.currentTimeMillis())
-                .build();
-    }
-
-    // 50MB/10M metrics
-    public static void main(String[] args) throws Exception {
-        int iterations = 2000000000; //Integer.MAX_VALUE;
-        FileSystemReference ref = new FileSystemReference("/tmp/LOAD");
-        Builder b = series().base(ref);
-        TimerTask timer = new MetricTimer().schedule(new Runnable() {
-                                                           @Override
-                                                           public void run() {
-                                                               System.out.println(Metrics.report());
-                                                           }
-                                                       }, 5000);
-        try (Continuum c = b.open()){
-            final Continuum continuum = c;
-            for (int i = 0; i < iterations; i++) {
-                Metrics.time("write", () -> {
-                    continuum.getDb().write(createAtom());
-                    return null;
-                });
-            }
-        } finally {
-            //ref.delete();
-            timer.cancel();
+    static class LoadTest {
+        private static Atom createAtom() {
+            return Continuum.satom()
+                    .name("series" + Maths.randInt(0, 100))
+                    .value(Maths.randDouble(Double.MIN_VALUE, Double.MAX_VALUE))
+                    .timestamp(System.currentTimeMillis())
+                    .build();
         }
-    }
 
-    static class MetricTimer {
-        private final Timer t = new Timer();
+        // 50MB/10M metrics
+        public static void main(String[] args) throws Exception {
+            int iterations = 2000000000; //Integer.MAX_VALUE;
+            FileSystemReference ref = new FileSystemReference("/tmp/LOAD");
+            Builder b = series().base(ref);
+            TimerTask timer = new MetricTimer().schedule(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println(Metrics.report());
+                }
+            }, 5000);
+            try (Continuum c = b.open()){
+                final Continuum continuum = c;
+                for (int i = 0; i < iterations; i++) {
+                    Metrics.time("write", () -> {
+                        continuum.getDb().write(createAtom());
+                        return null;
+                    });
+                }
+            } finally {
+                //ref.delete();
+                timer.cancel();
+            }
+        }
 
-        public TimerTask schedule(final Runnable r, long delay) {
-            final TimerTask task = new TimerTask() { public void run() { r.run(); }};
-            t.scheduleAtFixedRate(task, delay, delay);
-            return task;
+        static class MetricTimer {
+            private final Timer t = new Timer();
+
+            public TimerTask schedule(final Runnable r, long delay) {
+                final TimerTask task = new TimerTask() { public void run() { r.run(); }};
+                t.scheduleAtFixedRate(task, delay, delay);
+                return task;
+            }
         }
     }
 }
