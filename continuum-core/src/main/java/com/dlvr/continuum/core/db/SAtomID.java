@@ -1,7 +1,7 @@
 package com.dlvr.continuum.core.db;
 
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.atom.Tags;
+import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.util.Bytes;
 
@@ -18,7 +18,7 @@ public class SAtomID implements AtomID {
     private final transient byte[] cachedId;
     private final transient int[] positions;
     private final transient byte[] name;
-    private final transient byte[] tags;
+    private final transient byte[] particles;
     private final transient byte[] timestamp;
 
     public SAtomID(byte[] bytes) {
@@ -32,22 +32,22 @@ public class SAtomID implements AtomID {
         }
         this.cachedId = bytes;
         name = Bytes.range(cachedId, 0, positions[0]);
-        tags = Bytes.range(cachedId, positions[0] + 1, positions[positions.length - 1] - 2);
+        particles = Bytes.range(cachedId, positions[0] + 1, positions[positions.length - 1] - 2);
         timestamp = Bytes.range(cachedId, positions[positions.length - 1] - 1, cachedId.length);
     }
 
     public SAtomID(Atom atom) {
         name = Bytes.bytes(atom.name());
-        tags = atom.tags().ID().bytes();
+        particles = atom.particles().ID().bytes();
         timestamp = Bytes.bytes(atom.timestamp());
-        byte[] id = new byte[name.length + tags.length + timestamp.length + 2];
+        byte[] id = new byte[name.length + particles.length + timestamp.length + 2];
 
-        positions = new int[] { name.length + 1, tags.length + 1, timestamp.length + 2 };
+        positions = new int[] { name.length + 1, particles.length + 1, timestamp.length + 2 };
 
         ByteBuffer buff = ByteBuffer.wrap(id);
         buff.put(name);
         buff.put(b);
-        buff.put(tags);
+        buff.put(particles);
         buff.put(b);
         buff.put(timestamp);
         cachedId = id;
@@ -69,8 +69,8 @@ public class SAtomID implements AtomID {
     }
 
     @Override
-    public Tags tags() {
-        return new NTagsID(tags).tags();
+    public Particles particles() {
+        return new NParticlesID(particles).particles();
     }
 
     @Override

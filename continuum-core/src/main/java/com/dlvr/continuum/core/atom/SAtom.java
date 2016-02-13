@@ -11,8 +11,8 @@ public class SAtom extends NAtom {
 
     public SAtom() { }
 
-    public SAtom(String name, NTags tags, long timestamp, NFields fields, double value) {
-        super(name, tags, timestamp, fields, value);
+    public SAtom(String name, NParticles particles, long timestamp, NFields fields, double value) {
+        super(name, particles, timestamp, fields, value);
     }
 
     @Override

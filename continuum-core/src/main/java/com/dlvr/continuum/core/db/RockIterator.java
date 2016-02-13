@@ -25,7 +25,7 @@ public class RockIterator implements Iterator {
         if (dimension == Continuum.Dimension.SERIES)
             return Bytes.SAtomID(it.key());
         else if (dimension == Continuum.Dimension.KEYVALUE)
-            return Bytes.SAtomID(it.key());
+            return Bytes.KAtomID(it.key());
         throw new Error("Wha? The Spiders From Mars?");
     }
 

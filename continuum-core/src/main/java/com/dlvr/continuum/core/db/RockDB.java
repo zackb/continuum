@@ -42,7 +42,7 @@ public class RockDB implements DB {
         rock.put(atom.ID().bytes(), value(atom));
     }
 
-    // TODO: Remove tags from body (its in the id)
+    // TODO: Remove particles from body (its in the id)
     public Atom get(AtomID id) throws Exception {
         return decodeAtom(rock.get(id.bytes()));
     }

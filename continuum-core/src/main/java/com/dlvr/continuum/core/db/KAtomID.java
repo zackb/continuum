@@ -1,7 +1,7 @@
 package com.dlvr.continuum.core.db;
 
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.atom.Tags;
+import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.util.Bytes;
 
@@ -18,7 +18,7 @@ public class KAtomID implements AtomID {
     private final transient byte[] cachedId;
     private final transient int[] positions;
     private final transient byte[] name;
-    private final transient byte[] tags;
+    private final transient byte[] particles;
     private final transient byte[] timestamp;
 
     public KAtomID(byte[] bytes) {
@@ -34,24 +34,24 @@ public class KAtomID implements AtomID {
         this.cachedId = bytes;
         timestamp = Bytes.range(cachedId, 0, positions[0]);
         name = Bytes.range(cachedId, positions[0] + 1, positions[1]);
-        tags = Bytes.range(cachedId, positions[1] + 1, cachedId.length);
+        particles = Bytes.range(cachedId, positions[1] + 1, cachedId.length);
     }
 
     public KAtomID(Atom atom) {
         name = Bytes.bytes(atom.name());
-        tags = atom.tags().ID().bytes();
+        particles = atom.particles().ID().bytes();
         timestamp = Bytes.bytes(atom.timestamp());
 
-        byte[] id = new byte[timestamp.length + name.length + tags.length + 2];
+        byte[] id = new byte[timestamp.length + name.length + particles.length + 2];
 
-        positions = new int[] { timestamp.length + 1, name.length + 1, tags.length + 2 };
+        positions = new int[] { timestamp.length + 1, name.length + 1, particles.length + 2 };
 
         ByteBuffer buff = ByteBuffer.wrap(id);
         buff.put(timestamp);
         buff.put(b);
         buff.put(name);
         buff.put(b);
-        buff.put(tags);
+        buff.put(particles);
         cachedId = id;
     }
 
@@ -71,8 +71,8 @@ public class KAtomID implements AtomID {
     }
 
     @Override
-    public Tags tags() {
-        return new NTagsID(tags).tags();
+    public Particles particles() {
+        return new NParticlesID(particles).particles();
     }
 
     @Override

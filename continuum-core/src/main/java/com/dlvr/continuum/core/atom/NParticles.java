@@ -1,21 +1,21 @@
 package com.dlvr.continuum.core.atom;
 
-import com.dlvr.continuum.db.TagsID;
-import com.dlvr.continuum.atom.Tags;
-import com.dlvr.continuum.core.db.NTagsID;
+import com.dlvr.continuum.db.ParticlesID;
+import com.dlvr.continuum.atom.Particles;
+import com.dlvr.continuum.core.db.NParticlesID;
 
 import java.util.*;
 
 /**
  * Base Tags implementation
  */
-public class NTags extends HashMap<String, String> implements Tags {
+public class NParticles extends HashMap<String, String> implements Particles {
 
     private transient List<String> sortedNames;
 
-    NTags() { super(); }
+    NParticles() { super(); }
 
-    public NTags(Map<String, String> raw) {
+    public NParticles(Map<String, String> raw) {
         super(raw);
     }
 
@@ -40,8 +40,8 @@ public class NTags extends HashMap<String, String> implements Tags {
     }
 
     @Override
-    public TagsID ID() {
+    public ParticlesID ID() {
         // TODO: Cache? Mutability?
-        return new NTagsID(this);
+        return new NParticlesID(this);
     }
 }

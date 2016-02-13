@@ -23,10 +23,10 @@ public class DBTest {
 
     @Test
     public void testScan() throws Exception {
-        Map<String, String> tags = new HashMap<>();
-        tags.put("tag1", "tagvalue1");
-        tags.put("tag2", "2tagvalue2");
-        tags.put("tag3", "atagvalue3");
+        Map<String, String> particles = new HashMap<>();
+        particles.put("tag1", "tagvalue1");
+        particles.put("tag2", "2tagvalue2");
+        particles.put("tag3", "atagvalue3");
 
         Map<String, Object> fields = new HashMap<>();
         fields.put("fields", "ffffffff");
@@ -38,7 +38,7 @@ public class DBTest {
         RockDB db = new RockDB(Dimension.SERIES, name, reference);
         Atom d = satom().name("zack")
                 .timestamp(System.currentTimeMillis())
-                .tags(tags(tags))
+                .particles(particles(particles))
                 .fields(fields(fields))
                 .value(12346555.0000000000D)
                 .build();
@@ -46,7 +46,7 @@ public class DBTest {
 
         d = satom().name("zack")
                 .timestamp(System.currentTimeMillis() + 10)
-                .tags(tags(tags))
+                .particles(particles(particles))
                 .fields(fields(fields))
                 .value(98898.124D)
                 .build();

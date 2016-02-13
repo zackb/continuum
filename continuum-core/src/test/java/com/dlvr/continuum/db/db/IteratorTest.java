@@ -1,7 +1,7 @@
 package com.dlvr.continuum.db.db;
 
 import com.dlvr.continuum.Continuum;
-import com.dlvr.continuum.atom.Tags;
+import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.dlvr.continuum.Continuum.satom;
-import static com.dlvr.continuum.Continuum.tags;
+import static com.dlvr.continuum.Continuum.particles;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -38,14 +38,14 @@ public class IteratorTest {
         long ts2 = ts1 + 100;
         db.write(
             satom().name("testiterate")
-                    .tags(tags(map))
+                    .particles(particles(map))
                     .value(123456.3D)
                     .timestamp(ts1)
                     .build()
         );
         db.write(
                 satom().name("testiterate")
-                        .tags(tags(map2))
+                        .particles(particles(map2))
                         .value(12341.01234D)
                         .timestamp(ts2)
                         .build()
@@ -58,14 +58,14 @@ public class IteratorTest {
             AtomID id = itr.id();
             if (i == 0) {
                 assertEquals("testiterate", id.name());
-                assertEquals("bar", id.tags().get("foo"));
-                assertEquals("bat", id.tags().get("baz"));
+                assertEquals("bar", id.particles().get("foo"));
+                assertEquals("bat", id.particles().get("baz"));
                 assertEquals(123456.3D, itr.value(), 0.0001);
             } else if (i == 1) {
                 assertEquals("testiterate", id.name());
-                Tags tags = id.tags();
-                assertEquals("da'vinci", tags.get("fuz"));
-                assertEquals("bar", tags.get("zack"));
+                Particles particles = id.particles();
+                assertEquals("da'vinci", particles.get("fuz"));
+                assertEquals("bar", particles.get("zack"));
                 assertEquals(12341.01234, itr.value(), 0.0001);
             }
             i++;

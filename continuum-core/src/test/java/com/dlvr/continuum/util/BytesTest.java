@@ -38,10 +38,10 @@ public class BytesTest {
 
     @Test
     public void testSerDe() {
-        Map<String, String> tags = new HashMap<>();
-        tags.put("tag1", "tagvalue1");
-        tags.put("tag2", "2tagvalue2");
-        tags.put("tag3", "atagvalue3");
+        Map<String, String> particles = new HashMap<>();
+        particles.put("tag1", "tagvalue1");
+        particles.put("tag2", "2tagvalue2");
+        particles.put("tag3", "atagvalue3");
 
         Map<String, Object> fields = new HashMap<>();
         fields.put("field1", "fieldvalue1");
@@ -49,7 +49,7 @@ public class BytesTest {
 
         long ts = System.currentTimeMillis();
         Atom atom = Continuum.satom().name("test1")
-                .tags(Continuum.tags(tags))
+                .particles(Continuum.particles(particles))
                 .fields(Continuum.fields(fields))
                 .timestamp(ts)
                 .value(54D)
@@ -58,8 +58,8 @@ public class BytesTest {
 
         atom = Bytes.SAtom(bytes);
         assertEquals("test1", atom.name());
-        assertEquals(3, atom.tags().size());
-        assertEquals("tagvalue1", atom.tags().get("tag1"));
+        assertEquals(3, atom.particles().size());
+        assertEquals("tagvalue1", atom.particles().get("tag1"));
         assertEquals(54D, atom.value(), 0.00000001d);
     }
 

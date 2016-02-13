@@ -2,7 +2,7 @@ package com.dlvr.continuum.db.query;
 
 import com.dlvr.continuum.db.QueryID;
 import com.dlvr.continuum.atom.Fields;
-import com.dlvr.continuum.atom.Tags;
+import com.dlvr.continuum.atom.Particles;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,9 +25,9 @@ public interface Query {
     /**
      * Tag names and values to filter on. Or WILDCARD
      * Tags should be used for optimized queries
-     * @return tags values to filter on
+     * @return particles values to filter on
      */
-    Tags tags();
+    Particles particles();
 
     /**
      * Field names and values to filter on.

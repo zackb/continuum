@@ -1,13 +1,12 @@
 package com.dlvr.continuum.db.db;
 
-import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.core.db.KAtomID;
 import com.dlvr.continuum.db.AtomID;
-import com.dlvr.continuum.db.TagsID;
+import com.dlvr.continuum.db.ParticlesID;
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.atom.Tags;
+import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.core.db.SAtomID;
-import com.dlvr.continuum.core.db.NTagsID;
+import com.dlvr.continuum.core.db.NParticlesID;
 import com.dlvr.continuum.util.Bytes;
 import org.junit.Test;
 
@@ -16,7 +15,7 @@ import java.util.Map;
 
 import static com.dlvr.continuum.Continuum.satom;
 import static com.dlvr.continuum.Continuum.katom;
-import static com.dlvr.continuum.Continuum.tags;
+import static com.dlvr.continuum.Continuum.particles;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -30,17 +29,17 @@ public class IDTests {
         Map<String, String> map = new HashMap<>();
         map.put("foo", "bar");
         map.put("baz", "bat");
-        Tags tags = tags(map);
-        assertArrayEquals(e, tags.ID().bytes());
+        Particles particles = particles(map);
+        assertArrayEquals(e, particles.ID().bytes());
     }
 
     @Test
     public void testTagsIdUnmarshallMeta() {
         byte[] e = { 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
-        TagsID id = new NTagsID(e);
-        Tags tags = id.tags();
-        assertEquals("bat", tags.get("baz"));
-        assertEquals("bar", tags.get("foo"));
+        ParticlesID id = new NParticlesID(e);
+        Particles particles = id.particles();
+        assertEquals("bat", particles.get("baz"));
+        assertEquals("bar", particles.get("foo"));
         assertArrayEquals(e, id.bytes());
     }
 
@@ -53,7 +52,7 @@ public class IDTests {
         Map<String, String> map = new HashMap<>();
         map.put("fooz", "bar");
         map.put("baz", "bat");
-        Atom d = satom().name("zame").tags(tags(map)).timestamp(ts).value(1235).build();
+        Atom d = satom().name("zame").particles(particles(map)).timestamp(ts).value(1235).build();
         assertArrayEquals(expected, d.ID().bytes());
     }
 
@@ -66,8 +65,8 @@ public class IDTests {
         AtomID id = new SAtomID(expected);
         assertEquals("zame", id.name());
         assertEquals(ts, id.timestamp());
-        assertEquals("bar", id.tags().get("fooz"));
-        assertEquals("bat", id.tags().get("baz"));
+        assertEquals("bar", id.particles().get("fooz"));
+        assertEquals("bat", id.particles().get("baz"));
     }
 
     @Test
@@ -80,7 +79,7 @@ public class IDTests {
         Map<String, String> map = new HashMap<>();
         map.put("fooz", "bar");
         map.put("baz", "bat");
-        Atom d = katom().name("zame").tags(tags(map)).timestamp(ts).value(1235).build();
+        Atom d = katom().name("zame").particles(particles(map)).timestamp(ts).value(1235).build();
         assertArrayEquals(expected, d.ID().bytes());
     }
 
@@ -93,7 +92,7 @@ public class IDTests {
         AtomID id = new KAtomID(expected);
         assertEquals("zame", id.name());
         assertEquals(ts, id.timestamp());
-        assertEquals("bar", id.tags().get("fooz"));
-        assertEquals("bat", id.tags().get("baz"));
+        assertEquals("bar", id.particles().get("fooz"));
+        assertEquals("bat", id.particles().get("baz"));
     }
 }

@@ -1,7 +1,7 @@
 package com.dlvr.continuum.core.db;
 
 import com.dlvr.continuum.db.QueryID;
-import com.dlvr.continuum.atom.Tags;
+import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.query.Const;
 import com.dlvr.continuum.util.Bytes;
 
@@ -18,25 +18,25 @@ public class SQueryID implements QueryID {
 
     private final byte[] id;
 
-    public SQueryID(String name, Tags tags) {
+    public SQueryID(String name, Particles particles) {
         byte[] bname = Bytes.bytes(name);
-        byte[] btags = encode(tags);
-        id = new byte[bname.length + btags.length + 1];
+        byte[] bparticles = encode(particles);
+        id = new byte[bname.length + bparticles.length + 1];
 
         ByteBuffer buff = ByteBuffer.wrap(id);
         buff.put(bname);
         buff.put(b);
-        buff.put(btags);
+        buff.put(bparticles);
     }
 
     /**
      * build tag/value structure omitting values with wildcard
-     * @param tags to use
+     * @param particles to use
      * @return bytes to use for query
      */
-    static byte[] encode(Tags tags) {
+    static byte[] encode(Particles particles) {
         byte[] bid = new byte[1024];
-        List<String> names = tags.names();
+        List<String> names = particles.names();
         int len = names.size();
 
         int pos = 0;
@@ -51,7 +51,7 @@ public class SQueryID implements QueryID {
         }
 
         for (int i = 0; i < names.size(); i++) {
-            String val = tags.get(names.get(i));
+            String val = particles.get(names.get(i));
             if (val.equals(Const.SWILDCARD)) break;
             tmp = Bytes.bytes(val);
             bid = Bytes.append(bid, pos, tmp);

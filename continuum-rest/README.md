@@ -7,7 +7,7 @@ version: 0.1.0
 # Continuum REST API
 
 <pre class="base">
-https://series.dlvr.com/api/1.0
+https://continuum.dlvr.com/api/1.0
 </pre>
 
 ### Path

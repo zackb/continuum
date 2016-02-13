@@ -6,7 +6,7 @@ import com.dlvr.continuum.core.db.Slabs;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Fields;
-import com.dlvr.continuum.atom.Tags;
+import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.db.Slab;
@@ -53,8 +53,8 @@ public class Continuum {
         return new AtomBuilder().dimension(Dimension.KEYVALUE);
     }
 
-    public static Tags tags(Map<String, String> tags) {
-        return new NTags(tags);
+    public static Particles particles(Map<String, String> particles) {
+        return new NParticles(particles);
     }
 
     public static Fields fields(Map<String, Object> fields) {
@@ -160,7 +160,7 @@ public class Continuum {
     public static class AtomBuilder {
 
         private String name;
-        private NTags tags;
+        private NParticles particles;
         private NFields fields;
         private long timestamp;
         private double value;
@@ -170,8 +170,8 @@ public class Continuum {
             this.name = name;
             return this;
         }
-        public AtomBuilder tags(Tags tags) {
-            this.tags = (NTags)tags;
+        public AtomBuilder particles(Particles particles) {
+            this.particles = (NParticles) particles;
             return this;
         }
         public AtomBuilder fields(Fields fields) {
@@ -192,9 +192,9 @@ public class Continuum {
         }
         public Atom build() {
             if (dimension == Dimension.SERIES)
-                return new SAtom(name, tags, timestamp, fields, value);
+                return new SAtom(name, particles, timestamp, fields, value);
             else if (dimension == Dimension.KEYVALUE)
-                return new KAtom(name, tags, timestamp, fields, value);
+                return new KAtom(name, particles, timestamp, fields, value);
             throw new Error("Wha? The Spiders From Mars?");
         }
     }
@@ -221,8 +221,8 @@ public class Continuum {
             target.function = function;
             return this;
         }
-        public QueryBuilder tags(Tags tags) {
-            target.tags = tags;
+        public QueryBuilder particles(Particles particles) {
+            target.particles = particles;
             return this;
         }
         public QueryBuilder fields(Fields fields) {

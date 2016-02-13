@@ -2,7 +2,7 @@ package com.dlvr.continuum.core.db.query;
 
 import com.dlvr.continuum.db.QueryID;
 import com.dlvr.continuum.atom.Fields;
-import com.dlvr.continuum.atom.Tags;
+import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.core.db.SQueryID;
 import com.dlvr.continuum.db.query.Function;
 import com.dlvr.continuum.db.query.Query;
@@ -18,13 +18,13 @@ public class NQuery implements Query {
     public long start;
     public long end;
     public TimeUnit interval;
-    public Tags tags;
+    public Particles particles;
     public Fields fields;
     public double value;
 
     @Override
     public QueryID ID() {
-        return new SQueryID(name, tags);
+        return new SQueryID(name, particles);
     }
 
     @Override
@@ -33,8 +33,8 @@ public class NQuery implements Query {
     }
 
     @Override
-    public Tags tags() {
-        return tags;
+    public Particles particles() {
+        return particles;
     }
 
     @Override
