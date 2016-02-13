@@ -1,10 +1,10 @@
 package com.dlvr.continuum.db.db;
 
-import com.dlvr.continuum.db.DatumID;
+import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.TagsID;
-import com.dlvr.continuum.datum.Datum;
-import com.dlvr.continuum.datum.Tags;
-import com.dlvr.continuum.core.db.SDatumID;
+import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.atom.Tags;
+import com.dlvr.continuum.core.db.SAtomID;
 import com.dlvr.continuum.core.db.NTagsID;
 import com.dlvr.continuum.util.Bytes;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.dlvr.continuum.Continuum.datum;
+import static com.dlvr.continuum.Continuum.atom;
 import static com.dlvr.continuum.Continuum.tags;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -42,7 +42,7 @@ public class IDTests {
     }
 
     @Test
-    public void testDatumIdMarshall() {
+    public void testAtomIdMarshall() {
         long ts = 1455219259015L;
         byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
         byte[] expected = Bytes.concat(e, (byte)0x0);
@@ -50,17 +50,17 @@ public class IDTests {
         Map<String, String> map = new HashMap<>();
         map.put("fooz", "bar");
         map.put("baz", "bat");
-        Datum d = datum().name("zame").tags(tags(map)).timestamp(ts).value(1235).build();
+        Atom d = atom().name("zame").tags(tags(map)).timestamp(ts).value(1235).build();
         assertArrayEquals(expected, d.ID().bytes());
     }
 
     @Test
-    public void testDatumIdUnMarshall() {
+    public void testAtomIdUnMarshall() {
         long ts = 1455219259015L;
         byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
         byte[] expected = Bytes.concat(e, (byte)0x0);
         expected = Bytes.concat(expected, Bytes.bytes(ts));
-        DatumID id = new SDatumID(expected);
+        AtomID id = new SAtomID(expected);
         assertEquals("zame", id.name());
         assertEquals(ts, id.timestamp());
         assertEquals("bar", id.tags().get("fooz"));

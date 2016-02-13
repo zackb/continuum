@@ -1,8 +1,8 @@
 package com.dlvr.continuum.db.query;
 
 import com.dlvr.continuum.db.QueryID;
-import com.dlvr.continuum.datum.Fields;
-import com.dlvr.continuum.datum.Tags;
+import com.dlvr.continuum.atom.Fields;
+import com.dlvr.continuum.atom.Tags;
 
 import java.util.concurrent.TimeUnit;
 
@@ -59,7 +59,7 @@ public interface Query {
     /**
      * Date range interval to bucket results
      * If non-null, query results are bucketed into date ranges using the {#getFunction()} aggreagate function
-     * If null, query results are datum-in-time values
+     * If null, query results are atom-in-time values
      * @return time unit
      */
     TimeUnit interval();

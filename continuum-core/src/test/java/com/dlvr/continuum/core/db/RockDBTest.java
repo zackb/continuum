@@ -1,12 +1,12 @@
 package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.datum.Datum;
+import com.dlvr.continuum.atom.Atom;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.dlvr.continuum.Continuum.datum;
+import static com.dlvr.continuum.Continuum.atom;
 import static com.dlvr.continuum.Continuum.tags;
 import static org.junit.Assert.assertEquals;
 
@@ -16,11 +16,11 @@ import static org.junit.Assert.assertEquals;
 public class RockDBTest {
 
     @Test
-    public void testEncodeDatum() {
+    public void testEncodeAtom() {
         Map<String, String> map = new HashMap<>();
         map.put("foo", "bar");
         map.put("baz", "bat");
-        Datum d = datum().name("foo")
+        Atom d = atom().name("foo")
                 .tags(tags(map))
                 .value(12345.45)
                 .build();

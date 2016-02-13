@@ -1,6 +1,6 @@
 package com.dlvr.continuum.db;
 
-import com.dlvr.continuum.datum.Datum;
+import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.query.Query;
 import com.dlvr.continuum.db.query.QueryResult;
 
@@ -11,17 +11,17 @@ public interface DB {
 
     /**
      * Write a datapoint to the time db database
-     * @param datum to write
+     * @param atom to write
      */
-    void write(Datum datum) throws Exception;
+    void write(Atom atom) throws Exception;
 
     /**
-     * Retreive a single datum by id
+     * Retreive a single atom by id
      * @param id to retrieve for
-     * @return datum for given id or null if not exist
+     * @return atom for given id or null if not exist
      * @throws Exception on underlying slabs failure
      */
-    Datum get(DatumID id) throws Exception;
+    Atom get(AtomID id) throws Exception;
 
     /**
      * Execute a query and return results

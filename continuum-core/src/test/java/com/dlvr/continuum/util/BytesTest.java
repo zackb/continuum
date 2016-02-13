@@ -1,7 +1,7 @@
 package com.dlvr.continuum.util;
 
 import com.dlvr.continuum.Continuum;
-import com.dlvr.continuum.datum.Datum;
+import com.dlvr.continuum.atom.Atom;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -48,19 +48,19 @@ public class BytesTest {
         fields.put("2field2", 74190D);
 
         long ts = System.currentTimeMillis();
-        Datum datum = Continuum.datum().name("test1")
+        Atom atom = Continuum.atom().name("test1")
                 .tags(Continuum.tags(tags))
                 .fields(Continuum.fields(fields))
                 .timestamp(ts)
                 .value(54D)
                 .build();
-        byte[] bytes = Bytes.bytes(datum);
+        byte[] bytes = Bytes.bytes(atom);
 
-        datum = Bytes.Datum(bytes);
-        assertEquals("test1", datum.name());
-        assertEquals(3, datum.tags().size());
-        assertEquals("tagvalue1", datum.tags().get("tag1"));
-        assertEquals(54D, datum.value(), 0.00000001d);
+        atom = Bytes.Atom(bytes);
+        assertEquals("test1", atom.name());
+        assertEquals(3, atom.tags().size());
+        assertEquals("tagvalue1", atom.tags().get("tag1"));
+        assertEquals(54D, atom.value(), 0.00000001d);
     }
 
 }

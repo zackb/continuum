@@ -1,7 +1,7 @@
 package com.dlvr.continuum;
 
 import com.dlvr.continuum.core.io.file.FileSystemReference;
-import com.dlvr.continuum.datum.Datum;
+import com.dlvr.continuum.atom.Atom;
 import org.junit.Test;
 
 /**
@@ -36,7 +36,7 @@ public class ContinuumTest {
                     .base(reference)
                     .open();
 
-            Datum datum = Continuum.datum().name("test1")
+            Atom atom = Continuum.atom().name("test1")
                                 .build();
 
         } finally { if (continuum != null) continuum.delete(); }

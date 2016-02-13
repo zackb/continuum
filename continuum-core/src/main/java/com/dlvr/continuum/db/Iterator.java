@@ -1,22 +1,22 @@
 package com.dlvr.continuum.db;
 
-import com.dlvr.continuum.datum.Datum;
+import com.dlvr.continuum.atom.Atom;
 
 /**
  * Created by zack on 2/11/16.
  */
 public interface Iterator {
 
-    DatumID id();
+    AtomID id();
 
     /**
-     * Retreive the Datum with the ID of current()
-     * @return unmarshalled datum
+     * Retreive the Atom with the ID of current()
+     * @return unmarshalled atom
      */
-    Datum get();
+    Atom get();
 
     /**
-     * Retreive the value of the datum. This can save decoding time if the full Datum object is not needed
+     * Retreive the value of the atom. This can save decoding time if the full Atom object is not needed
      * @return value
      */
     double value();

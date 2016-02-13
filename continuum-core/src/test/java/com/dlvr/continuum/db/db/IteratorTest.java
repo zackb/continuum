@@ -1,6 +1,6 @@
 package com.dlvr.continuum.db.db;
 
-import com.dlvr.continuum.db.DatumID;
+import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.core.db.RockDB;
@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.dlvr.continuum.Continuum.datum;
+import static com.dlvr.continuum.Continuum.atom;
 import static com.dlvr.continuum.Continuum.tags;
 import static org.junit.Assert.assertEquals;
 
@@ -35,14 +35,14 @@ public class IteratorTest {
         long ts1 = System.currentTimeMillis();
         long ts2 = ts1 + 100;
         db.write(
-            datum().name("testiterate")
+            atom().name("testiterate")
                     .tags(tags(map))
                     .value(123456.3D)
                     .timestamp(ts1)
                     .build()
         );
         db.write(
-                datum().name("testiterate")
+                atom().name("testiterate")
                         .tags(tags(map2))
                         .value(12341.01234D)
                         .timestamp(ts2)
@@ -53,7 +53,7 @@ public class IteratorTest {
         int i = 0;
         itr.seekToFirst();
         do {
-            DatumID id = itr.id();
+            AtomID id = itr.id();
             if (i == 0) {
                 assertEquals("testiterate", id.name());
                 assertEquals("bar", id.tags().get("foo"));

@@ -1,7 +1,7 @@
-package com.dlvr.continuum.core.datum;
+package com.dlvr.continuum.core.atom;
 
 import com.dlvr.continuum.db.TagsID;
-import com.dlvr.continuum.datum.Tags;
+import com.dlvr.continuum.atom.Tags;
 import com.dlvr.continuum.core.db.NTagsID;
 
 import java.util.*;

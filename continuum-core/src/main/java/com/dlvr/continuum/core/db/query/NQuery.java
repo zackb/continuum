@@ -1,8 +1,8 @@
 package com.dlvr.continuum.core.db.query;
 
 import com.dlvr.continuum.db.QueryID;
-import com.dlvr.continuum.datum.Fields;
-import com.dlvr.continuum.datum.Tags;
+import com.dlvr.continuum.atom.Fields;
+import com.dlvr.continuum.atom.Tags;
 import com.dlvr.continuum.core.db.SQueryID;
 import com.dlvr.continuum.db.query.Function;
 import com.dlvr.continuum.db.query.Query;

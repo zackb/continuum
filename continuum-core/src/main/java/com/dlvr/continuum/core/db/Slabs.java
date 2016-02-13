@@ -1,6 +1,6 @@
 package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.db.DatumID;
+import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Slab;
 import com.dlvr.continuum.util.Bytes;
 
@@ -19,8 +19,8 @@ public class Slabs implements Slab {
     }
 
     private int hash(byte[] key) {
-        // parse datum name to use as shard key
-        DatumID id = Bytes.DatumID(key);
+        // parse atom name to use as shard key
+        AtomID id = Bytes.AtomID(key);
         return Math.abs(id.name().hashCode() % slabs.size());
     }
 

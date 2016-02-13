@@ -1,9 +1,9 @@
 package com.dlvr.continuum.core.db;
 
 import com.dlvr.continuum.core.io.file.FileSystemReference;
-import com.dlvr.continuum.datum.Datum;
+import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.DB;
-import com.dlvr.continuum.db.DatumID;
+import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.db.Slab;
 import com.dlvr.continuum.db.query.Query;
@@ -35,23 +35,23 @@ public class RockDB implements DB {
     }
 
     @Override
-    public void write(Datum datum) throws Exception {
-        rock.put(datum.ID().bytes(), value(datum));
+    public void write(Atom atom) throws Exception {
+        rock.put(atom.ID().bytes(), value(atom));
     }
 
     // TODO: Remove tags from body (its in the id)
-    public Datum get(DatumID id) throws Exception {
-        return decodeDatum(rock.get(id.bytes()));
+    public Atom get(AtomID id) throws Exception {
+        return decodeAtom(rock.get(id.bytes()));
     }
 
     /**
-     * Encode datum as bytes[bson] + 0x0 + bytes[value]
-     * @param datum to encode
+     * Encode atom as bytes[bson] + 0x0 + bytes[value]
+     * @param atom to encode
      * @return value for slab storage
      */
-    static byte[] value(Datum datum) {
-        byte[] bson = BSON.encode(datum);
-        byte[] value = bytes(datum.value());
+    static byte[] value(Atom atom) {
+        byte[] bson = BSON.encode(atom);
+        byte[] value = bytes(atom.value());
         byte[] result = new byte[bson.length + 1 + value.length];
         append(result, 0, bson);
         append(result, bson.length, b);
@@ -60,17 +60,17 @@ public class RockDB implements DB {
     }
 
     /**
-     * Decode datum from slab storage
-     * @param bytes encoded with {#value(Datum)}
+     * Decode atom from slab storage
+     * @param bytes encoded with {#value(Atom)}
      * @return
      */
-    static Datum decodeDatum(byte[] bytes) {
-        return Bytes.Datum(bytes);
+    static Atom decodeAtom(byte[] bytes) {
+        return Bytes.Atom(bytes);
     }
 
     /**
-     * Decode only the value of the datum. If the full body is not needed to be decoded.
-     * @param bytes encoded with {#value(Datum)}
+     * Decode only the value of the atom. If the full body is not needed to be decoded.
+     * @param bytes encoded with {#value(Atom)}
      * @return
      */
     static double decodeValue(byte[] bytes) {

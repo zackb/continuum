@@ -1,9 +1,9 @@
 package com.dlvr.continuum.util;
 
-import com.dlvr.continuum.datum.Datum;
-import com.dlvr.continuum.core.datum.NDatum;
-import com.dlvr.continuum.db.DatumID;
-import com.dlvr.continuum.core.db.SDatumID;
+import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.core.atom.NAtom;
+import com.dlvr.continuum.db.AtomID;
+import com.dlvr.continuum.core.db.SAtomID;
 import com.dlvr.util.BSON;
 
 import java.nio.ByteBuffer;
@@ -32,11 +32,11 @@ public class Bytes {
         return b1 << 24 | (b2 & 0xFF) << 16 | (b3 & 0xFF) << 8 | (b4 & 0xFF);
     }
 
-    public static DatumID DatumID(byte[] bytes) {
-        return new SDatumID(bytes);
+    public static AtomID AtomID(byte[] bytes) {
+        return new SAtomID(bytes);
     }
 
-    public static byte[] bytes(DatumID id) {
+    public static byte[] bytes(AtomID id) {
         return id.bytes();
     }
 
@@ -60,12 +60,12 @@ public class Bytes {
         return ByteBuffer.wrap(bytes).getLong();
     }
 
-    public static byte[] bytes(Datum datum) {
-        return BSON.encode(datum);
+    public static byte[] bytes(Atom atom) {
+        return BSON.encode(atom);
     }
 
-    public static Datum Datum(byte[] bytes) {
-        return BSON.decodeObject(bytes, NDatum.class);
+    public static Atom Atom(byte[] bytes) {
+        return BSON.decodeObject(bytes, NAtom.class);
     }
 
     private static final Charset utf8 = Charset.forName("UTF-8");

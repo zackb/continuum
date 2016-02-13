@@ -3,12 +3,12 @@ package com.dlvr.continuum;
 import com.dlvr.continuum.core.db.RockSlab;
 import com.dlvr.continuum.core.db.Slabs;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
-import com.dlvr.continuum.datum.Datum;
-import com.dlvr.continuum.datum.Fields;
-import com.dlvr.continuum.datum.Tags;
-import com.dlvr.continuum.core.datum.NDatum;
-import com.dlvr.continuum.core.datum.NFields;
-import com.dlvr.continuum.core.datum.NTags;
+import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.atom.Fields;
+import com.dlvr.continuum.atom.Tags;
+import com.dlvr.continuum.core.atom.NAtom;
+import com.dlvr.continuum.core.atom.NFields;
+import com.dlvr.continuum.core.atom.NTags;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.db.Slab;
@@ -43,8 +43,8 @@ public class Continuum {
         System.out.printf("People of Earth, how are you?\n");
     }
 
-    public static DatumBuilder datum() {
-        return new DatumBuilder();
+    public static AtomBuilder atom() {
+        return new AtomBuilder();
     }
 
     public static Tags tags(Map<String, String> tags) {
@@ -151,36 +151,36 @@ public class Continuum {
         }
     }
 
-    public static class DatumBuilder {
+    public static class AtomBuilder {
 
         private String name;
         private NTags tags;
         private NFields fields;
         private long timestamp;
         private double value;
-        private DatumBuilder() {}
-        public DatumBuilder name(String name) {
+        private AtomBuilder() {}
+        public AtomBuilder name(String name) {
             this.name = name;
             return this;
         }
-        public DatumBuilder tags(Tags tags) {
+        public AtomBuilder tags(Tags tags) {
             this.tags = (NTags)tags;
             return this;
         }
-        public DatumBuilder fields(Fields fields) {
+        public AtomBuilder fields(Fields fields) {
             this.fields = (NFields)fields;
             return this;
         }
-        public DatumBuilder timestamp(long timestamp) {
+        public AtomBuilder timestamp(long timestamp) {
             this.timestamp = timestamp;
             return this;
         }
-        public DatumBuilder value(double value) {
+        public AtomBuilder value(double value) {
             this.value = value;
             return this;
         }
-        public Datum build() {
-            return new NDatum(name, tags, timestamp, fields, value);
+        public Atom build() {
+            return new NAtom(name, tags, timestamp, fields, value);
         }
     }
 

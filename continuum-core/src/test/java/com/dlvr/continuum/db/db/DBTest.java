@@ -1,7 +1,7 @@
 package com.dlvr.continuum.db.db;
 
 import com.dlvr.continuum.core.io.file.FileSystemReference;
-import com.dlvr.continuum.datum.Datum;
+import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.db.query.Function;
 import com.dlvr.continuum.db.query.QueryResult;
@@ -36,7 +36,7 @@ public class DBTest {
         String name = "testScan";
         reference.getChild(name).delete();
         RockDB db = new RockDB(name, reference);
-        Datum d = datum().name("zack")
+        Atom d = atom().name("zack")
                 .timestamp(System.currentTimeMillis())
                 .tags(tags(tags))
                 .fields(fields(fields))
@@ -44,7 +44,7 @@ public class DBTest {
                 .build();
         db.write(d);
 
-        d = datum().name("zack")
+        d = atom().name("zack")
                 .timestamp(System.currentTimeMillis() + 10)
                 .tags(tags(tags))
                 .fields(fields(fields))
@@ -53,7 +53,7 @@ public class DBTest {
         db.write(d);
 
         /* TODO
-        DatumID id = d.ID();
+        AtomID id = d.ID();
         d = db.get(id);
         assertEquals(12346555.0000000000D, d.value() , 0.001);
         */

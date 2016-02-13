@@ -1,7 +1,7 @@
 package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.datum.Datum;
-import com.dlvr.continuum.db.DatumID;
+import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.util.Bytes;
 import org.rocksdb.RocksIterator;
@@ -20,13 +20,13 @@ public class RockIterator implements Iterator {
     }
 
     @Override
-    public DatumID id() {
-        return Bytes.DatumID(it.key());
+    public AtomID id() {
+        return Bytes.AtomID(it.key());
     }
 
     @Override
-    public Datum get() {
-        return RockDB.decodeDatum(it.value());
+    public Atom get() {
+        return RockDB.decodeAtom(it.value());
     }
 
     @Override

@@ -33,7 +33,7 @@ Using log-structured-merge trees, memory mapped files, and two sepcialized schem
 
 ###Load Test
  - Reader thread(s) and writer thread(s)
-   - Observable<Datum> fakeDatumGenerator()
+   - Observable<Atom> fakeAtomGenerator()
      - and can .buffer() to test batch
    - Metrics dump every x seconds thread
 

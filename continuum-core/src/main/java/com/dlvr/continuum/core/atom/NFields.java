@@ -1,7 +1,7 @@
-package com.dlvr.continuum.core.datum;
+package com.dlvr.continuum.core.atom;
 
 
-import com.dlvr.continuum.datum.Fields;
+import com.dlvr.continuum.atom.Fields;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,7 +1,7 @@
 package com.dlvr.continuum.core.db;
 
 import com.dlvr.continuum.db.QueryID;
-import com.dlvr.continuum.datum.Tags;
+import com.dlvr.continuum.atom.Tags;
 import com.dlvr.continuum.util.Bytes;
 
 import java.nio.ByteBuffer;
@@ -10,13 +10,13 @@ import java.nio.ByteBuffer;
  * Time Key Value based QueryID implementation
  * Created by zack on 2/12/16.
  */
-public class KVQueryID implements QueryID {
+public class KQueryID implements QueryID {
 
     private static final byte b = 0x0;
 
     private final byte[] id;
 
-    public KVQueryID(double start, String name, Tags tags) {
+    public KQueryID(double start, String name, Tags tags) {
 
         byte[] bstart = Bytes.bytes(start);   // start at time
         byte[] bname = Bytes.bytes(name);     // and name

@@ -1,10 +1,10 @@
-package com.dlvr.continuum.datum;
+package com.dlvr.continuum.atom;
 
 import java.io.Serializable;
 import java.util.Map;
 
 /**
- * Fields within a time db data datum
+ * Fields within a time db data atom
  */
 public interface Fields extends Map<String, Object>, Serializable {
     String put(String key, Object value);

@@ -1,8 +1,8 @@
 package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.datum.Datum;
-import com.dlvr.continuum.datum.Tags;
-import com.dlvr.continuum.db.DatumID;
+import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.atom.Tags;
+import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.util.Bytes;
 
 import java.nio.ByteBuffer;
@@ -11,7 +11,7 @@ import java.nio.ByteBuffer;
  * unique ID for series data in a Zontinuum
  * Created by zack on 2/11/16.
  */
-public class SDatumID implements DatumID {
+public class SAtomID implements AtomID {
 
     private static final byte b = 0x0;
 
@@ -21,7 +21,7 @@ public class SDatumID implements DatumID {
     private final transient byte[] tags;
     private final transient byte[] timestamp;
 
-    public SDatumID(byte[] bytes) {
+    public SAtomID(byte[] bytes) {
         int count = 0;
         for (byte by : bytes)
             if (by == b) count++;
@@ -36,10 +36,10 @@ public class SDatumID implements DatumID {
         timestamp = Bytes.range(cachedId, positions[positions.length - 1] - 1, cachedId.length);
     }
 
-    public SDatumID(Datum datum) {
-        name = Bytes.bytes(datum.name());
-        tags = datum.tags().ID().bytes();
-        timestamp = Bytes.bytes(datum.timestamp());
+    public SAtomID(Atom atom) {
+        name = Bytes.bytes(atom.name());
+        tags = atom.tags().ID().bytes();
+        timestamp = Bytes.bytes(atom.timestamp());
         byte[] id = new byte[name.length + tags.length + timestamp.length + 2];
 
         positions = new int[] { name.length + 1, tags.length + 1, timestamp.length + 2 };
