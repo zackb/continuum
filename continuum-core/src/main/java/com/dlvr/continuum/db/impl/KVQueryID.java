@@ -1,7 +1,6 @@
 package com.dlvr.continuum.db.impl;
 
 import com.dlvr.continuum.db.QueryID;
-import com.dlvr.continuum.db.datum.Fields;
 import com.dlvr.continuum.db.datum.Tags;
 
 /**
@@ -10,7 +9,7 @@ import com.dlvr.continuum.db.datum.Tags;
  */
 public class KVQueryID implements QueryID {
 
-    public KVQueryID(double start, double end, String name, Tags tags, Fields fields, double value) {
+    public KVQueryID(double start, double end, String name, Tags tags) {
     }
 
     @Override

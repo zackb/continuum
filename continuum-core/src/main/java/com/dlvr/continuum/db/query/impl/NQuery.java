@@ -24,7 +24,7 @@ public class NQuery implements Query {
 
     @Override
     public QueryID ID() {
-        return new NQueryID(name, tags.ID(), fields, value, start, end);
+        return new NQueryID(name, tags);
     }
 
     @Override

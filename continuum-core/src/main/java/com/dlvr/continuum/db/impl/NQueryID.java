@@ -2,9 +2,11 @@ package com.dlvr.continuum.db.impl;
 
 import com.dlvr.continuum.db.QueryID;
 import com.dlvr.continuum.db.datum.Tags;
+import com.dlvr.continuum.db.query.Const;
 import com.dlvr.continuum.util.Bytes;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 
 /**
  * Series based QueryID implementation
@@ -16,20 +18,48 @@ public class NQueryID implements QueryID {
 
     private final byte[] id;
 
-    public NQueryID(String name, Tags tags, double value, double start, double end) {
+    public NQueryID(String name, Tags tags) {
         byte[] bname = Bytes.bytes(name);
-        byte[] btags = tags.ID().bytes();
-        byte[] btimestamp = Bytes.bytes(start);
-        id = new byte[bname.length + btags.length + btimestamp.length + 2];
-
-        // TODO: build tag/value structure omitting values with wildcard
+        byte[] btags = encode(tags);
+        id = new byte[bname.length + btags.length + 1];
 
         ByteBuffer buff = ByteBuffer.wrap(id);
         buff.put(bname);
         buff.put(b);
         buff.put(btags);
-        buff.put(b);
-        buff.put(btimestamp);
+    }
+
+    /**
+     * build tag/value structure omitting values with wildcard
+     * @param tags to use
+     * @return bytes to use for query
+     */
+    private byte[] encode(Tags tags) {
+        byte[] bid = new byte[1024];
+        List<String> names = tags.names();
+        int len = names.size();
+
+        int pos = 0;
+        byte[] tmp;
+
+        for (int i = 0; i < names.size(); i++) {
+            String name = names.get(i);
+            tmp = Bytes.bytes(name);
+            bid = Bytes.append(id, pos, tmp);
+            pos += tmp.length;
+            bid[pos++] = b;
+        }
+
+        for (int i = 0; i < names.size(); i++) {
+            String val = tags.get(names.get(i));
+            if (val.equals(Const.SWILDCARD)) break;
+            tmp = Bytes.bytes(val);
+            bid = Bytes.append(bid, pos, tmp);
+            pos += tmp.length;
+            if (i < len - 1) bid[pos++] = b;
+        }
+
+        return Bytes.range(bid, 0, pos);
     }
 
     @Override
