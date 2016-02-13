@@ -15,8 +15,11 @@ import com.dlvr.continuum.db.query.QueryResult;
 import com.dlvr.continuum.core.db.query.NQuery;
 import com.dlvr.continuum.core.db.query.NQueryResult;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import static com.dlvr.continuum.util.Util.*;
 
@@ -32,7 +35,7 @@ public class Continuum {
 
     private final DB db;
 
-    private final FileSystemReference base;
+    private final List<FileSystemReference> bases;
 
     public static void sayHello() {
         System.out.printf("People of Earth, how are you?\n");
@@ -58,14 +61,18 @@ public class Continuum {
         return new QueryResultBuilder(name);
     }
 
-    private Continuum(String id, StorageType type, FileSystemReference base) throws Exception {
+    private Continuum(String id, StorageType type, List<FileSystemReference> bases) throws Exception {
         checkNotNull("id", id);
         checkNotNull("type", type);
-        checkNotNull("base", base);
+        checkNotNull("base", bases);
         this.id = id;
         this.type = type;
-        this.base = base;
-        this.db = new RockDB(id, base);
+        this.bases = bases;
+        if (bases.size() == 1) {
+            this.db = new RockDB(id, bases.get(0));
+        } else {
+            throw new Error("Sharded slabs not supported");
+        }
     }
 
     /**
@@ -90,7 +97,10 @@ public class Continuum {
      */
     public void delete() throws Exception {
         db.close();
-        base.delete();
+        //bases.forEach(FileSystemReference::delete);
+        for (FileSystemReference reference : bases) {
+            reference.delete();
+        }
     }
 
     public static Builder continuum() {
@@ -107,14 +117,20 @@ public class Continuum {
 
     public static class Builder {
         private StorageType type = StorageType.SERIES;
-        private FileSystemReference base;
+        private List<FileSystemReference> base = new ArrayList<>();
         private String id = "default";
         public Builder id(String id) {
             this.id = id;
             return this;
         }
         public Builder base(FileSystemReference base) {
-            this.base = base;
+            this.base.add(base);
+            return this;
+        }
+        public Builder base(FileSystemReference... bases) {
+            for (FileSystemReference ref : bases) {
+                this.base.add(ref);
+            }
             return this;
         }
         public Builder type(StorageType type) {

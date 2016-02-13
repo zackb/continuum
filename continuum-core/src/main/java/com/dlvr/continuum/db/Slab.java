@@ -28,5 +28,5 @@ public interface Slab {
     /**
      * Close the data store and free all resources
      */
-    void close();
+    void close() throws Exception;
 }
