@@ -25,12 +25,15 @@ public class RockDB implements DB {
     private static final byte b = 0x0;
 
     private final Slab rock;
+    private final Dimension dimension;
 
-    public RockDB(Slab slab) {
+    public RockDB(Dimension dimension, Slab slab) {
+        this.dimension = dimension;
         this.rock = slab;
     }
 
-    public RockDB(String name, FileSystemReference base) throws Exception {
+    public RockDB(Dimension dimension, String name, FileSystemReference base) throws Exception {
+        this.dimension = dimension;
         rock = new RockSlab(name + ".db", base);
     }
 
@@ -103,7 +106,7 @@ public class RockDB implements DB {
 
     @Override
     public Iterator iterator() {
-        return new RockIterator((RockSlab)rock);
+        return new RockIterator(dimension, (RockSlab)rock);
     }
 
     @Override

@@ -26,14 +26,15 @@ public class KAtomID implements AtomID {
         for (byte by : bytes)
             if (by == b) count++;
         positions = new int[count];
-        int posi = 0;
-        for (int i = 0; i < bytes.length; i++) {
+        positions[0] = 8;
+        int posi = 1;
+        for (int i = 9; i < bytes.length; i++) {
             if (bytes[i] == b) positions[posi++] = i;
         }
         this.cachedId = bytes;
         timestamp = Bytes.range(cachedId, 0, positions[0]);
         name = Bytes.range(cachedId, positions[0] + 1, positions[1]);
-        tags = Bytes.range(cachedId, positions[1] + 1, positions[positions.length - 1]);
+        tags = Bytes.range(cachedId, positions[1] + 1, cachedId.length);
     }
 
     public KAtomID(Atom atom) {

@@ -1,5 +1,7 @@
 package com.dlvr.continuum.db.db;
 
+import com.dlvr.continuum.Continuum;
+import com.dlvr.continuum.atom.Tags;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
@@ -31,7 +33,7 @@ public class IteratorTest {
         map2.put("zack", "bar");
         map2.put("fuz", "da'vinci");
         reference.getChild(name).delete();
-        RockDB db = new RockDB(name, reference);
+        RockDB db = new RockDB(Continuum.Dimension.SERIES, name, reference);
         long ts1 = System.currentTimeMillis();
         long ts2 = ts1 + 100;
         db.write(
@@ -61,8 +63,9 @@ public class IteratorTest {
                 assertEquals(123456.3D, itr.value(), 0.0001);
             } else if (i == 1) {
                 assertEquals("testiterate", id.name());
-                assertEquals("da'vinci", id.tags().get("fuz"));
-                assertEquals("bar", id.tags().get("zack"));
+                Tags tags = id.tags();
+                assertEquals("da'vinci", tags.get("fuz"));
+                assertEquals("bar", tags.get("zack"));
                 assertEquals(12341.01234, itr.value(), 0.0001);
             }
             i++;

@@ -1,5 +1,6 @@
 package com.dlvr.continuum.core.db;
 
+import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Iterator;
@@ -11,11 +12,11 @@ import org.rocksdb.RocksIterator;
  */
 public class RockIterator implements Iterator {
 
-    private RocksIterator it;
+    private final Continuum.Dimension dimension;
+    private final RocksIterator it;
 
-    private RockIterator() { }
-
-    RockIterator(RockSlab slab) {
+    RockIterator(Continuum.Dimension dimension, RockSlab slab) {
+        this.dimension = dimension;
         this.it = slab.getRocksDB().newIterator();
     }
 
@@ -64,6 +65,5 @@ public class RockIterator implements Iterator {
     public void close() {
         if (it != null)
             it.dispose();
-        it = null;
     }
 }

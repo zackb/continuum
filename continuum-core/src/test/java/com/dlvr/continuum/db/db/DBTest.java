@@ -35,7 +35,7 @@ public class DBTest {
 
         String name = "testScan";
         reference.getChild(name).delete();
-        RockDB db = new RockDB(name, reference);
+        RockDB db = new RockDB(Dimension.SERIES, name, reference);
         Atom d = satom().name("zack")
                 .timestamp(System.currentTimeMillis())
                 .tags(tags(tags))

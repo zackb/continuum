@@ -84,9 +84,9 @@ public class Continuum {
         }
 
         if (slabs.size() == 1) {
-            this.db = new RockDB(slabs.get(0));
+            this.db = new RockDB(dimension, slabs.get(0));
         } else {
-            this.db = new RockDB(new Slabs(slabs));
+            this.db = new RockDB(dimension, new Slabs(slabs));
         }
     }
 
