@@ -66,7 +66,7 @@ Get ten days worth of average temperature values in LAX in one day intervals.
 
 ## POST /write
 
-Creates a new datum. Api will respond with status 201 the datum has been created, 202 the datum has been queued, or 403 the authentication credentials lack the required privileges.
+Creates a new atom. Api will respond with status 201 the atom has been created, 202 the atom has been queued, or 403 the authentication credentials lack the required privileges.
 
 #### example request
 
