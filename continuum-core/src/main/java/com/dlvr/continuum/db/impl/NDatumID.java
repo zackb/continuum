@@ -8,6 +8,7 @@ import com.dlvr.continuum.util.Bytes;
 import java.nio.ByteBuffer;
 
 /**
+ * unique ID for series data in a Zontinuum
  * Created by zack on 2/11/16.
  */
 public class NDatumID implements DatumID {

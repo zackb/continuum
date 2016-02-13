@@ -1,7 +1,7 @@
 package com.dlvr.continuum.db.datum.impl;
 
+import com.dlvr.continuum.db.TagsID;
 import com.dlvr.continuum.db.datum.Tags;
-import com.dlvr.continuum.db.ID;
 import com.dlvr.continuum.db.impl.NTagsID;
 
 import java.util.*;
@@ -40,7 +40,7 @@ public class NTags extends HashMap<String, String> implements Tags {
     }
 
     @Override
-    public ID ID() {
+    public TagsID ID() {
         // TODO: Cache? Mutability?
         return new NTagsID(this);
     }

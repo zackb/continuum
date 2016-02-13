@@ -1,7 +1,9 @@
 package com.dlvr.continuum.db.query.impl;
 
+import com.dlvr.continuum.db.QueryID;
 import com.dlvr.continuum.db.datum.Fields;
 import com.dlvr.continuum.db.datum.Tags;
+import com.dlvr.continuum.db.impl.NQueryID;
 import com.dlvr.continuum.db.query.Function;
 import com.dlvr.continuum.db.query.Query;
 
@@ -18,6 +20,12 @@ public class NQuery implements Query {
     public TimeUnit interval;
     public Tags tags;
     public Fields fields;
+    public double value;
+
+    @Override
+    public QueryID ID() {
+        return new NQueryID(name, tags.ID(), fields, value, start, end);
+    }
 
     @Override
     public String name() {

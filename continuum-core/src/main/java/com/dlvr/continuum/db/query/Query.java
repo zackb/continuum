@@ -1,5 +1,6 @@
 package com.dlvr.continuum.db.query;
 
+import com.dlvr.continuum.db.QueryID;
 import com.dlvr.continuum.db.datum.Fields;
 import com.dlvr.continuum.db.datum.Tags;
 
@@ -9,6 +10,11 @@ import java.util.concurrent.TimeUnit;
  * Query interface to time db
  */
 public interface Query {
+
+    /**
+     * Non-unique id for this query
+     */
+    QueryID ID();
 
     /**
      * The measurement name to scan for

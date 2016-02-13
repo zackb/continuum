@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Tags id for series and time key value data
  * Created by zack on 2/11/16.
  */
 public class NTagsID implements TagsID {
