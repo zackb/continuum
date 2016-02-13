@@ -3,6 +3,7 @@ package com.dlvr.continuum.core.db;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.AtomID;
+import com.dlvr.continuum.db.ParticlesID;
 import com.dlvr.continuum.util.Bytes;
 
 import java.nio.ByteBuffer;
@@ -37,17 +38,20 @@ public class SAtomID implements AtomID {
     }
 
     public SAtomID(Atom atom) {
+        ParticlesID pids = atom.particles() == null ? null : atom.particles().ID();
         name = Bytes.bytes(atom.name());
-        particles = atom.particles().ID().bytes();
+        particles = pids == null ? null : pids.bytes();
+        int plen = particles == null ? 1 : particles.length;
         timestamp = Bytes.bytes(atom.timestamp());
-        byte[] id = new byte[name.length + particles.length + timestamp.length + 2];
+        byte[] id = new byte[name.length + plen + timestamp.length + 2];
 
-        positions = new int[] { name.length + 1, particles.length + 1, timestamp.length + 2 };
+        positions = new int[] { name.length + 1, plen + 1, timestamp.length + 2 };
 
         ByteBuffer buff = ByteBuffer.wrap(id);
         buff.put(name);
         buff.put(b);
-        buff.put(particles);
+        if (particles != null)
+            buff.put(particles);
         buff.put(b);
         buff.put(timestamp);
         cachedId = id;

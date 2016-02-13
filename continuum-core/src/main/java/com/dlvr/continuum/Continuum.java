@@ -16,10 +16,13 @@ import com.dlvr.continuum.db.query.QueryResult;
 import com.dlvr.continuum.core.db.query.NQuery;
 import com.dlvr.continuum.core.db.query.NQueryResult;
 import com.dlvr.continuum.except.NoSuchDimensionError;
+import com.dlvr.continuum.util.Maths;
+import com.dlvr.util.Metrics;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import static com.dlvr.continuum.util.Util.*;
@@ -79,7 +82,7 @@ public class Continuum {
         this.bases = bases;
 
         List<Slab> slabs = new ArrayList<>();
-        for (int i = 0; i < slabs.size(); i++) {
+        for (int i = 0; i < bases.size(); i++) {
             Slab slab = new RockSlab(id + "." + i + ".db", bases.get(0));
             slabs.add(slab);
         }
@@ -134,7 +137,7 @@ public class Continuum {
     public static class Builder {
         private Dimension dimension = Dimension.SERIES;
         private List<FileSystemReference> base = new ArrayList<>();
-        private String id = "default";
+        private String id = "continuum";
         public Builder id(String id) {
             this.id = id;
             return this;
@@ -254,5 +257,33 @@ public class Continuum {
 
     public enum Dimension {
         SERIES,KEYVALUE
+    }
+
+    public static void main(String[] args) throws Exception {
+        int iterations = 99999; //Integer.MAX_VALUE;
+        FileSystemReference ref = new FileSystemReference("/tmp/LOAD");
+        Continuum c = null;
+        try {
+            c = series().base(ref).open();
+            final Continuum continuum = c;
+
+            for (int i = 0; i < iterations; i++) {
+                Metrics.time("write", () -> {
+                    continuum.getDb().write(createAtom());
+                    return null;
+                });
+            }
+        } finally {
+            System.out.println(Metrics.report());
+            if (c != null) { c.close(); }
+            ref.delete();
+        }
+    }
+
+    private static Atom createAtom() {
+        return Continuum.satom()
+                .name("series" + Maths.randInt(0, 100))
+                .value(Maths.randDouble(Double.MIN_VALUE, Double.MAX_VALUE))
+                .build();
     }
 }

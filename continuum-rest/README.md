@@ -20,11 +20,11 @@ All calls accept and return data in **JSON**.
 
 ### Authentication and Authorization
 
-All calls require https and either BASIC authentication OR Token based [OAuth2.0 Client Credentials](https://tools.ietf.org/html/rfc6749#section-1.3.4).
+All calls require https AND either BASIC authentication OR Token based [OAuth2.0 Client Credentials](https://tools.ietf.org/html/rfc6749#section-1.3.4).
 
 ### Status Codes
 
-- **200** Successful GET and PUT.
+- **200** Successful GET.
 - **201** Successful POST.
 - **202** Successful Provision queued.
 - **401** Unauthenticated.
@@ -42,7 +42,7 @@ Query time series or time key value data. Required fields are start, end, name. 
 #### example request
 Get ten days worth of average temperature values in LAX in one day intervals.
 
-    $ curl -k -u dlvr:dlvr https://series.dlvr.com/api/1.0/read/temperature?location=lax&start=0&end=10d&function=avg&interval=1d
+    $ curl -k -u dlvr:dlvr https://continuum.dlvr.com/api/1.0/read/temperature?location=lax&start=0&end=10d&function=avg&interval=1d
 
 #### response
 
@@ -70,7 +70,7 @@ Creates a new atom. Api will respond with status 201 the atom has been created, 
 
 #### example request
 
-    $ curl https://series.dlvr.com/api/1.0/write \
+    $ curl https://continuum.dlvr.com/api/1.0/write \
       -F "name=temperature" \
       -F "value=90.1" \
       -F "location=lax" \

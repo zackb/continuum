@@ -17,7 +17,7 @@ public class RockSlab implements Slab {
 
     public RockSlab(String name, FileSystemReference dataDirRef) throws Exception {
         this.name = name;
-        this.dataDirRef = dataDirRef;
+        this.dataDirRef = dataDirRef.getChild(name);
         RocksDB.loadLibrary();
         open();
     }
