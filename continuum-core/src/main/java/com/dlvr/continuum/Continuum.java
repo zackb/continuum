@@ -16,10 +16,12 @@ import com.dlvr.continuum.db.query.QueryResult;
 import com.dlvr.continuum.core.db.query.NQuery;
 import com.dlvr.continuum.core.db.query.NQueryResult;
 import com.dlvr.continuum.except.NoSuchDimensionError;
+import com.dlvr.continuum.io.file.Reference;
 import com.dlvr.continuum.util.Maths;
 import com.dlvr.util.Metrics;
 
 import java.io.Closeable;
+import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -129,6 +131,35 @@ public class Continuum implements Closeable {
         return new Builder();
     }
 
+    /**
+     * Compact atoms into quarks given a given time range and size
+     * @param start
+     * @param end
+     * @param interval (retention policy)
+     * @throws Exception
+     */
+    public void contract(long start, long end, TimeUnit interval) throws Exception() {
+
+    }
+
+    /**
+     * Expand a continuum (universe)? from cold storage data
+     */
+    public void expand(Reference reference) {
+
+    }
+
+    public void delete(long start, long end) throws Exception {
+
+    }
+
+    public Reference clone(long start, long end) throws Exception {
+
+    }
+
+    public void
+
+    // TODO: Dont even need this? atom.id knows what to do
     public static Builder series() {
         return new Builder().dimension(Dimension.SERIES);
     }

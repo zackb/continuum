@@ -50,7 +50,7 @@ public class RockDB implements DB {
 
     /**
      * // TODO: Store stats instead of value/avg?
-     *      byte[bson(fields)] + 0x0 + byte[min] + 0x0 + byte[max] + 0x0 + byte[sum] + byte[count] + 0x0
+     *      Quark! byte[bson(fields)] + 0x0 + byte[min] + 0x0 + byte[max] + 0x0 + byte[sum] + byte[count] + 0x0
      * // TOOD: String value support
      *
      * Encode atom as bytes[bson] + 0x0 + bytes[value]
@@ -80,6 +80,7 @@ public class RockDB implements DB {
 
     /**
      * TODO: min/max/sum/count instead of value?
+     *      Quark!
      * TODO: String values
      * Decode only the value of the atom. If the full body is not needed to be decoded.
      * @param bytes encoded with {#value(Atom)}
