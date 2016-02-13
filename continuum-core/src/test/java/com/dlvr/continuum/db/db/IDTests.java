@@ -66,4 +66,5 @@ public class IDTests {
         assertEquals("bar", id.tags().get("fooz"));
         assertEquals("bat", id.tags().get("baz"));
     }
+
 }

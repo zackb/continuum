@@ -8,10 +8,10 @@ import com.dlvr.continuum.util.Bytes;
 import java.nio.ByteBuffer;
 
 /**
- * unique ID for series data in a Continuum
- * Created by zack on 2/11/16.
+ * unique ID for key/value data in a Continuum
+ * Created by zack on 2/12/16.
  */
-public class SAtomID implements AtomID {
+public class KAtomID implements AtomID {
 
     private static final byte b = 0x0;
 
@@ -21,7 +21,7 @@ public class SAtomID implements AtomID {
     private final transient byte[] tags;
     private final transient byte[] timestamp;
 
-    public SAtomID(byte[] bytes) {
+    public KAtomID(byte[] bytes) {
         int count = 0;
         for (byte by : bytes)
             if (by == b) count++;
@@ -31,25 +31,26 @@ public class SAtomID implements AtomID {
             if (bytes[i] == b) positions[posi++] = i;
         }
         this.cachedId = bytes;
-        name = Bytes.range(cachedId, 0, positions[0]);
+        timestamp = Bytes.range(cachedId, 0, positions[0]);
+        name = Bytes.range(cachedId, positions[positions.length - 1] - 1, cachedId.length);
         tags = Bytes.range(cachedId, positions[0] + 1, positions[positions.length - 1] - 2);
-        timestamp = Bytes.range(cachedId, positions[positions.length - 1] - 1, cachedId.length);
     }
 
-    public SAtomID(Atom atom) {
+    public KAtomID(Atom atom) {
         name = Bytes.bytes(atom.name());
         tags = atom.tags().ID().bytes();
         timestamp = Bytes.bytes(atom.timestamp());
-        byte[] id = new byte[name.length + tags.length + timestamp.length + 2];
 
-        positions = new int[] { name.length + 1, tags.length + 1, timestamp.length + 2 };
+        byte[] id = new byte[timestamp.length + name.length + tags.length + 2];
+
+        positions = new int[] { timestamp.length + 1, name.length + 1, tags.length + 2 };
 
         ByteBuffer buff = ByteBuffer.wrap(id);
+        buff.put(timestamp);
+        buff.put(b);
         buff.put(name);
         buff.put(b);
         buff.put(tags);
-        buff.put(b);
-        buff.put(timestamp);
         cachedId = id;
     }
 
