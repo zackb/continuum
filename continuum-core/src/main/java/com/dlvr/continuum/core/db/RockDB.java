@@ -5,10 +5,12 @@ import com.dlvr.continuum.datum.Datum;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.db.DatumID;
 import com.dlvr.continuum.db.Iterator;
+import com.dlvr.continuum.db.Slab;
 import com.dlvr.continuum.db.query.Query;
 import com.dlvr.continuum.db.query.QueryResult;
 import com.dlvr.continuum.core.db.query.Collectors;
 import com.dlvr.continuum.db.query.Collector;
+import com.dlvr.continuum.util.Bytes;
 import com.dlvr.util.BSON;
 
 import static com.dlvr.continuum.util.Bytes.Double;
@@ -22,19 +24,14 @@ public class RockDB implements DB {
 
     private static final byte b = 0x0;
 
-    private final RockSlab rock;
+    private final Slab rock;
 
-    private RockDB() throws Exception {
-        throw new Exception();
-    }
-
-    public RockDB(RockSlab slab) {
+    public RockDB(Slab slab) {
         this.rock = slab;
     }
 
-    public RockDB(String name, FileSystemReference baseRef) throws Exception {
-        FileSystemReference dataDirRef = baseRef.getChild(name);
-        this.rock = new RockSlab(name, dataDirRef);
+    public RockDB(String name, FileSystemReference base) throws Exception {
+        rock = new RockSlab(name + ".db", base);
     }
 
     @Override
@@ -68,7 +65,7 @@ public class RockDB implements DB {
      * @return
      */
     static Datum decodeDatum(byte[] bytes) {
-        return null;
+        return Bytes.Datum(bytes);
     }
 
     /**
@@ -105,15 +102,15 @@ public class RockDB implements DB {
 
     @Override
     public Iterator iterator() {
-        return new RockIterator(rock);
+        return new RockIterator((RockSlab)rock);
     }
 
     @Override
-    public void close() {
+    public void close() throws Exception {
         rock.close();
     }
 
     public RockSlab getSlab() {
-        return rock;
+        return (RockSlab)rock;
     }
 }

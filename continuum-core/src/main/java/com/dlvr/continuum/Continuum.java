@@ -1,5 +1,7 @@
 package com.dlvr.continuum;
 
+import com.dlvr.continuum.core.db.RockSlab;
+import com.dlvr.continuum.core.db.Slabs;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.datum.Datum;
 import com.dlvr.continuum.datum.Fields;
@@ -9,6 +11,7 @@ import com.dlvr.continuum.core.datum.NFields;
 import com.dlvr.continuum.core.datum.NTags;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.core.db.RockDB;
+import com.dlvr.continuum.db.Slab;
 import com.dlvr.continuum.db.query.Function;
 import com.dlvr.continuum.db.query.Query;
 import com.dlvr.continuum.db.query.QueryResult;
@@ -19,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 import static com.dlvr.continuum.util.Util.*;
 
@@ -68,10 +70,17 @@ public class Continuum {
         this.id = id;
         this.type = type;
         this.bases = bases;
-        if (bases.size() == 1) {
-            this.db = new RockDB(id, bases.get(0));
+
+        List<Slab> slabs = new ArrayList<>();
+        for (int i = 0; i < slabs.size(); i++) {
+            Slab slab = new RockSlab(id + "." + i + ".db", bases.get(0));
+            slabs.add(slab);
+        }
+
+        if (slabs.size() == 1) {
+            this.db = new RockDB(slabs.get(0));
         } else {
-            throw new Error("Sharded slabs not supported");
+            this.db = new RockDB(new Slabs(slabs));
         }
     }
 
