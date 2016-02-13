@@ -15,6 +15,7 @@ import com.dlvr.continuum.db.query.Query;
 import com.dlvr.continuum.db.query.QueryResult;
 import com.dlvr.continuum.core.db.query.NQuery;
 import com.dlvr.continuum.core.db.query.NQueryResult;
+import com.dlvr.continuum.except.NoSuchDimensionError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -195,7 +196,7 @@ public class Continuum {
                 return new SAtom(name, particles, timestamp, fields, value);
             else if (dimension == Dimension.KEYVALUE)
                 return new KAtom(name, particles, timestamp, fields, value);
-            throw new Error("Wha? The Spiders From Mars?");
+            throw new NoSuchDimensionError();
         }
     }
 
