@@ -7,7 +7,7 @@ import com.dlvr.continuum.atom.Tags;
 /**
  * An atom in the continuum
  */
-abstract public class NAtom implements Atom {
+public abstract class NAtom implements Atom {
     public String name;
     public NTags tags;
     public Long timestamp;
