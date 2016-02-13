@@ -44,12 +44,15 @@ public class RockDB implements DB {
         rock.put(atom.ID().bytes(), value(atom));
     }
 
-    // TODO: Remove particles from body (its in the id)
     public Atom get(AtomID id) throws Exception {
         return decodeAtom(rock.get(id.bytes()));
     }
 
     /**
+     * // TODO: Store stats instead of value/avg?
+     *      byte[bson(fields)] + 0x0 + byte[min] + 0x0 + byte[max] + 0x0 + byte[sum] + byte[count] + 0x0
+     * // TOOD: String value support
+     *
      * Encode atom as bytes[bson] + 0x0 + bytes[value]
      * @param atom to encode
      * @return value for slab storage
@@ -65,6 +68,7 @@ public class RockDB implements DB {
     }
 
     /**
+     * TODO: Remove particles from body (just fields, tags are in the id)
      * Decode atom from slab storage
      * @param bytes encoded with {#value(Atom)}
      * @return
@@ -75,6 +79,8 @@ public class RockDB implements DB {
     }
 
     /**
+     * TODO: min/max/sum/count instead of value?
+     * TODO: String values
      * Decode only the value of the atom. If the full body is not needed to be decoded.
      * @param bytes encoded with {#value(Atom)}
      * @return

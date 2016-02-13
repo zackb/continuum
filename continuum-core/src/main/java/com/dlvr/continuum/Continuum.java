@@ -19,10 +19,8 @@ import com.dlvr.continuum.except.NoSuchDimensionError;
 import com.dlvr.continuum.util.Maths;
 import com.dlvr.util.Metrics;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
+import java.io.Closeable;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static com.dlvr.continuum.util.Util.*;
@@ -31,7 +29,7 @@ import static com.dlvr.continuum.util.Util.*;
  * Root interface to library
  * Created by zack on 2/10/16.
  */
-public class Continuum {
+public class Continuum implements Closeable {
 
     private final String id;
 
@@ -106,8 +104,13 @@ public class Continuum {
      * Close all underlying resources for this continuum
      * @throws Exception on failure
      */
-    public void close() throws Exception {
-        db.close();
+    @Override
+    public void close() {
+        try {
+            db.close();
+        } catch (Exception e) {
+            throw new Error(e);
+        }
     }
 
     /**
@@ -166,7 +169,7 @@ public class Continuum {
         private String name;
         private NParticles particles;
         private NFields fields;
-        private long timestamp;
+        private long timestamp = System.currentTimeMillis();
         private double value;
         private Dimension dimension;
         private AtomBuilder() {}
@@ -259,14 +262,27 @@ public class Continuum {
         SERIES,KEYVALUE
     }
 
-    public static void main(String[] args) throws Exception {
-        int iterations = 99999; //Integer.MAX_VALUE;
-        FileSystemReference ref = new FileSystemReference("/tmp/LOAD");
-        Continuum c = null;
-        try {
-            c = series().base(ref).open();
-            final Continuum continuum = c;
+    private static Atom createAtom() {
+        return Continuum.satom()
+                .name("series" + Maths.randInt(0, 100))
+                .value(Maths.randDouble(Double.MIN_VALUE, Double.MAX_VALUE))
+                .timestamp(System.currentTimeMillis())
+                .build();
+    }
 
+    // 50MB/10M metrics
+    public static void main(String[] args) throws Exception {
+        int iterations = 2000000000; //Integer.MAX_VALUE;
+        FileSystemReference ref = new FileSystemReference("/tmp/LOAD");
+        Builder b = series().base(ref);
+        TimerTask timer = new MetricTimer().schedule(new Runnable() {
+                                                           @Override
+                                                           public void run() {
+                                                               System.out.println(Metrics.report());
+                                                           }
+                                                       }, 5000);
+        try (Continuum c = b.open()){
+            final Continuum continuum = c;
             for (int i = 0; i < iterations; i++) {
                 Metrics.time("write", () -> {
                     continuum.getDb().write(createAtom());
@@ -274,16 +290,18 @@ public class Continuum {
                 });
             }
         } finally {
-            System.out.println(Metrics.report());
-            if (c != null) { c.close(); }
-            ref.delete();
+            //ref.delete();
+            timer.cancel();
         }
     }
 
-    private static Atom createAtom() {
-        return Continuum.satom()
-                .name("series" + Maths.randInt(0, 100))
-                .value(Maths.randDouble(Double.MIN_VALUE, Double.MAX_VALUE))
-                .build();
+    static class MetricTimer {
+        private final Timer t = new Timer();
+
+        public TimerTask schedule(final Runnable r, long delay) {
+            final TimerTask task = new TimerTask() { public void run() { r.run(); }};
+            t.scheduleAtFixedRate(task, delay, delay);
+            return task;
+        }
     }
 }
