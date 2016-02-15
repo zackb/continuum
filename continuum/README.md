@@ -1,7 +1,8 @@
-#Continuum Core + REST + Replication
-Combine continuum core, REST, and Replication features 
+#Continuum backup, restore, and administration tools
+Streaming backup and restore/recall from ColdStorage (s3, Glacier, NAS, Tape)
 
 #TODO
 
-###Something
- - There has to be
+###Backup/Restore
+ - Streaming {Input,Output} backup and restore via incremental backup/restore
+   - snapshots? pruning snapshots?
