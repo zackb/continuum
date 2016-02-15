@@ -6,6 +6,6 @@ package com.dlvr.continuum.except;
  */
 public class ZiggyStardustError extends Error {
     public ZiggyStardustError() {
-        super("Wha? The Spiders From Mars?");
+        super("No such Dimenstion: Wha? The Spiders From Mars?");
     }
 }
