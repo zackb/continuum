@@ -11,7 +11,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.dlvr.continuum.Continuum.atom;
+import static com.dlvr.continuum.Continuum.satom;
 import static com.dlvr.continuum.Continuum.particles;
 import static org.junit.Assert.assertEquals;
 
@@ -38,7 +38,7 @@ public class IteratorTest {
         long ts2 = ts1 + 100;
 
         db.write(
-            atom().name("testiterate")
+            Continuum.satom().name("testiterate")
                     .particles(particles(map))
                     .value(123456.3D)
                     .timestamp(ts1)
@@ -46,7 +46,7 @@ public class IteratorTest {
         );
 
         db.write(
-                atom().name("testiterate")
+                Continuum.satom().name("testiterate")
                         .particles(particles(map2))
                         .value(12341.01234D)
                         .timestamp(ts2)

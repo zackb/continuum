@@ -44,11 +44,11 @@ public class Continuum implements Closeable {
         System.out.printf("People of Earth, how are you?\n");
     }
 
-    public AtomBuilder sssatom() {
+    public AtomBuilder atom() {
         return new AtomBuilder().dimension(dimension);
     }
 
-    public static AtomBuilder atom() {
+    public static AtomBuilder satom() {
         return new AtomBuilder().dimension(Dimension.TIME);
     }
 
@@ -312,7 +312,7 @@ public class Continuum implements Closeable {
         }, 5000);
 
         private static Atom createAtom() {
-            return Continuum.atom()
+            return Continuum.satom()
                     .name("series" + Maths.randInt(0, 100))
                     .value(Maths.randDouble(Double.MIN_VALUE, Double.MAX_VALUE))
                     .timestamp(System.currentTimeMillis())

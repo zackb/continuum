@@ -48,7 +48,7 @@ public class BytesTest {
         fields.put("2field2", 74190D);
 
         long ts = System.currentTimeMillis();
-        Atom atom = Continuum.atom().name("test1")
+        Atom atom = Continuum.satom().name("test1")
                 .particles(Continuum.particles(particles))
                 .fields(Continuum.fields(fields))
                 .timestamp(ts)
