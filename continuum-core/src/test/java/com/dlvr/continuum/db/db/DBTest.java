@@ -36,7 +36,7 @@ public class DBTest {
         String name = "testSlice";
         reference.getChild(name).delete();
         RockDB db = new RockDB(Dimension.TIME, name, reference);
-        Atom d = satom().name("zack")
+        Atom d = atom().name("zack")
                 .timestamp(System.currentTimeMillis())
                 .particles(particles(particles))
                 .fields(fields(fields))
@@ -44,7 +44,7 @@ public class DBTest {
                 .build();
         db.write(d);
 
-        d = satom().name("zack")
+        d = atom().name("zack")
                 .timestamp(System.currentTimeMillis() + 10)
                 .particles(particles(particles))
                 .fields(fields(fields))

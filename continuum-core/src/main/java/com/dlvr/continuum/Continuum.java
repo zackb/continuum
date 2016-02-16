@@ -44,11 +44,11 @@ public class Continuum implements Closeable {
         System.out.printf("People of Earth, how are you?\n");
     }
 
-    public AtomBuilder atom() {
+    public AtomBuilder sssatom() {
         return new AtomBuilder().dimension(dimension);
     }
 
-    public static AtomBuilder satom() {
+    public static AtomBuilder atom() {
         return new AtomBuilder().dimension(Dimension.TIME);
     }
 
@@ -207,6 +207,10 @@ public class Continuum implements Closeable {
             this.particles = (NParticles) particles;
             return this;
         }
+        public AtomBuilder particles(Map<String, String> particles) {
+            //target.particles = particles;
+            throw new Error("TODO");
+        }
         public AtomBuilder fields(Fields fields) {
             this.fields = (NFields)fields;
             return this;
@@ -253,6 +257,10 @@ public class Continuum implements Closeable {
         public SliceBuilder function(Function function) {
             target.function = function;
             return this;
+        }
+        public SliceBuilder particles(Map<String, String> particles) {
+            //target.particles = particles;
+            throw new Error("TODO");
         }
         public SliceBuilder particles(Particles particles) {
             target.particles = particles;
@@ -304,7 +312,7 @@ public class Continuum implements Closeable {
         }, 5000);
 
         private static Atom createAtom() {
-            return Continuum.satom()
+            return Continuum.atom()
                     .name("series" + Maths.randInt(0, 100))
                     .value(Maths.randDouble(Double.MIN_VALUE, Double.MAX_VALUE))
                     .timestamp(System.currentTimeMillis())

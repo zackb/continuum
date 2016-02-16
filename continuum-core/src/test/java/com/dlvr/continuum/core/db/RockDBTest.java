@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.dlvr.continuum.Continuum.satom;
+import static com.dlvr.continuum.Continuum.atom;
 import static com.dlvr.continuum.Continuum.particles;
 import static org.junit.Assert.assertEquals;
 
@@ -20,7 +20,7 @@ public class RockDBTest {
         Map<String, String> map = new HashMap<>();
         map.put("foo", "bar");
         map.put("baz", "bat");
-        Atom d = satom().name("foo")
+        Atom d = atom().name("foo")
                 .particles(particles(map))
                 .value(12345.45)
                 .build();

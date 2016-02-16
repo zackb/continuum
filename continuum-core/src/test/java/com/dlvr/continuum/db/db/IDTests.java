@@ -13,7 +13,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.dlvr.continuum.Continuum.satom;
+import static com.dlvr.continuum.Continuum.atom;
 import static com.dlvr.continuum.Continuum.katom;
 import static com.dlvr.continuum.Continuum.particles;
 import static org.junit.Assert.assertArrayEquals;
@@ -52,7 +52,7 @@ public class IDTests {
         Map<String, String> map = new HashMap<>();
         map.put("fooz", "bar");
         map.put("baz", "bat");
-        Atom d = satom().name("zame").particles(particles(map)).timestamp(ts).value(1235).build();
+        Atom d = atom().name("zame").particles(particles(map)).timestamp(ts).value(1235).build();
         assertArrayEquals(expected, d.ID().bytes());
     }
 
