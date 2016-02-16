@@ -3,16 +3,21 @@ version '0.1'
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'
+apply plugin: 'jacoco'
+
 
 sourceCompatibility = 1.8
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
-repositories {
-    mavenLocal()
-    mavenCentral()
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
 }
 
 dependencies {
@@ -27,7 +32,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4+'
 }
 
-task install(dependsOn: ['clean', 'jar', 'test', 'publishToMavenLocal'])
+task install(dependsOn: ['clean', 'jar', 'test', 'jacocoTestReport', 'publishToMavenLocal'])
 
 
 publishing {
@@ -40,3 +45,17 @@ publishing {
         }
     }
 }
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+    reportsDir = file("$buildDir/coverage")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${buildDir}/coverage.html"
+    }
+}
+
