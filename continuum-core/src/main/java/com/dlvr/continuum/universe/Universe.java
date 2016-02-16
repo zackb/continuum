@@ -10,7 +10,7 @@ import com.dlvr.util.JSON;
 import java.util.Map;
 
 /**
- * What people of Earth call "Config"
+ * Config
  * Created by zack on 2/15/16.
  */
 public class Universe {
@@ -19,13 +19,13 @@ public class Universe {
 
     /**
      * Create a universe
-     * @param ref location of universe.meta on the filestystem or other storage
+     * @param ref config location of universe.meta on the filestystem or other storage
      * @return a universe comensurate with universe.meta
      */
     public static Universe bigBang(Reference ref) throws Exception {
         String string = IOUtil.readString(ref.getInputStream());
         Map<String, Object> meta = JSON.decode(string);
-        Universe u = new Universe(0.01);
+        Universe u = new Universe(meta);
         return u;
     }
 

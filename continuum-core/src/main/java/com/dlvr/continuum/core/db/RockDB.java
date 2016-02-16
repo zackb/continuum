@@ -99,8 +99,8 @@ public class RockDB implements DB {
             itr = iterator();
             itr.seek(slice.ID().bytes());
             do {
-                collect(collector, slice, itr);
                 filter(filter, slice, itr);
+                collect(collector, slice, itr);
             } while (itr.next());
         } finally {
             if (itr != null) itr.close();
@@ -122,7 +122,7 @@ public class RockDB implements DB {
 
     @Override
     public Iterator iterator() {
-        return new RockIterator(dimension, (RockSlab)rock);
+        return new RockIterator(dimension, getSlab());
     }
 
     @Override
