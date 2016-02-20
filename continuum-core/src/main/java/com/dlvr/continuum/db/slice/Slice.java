@@ -63,4 +63,5 @@ public interface Slice {
      * @return time unit
      */
     TimeUnit interval();
+    // TODODO: THIS HAS TO HAVE A DURATION!!!
 }

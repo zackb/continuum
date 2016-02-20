@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
@@ -83,6 +84,15 @@ public class ContinuumTest {
                     .atom()
                     .name("a1")
                     .particles(Continuum.particles(particles))
+                    .timestamp(1455174529388L) // Thu Feb 11 07:09:07 UTC 2016
+                    .value(100)
+                    .build();
+            continuum.db().write(atom);
+
+            atom = continuum
+                    .atom()
+                    .name("a1")
+                    .particles(Continuum.particles(particles))
                     .timestamp(1455260994255L) // Fri Feb 12 07:09:41 UTC 2016
                     .value(-0.000005)
                     .build();
@@ -97,8 +107,22 @@ public class ContinuumTest {
                             .build();
 
             Double val = continuum.db().slice(slice).value().values().iterator().next();
-            assertEquals(4.99999833333333, val, 0.001);
+            assertEquals(28.74999875, val, 0.001);
 
+            slice = Continuum
+                    .slice("a1")
+                    .particles(Continuum.particles(particles))
+                    .start(System.currentTimeMillis())
+                    .end(1455088000007L)
+                    .interval(TimeUnit.HOURS) // TODO: sigh need Interval!
+                    .function(Function.AVG)
+                    .build();
+
+            Map<Long, Double> vals = continuum.db().slice(slice).value();
+            assertEquals(3, vals.size());
+            assertEquals(10.0D, vals.get(1455087600000L), 0.000001);
+            assertEquals(-0.000005D, vals.get(1455260400000L), 0.000001);
+            assertEquals(52.5D, vals.get(1455174000000L), 0.000001);
 
         } finally { if (continuum != null) continuum.delete(); }
     }

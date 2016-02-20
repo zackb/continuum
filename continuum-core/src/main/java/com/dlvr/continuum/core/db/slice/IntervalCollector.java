@@ -26,7 +26,7 @@ public class IntervalCollector implements Collector {
         long ts = atom.timestamp();
         long bucket = ts - (ts % slice.interval().toMillis(1));
 
-        if (collectors.get(bucket) == null) collectors.put(ts, new StatsCollector(slice));
+        if (collectors.get(bucket) == null) collectors.put(bucket, new StatsCollector(slice));
 
         collectors.get(bucket).collect(atom);
     }
