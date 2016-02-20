@@ -57,6 +57,10 @@ public class StatsCollector implements Collector {
         return sum;
     }
 
+    public long count() {
+        return count;
+    }
+
     public Map<Long, Double> value() {
 
         double value;
@@ -64,6 +68,21 @@ public class StatsCollector implements Collector {
         switch (slice.function()) {
             case AVG:
                 value = avg();
+                break;
+            case MIN:
+                value = min();
+                break;
+            case MAX:
+                value = max();
+                break;
+            case STD:
+                value = stddev();
+                break;
+            case SUM:
+                value = sum();
+                break;
+            case COUNT:
+                value = count();
                 break;
             default:
                 throw new Error("Not implemented: " + slice.function());
