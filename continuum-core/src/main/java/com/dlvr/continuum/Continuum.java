@@ -49,11 +49,11 @@ public class Continuum implements Closeable {
     }
 
     public static AtomBuilder satom() {
-        return new AtomBuilder().dimension(Dimension.TIME);
+        return new AtomBuilder().dimension(Dimension.SPACE);
     }
 
     public static AtomBuilder katom() {
-        return new AtomBuilder().dimension(Dimension.SPACE);
+        return new AtomBuilder().dimension(Dimension.TIME);
     }
 
     public static Particles particles(Map<String, String> particles) {
