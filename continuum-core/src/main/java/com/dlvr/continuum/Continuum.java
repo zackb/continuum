@@ -97,7 +97,7 @@ public class Continuum implements Closeable {
      * Access the backing datastore for this continuum
      * @return DB datastore engine
      */
-    public DB getDb() {
+    public DB db() {
         return this.db;
     }
 
@@ -228,9 +228,9 @@ public class Continuum implements Closeable {
             return this;
         }
         public Atom build() {
-            if (dimension == Dimension.TIME)
+            if (dimension == Dimension.SPACE)
                 return new SAtom(name, particles, timestamp, fields, value);
-            else if (dimension == Dimension.SPACE)
+            else if (dimension == Dimension.TIME)
                 return new KAtom(name, particles, timestamp, fields, value);
             throw new ZiggyStardustError();
         }
@@ -282,7 +282,7 @@ public class Continuum implements Closeable {
         SliceResultBuilder(String name) {
             target.name = name;
         }
-        public SliceResultBuilder value(double value) {
+        public SliceResultBuilder value(Map<Long, Double> value) {
             target.value = value;
             return this;
         }
@@ -341,7 +341,7 @@ public class Continuum implements Closeable {
             int iterations = 2000000000; //Integer.MAX_VALUE;
             for (int i = 0; i < iterations; i++) {
                 Metrics.time("write", () -> {
-                    continuum.getDb().write(createAtom());
+                    continuum.db().write(createAtom());
                     return null;
                 });
             }

@@ -2,7 +2,14 @@ package com.dlvr.continuum;
 
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.db.slice.Function;
+import com.dlvr.continuum.db.slice.Slice;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.*;
 
 /**
  * Created by zack on 2/10/16.
@@ -41,4 +48,81 @@ public class ContinuumTest {
 
         } finally { if (continuum != null) continuum.delete(); }
     }
+
+    @Test
+    public void testSliceIntervals() throws Exception {
+        Continuum continuum = null;
+        try {
+            continuum = Continuum.continuum()
+                    .id("testSliceIntervals")
+                    .dimension(Continuum.Dimension.SPACE)
+                    .base(reference)
+                    .open();
+            Map<String, String> particles = new HashMap<>();
+            particles.put("Foo", "bar");
+
+            Atom atom = continuum
+                            .atom()
+                            .name("a1")
+                            .particles(Continuum.particles(particles))
+                            .timestamp(1455088007777L) //Wed Feb 10 07:06:38 UTC 2016
+                            .value(10)
+                            .build();
+            continuum.db().write(atom);
+
+            atom = continuum
+                    .atom()
+                    .name("a1")
+                    .particles(Continuum.particles(particles))
+                    .timestamp(1455174528388L) // Thu Feb 11 07:09:06 UTC 2016
+                    .value(5)
+                    .build();
+            continuum.db().write(atom);
+
+            atom = continuum
+                    .atom()
+                    .name("a1")
+                    .particles(Continuum.particles(particles))
+                    .timestamp(1455260994255L) // Fri Feb 12 07:09:41 UTC 2016
+                    .value(-0.000005)
+                    .build();
+            continuum.db().write(atom);
+
+            Slice slice = Continuum
+                            .slice("a1")
+                            .particles(Continuum.particles(particles))
+                            .start(System.currentTimeMillis())
+                            .end(1455088000007L)
+                            .function(Function.AVG)
+                            .build();
+
+            Double val = continuum.db().slice(slice).value().values().iterator().next();
+            assertEquals(4.99999833333333, val, 0.001);
+
+
+        } finally { if (continuum != null) continuum.delete(); }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

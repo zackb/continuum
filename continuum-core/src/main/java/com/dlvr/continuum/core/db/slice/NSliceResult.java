@@ -4,13 +4,14 @@ import com.dlvr.continuum.db.slice.Const;
 import com.dlvr.continuum.db.slice.SliceResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Tree structured results from a db slice
  */
 public class NSliceResult implements SliceResult {
     public String name;
-    public double value;
+    public Map<Long, Double> value;
 
     @Override
     public String name() {
@@ -18,7 +19,7 @@ public class NSliceResult implements SliceResult {
     }
 
     @Override
-    public double value() {
+    public Map<Long, Double> value() {
         return value;
     }
 

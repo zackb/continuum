@@ -98,10 +98,11 @@ public class RockDB implements DB {
         try {
             itr = iterator();
             itr.seek(slice.ID().bytes());
-            do {
+            while (itr.hasNext()) {
                 filter(filter, slice, itr);
                 collect(collector, slice, itr);
-            } while (itr.next());
+                itr.next();
+            }
         } finally {
             if (itr != null) itr.close();
         }
@@ -112,7 +113,8 @@ public class RockDB implements DB {
     }
 
     private void collect(Collector collector, Slice slice, Iterator iterator) {
-        collector.collect(iterator);
+        Atom atom = iterator.get();
+        collector.collect(atom); // TODO Lazily decode body!
     }
 
     private void filter(Filter filter, Slice slice, Iterator iterator) {

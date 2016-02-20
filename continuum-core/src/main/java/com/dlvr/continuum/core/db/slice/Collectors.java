@@ -8,6 +8,10 @@ import com.dlvr.continuum.db.slice.Slice;
  */
 public class Collectors {
     public static Collector forSlice(Slice slice) {
+
+        if (slice.interval() != null)
+            return new IntervalCollector(slice);
+
         return new StatsCollector(slice);
     }
 }

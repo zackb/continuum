@@ -9,6 +9,7 @@ import com.dlvr.continuum.util.Bytes;
 import org.rocksdb.RocksIterator;
 
 /**
+ * Rock iterator
  * Created by zack on 2/11/16.
  */
 public class RockIterator implements Iterator {
