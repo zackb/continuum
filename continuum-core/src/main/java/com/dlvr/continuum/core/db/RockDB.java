@@ -94,13 +94,14 @@ public class RockDB implements DB {
     public SliceResult slice(Slice slice) {
         Iterator itr = null;
         Collector collector = Collectors.forSlice(slice);
-        Filter filter = Filters.forSlice(slice);
+        Filter filter = Filters.forSlice(slice); // TODO: filter fields and value
         try {
             itr = iterator();
             itr.seek(slice.ID().bytes());
             while (itr.hasNext()) {
-                filter(filter, slice, itr);
-                collect(collector, slice, itr);
+                Atom atom = itr.get();
+                // TODO FILTER
+                collector.collect(atom);
                 itr.next();
             }
         } finally {
@@ -108,16 +109,6 @@ public class RockDB implements DB {
         }
 
         return collector.result();
-    }
-
-    private void collect(Collector collector, Slice slice, Iterator iterator) {
-        Atom atom = iterator.get();
-        collector.collect(atom); // TODO Lazily decode body!
-    }
-
-    private void filter(Filter filter, Slice slice, Iterator iterator) {
-        if (filter == null) return;
-        filter.filter(iterator);
     }
 
     @Override
