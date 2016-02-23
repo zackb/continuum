@@ -32,20 +32,20 @@ public class FileSystemReference implements Reference {
     }
 
     @Override
-    public String getVirtualPath() {
+    public String virtualPath() {
         return path;
     }
 
-    public String getBasePath() {
+    public String basePath() {
         return base;
     }
 
-    public String getFullPath() {
+    public String fullPath() {
         return path().toAbsolutePath().toString();
     }
 
     @Override
-    public InputStream getInputStream() throws IOException {
+    public InputStream inputStream() throws IOException {
         if (!exists()) {
             throw new FileNotFoundException("No such file: " + path().toString());
         }
@@ -53,7 +53,7 @@ public class FileSystemReference implements Reference {
     }
 
     @Override
-    public OutputStream getOutputStream() throws IOException {
+    public OutputStream outputStream() throws IOException {
         Path path = Paths.get(this.base, this.path);
         return Files.newOutputStream(path, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
     }
@@ -72,7 +72,7 @@ public class FileSystemReference implements Reference {
     public long write(InputStream ins, long size) throws IOException {
         OutputStream outs = null;
         try {
-            outs = getOutputStream();
+            outs = outputStream();
             size = IOUtil.copyStream(ins, outs);
         } finally {
             IOUtil.close(ins);
@@ -116,13 +116,13 @@ public class FileSystemReference implements Reference {
         return created;
     }
 
-    public Endpoint<FileSystemReference> getEndpoint() {
+    public Endpoint<FileSystemReference> endpoint() {
         return endpoint;
     }
 
     @Override
     public Reference[] list() {
-        File[] files = getAllFiles();
+        File[] files = allFiles();
 
         if (files == null || files.length == 0) return new Reference[0];
 
@@ -130,7 +130,7 @@ public class FileSystemReference implements Reference {
 
         int i = 0;
         for (File file : files) {
-            String newVirtualPath = getVirtualPath() + '/' + file.getName();
+            String newVirtualPath = virtualPath() + '/' + file.getName();
             newVirtualPath = StringUtil.trim(newVirtualPath, "/");
             refs[i++] = new FileSystemReference(base, newVirtualPath);
         }
@@ -157,21 +157,21 @@ public class FileSystemReference implements Reference {
         return Files.getLastModifiedTime(path()).toMillis();
     }
 
-    public File getFile() {
+    public File file() {
         return new File(path().toString());
     }
 
-    public File[] getAllFiles() {
-        return getFile().listFiles();
+    public File[] allFiles() {
+        return file().listFiles();
     }
 
-    public FileSystemReference getChild(String path) {
-        return new FileSystemReference(getFullPath(), path);
+    public FileSystemReference child(String path) {
+        return new FileSystemReference(fullPath(), path);
     }
 
     @Override
     public String toString() {
-        return getFullPath();
+        return fullPath();
     }
 
     private static final FileVisitor<Path> DeleteRecursively = new SimpleFileVisitor<Path>() {

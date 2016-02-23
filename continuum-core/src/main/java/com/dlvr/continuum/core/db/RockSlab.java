@@ -17,14 +17,14 @@ public class RockSlab implements Slab {
 
     public RockSlab(String name, FileSystemReference dataDirRef) throws Exception {
         this.name = name;
-        this.dataDirRef = dataDirRef.getChild(name);
+        this.dataDirRef = dataDirRef.child(name);
         RocksDB.loadLibrary();
         open();
     }
 
     public void open() throws Exception {
         dataDirRef.mkdir();
-        rock = RocksDB.open(createOptions(), dataDirRef.getFullPath());
+        rock = RocksDB.open(createOptions(), dataDirRef.fullPath());
         closed = false;
     }
 

@@ -10,9 +10,9 @@ import java.io.Serializable;
  * Because the name "File" is already taken
  */
 public interface Reference extends Serializable {
-    String getVirtualPath();
-    InputStream getInputStream() throws IOException;
-    OutputStream getOutputStream() throws IOException;
+    String virtualPath();
+    InputStream inputStream() throws IOException;
+    OutputStream outputStream() throws IOException;
     long write(byte[] bytes) throws IOException;
     long write(InputStream ins) throws IOException;
     long write(InputStream ins, long size) throws IOException;

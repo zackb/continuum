@@ -39,7 +39,7 @@ class FileSystemEndpoint implements Endpoint<FileSystemReference> {
     @Override
     public void store(FileSystemReference ref, InputStream data) throws IOException {
         ref.create();
-        OutputStream out = ref.getOutputStream();
+        OutputStream out = ref.outputStream();
         IOUtil.copyStream(data, out);
         IOUtil.close(out);
         IOUtil.close(data);

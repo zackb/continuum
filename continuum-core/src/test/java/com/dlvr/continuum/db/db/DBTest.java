@@ -34,7 +34,7 @@ public class DBTest {
         fields.put("fields4", "fieldv");
 
         String name = "testSlice";
-        reference.getChild(name).delete();
+        reference.child(name).delete();
         RockDB db = new RockDB(Dimension.TIME, name, reference);
         Atom d = satom().name("zack")
                 .timestamp(System.currentTimeMillis())

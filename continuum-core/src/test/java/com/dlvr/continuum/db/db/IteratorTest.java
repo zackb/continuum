@@ -11,7 +11,6 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.dlvr.continuum.Continuum.satom;
 import static com.dlvr.continuum.Continuum.particles;
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +31,7 @@ public class IteratorTest {
         Map<String, String> map2 = new HashMap<>();
         map2.put("zack", "bar");
         map2.put("fuz", "da'vinci");
-        reference.getChild(name).delete();
+        reference.child(name).delete();
         RockDB db = new RockDB(Continuum.Dimension.SPACE, name, reference);
         long ts1 = System.currentTimeMillis();
         long ts2 = ts1 + 100;

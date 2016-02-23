@@ -17,34 +17,53 @@ public class Universe {
 
     private final double version;
 
+    private final Slab hotSlab;
+    private final Slab coldSlab;
+
+    private final Map<String, Object> meta;
+
     /**
      * Create a universe
      * @param ref config location of universe.meta on the filestystem or other storage
      * @return a universe comensurate with universe.meta
      */
     public static Universe bigBang(Reference ref) throws Exception {
-        String string = IOUtil.readString(ref.getInputStream());
+        String string = IOUtil.readString(ref.inputStream());
         Map<String, Object> meta = JSON.decode(string);
         return new Universe(meta);
     }
 
-    public Universe(Map<String, Object> meta) {
+    public Universe(Map<String, Object> meta) throws Exception {
+        this.meta = meta;
         this.version = (double)meta.get("version");
     }
 
-    public double getVersion() {
+    public Integer integer(String name) {
+        int res = 0;
+        Object foo = meta.get(name);
+        if (foo != null) {
+            if (foo instanceof Number) {
+                res = (int) foo;
+            } else {
+                res = Integer.parseInt((String) foo);
+            }
+        }
+        return res;
+    }
+
+    public double version() {
         return version;
     }
 
-    public final Slab getHotSlab() {
+    public final Slab hot() {
         return null;
     }
 
-    public final Slab getColdSlab() throws Exception {
+    public final Slab cold() throws Exception {
         return null;
     }
 
-    public final Slab getGlacierSlab() throws Exception {
+    public final Slab glacier() throws Exception {
         return new RockSlab("glacier", new FileSystemReference("/dev/null"));
     }
 }

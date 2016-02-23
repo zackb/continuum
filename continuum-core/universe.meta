@@ -1,14 +1,11 @@
 {
     "version": 0.01,
-    "hot_slab": "/tmp/continuum",
-    "cold_slab": "s3://",
-    "glacier_slab": "/dev/null",
-    "people_of_earth": [{
-        "dlvr": {
-            "fingerprint": "dlvr"
-        }, 
-        "s3": {
-            "fingerprint": "dlvr.unit.test AKIAIM7WUFZN6IY6M5NA BY8/sSor8FD+gCshO/yK3rQkPSedKaB5CQZ8KQ3t"
-        } 
-    }]
+    "name": "continuum-dev"
+    "hot": "/tmp/continuum-dev",
+    "cold": "s3_cold://",
+    "glacier": "/dev/null",
+    "people_of_earth": [
+        { "name": "dlvr",    "fingerprint": "dlvr" },
+        { "name": "s3_cold", "fingerprint": "dlvr.unit.test AKIAIM7WUFZN6IY6M5NA BY8/sSor8FD+gCshO/yK3rQkPSedKaB5CQZ8KQ3t" }
+    ]
 }

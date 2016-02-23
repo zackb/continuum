@@ -32,7 +32,7 @@ import static com.dlvr.continuum.util.Util.*;
  */
 public class Continuum implements Closeable {
 
-    private final String id;
+    private final String name;
 
     private final Dimension dimension;
 
@@ -72,17 +72,17 @@ public class Continuum implements Closeable {
         return new SliceResultBuilder(name);
     }
 
-    private Continuum(String id, Dimension dimension, List<FileSystemReference> bases) throws Exception {
-        checkNotNull("id", id);
+    private Continuum(String name, Dimension dimension, List<FileSystemReference> bases) throws Exception {
+        checkNotNull("name", name);
         checkNotNull("dimension", dimension);
         checkNotNull("base", bases);
-        this.id = id;
+        this.name = name;
         this.dimension = dimension;
         this.bases = bases;
 
         List<Slab> slabs = new ArrayList<>();
         for (int i = 0; i < bases.size(); i++) {
-            Slab slab = new RockSlab(id + "." + i + ".db", bases.get(0));
+            Slab slab = new RockSlab(name + "." + i + ".db", bases.get(0));
             slabs.add(slab);
         }
 
