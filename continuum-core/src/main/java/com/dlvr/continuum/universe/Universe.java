@@ -25,8 +25,7 @@ public class Universe {
     public static Universe bigBang(Reference ref) throws Exception {
         String string = IOUtil.readString(ref.getInputStream());
         Map<String, Object> meta = JSON.decode(string);
-        Universe u = new Universe(meta);
-        return u;
+        return new Universe(meta);
     }
 
     public Universe(Map<String, Object> meta) {

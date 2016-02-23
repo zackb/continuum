@@ -1,0 +1,35 @@
+group 'com.dlvr'
+version '0.1'
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+
+    // Continuum core
+    compile 'com.dlvr:continuum-core:+'
+
+    // RxNetty
+    compile 'io.reactivex:rxnetty:0.4.+'
+
+    testCompile 'org.codehaus.groovy:groovy-test:2.4+'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+publishing {
+    publications {
+        api(MavenPublication) {
+            groupId group
+            artifactId 'continuum-rest'
+            version version
+            from components.java
+        }
+    }
+}
