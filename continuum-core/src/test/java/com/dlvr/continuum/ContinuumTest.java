@@ -5,6 +5,7 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.datetime.Interval;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -115,7 +116,7 @@ public class ContinuumTest {
                     .particles(Continuum.particles(particles))
                     .start(System.currentTimeMillis())
                     .end(1455088000007L)
-                    .interval(TimeUnit.HOURS) // TODO: sigh need Interval!
+                    .interval(Interval.valueOf("1h")) // TODO: sigh need Interval!
                     .function(Function.AVG)
                     .build();
 

@@ -3,8 +3,7 @@ package com.dlvr.continuum.db.slice;
 import com.dlvr.continuum.db.SliceID;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
-
-import java.util.concurrent.TimeUnit;
+import com.dlvr.datetime.Interval;
 
 /**
  * Take a slice of space time
@@ -62,6 +61,5 @@ public interface Slice {
      * If null, slice results are atom-in-time values
      * @return time unit
      */
-    TimeUnit interval();
-    // TODODO: THIS HAS TO HAVE A DURATION!!!
+    Interval interval();
 }

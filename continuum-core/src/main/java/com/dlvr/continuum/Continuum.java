@@ -18,11 +18,11 @@ import com.dlvr.continuum.core.db.slice.NSliceResult;
 import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.io.file.Reference;
 import com.dlvr.continuum.util.Maths;
+import com.dlvr.datetime.Interval;
 import com.dlvr.util.Metrics;
 
 import java.io.Closeable;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import static com.dlvr.continuum.util.Util.*;
 
@@ -250,7 +250,7 @@ public class Continuum implements Closeable {
             target.end = end;
             return this;
         }
-        public SliceBuilder interval(TimeUnit interval) {
+        public SliceBuilder interval(Interval interval) {
             target.interval = interval;
             return this;
         }

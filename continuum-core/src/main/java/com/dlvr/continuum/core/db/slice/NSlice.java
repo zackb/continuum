@@ -6,6 +6,7 @@ import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.core.db.SSliceID;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.datetime.Interval;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,7 +18,7 @@ public class NSlice implements Slice {
     public Function function;
     public long start;
     public long end;
-    public TimeUnit interval;
+    public Interval interval;
     public Particles particles;
     public Fields fields;
     public double value;
@@ -60,7 +61,7 @@ public class NSlice implements Slice {
     }
 
     @Override
-    public TimeUnit interval() {
+    public Interval interval() {
         return interval;
     }
 }
