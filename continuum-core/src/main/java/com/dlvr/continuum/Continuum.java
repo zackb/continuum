@@ -282,8 +282,12 @@ public class Continuum implements Closeable {
         SliceResultBuilder(String name) {
             target.name = name;
         }
-        public SliceResultBuilder value(Map<Long, Double> value) {
+        public SliceResultBuilder value(Double value) {
             target.value = value;
+            return this;
+        }
+        public SliceResultBuilder timestamp(long timestamp) {
+            target.timestamp = timestamp;
             return this;
         }
 

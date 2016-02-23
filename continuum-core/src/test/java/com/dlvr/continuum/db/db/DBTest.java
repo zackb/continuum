@@ -58,9 +58,8 @@ public class DBTest {
         assertEquals(12346555.0000000000D, d.value() , 0.001);
         */
         SliceResult res = db.slice(slice("test").function(Function.AVG).build());
-        Map<Long, Double> avg = res.value();
-        assert avg.size() == 1;
-        assertEquals((12346555.0000000000D + 98898.124D)/ 2, avg.values().iterator().next(), 0.00001);
+        Double avg = res.value();
+        assertEquals((12346555.0000000000D + 98898.124D)/ 2, avg, 0.00001);
         db.close();
         db.getSlab().getReference().delete();
     }

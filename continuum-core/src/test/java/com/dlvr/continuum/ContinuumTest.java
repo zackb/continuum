@@ -4,6 +4,7 @@ import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.SliceResult;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -106,7 +107,7 @@ public class ContinuumTest {
                             .function(Function.AVG)
                             .build();
 
-            Double val = continuum.db().slice(slice).value().values().iterator().next();
+            Double val = continuum.db().slice(slice).value();
             assertEquals(28.74999875, val, 0.001);
 
             slice = Continuum
@@ -118,11 +119,11 @@ public class ContinuumTest {
                     .function(Function.AVG)
                     .build();
 
-            Map<Long, Double> vals = continuum.db().slice(slice).value();
-            assertEquals(3, vals.size());
-            assertEquals(10.0D, vals.get(1455087600000L), 0.000001);
-            assertEquals(-0.000005D, vals.get(1455260400000L), 0.000001);
-            assertEquals(52.5D, vals.get(1455174000000L), 0.000001);
+            SliceResult res = continuum.db().slice(slice);
+            assertEquals(3, res.children().size());
+            assertEquals(10.0D, res.getChild(2).value(), 0.000001);
+            assertEquals(-0.000005D, res.getChild(1).value(), 0.000001);
+            assertEquals(52.5D, res.getChild(0).value(), 0.000001);
 
         } finally { if (continuum != null) continuum.delete(); }
     }

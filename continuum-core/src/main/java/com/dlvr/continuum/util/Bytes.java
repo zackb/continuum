@@ -2,7 +2,6 @@ package com.dlvr.continuum.util;
 
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.core.atom.KAtom;
-import com.dlvr.continuum.core.atom.NAtom;
 import com.dlvr.continuum.core.atom.SAtom;
 import com.dlvr.continuum.core.db.KAtomID;
 import com.dlvr.continuum.db.AtomID;

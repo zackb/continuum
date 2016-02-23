@@ -3,6 +3,7 @@ package com.dlvr.continuum.core.db.slice;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.SliceResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,13 +16,18 @@ public class IntervalCollector implements Collector {
 
     private final Slice slice;
     final Map<Long, StatsCollector> collectors = new HashMap<>();
+    final StatsCollector collector;
+    private long timestamp = 0L;
 
     public IntervalCollector(Slice slice) {
         this.slice = slice;
+        this.collector = new StatsCollector(slice);
     }
 
     @Override
     public void collect(Atom atom) {
+
+        if (timestamp == 0L) timestamp = atom.timestamp();
 
         long ts = atom.timestamp();
         long bucket = ts - (ts % slice.interval().toMillis(1));
@@ -29,14 +35,17 @@ public class IntervalCollector implements Collector {
         if (collectors.get(bucket) == null) collectors.put(bucket, new StatsCollector(slice));
 
         collectors.get(bucket).collect(atom);
+        collector.collect(atom);
     }
 
     @Override
-    public Map<Long, Double> value() {
-        Map<Long, Double> result = new HashMap<>(collectors.size());
+    public SliceResult result() {
+
+        SliceResult result = collector.result();
+
         for (Long ts : collectors.keySet()) {
-            Double value = collectors.get(ts).value().values().iterator().next();
-            result.put(ts, value);
+            SliceResult child = collectors.get(ts).result();
+            result.addChild(child);
         }
         return result;
     }

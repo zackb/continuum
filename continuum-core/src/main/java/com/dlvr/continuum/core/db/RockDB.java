@@ -107,9 +107,7 @@ public class RockDB implements DB {
             if (itr != null) itr.close();
         }
 
-        return result(slice.function().name())
-                .value(collector.value())
-                .build();
+        return collector.result();
     }
 
     private void collect(Collector collector, Slice slice, Iterator iterator) {

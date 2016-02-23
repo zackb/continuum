@@ -1,13 +1,10 @@
 package com.dlvr.continuum.core.db.slice;
 
+import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.db.AtomID;
-import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Slice;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.dlvr.continuum.db.slice.SliceResult;
 
 /**
  * Atom slice collector
@@ -61,7 +58,8 @@ public class StatsCollector implements Collector {
         return count;
     }
 
-    public Map<Long, Double> value() {
+    @Override
+    public SliceResult result() {
 
         double value;
 
@@ -87,8 +85,6 @@ public class StatsCollector implements Collector {
             default:
                 throw new Error("Not implemented: " + slice.function());
         }
-        Map<Long, Double> foo = new HashMap<>(1);
-        foo.put(timestamp, value);
-        return foo;
+        return Continuum.result("stats").value(value).timestamp(timestamp).build();
     }
 }
