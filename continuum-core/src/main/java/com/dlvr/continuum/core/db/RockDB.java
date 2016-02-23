@@ -13,7 +13,7 @@ import com.dlvr.continuum.db.slice.SliceResult;
 import com.dlvr.continuum.core.db.slice.Collectors;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.util.Bytes;
-import com.dlvr.util.BSON;
+import com.dlvr.continuum.util.BSON;
 
 import static com.dlvr.continuum.util.Bytes.Double;
 import static com.dlvr.continuum.util.Bytes.*;

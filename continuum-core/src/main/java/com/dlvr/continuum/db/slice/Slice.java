@@ -3,7 +3,7 @@ package com.dlvr.continuum.db.slice;
 import com.dlvr.continuum.db.SliceID;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
-import com.dlvr.datetime.Interval;
+import com.dlvr.continuum.util.datetime.Interval;
 
 /**
  * Take a slice of space time

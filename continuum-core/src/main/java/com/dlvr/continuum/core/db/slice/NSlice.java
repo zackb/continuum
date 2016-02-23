@@ -6,9 +6,8 @@ import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.core.db.SSliceID;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Slice;
-import com.dlvr.datetime.Interval;
+import com.dlvr.continuum.util.datetime.Interval;
 
-import java.util.concurrent.TimeUnit;
 
 /**
  * Base Slice implementation

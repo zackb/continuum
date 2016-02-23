@@ -6,7 +6,6 @@ import com.dlvr.continuum.core.atom.SAtom;
 import com.dlvr.continuum.core.db.KAtomID;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.core.db.SAtomID;
-import com.dlvr.util.BSON;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;

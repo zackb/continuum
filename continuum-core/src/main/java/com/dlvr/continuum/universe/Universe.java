@@ -5,7 +5,7 @@ import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.db.Slab;
 import com.dlvr.continuum.io.file.Reference;
 import com.dlvr.util.IOUtil;
-import com.dlvr.util.JSON;
+import com.dlvr.continuum.util.JSON;
 
 import java.util.Map;
 
