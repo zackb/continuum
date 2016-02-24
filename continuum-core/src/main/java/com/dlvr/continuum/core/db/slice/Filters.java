@@ -9,6 +9,6 @@ import com.dlvr.continuum.db.slice.Slice;
  */
 public class Filters {
     public static Filter forSlice(Slice slice) {
-        return null;
+        return new ParticlesFilter(slice);
     }
 }

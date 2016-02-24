@@ -100,8 +100,11 @@ public class RockDB implements DB {
             itr.seek(slice.ID().bytes());
             while (itr.hasNext()) {
                 Atom atom = itr.get();
-                // TODO FILTER
-                collector.collect(atom);
+                Filter.Action action = filter.filter(atom);
+                if (action == Filter.Action.CONTINUE)
+                    collector.collect(atom);
+                else if (action == Filter.Action.STOP)
+                    break;
                 itr.next();
             }
         } finally {
