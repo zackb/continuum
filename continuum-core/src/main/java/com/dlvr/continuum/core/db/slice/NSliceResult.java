@@ -1,5 +1,6 @@
 package com.dlvr.continuum.core.db.slice;
 
+import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Const;
 import com.dlvr.continuum.db.slice.SliceResult;
 
@@ -15,6 +16,7 @@ public class NSliceResult implements SliceResult {
     public Double value;
     public long timestamp;
     public List<SliceResult> children;
+    public List<Atom> atoms;
 
     @Override
     public String name() {
@@ -29,6 +31,11 @@ public class NSliceResult implements SliceResult {
     @Override
     public List<SliceResult> children() {
         return children;
+    }
+
+    @Override
+    public List<Atom> atoms() {
+        return atoms;
     }
 
     @Override

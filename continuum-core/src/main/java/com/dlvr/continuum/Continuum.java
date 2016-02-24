@@ -303,6 +303,10 @@ public class Continuum implements Closeable {
             target.value = value;
             return this;
         }
+        public SliceResultBuilder atoms(List<Atom> atoms) {
+            target.atoms = atoms;
+            return this;
+        }
         public SliceResultBuilder timestamp(long timestamp) {
             target.timestamp = timestamp;
             return this;
@@ -341,20 +345,6 @@ public class Continuum implements Closeable {
                     .build();
         }
 
-        // 50MB/10M metrics
-        public static void main(String[] args) throws Exception {
-            FileSystemReference ref = new FileSystemReference("/tmp/LOAD");
-            Builder b = series().base(ref);
-            LoadTest test = null;
-            try (Continuum c = b.open()){
-                test = new LoadTest(c);
-                test.load(c);
-            } finally {
-                if (test != null) test.stop();
-                //ref.delete();
-            }
-        }
-
         private void stop() {
             timer.cancel();
         }
@@ -376,6 +366,20 @@ public class Continuum implements Closeable {
                 final TimerTask task = new TimerTask() { public void run() { r.run(); }};
                 t.scheduleAtFixedRate(task, delay, delay);
                 return task;
+            }
+        }
+
+        // 50MB/10M metrics
+        public static void main(String[] args) throws Exception {
+            FileSystemReference ref = new FileSystemReference("/tmp/LOAD");
+            Builder b = series().base(ref);
+            LoadTest test = null;
+            try (Continuum c = b.open()){
+                test = new LoadTest(c);
+                test.load(c);
+            } finally {
+                if (test != null) test.stop();
+                //ref.delete();
             }
         }
     }

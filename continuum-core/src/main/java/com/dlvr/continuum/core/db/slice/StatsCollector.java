@@ -88,6 +88,9 @@ public class StatsCollector implements Collector {
             default:
                 throw new Error("Not implemented: " + slice.function());
         }
-        return Continuum.result("stats").value(value).timestamp(timestamp).build();
+        return Continuum.result(function.name().toLowerCase())
+                .value(value)
+                .timestamp(timestamp)
+                .build();
     }
 }

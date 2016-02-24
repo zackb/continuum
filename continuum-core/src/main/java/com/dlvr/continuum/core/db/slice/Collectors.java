@@ -7,11 +7,17 @@ import com.dlvr.continuum.db.slice.Slice;
  * Slice atom collector factory and utils
  */
 public class Collectors {
+
     public static Collector forSlice(Slice slice) {
+        Collector collector = null;
+        if (slice.interval() != null) {
+            collector = new IntervalCollector(slice);
+        } else if (slice.function() != null) {
+            collector = new StatsCollector(slice);
+        } else {
+            collector = new AtomCollector();
+        }
 
-        if (slice.interval() != null)
-            return new IntervalCollector(slice);
-
-        return new StatsCollector(slice);
+        return collector;
     }
 }

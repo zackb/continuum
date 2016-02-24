@@ -78,7 +78,33 @@ public class Interval {
     }
 
     public long toMillis() {
-        return toSeconds() * 1000;
+        long millis = count;
+        switch (unit) {
+            case MILLISECOND:
+                break;
+            case SECOND:
+                millis = count * 1000;
+                break;
+            case MINUTE:
+                millis = count * 1000 * 60;
+                break;
+            case HOUR:
+                millis = count * 1000 * 60 * 60;
+                break;
+            case DAY:
+                millis = count * 1000 * 60 * 60 * 24;
+                break;
+            case WEEK:
+                millis = count * 1000 * 60 * 60 * 24 * 7;
+                break;
+            case MONTH:
+                millis = count * 1000 * 60 * 60 * 24 * 7 * 30;
+                break;
+            case YEAR:
+                millis = count * 1000 * 60 * 60 * 24 * 7 * 365;
+                break;
+        }
+        return millis;
     }
 
     @Override
