@@ -3,6 +3,7 @@ package com.dlvr.continuum.core.db.slice;
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Collector;
+import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.db.slice.SliceResult;
 
@@ -63,7 +64,9 @@ public class StatsCollector implements Collector {
 
         double value;
 
-        switch (slice.function()) {
+        Function function = slice.function();
+        function = function != null ? function : Function.AVG;
+        switch (function) {
             case AVG:
                 value = avg();
                 break;
