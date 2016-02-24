@@ -3,6 +3,7 @@ package com.dlvr.continuum.db.db;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.core.db.RockDB;
+import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
 import org.junit.Test;
@@ -52,11 +53,9 @@ public class DBTest {
                 .build();
         db.write(d);
 
-        /* TODO
         AtomID id = d.ID();
         d = db.get(id);
-        assertEquals(12346555.0000000000D, d.value() , 0.001);
-        */
+        assertEquals(98898.124D, d.value(), 0.00001);
         SliceResult res = db.slice(slice("test").function(Function.AVG).build());
         Double avg = res.value();
         assertEquals((12346555.0000000000D + 98898.124D)/ 2, avg, 0.00001);
