@@ -114,6 +114,7 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<Object> 
             result = callHandler();
         } catch (HttpException e) {
             System.err.println("Failed handling request: " + request.uri() + " : " + e.getMessage());
+            e.printStackTrace();
             status = HttpResponseStatus.valueOf(e.getStatusCode());
             result = createErrorResult(e);
         }

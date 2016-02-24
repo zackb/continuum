@@ -1,6 +1,7 @@
 {
     "version": 0.01,
-    "name": "continuum-dev"
+    "name": "continuum-dev",
+    "dimension": "SPACE",
     "hot": "/tmp/continuum-dev",
     "cold": "s3_cold://",
     "glacier": "/dev/null",

@@ -4,6 +4,7 @@ import com.dlvr.continuum.db.SliceID;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.core.db.SSliceID;
+import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.util.datetime.Interval;
@@ -21,6 +22,7 @@ public class NSlice implements Slice {
     public Particles particles;
     public Fields fields;
     public double value;
+    public Collector[] collectors;
 
     @Override
     public SliceID ID() {

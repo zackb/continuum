@@ -10,6 +10,7 @@ import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.db.Slab;
+import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.db.slice.SliceResult;
@@ -54,6 +55,10 @@ public class Continuum implements Closeable {
 
     public static AtomBuilder katom() {
         return new AtomBuilder().dimension(Dimension.TIME);
+    }
+
+    public static Particles particles() {
+        return new NParticles(new HashMap<>());
     }
 
     public static Particles particles(Map<String, String> particles) {
@@ -166,9 +171,9 @@ public class Continuum implements Closeable {
     public static class Builder {
         private Dimension dimension = Dimension.TIME;
         private List<FileSystemReference> base = new ArrayList<>();
-        private String id = "continuum";
-        public Builder id(String id) {
-            this.id = id;
+        private String name = "continuum";
+        public Builder name(String name) {
+            this.name = name;
             return this;
         }
         public Builder base(FileSystemReference base) {
@@ -186,7 +191,7 @@ public class Continuum implements Closeable {
             return this;
         }
         public Continuum open() throws Exception {
-            return new Continuum(id, dimension, base);
+            return new Continuum(name, dimension, base);
         }
     }
 
@@ -246,8 +251,16 @@ public class Continuum implements Closeable {
             target.start = start;
             return this;
         }
+        public SliceBuilder start(Interval start) {
+            target.start = System.currentTimeMillis() - start.toMillis();
+            return this;
+        }
         public SliceBuilder end(long end) {
             target.end = end;
+            return this;
+        }
+        public SliceBuilder end(Interval end) {
+            target.end = System.currentTimeMillis() - end.toMillis();
             return this;
         }
         public SliceBuilder interval(Interval interval) {
@@ -264,6 +277,10 @@ public class Continuum implements Closeable {
         }
         public SliceBuilder particles(Particles particles) {
             target.particles = particles;
+            return this;
+        }
+        public SliceBuilder collectors(Collector... collectors) {
+            target.collectors = collectors;
             return this;
         }
         public SliceBuilder fields(Fields fields) {
@@ -298,6 +315,7 @@ public class Continuum implements Closeable {
 
     public enum Dimension {
         SPACE, TIME
+     // Series / Key
     }
 
     static class LoadTest {

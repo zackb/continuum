@@ -14,7 +14,7 @@ public class NSliceResult implements SliceResult {
     public String name;
     public Double value;
     public long timestamp;
-    public List<SliceResult> children = new ArrayList<>();
+    public List<SliceResult> children;
 
     @Override
     public String name() {
@@ -33,6 +33,7 @@ public class NSliceResult implements SliceResult {
 
     @Override
     public void addChild(SliceResult result) {
+        if (children == null) children = new ArrayList<>();
         children.add(result);
     }
 

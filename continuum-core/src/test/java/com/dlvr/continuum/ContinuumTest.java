@@ -30,7 +30,7 @@ public class ContinuumTest {
         Continuum continuum = null;
         try {
             continuum = Continuum.continuum()
-                    .id("testSanity")
+                    .name("testSanity")
                     .base(reference)
                     .open();
         } finally { if (continuum != null) continuum.delete(); }
@@ -41,7 +41,7 @@ public class ContinuumTest {
         Continuum continuum = null;
         try {
             continuum = Continuum.continuum()
-                    .id("testWriteRead")
+                    .name("testWriteRead")
                     .base(reference)
                     .open();
 
@@ -56,7 +56,7 @@ public class ContinuumTest {
         Continuum continuum = null;
         try {
             continuum = Continuum.continuum()
-                    .id("testSliceIntervals")
+                    .name("testSliceIntervals")
                     .dimension(Continuum.Dimension.SPACE)
                     .base(reference)
                     .open();
