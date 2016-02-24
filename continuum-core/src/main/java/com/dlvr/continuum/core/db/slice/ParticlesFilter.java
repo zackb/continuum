@@ -21,7 +21,11 @@ public class ParticlesFilter implements Filter {
         if (slice.particles() == null) return Action.CONTINUE;
 
         for (String name : slice.particles().keySet()) {
-            if (!atom.particles().get(name).equals(slice.particles().get(name))) {
+            String atomVal = atom.particles().get(name);
+            String sliceVal = slice.particles().get(name);
+            if (sliceVal == null) continue;
+            if (atomVal == null) return Action.STOP;
+            if (!atomVal.equals((sliceVal))) {
                 return Action.STOP;
             }
         }
