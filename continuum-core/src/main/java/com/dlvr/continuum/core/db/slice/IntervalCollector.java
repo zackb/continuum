@@ -5,8 +5,7 @@ import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.db.slice.SliceResult;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Collect sub-aggregated data at a given interval
@@ -42,8 +41,9 @@ public class IntervalCollector implements Collector {
     public SliceResult result() {
 
         SliceResult result = collector.result();
-
-        for (Long ts : collectors.keySet()) {
+        List<Long> sorted = new ArrayList<>(collectors.keySet());
+        Collections.sort(sorted, (o1, o2) -> o2.compareTo(o1));
+        for (Long ts : sorted) {
             SliceResult child = collectors.get(ts).result();
             result.addChild(child);
         }

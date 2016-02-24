@@ -129,8 +129,8 @@ public class ContinuumTest {
             SliceResult res = continuum.db().slice(slice);
             assertEquals(3, res.children().size());
             assertEquals(10.0D, res.getChild(2).value(), 0.000001);
-            assertEquals(-0.000005D, res.getChild(1).value(), 0.000001);
-            assertEquals(52.5D, res.getChild(0).value(), 0.000001);
+            assertEquals(-0.000005D, res.getChild(0).value(), 0.000001);
+            assertEquals(52.5D, res.getChild(1).value(), 0.000001);
 
         } finally {
             if (continuum != null) continuum.delete();
@@ -140,8 +140,8 @@ public class ContinuumTest {
     @Test
     public void testSpaceMany() throws Exception {
         Continuum continuum = null;
-        System.out.println(System.currentTimeMillis());
         try {
+            long now = System.currentTimeMillis();
             continuum = Continuum.continuum()
                     .name("testSpaceMany")
                     .dimension(Continuum.Dimension.SPACE)
@@ -150,19 +150,19 @@ public class ContinuumTest {
 
             Atom atom = continuum.atom().name("test1")
                     .value(10.0)
-                    .timestamp(System.currentTimeMillis())
+                    .timestamp(now - 90000)
                     .build();
             continuum.db().write(atom);
 
             atom = continuum.atom().name("test0")
                     .value(0.4545)
-                    .timestamp(System.currentTimeMillis() + 10)
+                    .timestamp(now - 80000)
                     .build();
             continuum.db().write(atom);
 
             atom = continuum.atom().name("test5")
                     .value(5555.55556)
-                    .timestamp(System.currentTimeMillis() + 20)
+                    .timestamp(now - 70000)
                     .build();
             continuum.db().write(atom);
 
@@ -174,7 +174,7 @@ public class ContinuumTest {
             atom = continuum.atom().name("test5")
                     .particles(particles)
                     .value(5555.001)
-                    .timestamp(System.currentTimeMillis() + 21)
+                    .timestamp(now - 60000)
                     .build();
             continuum.db().write(atom);
 
@@ -197,8 +197,15 @@ public class ContinuumTest {
 
             // test sum interval
             result = continuum.db().slice(
-                    Continuum.slice("test").start(0).end(Interval.valueOf("20d")).function(Function.SUM).interval(Interval.valueOf("4ms")).build()
+                    Continuum.slice("test").start(0).end(Interval.valueOf("20d")).function(Function.SUM).interval(Interval.valueOf("20s")).build()
             );
+
+            assertNotNull(result);
+            assertEquals("sum", result.name());
+            assertEquals(3, result.children().size());
+            for (SliceResult s : result.children()) {
+                System.out.println(s.timestamp());
+            }
 
             System.out.println(JSON.encode(result));
         } finally {
