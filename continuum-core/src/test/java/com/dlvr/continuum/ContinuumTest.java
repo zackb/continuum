@@ -222,7 +222,33 @@ public class ContinuumTest {
                 ts = a.timestamp();
             }
 
-            System.out.println(JSON.encode(result));
+            Atom a = result.atoms().get(0);
+            assertEquals("test5", a.name());
+            assertEquals(2, a.particles().size());
+            assertEquals("limelight", a.particles().get("provider"));
+            assertEquals("12345", a.particles().get("network"));
+            assertEquals(5555.001, a.value(), 0);
+            assertEquals(now - 68000, a.timestamp(), 0);
+
+
+            a = result.atoms().get(1);
+            assertEquals("test5", a.name());
+            assertNull(a.particles());
+            assertEquals(5555.55556, a.value(), 0);
+            assertEquals(now - 70000, a.timestamp(), 0);
+
+            a = result.atoms().get(2);
+            assertEquals("test0", a.name());
+            assertNull(a.particles());
+            assertEquals(0.4545, a.value(), 0);
+            assertEquals(now - 80000, a.timestamp(), 0);
+
+            a = result.atoms().get(3);
+            assertEquals("test1", a.name());
+            assertNull(a.particles());
+            assertEquals(10.0, a.value(), 0);
+            assertEquals(now - 90000, a.timestamp(), 0);
+
         } finally {
             if (continuum != null) continuum.delete();
         }
