@@ -1,6 +1,7 @@
 package com.dlvr.continuum.rest;
 
 import com.dlvr.continuum.Continuum;
+import com.dlvr.continuum.rest.client.Client;
 import com.dlvr.continuum.rest.http.ContinuumReadHandler;
 import com.dlvr.continuum.rest.http.ContinuumWriteHandler;
 import com.dlvr.continuum.rest.http.HttpServerConfig;
@@ -67,5 +68,15 @@ public class REST {
 
     public Continuum continuum() {
         return continuum;
+    }
+
+    /**
+     * Create a REST client for a given Continuum rest server
+     * @param host rest host
+     * @param port rest port
+     * @return new REST client
+     */
+    public static Client client(String host, int port) {
+        return new Client(host, port);
     }
 }
