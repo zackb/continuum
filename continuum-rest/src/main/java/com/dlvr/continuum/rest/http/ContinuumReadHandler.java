@@ -82,7 +82,7 @@ public class ContinuumReadHandler implements HttpRequestHandler {
                         interval = Interval.valueOf((String)value);
                         break;
                     case "fn":
-                        function = Function.valueOf((String)value);
+                        function = Function.fromString((String)value);
                         break;
                     default:
                         particles.put(key, (String)value);

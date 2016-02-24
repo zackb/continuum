@@ -42,7 +42,7 @@ Query time series or time key value data. Required fields are start, end, name. 
 #### example request
 Get ten days worth of average temperature values in LAX in one day intervals.
 
-    $ curl -k -u dlvr:dlvr https://continuum.dlvr.com/api/1.0/read/temperature?location=lax&start=0&end=10d&function=avg&interval=1d
+    $ curl -k -u dlvr:dlvr https://continuum.dlvr.com/api/1.0/read?name=temperature&location=lax&start=0&end=10d&function=avg&interval=1d
 
 #### response
 

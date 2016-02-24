@@ -31,7 +31,7 @@
 https://continuum.dlvr.com/api/1.0
 </pre>
 
-<p><a href="https://is.gd/2qRT3y">HTML</a></p>
+<p><a href="https://is.gd/2qRT3y">DOCS</a></p>
 
 <h3>Path</h3>
 
@@ -68,23 +68,23 @@ https://continuum.dlvr.com/api/1.0
 
 <p>Get ten days worth of average temperature values in LAX in one day intervals.</p>
 
-<pre class="shell"><code>curl -k -u dlvr:dlvr https://continuum.dlvr.com/api/1.0/read/temperature?location=lax&amp;start=0&amp;end=10d&amp;function=avg&amp;interval=1d
+<pre class="shell"><code>curl -k -u dlvr:dlvr https://continuum.dlvr.com/api/1.0/read?name=temperature&amp;location=lax&amp;start=0&amp;end=10d&amp;function=avg&amp;interval=1d
 </code></pre>
 
 <h4 id="response">response</h4>
 
 <pre><code>{
   "data": [
-    {12348567: 90.1},
-    {12345567: 89.354678},
-    {12346567: 92.9},
-    {12347567: 90.0},
-    {12348567: 90.0004},
-    {12349567: 87.123},
-    {12350567: 94.555},
-    {12351567: 92.5},
-    {12352567: 81.0},
-    {12353567: 80.999},
+    {1455355748946: 90.1},
+    {1455269348946: 89.354678},
+    {1455182948946: 92.9},
+    {1455096548946: 90.0},
+    {1455010148946: 90.0004},
+    {1454923748946: 87.123},
+    {1454837348946: 94.555},
+    {1454750948946: 92.5},
+    {1454664548946: 81.0},
+    {1454578148946: 80.999},
   ],
   "execution_time": 2,
 }
