@@ -6,6 +6,7 @@ import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.SliceResult;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,6 +28,7 @@ public class AtomCollector implements Collector {
 
     @Override
     public SliceResult result() {
+        Collections.sort(atoms, (o1, o2) -> o2.timestamp().compareTo(o1.timestamp()));
         return Continuum.result("atoms")
                 .value((double)atoms.size())
                 .atoms(atoms)

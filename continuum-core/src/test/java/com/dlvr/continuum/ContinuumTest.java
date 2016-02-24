@@ -10,7 +10,6 @@ import com.dlvr.continuum.util.JSON;
 import com.dlvr.continuum.util.datetime.Interval;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -141,7 +140,8 @@ public class ContinuumTest {
     public void testSpaceMany() throws Exception {
         Continuum continuum = null;
         try {
-            long now = System.currentTimeMillis();
+            long now = 1456352961000L;
+            //now = now - Math.abs(now % 1000);
             continuum = Continuum.continuum()
                     .name("testSpaceMany")
                     .dimension(Continuum.Dimension.SPACE)
@@ -174,7 +174,7 @@ public class ContinuumTest {
             atom = continuum.atom().name("test5")
                     .particles(particles)
                     .value(5555.001)
-                    .timestamp(now - 60000)
+                    .timestamp(now - 68000)
                     .build();
             continuum.db().write(atom);
 
@@ -197,14 +197,29 @@ public class ContinuumTest {
 
             // test sum interval
             result = continuum.db().slice(
-                    Continuum.slice("test").start(0).end(Interval.valueOf("20d")).function(Function.SUM).interval(Interval.valueOf("20s")).build()
+                    Continuum.slice("test").start(0).end(Interval.valueOf("20d")).function(Function.SUM).interval(Interval.valueOf("8s")).build()
             );
 
             assertNotNull(result);
             assertEquals("sum", result.name());
             assertEquals(3, result.children().size());
-            for (SliceResult s : result.children()) {
-                System.out.println(s.timestamp());
+
+            assertEquals(11110.55656, result.children().get(0).value(), 0);
+            assertEquals(0.4545, result.children().get(1).value(), 0);
+            assertEquals(10.0, result.children().get(2).value(), 0);
+
+            // test scan all atoms
+            result = continuum.db().slice(
+                    Continuum.slice("test").end(now - 100000).build()
+            );
+
+            assertNull(result.children());
+            assertEquals(4, result.atoms().size());
+
+            long ts = result.atoms().get(0).timestamp();
+            for (Atom a : result.atoms()) {
+                assertTrue(a.timestamp() <= ts);
+                ts = a.timestamp();
             }
 
             System.out.println(JSON.encode(result));
