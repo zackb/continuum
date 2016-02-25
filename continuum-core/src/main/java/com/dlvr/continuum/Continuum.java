@@ -243,8 +243,11 @@ public class Continuum implements Closeable {
 
     public static class SliceBuilder {
         private final NSlice target = new NSlice();
-        private SliceBuilder() {}
+        private SliceBuilder() {
+            target.start = System.currentTimeMillis();
+        }
         SliceBuilder(String name) {
+            target.start = System.currentTimeMillis();
             target.name = name;
         }
         public SliceBuilder start(long start) {

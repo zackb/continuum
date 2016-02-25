@@ -9,6 +9,10 @@ import com.dlvr.continuum.db.slice.Slice;
  */
 public class Filters {
     public static Filter forSlice(Slice slice) {
-        return new ParticlesFilter(slice);
+        return new CompositeFilter(
+            new TimestampFilter(slice.start(), slice.end()),
+            new NameFilter(slice.name()),
+            new ParticlesFilter(slice)
+        );
     }
 }

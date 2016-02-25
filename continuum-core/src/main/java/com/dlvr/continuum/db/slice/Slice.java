@@ -11,9 +11,22 @@ import com.dlvr.continuum.util.datetime.Interval;
 public interface Slice {
 
     /**
+     * TODO: How to not need all three of these?
      * Non-unique id for this slice
      */
     SliceID ID();
+
+    /**
+     * ID for time key
+     * @return id
+     */
+    SliceID TimeID();
+
+    /**
+     * ID for time series
+     * @return id
+     */
+    SliceID SpaceID();
 
     /**
      * The measurement name to slice for

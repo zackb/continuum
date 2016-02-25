@@ -30,12 +30,6 @@ public class ParticlesFilter implements Filter {
             }
         }
 
-        if (atom.timestamp() < slice.end())
-            return Action.STOP;
-
-        if (atom.timestamp() > slice.start())
-            return Action.STOP;
-
         return Action.CONTINUE;
     }
 }

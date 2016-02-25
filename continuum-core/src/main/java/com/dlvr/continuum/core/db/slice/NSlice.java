@@ -1,5 +1,7 @@
 package com.dlvr.continuum.core.db.slice;
 
+import com.dlvr.continuum.Continuum;
+import com.dlvr.continuum.core.db.KSliceID;
 import com.dlvr.continuum.db.SliceID;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
@@ -7,6 +9,7 @@ import com.dlvr.continuum.core.db.SSliceID;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.util.datetime.Interval;
 
 
@@ -23,12 +26,28 @@ public class NSlice implements Slice {
     public Fields fields;
     public double value;
     public Collector[] collectors;
+    public Continuum.Dimension dimension;
 
     @Override
     public SliceID ID() {
         //TODO:
         // Cache/Mutability?
+        if (dimension == Continuum.Dimension.SPACE)
+            return TimeID();
+        else if (dimension == Continuum.Dimension.TIME)
+            return SpaceID();
+
+        throw new ZiggyStardustError();
+    }
+
+    @Override
+    public SliceID TimeID() {
         return new SSliceID(name, particles);
+    }
+
+    @Override
+    public SliceID SpaceID() {
+        return new KSliceID(start, name, particles);
     }
 
     @Override

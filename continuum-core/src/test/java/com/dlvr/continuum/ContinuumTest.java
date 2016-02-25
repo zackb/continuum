@@ -181,7 +181,7 @@ public class ContinuumTest {
 
             // test scanning all atoms
             SliceResult result = continuum.db().slice(
-                    Continuum.slice("test").start(0).end(Interval.valueOf("20d")).build()
+                    Continuum.slice("test").end(Interval.valueOf("20d")).build()
             );
 
             assertNotNull(result);
@@ -191,13 +191,13 @@ public class ContinuumTest {
 
             // test averaging
             result = continuum.db().slice(
-                    Continuum.slice("test").start(0).end(Interval.valueOf("20d")).function(Function.AVG).build()
+                    Continuum.slice("test").end(Interval.valueOf("20d")).function(Function.AVG).build()
             );
             assertEquals(2780.252765, result.value(), 0.000d);
 
             // test sum interval
             result = continuum.db().slice(
-                    Continuum.slice("test").start(0).end(Interval.valueOf("20d")).function(Function.SUM).interval(Interval.valueOf("8s")).build()
+                    Continuum.slice("test").end(Interval.valueOf("20d")).function(Function.SUM).interval(Interval.valueOf("8s")).build()
             );
 
             assertNotNull(result);
@@ -249,6 +249,20 @@ public class ContinuumTest {
             assertEquals(10.0, a.value(), 0);
             assertEquals(now - 90000, a.timestamp(), 0);
 
+
+            // test scan some particles
+            result = continuum.db().slice(
+                    Continuum.slice("test5").end(now - 100000).build()
+            );
+            System.out.println(JSON.encode(result.atoms()));
+            assertEquals(2, result.atoms().size());
+
+            Map<String, String> map = new HashMap<>();
+            map.put("provider", "limelight");
+            result = continuum.db().slice(
+                    Continuum.slice("test5").particles(Continuum.particles(map)).end(now - 100000).build()
+            );
+            assertEquals(1, result.atoms().size());
         } finally {
             if (continuum != null) continuum.delete();
         }

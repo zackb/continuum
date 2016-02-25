@@ -3,10 +3,7 @@ package com.dlvr.continuum.core.db;
 import com.dlvr.continuum.core.db.slice.Filters;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.db.DB;
-import com.dlvr.continuum.db.AtomID;
-import com.dlvr.continuum.db.Iterator;
-import com.dlvr.continuum.db.Slab;
+import com.dlvr.continuum.db.*;
 import com.dlvr.continuum.db.slice.Filter;
 import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.db.slice.SliceResult;
@@ -97,7 +94,8 @@ public class RockDB implements DB {
         Filter filter = Filters.forSlice(slice); // TODO: filter fields and value
         try {
             itr = iterator();
-            itr.seek(slice.ID().bytes());
+            ID id = dimension == Dimension.SPACE ? slice.SpaceID() : slice.TimeID();
+            itr.seek(id.bytes());
             while (itr.hasNext()) {
                 Atom atom = itr.get();
                 Filter.Action action = filter.filter(atom);

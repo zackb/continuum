@@ -6,6 +6,7 @@ import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.util.datetime.Interval;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class DBTest {
 
         String name = "testSlice";
         reference.child(name).delete();
-        RockDB db = new RockDB(Dimension.TIME, name, reference);
+        RockDB db = new RockDB(Dimension.SPACE, name, reference);
         Atom d = satom().name("zack")
                 .timestamp(System.currentTimeMillis())
                 .particles(particles(particles))
@@ -46,7 +47,7 @@ public class DBTest {
         db.write(d);
 
         d = satom().name("zack")
-                .timestamp(System.currentTimeMillis() + 10)
+                .timestamp(System.currentTimeMillis() - 10)
                 .particles(particles(particles))
                 .fields(fields(fields))
                 .value(98898.124D)
@@ -56,7 +57,7 @@ public class DBTest {
         AtomID id = d.ID();
         d = db.get(id);
         assertEquals(98898.124D, d.value(), 0.00001);
-        SliceResult res = db.slice(slice("test").function(Function.AVG).build());
+        SliceResult res = db.slice(slice("zack").end(Interval.valueOf("1d")).function(Function.AVG).build());
         Double avg = res.value();
         assertEquals((12346555.0000000000D + 98898.124D)/ 2, avg, 0.00001);
         db.close();

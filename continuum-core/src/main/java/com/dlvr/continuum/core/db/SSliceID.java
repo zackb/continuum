@@ -6,6 +6,7 @@ import com.dlvr.continuum.db.slice.Const;
 import com.dlvr.continuum.util.Bytes;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +19,12 @@ public class SSliceID implements SliceID {
 
     private final byte[] id;
 
+    private final String name;
+    private final Particles particles;
+
     public SSliceID(String name, Particles particles) {
+        this.name = name;
+        this.particles = particles;
         byte[] bname = Bytes.bytes(name);
         byte[] bparticles = particles == null ? new byte[0] : encode(particles);
         id = new byte[bname.length + bparticles.length + 1];
@@ -36,7 +42,7 @@ public class SSliceID implements SliceID {
      */
     static byte[] encode(Particles particles) {
         byte[] bid = new byte[1024];
-        List<String> names = particles.names();
+        List<String> names = particles == null ? new ArrayList<>() : particles.names();
         int len = names.size();
 
         int pos = 0;
@@ -70,5 +76,15 @@ public class SSliceID implements SliceID {
     @Override
     public byte[] bytes() {
         return id;
+    }
+
+    @Override
+    public String name() {
+        return name;
+    }
+
+    @Override
+    public Particles particles() {
+        return particles;
     }
 }

@@ -16,7 +16,12 @@ public class KSliceID implements SliceID {
 
     private final byte[] id;
 
+    private final String name;
+    private final Particles particles;
+
     public KSliceID(double start, String name, Particles particles) {
+        this.name = name;
+        this.particles = particles();
 
         byte[] bstart = Bytes.bytes(start);   // start at time
         byte[] bname = Bytes.bytes(name);     // and name
@@ -29,17 +34,25 @@ public class KSliceID implements SliceID {
         buff.put(bname);
         buff.put(b);
         buff.put(bparticles);
-
-        throw new Error("This needs testing");
     }
 
     @Override
     public String string() {
-        return null;
+        return Bytes.String(id);
     }
 
     @Override
     public byte[] bytes() {
-        return new byte[0];
+        return id;
+    }
+
+    @Override
+    public String name() {
+        return name;
+    }
+
+    @Override
+    public Particles particles() {
+        return particles;
     }
 }
