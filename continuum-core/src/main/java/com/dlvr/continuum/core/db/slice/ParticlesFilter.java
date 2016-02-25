@@ -19,6 +19,7 @@ public class ParticlesFilter implements Filter {
     @Override
     public Action filter(Atom atom) {
         if (slice.particles() == null) return Action.CONTINUE;
+        if (atom.particles() == null) return Action.SKIP;
 
         for (String name : slice.particles().keySet()) {
             String atomVal = atom.particles().get(name);

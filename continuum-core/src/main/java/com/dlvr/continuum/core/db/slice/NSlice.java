@@ -33,21 +33,21 @@ public class NSlice implements Slice {
         //TODO:
         // Cache/Mutability?
         if (dimension == Continuum.Dimension.SPACE)
-            return TimeID();
-        else if (dimension == Continuum.Dimension.TIME)
             return SpaceID();
+        else if (dimension == Continuum.Dimension.TIME)
+            return TimeID();
 
         throw new ZiggyStardustError();
     }
 
     @Override
     public SliceID TimeID() {
-        return new SSliceID(name, particles);
+        return new KSliceID(start, name, particles);
     }
 
     @Override
     public SliceID SpaceID() {
-        return new KSliceID(start, name, particles);
+        return new SSliceID(name, particles);
     }
 
     @Override

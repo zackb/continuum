@@ -19,7 +19,7 @@ public class NameFilter implements Filter {
     public Action filter(Atom atom) {
         if (prefix == null) return Action.CONTINUE;
         // TODO: StartsWith or equals()?
-        if (!atom.name().startsWith(prefix)) return Action.STOP;
+        if (!atom.name().equals(prefix)) return Action.STOP;
         return Action.CONTINUE;
     }
 }

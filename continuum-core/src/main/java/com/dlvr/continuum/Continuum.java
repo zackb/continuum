@@ -290,7 +290,10 @@ public class Continuum implements Closeable {
             target.fields = fields;
             return this;
         }
-
+        public SliceBuilder dimension(Dimension dimension) {
+            target.dimension = dimension;
+            return this;
+        }
         public Slice build() {
             return target;
         }

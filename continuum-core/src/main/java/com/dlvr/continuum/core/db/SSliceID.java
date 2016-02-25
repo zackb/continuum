@@ -22,11 +22,19 @@ public class SSliceID implements SliceID {
     private final String name;
     private final Particles particles;
 
+
+    // TODO: disable scanning to exact name + particles match as depends on particle name ordering
+    private static final boolean USE_PARTICLES = false;
+
     public SSliceID(String name, Particles particles) {
         this.name = name;
         this.particles = particles;
         byte[] bname = Bytes.bytes(name);
-        byte[] bparticles = particles == null ? new byte[0] : encode(particles);
+        byte[] bparticles = null;
+        if (USE_PARTICLES && particles != null)
+            bparticles = encode(particles);
+        else
+            bparticles = new byte[0];
         id = new byte[bname.length + bparticles.length + 1];
 
         ByteBuffer buff = ByteBuffer.wrap(id);
