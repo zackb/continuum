@@ -39,7 +39,8 @@ public class RockIterator implements Iterator {
 
     @Override
     public Values values() {
-        return Bytes.Values(it.value());
+        // TODO: Lazy decode?
+        return Bytes.Atom(it.value(), dimension).values();
     }
 
     @Override

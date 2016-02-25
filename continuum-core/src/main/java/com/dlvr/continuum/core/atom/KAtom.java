@@ -1,6 +1,5 @@
 package com.dlvr.continuum.core.atom;
 
-import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.core.db.KAtomID;
 import com.dlvr.continuum.db.AtomID;
 
@@ -10,7 +9,7 @@ import com.dlvr.continuum.db.AtomID;
  */
 public class KAtom extends NAtom {
 
-    public KAtom(String name, NParticles particles, long timestamp, NFields fields, Values values) {
+    public KAtom(String name, NParticles particles, long timestamp, NFields fields, NValues values) {
         super(name, particles, timestamp, fields, values);
     }
 

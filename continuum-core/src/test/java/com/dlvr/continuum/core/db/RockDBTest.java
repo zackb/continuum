@@ -28,7 +28,7 @@ public class RockDBTest {
                 .build();
 
         byte[] bytes = Bytes.bytes(d);
-        Values values = Bytes.Values(bytes);
+        Values values = Bytes.SAtom(bytes).values();
         assertEquals(12345.45, values.value(), 0.000000000001);
         assertEquals(12345.45, values.min(), 0.000000000001);
         assertEquals(12345.45, values.max(), 0.000000000001);

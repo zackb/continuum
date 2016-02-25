@@ -59,6 +59,46 @@ public class Bytes {
                 .build();
     }
 
+    public static int Int(byte[] bytes) {
+        return Int(bytes[0], bytes[1], bytes[2], bytes[3]);
+    }
+
+    public static int Int(byte b1, byte b2, byte b3, byte b4) {
+        return b1 << 24 | (b2 & 0xFF) << 16 | (b3 & 0xFF) << 8 | (b4 & 0xFF);
+    }
+
+    public static AtomID SAtomID(byte[] bytes) {
+        return new SAtomID(bytes);
+    }
+
+    public static AtomID KAtomID(byte[] bytes) {
+        return new KAtomID(bytes);
+    }
+
+    public static byte[] bytes(AtomID id) {
+        return id.bytes();
+    }
+
+    public static byte[] bytes(double value) {
+        byte[] bytes = new byte[8];
+        ByteBuffer.wrap(bytes).putDouble(value);
+        return bytes;
+    }
+
+    public static double Double(byte[] bytes) {
+        return ByteBuffer.wrap(bytes).getDouble();
+    }
+
+    public static byte[] bytes(long value) {
+        byte[] bytes = new byte[8];
+        ByteBuffer.wrap(bytes).putLong(value);
+        return bytes;
+    }
+
+    public static long Long(byte[] bytes) {
+        return ByteBuffer.wrap(bytes).getLong();
+    }
+
     /**
      * // TODO: Store stats instead of values/avg?
      *      Quark! byte[bson(fields)] + 0x0 + byte[min] + 0x0 + byte[max] + 0x0 + byte[sum] + byte[count] + 0x0
@@ -69,10 +109,10 @@ public class Bytes {
      * @return values for slab storage
      */
     public static byte[] bytes(Atom atom) {
+        return BSON.encode(atom);
 
-        NAtom natom = (NAtom)atom;
-
-        Values values = atom.values();
+        /*
+Values values = atom.values();
         natom.values = null;
         byte[] bson = BSON.encode(natom);
         natom.values = values;
@@ -117,46 +157,8 @@ public class Bytes {
         append(result, pos, value);
 
         return result;
-    }
+*/
 
-    public static int Int(byte[] bytes) {
-        return Int(bytes[0], bytes[1], bytes[2], bytes[3]);
-    }
-
-    public static int Int(byte b1, byte b2, byte b3, byte b4) {
-        return b1 << 24 | (b2 & 0xFF) << 16 | (b3 & 0xFF) << 8 | (b4 & 0xFF);
-    }
-
-    public static AtomID SAtomID(byte[] bytes) {
-        return new SAtomID(bytes);
-    }
-
-    public static AtomID KAtomID(byte[] bytes) {
-        return new KAtomID(bytes);
-    }
-
-    public static byte[] bytes(AtomID id) {
-        return id.bytes();
-    }
-
-    public static byte[] bytes(double value) {
-        byte[] bytes = new byte[8];
-        ByteBuffer.wrap(bytes).putDouble(value);
-        return bytes;
-    }
-
-    public static double Double(byte[] bytes) {
-        return ByteBuffer.wrap(bytes).getDouble();
-    }
-
-    public static byte[] bytes(long value) {
-        byte[] bytes = new byte[8];
-        ByteBuffer.wrap(bytes).putLong(value);
-        return bytes;
-    }
-
-    public static long Long(byte[] bytes) {
-        return ByteBuffer.wrap(bytes).getLong();
     }
 
     public static Atom SAtom(byte[] bytes) {
@@ -168,7 +170,6 @@ public class Bytes {
     }
 
     public static Atom Atom(byte[] bytes, Continuum.Dimension dimension) {
-        Values values = Values(bytes);
         Class<? extends NAtom> clazz = null;
         if (dimension == Continuum.Dimension.SPACE)
             clazz = SAtom.class;
@@ -176,7 +177,6 @@ public class Bytes {
             clazz = KAtom.class;
         else throw new ZiggyStardustError();
         NAtom atom = BSON.decodeObject(bytes, clazz);
-        atom.values = values;
         return atom;
     }
 

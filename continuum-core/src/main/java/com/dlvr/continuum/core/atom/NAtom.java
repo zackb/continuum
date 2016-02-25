@@ -13,11 +13,11 @@ public abstract class NAtom implements Atom {
     public NParticles particles;
     public Long timestamp;
     public NFields fields;
-    public Values values;
+    public NValues values;
 
     public NAtom() { }
 
-    public NAtom(String name, NParticles particles, long timestamp, NFields fields, Values values) {
+    public NAtom(String name, NParticles particles, long timestamp, NFields fields, NValues values) {
         this.name = name;
         this.particles = particles;
         this.timestamp = timestamp;

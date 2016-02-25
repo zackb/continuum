@@ -1,6 +1,5 @@
 package com.dlvr.continuum.core.atom;
 
-import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.core.db.SAtomID;
 import com.dlvr.continuum.db.AtomID;
 
@@ -12,7 +11,7 @@ public class SAtom extends NAtom {
 
     public SAtom() { }
 
-    public SAtom(String name, NParticles particles, long timestamp, NFields fields, Values values) {
+    public SAtom(String name, NParticles particles, long timestamp, NFields fields, NValues values) {
         super(name, particles, timestamp, fields, values);
     }
 

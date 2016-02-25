@@ -244,7 +244,7 @@ public class Continuum implements Closeable {
         private NParticles particles;
         private NFields fields;
         private long timestamp = System.currentTimeMillis();
-        private double value;
+        private NValues values;
         private Dimension dimension;
         private AtomBuilder() {}
         public AtomBuilder name(String name) {
@@ -268,7 +268,7 @@ public class Continuum implements Closeable {
             return this;
         }
         public AtomBuilder value(double value) {
-            this.value = value;
+            this.values = (NValues)values(value);
             return this;
         }
         public AtomBuilder dimension(Dimension dimension) {
@@ -277,9 +277,9 @@ public class Continuum implements Closeable {
         }
         public Atom build() {
             if (dimension == Dimension.SPACE)
-                return new SAtom(name, particles, timestamp, fields, values(value));
+                return new SAtom(name, particles, timestamp, fields, values);
             else if (dimension == Dimension.TIME)
-                return new KAtom(name, particles, timestamp, fields, values(value));
+                return new KAtom(name, particles, timestamp, fields, values);
             throw new ZiggyStardustError();
         }
     }
