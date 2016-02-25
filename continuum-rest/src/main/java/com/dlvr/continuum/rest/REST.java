@@ -47,21 +47,6 @@ public class REST {
         httpServer.stop();
     }
 
-    public static void main(String[] args) throws Exception {
-        Universe universe = Universe.bigBang("/home/zack/code/dlvr/continuum/continuum-core/universe.meta");
-        Continuum continuum = Continuum.continuum()
-                .name(universe.name())
-                .base(universe.hot())
-                .dimension(universe.dimension())
-                .open();
-
-        REST rest = new REST(continuum, 1337).start();
-
-        byte[] b = new byte[1];
-        for (; b[0] != 'q'; System.in.read(b));
-        rest.stop();
-    }
-
     public static REST instance() {
         return instance;
     }
@@ -78,5 +63,20 @@ public class REST {
      */
     public static Client client(String host, int port) {
         return new Client(host, port);
+    }
+
+    public static void main(String[] args) throws Exception {
+        Universe universe = Universe.bigBang("/home/zack/code/dlvr/continuum/continuum-core/universe.meta");
+        Continuum continuum = Continuum.continuum()
+                .name(universe.name())
+                .base(universe.hot())
+                .dimension(universe.dimension())
+                .open();
+
+        REST rest = new REST(continuum, 1337).start();
+
+        byte[] b = new byte[1];
+        for (; b[0] != 'q'; System.in.read(b));
+        rest.stop();
     }
 }

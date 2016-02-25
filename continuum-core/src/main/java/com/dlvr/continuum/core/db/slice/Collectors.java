@@ -12,6 +12,8 @@ public class Collectors {
         Collector collector = null;
         if (slice.interval() != null) {
             collector = new IntervalCollector(slice);
+        } else if (slice.groups() != null) {
+            collector = new GroupCollector(slice);
         } else if (slice.function() != null) {
             collector = new StatsCollector(slice);
         } else {

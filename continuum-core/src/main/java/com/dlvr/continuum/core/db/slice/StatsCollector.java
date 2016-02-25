@@ -14,8 +14,8 @@ import com.dlvr.continuum.db.slice.SliceResult;
  */
 public class StatsCollector implements Collector {
 
-    private double max = 0d;
-    private double min = 0d;
+    private double max = Double.MIN_VALUE;
+    private double min = Double.MAX_VALUE;
     private long count = 0;
     private double sum = 0.0d;
 
@@ -62,7 +62,8 @@ public class StatsCollector implements Collector {
 
     @Override
     public SliceResult result() {
-
+        if (min == Double.MAX_VALUE) min = 0;
+        if (max == Double.MIN_VALUE) max = 0;
         double value;
 
         Function function = slice.function();

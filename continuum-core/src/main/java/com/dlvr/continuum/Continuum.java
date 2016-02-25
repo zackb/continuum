@@ -317,6 +317,14 @@ public class Continuum implements Closeable {
             target.function = function;
             return this;
         }
+        public SliceBuilder group(String group) {
+            target.groups = new String[] { group };
+            return this;
+        }
+        public SliceBuilder group(String... groups) {
+            target.groups = groups;
+            return this;
+        }
         public SliceBuilder particles(Map<String, String> particles) {
             //target.particles = particles;
             throw new Error("TODO");
@@ -358,6 +366,10 @@ public class Continuum implements Closeable {
         }
         public SliceResultBuilder atoms(List<Atom> atoms) {
             target.atoms = atoms;
+            return this;
+        }
+        public SliceResultBuilder children(List<SliceResult> children) {
+            target.children = children;
             return this;
         }
         public SliceResultBuilder timestamp(long timestamp) {

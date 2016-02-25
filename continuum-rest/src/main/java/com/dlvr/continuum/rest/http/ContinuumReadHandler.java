@@ -30,6 +30,7 @@ public class ContinuumReadHandler implements HttpRequestHandler {
                 .interval(request.interval)
                 .function(request.function)
                 .particles(request.particles)
+                .group(request.group)
                 .build();
 
         SliceResult result = REST.instance()
@@ -61,6 +62,7 @@ public class ContinuumReadHandler implements HttpRequestHandler {
         Interval interval;
         Function function;
         Particles particles;
+        String[] group;
 
         public ReadRequest(Map<String, Object> data) throws Exception {
 
@@ -83,6 +85,9 @@ public class ContinuumReadHandler implements HttpRequestHandler {
                         break;
                     case "fn":
                         function = Function.fromString((String)value);
+                        break;
+                    case "group":
+                        group = ((String)value).split(",");
                         break;
                     default:
                         particles.put(key, (String)value);

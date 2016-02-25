@@ -17,6 +17,7 @@ import com.dlvr.continuum.util.datetime.Interval;
  * Base Slice implementation
  */
 public class NSlice implements Slice {
+
     public String name;
     public Function function;
     public long start;
@@ -27,6 +28,7 @@ public class NSlice implements Slice {
     public double value;
     public Collector[] collectors;
     public Continuum.Dimension dimension;
+    public String[] groups;
 
     @Override
     public SliceID ID() {
@@ -83,5 +85,10 @@ public class NSlice implements Slice {
     @Override
     public Interval interval() {
         return interval;
+    }
+
+    @Override
+    public String[] groups() {
+        return groups;
     }
 }

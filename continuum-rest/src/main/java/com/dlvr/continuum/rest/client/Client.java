@@ -40,7 +40,7 @@ public class Client implements DB {
     public void write(Atom atom) throws Exception {
         Map<String, Object> data = new HashMap<>();
         data.put("name", atom.name());
-        data.put("value", atom.value());
+        data.put("value", atom.values().value());
         data.put("timestamp", atom.timestamp());
         for (String key : atom.particles().keySet()) {
             data.put(key, atom.particles().get(key));

@@ -75,4 +75,10 @@ public interface Slice {
      * @return time unit
      */
     Interval interval();
+
+    /**
+     * Result groupings on particles
+     * @return particle names to group by
+     */
+    String[] groups();
 }
