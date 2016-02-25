@@ -349,7 +349,11 @@ public class Continuum implements Closeable {
             target.name = name;
         }
         public SliceResultBuilder value(Double value) {
-            target.values = values(value);
+            target.values = Continuum.values(value);
+            return this;
+        }
+        public SliceResultBuilder values(Values values) {
+            target.values = values;
             return this;
         }
         public SliceResultBuilder atoms(List<Atom> atoms) {

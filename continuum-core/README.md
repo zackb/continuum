@@ -22,20 +22,16 @@ Using log-structured-merge trees, memory mapped files, and two sepcialized schem
 
 #TODO
 
-###Query
- - Collectors
- - Filters
- - QueryID implements ID (Best ID bytes to scan with)
- - Iterator.prev()
-
 ###Compaction
  - Retention Policy
 
-###Load Test
- - Reader thread(s) and writer thread(s)
-   - Observable<Atom> fakeAtomGenerator()
-     - and can .buffer() to test batch
-   - Metrics dump every x seconds thread
+###Document and Enforce Reserved Words
+ - fields
+ - start
+ - end
+ - interval
+ - fn
+ - group
 
 ###Microsecond Resolution
 

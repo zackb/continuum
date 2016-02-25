@@ -2,6 +2,7 @@ package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Slice;
@@ -88,8 +89,17 @@ public class StatsCollector implements Collector {
             default:
                 throw new Error("Not implemented: " + slice.function());
         }
-        return Continuum.result(function.name().toLowerCase())
+
+        Values values = Continuum.values()
+                .min(min)
+                .max(max)
+                .count(count)
+                .sum(sum)
                 .value(value)
+                .build();
+
+        return Continuum.result(function.name().toLowerCase())
+                .values(values)
                 .timestamp(timestamp)
                 .build();
     }

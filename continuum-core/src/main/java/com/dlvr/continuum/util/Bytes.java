@@ -112,7 +112,7 @@ public class Bytes {
         return BSON.encode(atom);
 
         /*
-Values values = atom.values();
+        Values values = atom.values();
         natom.values = null;
         byte[] bson = BSON.encode(natom);
         natom.values = values;
