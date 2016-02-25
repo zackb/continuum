@@ -31,7 +31,7 @@ public class BSON {
         try {
             return mapper.readValue(bytes, clazz);
         } catch (Exception e) {
-            System.err.println("Failed decoding object: " + bytes);
+            System.err.println("Failed decoding object: " + Bytes.String(bytes));
         }
         return null;
     }
@@ -40,7 +40,7 @@ public class BSON {
         try {
             return (Map)decodeObject(bytes, JSON.MAP_CLASS);
         } catch (Exception e) {
-            System.err.println("Failed decoding object: " + bytes);
+            System.err.println("Failed decoding object: " + Bytes.String(bytes));
         }
         return null;
     }

@@ -33,7 +33,7 @@ public class RockIterator implements Iterator {
 
     @Override
     public Atom get() {
-        return RockDB.decodeAtom(it.value());
+        return RockDB.decodeAtom(it.value(), dimension);
     }
 
     @Override

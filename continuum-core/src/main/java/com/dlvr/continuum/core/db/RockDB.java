@@ -9,6 +9,7 @@ import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.db.slice.SliceResult;
 import com.dlvr.continuum.core.db.slice.Collectors;
 import com.dlvr.continuum.db.slice.Collector;
+import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.util.Bytes;
 import com.dlvr.continuum.util.BSON;
 
@@ -42,7 +43,7 @@ public class RockDB implements DB {
     }
 
     public Atom get(AtomID id) throws Exception {
-        return decodeAtom(rock.get(id.bytes()));
+        return decodeAtom(rock.get(id.bytes()), dimension);
     }
 
     /**
@@ -70,9 +71,13 @@ public class RockDB implements DB {
      * @param bytes encoded with {#value(Atom)}
      * @return
      */
-    static Atom decodeAtom(byte[] bytes) {
-        // TODO KATOM!
-        return Bytes.SAtom(bytes);
+    static Atom decodeAtom(byte[] bytes, Dimension dimension) {
+        if (dimension == Dimension.TIME) {
+            return Bytes.KAtom(bytes);
+        } else if (dimension == Dimension.SPACE) {
+            return Bytes.SAtom(bytes);
+        }
+        throw new ZiggyStardustError();
     }
 
     /**
