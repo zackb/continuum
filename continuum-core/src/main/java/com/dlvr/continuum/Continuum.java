@@ -161,11 +161,11 @@ public class Continuum implements Closeable {
 
     // TODO: Dont even need this? atom.id knows what to do
     public static Builder series() {
-        return new Builder().dimension(Dimension.TIME);
+        return new Builder().dimension(Dimension.SPACE);
     }
 
     public static Builder kv() {
-        return new Builder().dimension(Dimension.SPACE);
+        return new Builder().dimension(Dimension.TIME);
     }
 
     public static class Builder {
@@ -330,18 +330,29 @@ public class Continuum implements Closeable {
 
     static class LoadTest {
 
-        private final Continuum continuum;
+        private Continuum continuum = null;
 
         LoadTest(Continuum continuum) {
             this.continuum = continuum;
         }
 
-        private final TimerTask timer = new MetricTimer().schedule(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println(Metrics.report());
+        private final TimerTask timer = new MetricTimer().schedule(() -> System.out.println(Metrics.report()), 5000);
+
+        private final TimerTask reader = new MetricTimer().schedule(() -> {
+            try {
+                Metrics.time("read", () -> {
+                        continuum.db().slice(
+                                Continuum.slice("series" + Maths.randInt(0, 100))
+                                        .function(Function.AVG)
+                                        .interval(Interval.valueOf("1m"))
+                                        .build()
+                        );
+                    return null;
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }, 5000);
+        } , 500);
 
         private static Atom createAtom() {
             return Continuum.satom()
@@ -353,6 +364,7 @@ public class Continuum implements Closeable {
 
         private void stop() {
             timer.cancel();
+            reader.cancel();
         }
 
         private void load(final Continuum continuum) {
