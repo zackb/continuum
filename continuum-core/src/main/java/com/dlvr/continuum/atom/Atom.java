@@ -33,9 +33,9 @@ public interface Atom extends Serializable {
     Fields fields();
 
     /**
-     * Non-empty double value of this data atom
+     * Values tuple of (min,max,count,sum,values)
      */
-    double value();
+    Values values();
 
     /**
      * The timestamp of the atom expressed as millisecond epoch

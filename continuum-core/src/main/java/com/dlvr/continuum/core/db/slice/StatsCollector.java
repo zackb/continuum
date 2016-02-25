@@ -27,7 +27,7 @@ public class StatsCollector implements Collector {
 
     @Override
     public void collect(Atom atom) {
-        double value = atom.value();
+        double value = atom.values().value();
         if (value > max) max = value;
         if (value < min) min = value;
         if (timestamp == 0L) timestamp = atom.timestamp();

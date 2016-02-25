@@ -7,7 +7,7 @@ import com.dlvr.continuum.util.Bytes;
 import java.nio.ByteBuffer;
 
 /**
- * Time Key Value based SliceID implementation
+ * Time Key Values based SliceID implementation
  * Created by zack on 2/12/16.
  */
 public class KSliceID implements SliceID {

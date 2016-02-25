@@ -1,6 +1,7 @@
 package com.dlvr.continuum.db.slice;
 
 import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.atom.Values;
 
 import java.util.List;
 
@@ -9,12 +10,11 @@ import java.util.List;
  */
 public interface SliceResult {
     String name();
-    Double value();
+    Values values();
     List<SliceResult> children();
     List<Atom> atoms();
     void addChild(SliceResult result);
     SliceResult getChild(String name);
     SliceResult getChild(int idx);
     long timestamp();
-    Const.Type type();
 }

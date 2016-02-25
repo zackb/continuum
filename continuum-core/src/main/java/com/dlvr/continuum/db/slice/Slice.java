@@ -49,7 +49,7 @@ public interface Slice {
     Fields fields();
 
     /**
-     * Aggregation function for result's 'value' field.
+     * Aggregation function for result's 'values' field.
      * If non-null, slice results are aggreagate values.
      * If null, slice results will have raw measurement values
      * @return aggregation function

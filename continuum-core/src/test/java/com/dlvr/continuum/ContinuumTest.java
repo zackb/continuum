@@ -112,7 +112,7 @@ public class ContinuumTest {
                     .function(Function.AVG)
                     .build();
 
-            Double val = continuum.db().slice(slice).value();
+            Double val = continuum.db().slice(slice).values().value();
             assertEquals(28.74999875, val, 0.001);
 
             slice = Continuum
@@ -126,9 +126,9 @@ public class ContinuumTest {
 
             SliceResult res = continuum.db().slice(slice);
             assertEquals(3, res.children().size());
-            assertEquals(10.0D, res.getChild(2).value(), 0.000001);
-            assertEquals(-0.000005D, res.getChild(0).value(), 0.000001);
-            assertEquals(52.5D, res.getChild(1).value(), 0.000001);
+            assertEquals(10.0D, res.getChild(2).values().value(), 0.000001);
+            assertEquals(-0.000005D, res.getChild(0).values().value(), 0.000001);
+            assertEquals(52.5D, res.getChild(1).values().value(), 0.000001);
 
         } finally {
             if (continuum != null) continuum.delete();
@@ -194,7 +194,7 @@ public class ContinuumTest {
             result = continuum.db().slice(
                     Continuum.slice("test5").end(end).function(Function.AVG).build()
             );
-            assertEquals(5555.27828, result.value(), 0.000d);
+            assertEquals(5555.27828, result.values().value(), 0.000d);
 
             // test count interval
             result = continuum.db().slice(
@@ -205,8 +205,8 @@ public class ContinuumTest {
             assertEquals("count", result.name());
             assertEquals(2, result.children().size());
 
-            assertEquals(1.0, result.children().get(0).value(), 0);
-            assertEquals(1.0, result.children().get(1).value(), 0);
+            assertEquals(1.0, result.children().get(0).values().value(), 0);
+            assertEquals(1.0, result.children().get(1).values().value(), 0);
 
             // test scan all atoms
             result = continuum.db().slice(
@@ -227,13 +227,13 @@ public class ContinuumTest {
             assertEquals(2, a.particles().size());
             assertEquals("limelight", a.particles().get("provider"));
             assertEquals("12345", a.particles().get("network"));
-            assertEquals(5555.001, a.value(), 0);
+            assertEquals(5555.001, a.values().value(), 0);
             assertEquals(now - 68000, a.timestamp(), 0);
 
             a = result.atoms().get(1);
             assertEquals("test5", a.name());
             assertNull(a.particles());
-            assertEquals(5555.55556, a.value(), 0);
+            assertEquals(5555.55556, a.values().value(), 0);
             assertEquals(now - 70000, a.timestamp(), 0);
 
             // test scan some particles
@@ -248,7 +248,7 @@ public class ContinuumTest {
                     Continuum.slice("test5").dimension(Continuum.Dimension.SPACE).particles(Continuum.particles(map)).end(now - 100000).build()
             );
             assertEquals(1, result.atoms().size());
-            assertEquals(5555.001, result.atoms().get(0).value(), 0);
+            assertEquals(5555.001, result.atoms().get(0).values().value(), 0);
         } finally {
             if (continuum != null) continuum.delete();
         }

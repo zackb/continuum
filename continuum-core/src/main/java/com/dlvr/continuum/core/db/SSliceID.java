@@ -44,7 +44,7 @@ public class SSliceID implements SliceID {
     }
 
     /**
-     * build tag/value structure omitting values with wildcard
+     * build tag/values structure omitting values with wildcard
      * @param particles to use
      * @return bytes to use for slice
      */

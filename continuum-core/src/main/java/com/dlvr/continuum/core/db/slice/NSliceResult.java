@@ -1,7 +1,7 @@
 package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.db.slice.Const;
+import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.db.slice.SliceResult;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
 public class NSliceResult implements SliceResult {
 
     public String name;
-    public Double value;
+    public Values values;
     public long timestamp;
     public List<SliceResult> children;
     public List<Atom> atoms;
@@ -24,8 +24,8 @@ public class NSliceResult implements SliceResult {
     }
 
     @Override
-    public Double value() {
-        return value;
+    public Values values() {
+        return values;
     }
 
     @Override
@@ -62,10 +62,5 @@ public class NSliceResult implements SliceResult {
     @Override
     public long timestamp() {
         return timestamp;
-    }
-
-    @Override
-    public Const.Type type() {
-        return children().size() > 0 ? Const.Type.LEAF : Const.Type.NODE;
     }
 }

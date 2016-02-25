@@ -1,8 +1,10 @@
 package com.dlvr.continuum.db;
 
 import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.atom.Values;
 
 /**
+ * Time and Space Slice Iterator
  * Created by zack on 2/11/16.
  */
 public interface Iterator {
@@ -16,10 +18,10 @@ public interface Iterator {
     Atom get();
 
     /**
-     * Retreive the value of the atom. This can save decoding time if the full Atom object is not needed
-     * @return value
+     * Retreive the values of the atom. This can save decoding time if the full Atom object is not needed
+     * @return values
      */
-    double value();
+    Values values();
 
     void seekToFirst();
 

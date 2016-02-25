@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Particles ID for series and time key value data
+ * Particles ID for series and time key values data
  * Created by zack on 2/11/16.
  */
 public class NParticlesID implements ParticlesID {

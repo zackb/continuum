@@ -60,7 +60,7 @@ public class BytesTest {
         assertEquals("test1", atom.name());
         assertEquals(3, atom.particles().size());
         assertEquals("tagvalue1", atom.particles().get("tag1"));
-        assertEquals(54D, atom.value(), 0.00000001d);
+        assertEquals(54D, atom.values().value(), 0.00000001d);
     }
 
 }

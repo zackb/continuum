@@ -1,11 +1,15 @@
 package com.dlvr.continuum.util;
 
+import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.core.atom.KAtom;
+import com.dlvr.continuum.core.atom.NAtom;
 import com.dlvr.continuum.core.atom.SAtom;
 import com.dlvr.continuum.core.db.KAtomID;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.core.db.SAtomID;
+import com.dlvr.continuum.except.ZiggyStardustError;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -16,6 +20,8 @@ import java.util.Arrays;
  */
 public class Bytes {
 
+    public static final byte B = 0x0;
+
     public static byte[] bytes(int value) {
         return new byte[] {
                 (byte)(value >>> 24),
@@ -23,6 +29,94 @@ public class Bytes {
                 (byte)(value >>> 8),
                 (byte)value
         };
+    }
+
+
+    /**
+     * Quark!
+     * TODO: String values
+     * Decode only the values of the atom. If the full body is not needed to be decoded.
+     * @param bytes encoded with {#values(Atom)}
+     * @return
+     */
+    public static Values Values(byte[] bytes) {
+        int pos = bytes.length;
+        byte[] value = range(bytes, pos - 8, pos);
+        pos -= 9; // null byte divider
+        byte[] sum = range(bytes, pos - 8, pos);
+        pos -= 9;
+        byte[] count = range(bytes, pos - 8, pos);
+        pos -= 9;
+        byte[] min = range(bytes, pos - 8, pos);
+        pos -= 9;
+        byte[] max = range(bytes, pos - 8, pos);
+        return Continuum.values()
+                .min(Double(min))
+                .max(Double(max))
+                .count(Double(count))
+                .sum(Double(sum))
+                .value(Double(value))
+                .build();
+    }
+
+    /**
+     * // TODO: Store stats instead of values/avg?
+     *      Quark! byte[bson(fields)] + 0x0 + byte[min] + 0x0 + byte[max] + 0x0 + byte[sum] + byte[count] + 0x0
+     * // TOOD: String values support
+     *
+     * Encode atom as bytes[bson] + 0x0 + bytes[values]
+     * @param atom to encode
+     * @return values for slab storage
+     */
+    public static byte[] bytes(Atom atom) {
+
+        NAtom natom = (NAtom)atom;
+
+        Values values = atom.values();
+        natom.values = null;
+        byte[] bson = BSON.encode(natom);
+        natom.values = values;
+
+        byte[] min = bytes(values.min());
+        byte[] max = bytes(values.max());
+        byte[] count = bytes(values.count());
+        byte[] sum = bytes(values.sum());
+        byte[] value = bytes(values.value());
+
+        int valuesLen = min.length + 1 + max.length + 1 + count.length + 1 + sum.length + 1 + value.length;
+
+        byte[] result = new byte[bson.length + 1 + valuesLen];
+
+        int pos = 0;
+
+        append(result, 0, bson);
+        pos += bson.length;
+        append(result, pos, B);
+        pos += 1;
+
+        append(result, pos, min);
+        pos += min.length;
+        append(result, pos, B);
+        pos += 1;
+
+        append(result, pos, max);
+        pos += max.length;
+        append(result, pos, B);
+        pos += 1;
+
+        append(result, pos, count);
+        pos += count.length;
+        append(result, pos, B);
+        pos += 1;
+
+        append(result, pos, sum);
+        pos += sum.length;
+        append(result, pos, B);
+        pos += 1;
+
+        append(result, pos, value);
+
+        return result;
     }
 
     public static int Int(byte[] bytes) {
@@ -65,20 +159,25 @@ public class Bytes {
         return ByteBuffer.wrap(bytes).getLong();
     }
 
-    public static byte[] bytes(SAtom atom) {
-        return BSON.encode(atom);
-    }
-
-    public static byte[] bytes(Atom atom) {
-        return BSON.encode(atom);
-    }
-
     public static Atom SAtom(byte[] bytes) {
-        return BSON.decodeObject(bytes, SAtom.class);
+        return Atom(bytes, Continuum.Dimension.SPACE);
     }
 
     public static Atom KAtom(byte[] bytes) {
-        return BSON.decodeObject(bytes, KAtom.class);
+        return Atom(bytes, Continuum.Dimension.TIME);
+    }
+
+    public static Atom Atom(byte[] bytes, Continuum.Dimension dimension) {
+        Values values = Values(bytes);
+        Class<? extends NAtom> clazz = null;
+        if (dimension == Continuum.Dimension.SPACE)
+            clazz = SAtom.class;
+        else if (dimension == Continuum.Dimension.TIME)
+            clazz = KAtom.class;
+        else throw new ZiggyStardustError();
+        NAtom atom = BSON.decodeObject(bytes, clazz);
+        atom.values = values;
+        return atom;
     }
 
     private static final Charset utf8 = Charset.forName("UTF-8");

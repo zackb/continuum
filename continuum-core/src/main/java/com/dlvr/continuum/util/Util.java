@@ -7,7 +7,7 @@ package com.dlvr.continuum.util;
 public class Util {
     public static void checkNotNull(String name, Object value) throws NullPointerException {
         if (value == null) {
-            throw new NullPointerException("Value: '" + name + "'must be set");
+            throw new NullPointerException("Values: '" + name + "'must be set");
         }
     }
 }

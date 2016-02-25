@@ -8,7 +8,7 @@ import com.dlvr.continuum.util.Bytes;
 import java.nio.ByteBuffer;
 
 /**
- * unique ID for key/value data in a Continuum
+ * unique ID for key/values data in a Continuum
  * Created by zack on 2/12/16.
  */
 public class KAtomID implements AtomID {

@@ -3,6 +3,7 @@ package com.dlvr.continuum.core.atom;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
+import com.dlvr.continuum.atom.Values;
 
 /**
  * An atom in the continuum
@@ -12,16 +13,16 @@ public abstract class NAtom implements Atom {
     public NParticles particles;
     public Long timestamp;
     public NFields fields;
-    public double value;
+    public Values values;
 
     public NAtom() { }
 
-    public NAtom(String name, NParticles particles, long timestamp, NFields fields, double value) {
+    public NAtom(String name, NParticles particles, long timestamp, NFields fields, Values values) {
         this.name = name;
         this.particles = particles;
         this.timestamp = timestamp;
         this.fields = fields;
-        this.value = value;
+        this.values = values;
     }
 
     @Override
@@ -37,8 +38,8 @@ public abstract class NAtom implements Atom {
         return fields;
     }
     @Override
-    public double value() {
-        return value;
+    public Values values() {
+        return values;
     }
     @Override
     public Long timestamp() {

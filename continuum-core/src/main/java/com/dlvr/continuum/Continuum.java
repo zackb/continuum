@@ -1,5 +1,6 @@
 package com.dlvr.continuum;
 
+import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.core.atom.*;
 import com.dlvr.continuum.core.db.RockSlab;
 import com.dlvr.continuum.core.db.Slabs;
@@ -55,6 +56,19 @@ public class Continuum implements Closeable {
 
     public static AtomBuilder katom() {
         return new AtomBuilder().dimension(Dimension.TIME);
+    }
+
+    public static ValuesBuilder values() {
+        return new ValuesBuilder();
+    }
+
+    /**
+     * Convenience method to create an initial values
+     * @param value
+     * @return values with all members set to values
+     */
+    public static Values values(double value) {
+        return values().min(value).max(value).count(1).sum(value).value(value).build();
     }
 
     public static Particles particles() {
@@ -195,6 +209,35 @@ public class Continuum implements Closeable {
         }
     }
 
+    public static class ValuesBuilder {
+
+        private NValues target = new NValues();
+
+        public ValuesBuilder min(double min) {
+            target.min = min;
+            return this;
+        }
+        public ValuesBuilder max(double max) {
+            target.max = max;
+            return this;
+        }
+        public ValuesBuilder count(double count) {
+            target.count = count;
+            return this;
+        }
+        public ValuesBuilder sum(double sum) {
+            target.sum = sum;
+            return this;
+        }
+        public ValuesBuilder value(double value) {
+            target.value = value;
+            return this;
+        }
+        public Values build() {
+            return target;
+        }
+    }
+
     public static class AtomBuilder {
 
         private String name;
@@ -234,9 +277,9 @@ public class Continuum implements Closeable {
         }
         public Atom build() {
             if (dimension == Dimension.SPACE)
-                return new SAtom(name, particles, timestamp, fields, value);
+                return new SAtom(name, particles, timestamp, fields, values(value));
             else if (dimension == Dimension.TIME)
-                return new KAtom(name, particles, timestamp, fields, value);
+                return new KAtom(name, particles, timestamp, fields, values(value));
             throw new ZiggyStardustError();
         }
     }
@@ -306,7 +349,7 @@ public class Continuum implements Closeable {
             target.name = name;
         }
         public SliceResultBuilder value(Double value) {
-            target.value = value;
+            target.values = values(value);
             return this;
         }
         public SliceResultBuilder atoms(List<Atom> atoms) {

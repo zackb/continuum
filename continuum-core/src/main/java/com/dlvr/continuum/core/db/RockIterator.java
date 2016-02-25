@@ -2,6 +2,7 @@ package com.dlvr.continuum.core.db;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.except.ZiggyStardustError;
@@ -37,8 +38,8 @@ public class RockIterator implements Iterator {
     }
 
     @Override
-    public double value() {
-        return RockDB.decodeValue(it.value());
+    public Values values() {
+        return Bytes.Values(it.value());
     }
 
     @Override

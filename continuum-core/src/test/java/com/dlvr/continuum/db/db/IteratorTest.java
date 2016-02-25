@@ -61,13 +61,13 @@ public class IteratorTest {
                 assertEquals("testiterate", id.name());
                 assertEquals("bar", id.particles().get("foo"));
                 assertEquals("bat", id.particles().get("baz"));
-                assertEquals(123456.3D, itr.value(), 0.0001);
+                assertEquals(123456.3D, itr.values().value(), 0.0001);
             } else if (i == 1) {
                 assertEquals("testiterate", id.name());
                 Particles particles = id.particles();
                 assertEquals("da'vinci", particles.get("fuz"));
                 assertEquals("bar", particles.get("zack"));
-                assertEquals(12341.01234, itr.value(), 0.0001);
+                assertEquals(12341.01234, itr.values().value(), 0.0001);
             }
             i++;
         } while (itr.next());

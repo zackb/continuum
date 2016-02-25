@@ -32,6 +32,7 @@ public class BSON {
             return mapper.readValue(bytes, clazz);
         } catch (Exception e) {
             System.err.println("Failed decoding object: " + Bytes.String(bytes));
+            e.printStackTrace();
         }
         return null;
     }
