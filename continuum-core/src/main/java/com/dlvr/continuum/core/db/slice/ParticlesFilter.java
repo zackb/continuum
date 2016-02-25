@@ -25,10 +25,8 @@ public class ParticlesFilter implements Filter {
             String atomVal = atom.particles().get(name);
             String sliceVal = slice.particles().get(name);
             if (sliceVal == null) continue;
-            if (atomVal == null) return Action.STOP;
-            if (!atomVal.equals((sliceVal))) {
-                return Action.STOP;
-            }
+            if (atomVal == null) return Action.SKIP;
+            if (!atomVal.equals((sliceVal))) return Action.SKIP;
         }
 
         return Action.CONTINUE;
