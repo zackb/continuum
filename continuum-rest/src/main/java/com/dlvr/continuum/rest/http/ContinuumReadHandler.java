@@ -57,13 +57,14 @@ public class ContinuumReadHandler implements HttpRequestHandler {
 
     class ReadRequest {
         public String name;
-        public Interval start = Interval.valueOf("0s");
-        public Interval end = Interval.valueOf("1h");
+        public long start = 0;
+        public long end = System.currentTimeMillis() - Interval.valueOf("1h").toMillis();
         Interval interval;
         Function function;
         Particles particles;
         String[] group;
 
+        @SuppressWarnings("unchecked")
         public ReadRequest(Map<String, Object> data) throws Exception {
 
             particles = Continuum.particles();
@@ -75,10 +76,10 @@ public class ContinuumReadHandler implements HttpRequestHandler {
                         name = (String)value;
                         break;
                     case "start":
-                        start = Interval.valueOf((String)value);
+                        start = Interval.valueOf((String)value).toMillis();
                         break;
                     case "end":
-                        end = Interval.valueOf((String)value);
+                        end = Interval.valueOf((String)value).toMillis();
                         break;
                     case "interval":
                         interval = Interval.valueOf((String)value);
@@ -89,8 +90,11 @@ public class ContinuumReadHandler implements HttpRequestHandler {
                     case "group":
                         group = ((String)value).split(",");
                         break;
+                    case "particles":
+                        particles.putAll((Map<String, String>)value);
+                        break;
                     default:
-                        particles.put(key, (String)value);
+                        System.out.println("Skipping: " + key + " : " + value);
                         break;
                 }
             }

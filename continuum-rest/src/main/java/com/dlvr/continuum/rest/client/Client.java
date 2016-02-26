@@ -1,6 +1,7 @@
 package com.dlvr.continuum.rest.client;
 
 import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.core.db.slice.NSliceResult;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.db.Iterator;
@@ -42,9 +43,9 @@ public class Client implements DB {
         data.put("name", atom.name());
         data.put("value", atom.values().value());
         data.put("timestamp", atom.timestamp());
-        for (String key : atom.particles().keySet()) {
-            data.put(key, atom.particles().get(key));
-        }
+        if (atom.particles() != null)
+            for (String key : atom.particles().keySet())
+                data.put(key, atom.particles().get(key));
         HTTP.postJSON(baseUrl + "/write", atom);
     }
 
@@ -60,11 +61,14 @@ public class Client implements DB {
         url += "&start=" + Interval.valueOf(slice.start() + "ms");
         url += "&end=" + Interval.valueOf(slice.end() + "ms");
 
-        for (String name : slice.particles().keySet()) {
-            Object value = slice.particles().get(name);
-            url += "&" + name + "=" + value;
+        if (slice.particles() != null) {
+            for (String name : slice.particles().keySet()) {
+                Object value = slice.particles().get(name);
+                url += "&" + name + "=" + value;
+            }
         }
-        return HTTP.getJSONObject(url, SliceResult.class);
+
+        return HTTP.getJSONObject(url, NSliceResult.class);
     }
 
     @Override

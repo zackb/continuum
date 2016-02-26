@@ -31,7 +31,7 @@ public class ContinuumWriteHandler implements HttpRequestHandler {
         Atom atom = continuum.atom()
                         .name(request.name)
                         .particles(request.particles)
-                        .value(request.value)
+                        .values(Continuum.values(request.min, request.max, request.count, request.sum, request.value))
                         .timestamp(request.timestamp)
                         .build();
         continuum.db().write(atom);
@@ -48,9 +48,14 @@ public class ContinuumWriteHandler implements HttpRequestHandler {
         throw new MethodNotAllowedException("");
     }
 
+    @SuppressWarnings("unchecked")
     public class WriteRequest {
         public String name;
-        public double value;
+        public Double min = null;
+        public Double max = null;
+        public Double count = null;
+        public Double sum = null;
+        public Double value = null;
         long timestamp;
         Particles particles;
 
@@ -63,14 +68,34 @@ public class ContinuumWriteHandler implements HttpRequestHandler {
                     case "name":
                         name = (String) value;
                         break;
+                    case "min":
+                        this.min = (double)value;
+                        break;
+                    case "max":
+                        this.max = (double)value;
+                        break;
+                    case "count":
+                        this.count = (double)value;
+                        break;
+                    case "sum":
+                        this.sum = (double)value;
+                        break;
                     case "value":
-                        this.value = Double.parseDouble((String)value);
+                        this.value = (double)value;
+                        break;
+                    case "values":
+                        Map<String, Double> vs = (Map<String, Double>)value;
+                        if (this.min == null) this.min = vs.get("min");
+                        if (this.max == null) this.max = vs.get("max");
+                        if (this.count == null) this.count = vs.get("count");
+                        if (this.sum == null) this.sum = vs.get("sum");
+                        if (this.value == null) this.value = vs.get("value");
                         break;
                     case "timestamp":
-                        timestamp = Long.parseLong((String)value);
+                        timestamp = (long)value;
                         break;
                     default:
-                        particles.put(key, (String)value);
+                        particles.putAll((Map)value);
                         break;
                 }
             }

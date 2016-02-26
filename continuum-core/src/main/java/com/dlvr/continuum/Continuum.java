@@ -68,7 +68,15 @@ public class Continuum implements Closeable {
      * @return values with all members set to values
      */
     public static Values values(double value) {
-        return values().min(value).max(value).count(1).sum(value).value(value).build();
+        return values(value, value, 1, value, value);
+    }
+    /**
+     * Convenience method to create a Values
+     * @param value
+     * @return values with all members set to values
+     */
+    public static Values values(double min, double max, double count, double sum, double value) {
+        return values().min(min).max(max).count(count).sum(sum).value(value).build();
     }
 
     public static Particles particles() {
@@ -77,6 +85,23 @@ public class Continuum implements Closeable {
 
     public static Particles particles(Map<String, String> particles) {
         return new NParticles(particles);
+    }
+
+    public static Particles particles(String... strings) {
+
+        Map<String, String> tags = new HashMap<>(strings.length / 2);
+
+        String tagName = null;
+        for (String s : strings) {
+            if (tagName != null) {
+                tags.put(tagName, s);
+                tagName = null;
+            } else {
+                tagName = s;
+            }
+        }
+
+        return particles(tags);
     }
 
     public static Fields fields(Map<String, Object> fields) {
@@ -268,7 +293,11 @@ public class Continuum implements Closeable {
             return this;
         }
         public AtomBuilder value(double value) {
-            this.values = (NValues)values(value);
+            this.values = (NValues)Continuum.values(value);
+            return this;
+        }
+        public AtomBuilder values(Values values) {
+            this.values = (NValues)values;
             return this;
         }
         public AtomBuilder dimension(Dimension dimension) {
@@ -357,11 +386,11 @@ public class Continuum implements Closeable {
             target.name = name;
         }
         public SliceResultBuilder value(Double value) {
-            target.values = Continuum.values(value);
+            target.values = (NValues)Continuum.values(value);
             return this;
         }
         public SliceResultBuilder values(Values values) {
-            target.values = values;
+            target.values = (NValues)values;
             return this;
         }
         public SliceResultBuilder atoms(List<Atom> atoms) {

@@ -2,6 +2,7 @@ group 'com.dlvr'
 version '0.1'
 
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.8
