@@ -17,7 +17,7 @@ public class Collectors {
         } else if (slice.function() != null) {
             collector = new StatsCollector(slice);
         } else {
-            collector = new AtomCollector();
+            collector = new AtomCollector(slice);
         }
 
         return collector;

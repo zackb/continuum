@@ -9,13 +9,14 @@ import com.dlvr.continuum.db.slice.SliceResult;
 import java.util.List;
 
 /**
+ *
  * Created by zack on 2/26/16.
  */
 public class CSliceResult implements SliceResult {
 
     public String name;
     public NValues values;
-    public List<CSliceResult> children;
+    public List<SliceResult> children;
     public List<SAtom> atoms;
 
     @Override

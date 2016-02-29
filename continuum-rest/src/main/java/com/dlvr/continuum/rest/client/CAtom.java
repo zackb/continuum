@@ -13,7 +13,7 @@ import com.dlvr.continuum.db.AtomID;
 public class CAtom implements Atom {
 
     @Override
-    public AID ID() {
+    public AtomID ID() {
         return null;
     }
 

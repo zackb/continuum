@@ -1,7 +1,6 @@
 package com.dlvr.continuum.rest.client;
 
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.core.db.slice.NSliceResult;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.db.Iterator;
@@ -68,7 +67,7 @@ public class Client implements DB {
             }
         }
 
-        return HTTP.getJSONObject(url, NSliceResult.class);
+        return HTTP.getJSONObject(url, CSliceResult.class);
     }
 
     @Override
@@ -78,10 +77,6 @@ public class Client implements DB {
 
     @Override
     public void close() throws Exception {
-
-    }
-
-    public static void main(String[] args) {
 
     }
 }

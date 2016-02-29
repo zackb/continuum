@@ -21,6 +21,7 @@ public class HttpServerConfig {
         config.port = 8081;
         config.workerCount = 150;
         config.handlers.add(new VitalsHandler());
+        config.handlers.add(new VitalsMetricsHandler());
         return config;
     }
 }
