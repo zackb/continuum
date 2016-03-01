@@ -56,9 +56,11 @@ public class NParticlesID implements ParticlesID {
 
         for (int i = 0; i < names.size(); i++) {
             String val = particles.get(names.get(i));
-            tmp = Bytes.bytes(val);
-            id = Bytes.append(id, pos, tmp);
-            pos += tmp.length;
+            if (val != null) {
+                tmp = Bytes.bytes(val);
+                id = Bytes.append(id, pos, tmp);
+                pos += tmp.length;
+            }
             positions[posi++] = i;
             if (i < len - 1) id[pos++] = b;
         }
