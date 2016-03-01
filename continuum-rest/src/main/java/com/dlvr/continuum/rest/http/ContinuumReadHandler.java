@@ -7,6 +7,7 @@ import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.db.slice.SliceResult;
 import com.dlvr.continuum.rest.REST;
+import com.dlvr.continuum.rest.http.exception.BadRequestException;
 import com.dlvr.continuum.rest.http.exception.MethodNotAllowedException;
 import com.dlvr.continuum.util.datetime.Interval;
 
@@ -112,7 +113,7 @@ public class ContinuumReadHandler implements HttpRequestHandler {
 
         private void check(String name, Object value) throws Exception {
             if (value == null) {
-                throw new Exception("Parameter: " + name + " is required");
+                throw new BadRequestException("Parameter: " + name + " is required");
             }
         }
     }

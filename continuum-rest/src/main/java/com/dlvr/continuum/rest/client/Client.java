@@ -18,8 +18,6 @@ import java.util.Map;
  */
 public class Client implements DB {
 
-    private final String host;
-    private final int port;
     private final String baseUrl;
 
     public Client() {
@@ -31,8 +29,6 @@ public class Client implements DB {
     }
 
     public Client(String host, int port) {
-        this.host = host;
-        this.port = port;
         baseUrl = "http://" + host + ":" + port + "/api/1.0";
     }
 

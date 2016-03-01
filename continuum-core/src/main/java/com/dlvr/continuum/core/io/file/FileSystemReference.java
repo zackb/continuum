@@ -26,8 +26,8 @@ public class FileSystemReference implements Reference {
 
     public FileSystemReference(String fullPath) {
         Path path = Paths.get(fullPath);
-        this.base = path.getParent().toAbsolutePath().toString();
-        this.path = path.getFileName().toString();
+        this.base = path.toAbsolutePath().getParent().toAbsolutePath().toString();
+        this.path = path.toAbsolutePath().getFileName().toString();
         this.endpoint = new FileSystemEndpoint(base);
     }
 
