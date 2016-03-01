@@ -24,6 +24,7 @@ class RESTTests extends GroovyTestCase {
     @Override
     void setUp() throws Exception {
         super.setUp()
+        baseRef.delete()
         continuum = Continuum.continuum()
             .name('RESTTests')
             .base(baseRef)

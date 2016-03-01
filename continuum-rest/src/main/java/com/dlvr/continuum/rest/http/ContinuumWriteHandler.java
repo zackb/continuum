@@ -5,6 +5,7 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.rest.REST;
+import com.dlvr.continuum.rest.http.exception.BadRequestException;
 import com.dlvr.continuum.rest.http.exception.MethodNotAllowedException;
 
 import java.util.Map;
@@ -117,7 +118,7 @@ public class ContinuumWriteHandler implements HttpRequestHandler {
 
         private void check(String name, Object value) throws Exception {
             if (value == null) {
-                throw new Exception("Parameter: " + name + " is required");
+                throw new BadRequestException("Parameter: " + name + " is required");
             }
         }
     }

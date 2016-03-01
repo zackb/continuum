@@ -98,11 +98,13 @@ public class ContinuumReadHandler implements HttpRequestHandler {
                     case "fields":
                         fields.putAll((Map<String, Object>)value);
                         break;
-                    case "particles":
-                        particles.putAll((Map<String, String>)value);
+                    case "timestamp":
+                    case "value":
+                    case "values":
                         break;
+                    case "particles":
                     default:
-                        System.out.println("Skipping: " + key + " : " + value);
+                        particles.put(key, (String)value);
                         break;
                 }
             }
