@@ -282,13 +282,14 @@ public class Continuum implements Closeable {
 
     public static class AtomBuilder {
 
-        private String name;
-        private NParticles particles;
-        private NFields fields;
-        private long timestamp = System.currentTimeMillis();
-        private NValues values;
-        private Dimension dimension;
-        private AtomBuilder() {}
+        protected String name;
+        protected NParticles particles;
+        protected NFields fields;
+        protected long timestamp = System.currentTimeMillis();
+        protected NValues values;
+        protected Dimension dimension;
+        protected AtomBuilder() {}
+
         public AtomBuilder name(String name) {
             this.name = name;
             return this;
@@ -298,8 +299,8 @@ public class Continuum implements Closeable {
             return this;
         }
         public AtomBuilder particles(Map<String, String> particles) {
-            //target.particles = particles;
-            throw new Error("TODO");
+            this.particles = (NParticles)Continuum.particles(particles);
+            return this;
         }
         public AtomBuilder fields(Fields fields) {
             this.fields = (NFields)fields;

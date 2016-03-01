@@ -1,5 +1,6 @@
 package com.dlvr.continuum.rest.client;
 
+import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.DB;
@@ -66,6 +67,11 @@ public class Client implements DB {
         return HTTP.getJSONObject(url, CSliceResult.class);
     }
 
+
+    public Continuum.AtomBuilder atom() {
+        return new AtomBuilder();
+    }
+
     @Override
     public Iterator iterator() {
         throw new UnsupportedOperationException("Can not iterate via HTTP");
@@ -74,5 +80,19 @@ public class Client implements DB {
     @Override
     public void close() throws Exception {
 
+    }
+
+    public class AtomBuilder extends Continuum.AtomBuilder {
+
+        private AtomBuilder() { }
+
+        public AtomBuilder name(String name) {
+            super.name(name);
+            return this;
+        }
+
+        public Atom build() {
+            return new CAtom(name, particles, timestamp, fields, values);
+        }
     }
 }
