@@ -9,7 +9,7 @@ import com.dlvr.continuum.db.slice.SliceResult;
 import java.util.List;
 
 /**
- *
+ * POJO version of a slice result
  * Created by zack on 2/26/16.
  */
 public class CSliceResult implements SliceResult {
@@ -18,6 +18,7 @@ public class CSliceResult implements SliceResult {
     public NValues values;
     public List<SliceResult> children;
     public List<SAtom> atoms;
+    public long timestamp;
 
     @Override
     public String name() {
@@ -35,27 +36,30 @@ public class CSliceResult implements SliceResult {
     }
 
     @Override
-    public List<Atom> atoms() {
-        return null;
+    public List<? extends Atom> atoms() {
+        return atoms;
     }
 
     @Override
-    public void addChild(SliceResult sliceResult) {
-
-    }
+    public void addChild(SliceResult sliceResult) { }
 
     @Override
     public SliceResult getChild(String s) {
+        for (SliceResult res : children) {
+            if (res.name().equals(name)) {
+                return res;
+            }
+        }
         return null;
     }
 
     @Override
     public SliceResult getChild(int i) {
-        return null;
+        return children.get(i);
     }
 
     @Override
     public long timestamp() {
-        return 0;
+        return timestamp;
     }
 }

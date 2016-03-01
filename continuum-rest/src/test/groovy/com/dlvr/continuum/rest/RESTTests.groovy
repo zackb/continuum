@@ -2,6 +2,7 @@ package com.dlvr.continuum.rest
 
 import com.dlvr.continuum.Continuum
 import com.dlvr.continuum.atom.Atom
+import com.dlvr.continuum.atom.Values
 import com.dlvr.continuum.core.io.file.FileSystemReference
 import com.dlvr.continuum.db.slice.Slice
 import com.dlvr.continuum.db.slice.SliceResult
@@ -41,10 +42,10 @@ class RESTTests extends GroovyTestCase {
         Atom atom = continuum.atom()
                         .name('fooey1')
                         .particles(Continuum.particles(
-                                'tag1', 'foo'
-                                //'tag2', 'bar'
+                                'tag1', 'foo',
+                                'tag2', 'bar'
                         ))
-                        .fields(Continuum.fields("field1", 123445.2, "2field", "value2"))
+                        .fields(Continuum.fields('field1', 123445.2, '2field', 'value2'))
                         .value(54.54)
                         .timestamp(timestamp)
                         .build()
@@ -57,7 +58,21 @@ class RESTTests extends GroovyTestCase {
 
         SliceResult result = client.slice(slice)
 
-        println JSON.encode(result)
+        assertEquals(1, result.atoms().size())
+        atom = result.atoms().get(0)
+        assertEquals(2, atom.particles().size())
+        assertEquals(2, atom.fields().size())
+        assertEquals('foo', atom.particles().get('tag1'))
+        assertEquals('bar', atom.particles().get('tag2'))
+        assertEquals(123445.2, atom.fields().get('field1'))
+        assertEquals('value2', atom.fields().get('2field'))
+        assertEquals('fooey1', atom.name())
+        Values values = atom.values()
+        assertEquals(54.54, values.value())
+        assertEquals(54.54, values.min())
+        assertEquals(54.54, values.max())
+        assertEquals(1, values.count())
+        assertEquals(54.54, values.sum())
     }
 
     @Override

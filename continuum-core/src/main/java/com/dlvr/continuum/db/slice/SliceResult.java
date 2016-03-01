@@ -12,7 +12,7 @@ public interface SliceResult {
     String name();
     Values values();
     List<SliceResult> children();
-    List<Atom> atoms();
+    List<? extends Atom> atoms();
     void addChild(SliceResult result);
     SliceResult getChild(String name);
     SliceResult getChild(int idx);
