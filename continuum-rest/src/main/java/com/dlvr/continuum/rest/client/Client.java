@@ -36,13 +36,23 @@ public class Client implements DB {
     @Override
     public void write(Atom atom) throws Exception {
         Map<String, Object> data = new HashMap<>();
+        Map<String, Object> fields = new HashMap<>();
         data.put("name", atom.name());
         data.put("value", atom.values().value());
         data.put("timestamp", atom.timestamp());
+
         if (atom.particles() != null)
             for (String key : atom.particles().keySet())
                 data.put(key, atom.particles().get(key));
-        HTTP.postJSON(baseUrl + "/write", atom);
+
+        if (atom.fields() != null)
+            for (String key : atom.fields().keySet())
+                fields.put(key, atom.fields().get(key));
+
+        if (fields.size() > 0)
+            data.put("fields", fields);
+
+        HTTP.postJSON(baseUrl + "/write", data);
     }
 
     @Override

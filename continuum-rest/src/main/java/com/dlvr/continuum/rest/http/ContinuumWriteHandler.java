@@ -102,12 +102,17 @@ public class ContinuumWriteHandler implements HttpRequestHandler {
                         fields.putAll((Map)value);
                         break;
                     default:
-                        particles.putAll((Map)value);
+                        particles.put(key, (String)value);
                         break;
                 }
             }
             check("name", name);
-            check("value", this.value);
+            check("value", value);
+
+            if (min == null) min = value;
+            if (max == null) max = value;
+            if (count == null) count = 1.0d;
+            if (sum == null) sum = value;
         }
 
         private void check(String name, Object value) throws Exception {
