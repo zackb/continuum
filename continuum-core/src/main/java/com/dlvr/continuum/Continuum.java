@@ -108,6 +108,23 @@ public class Continuum implements Closeable {
         return new NFields(fields);
     }
 
+    public static Fields fields(Object... stringObject) {
+
+        Map<String, Object> fields = new HashMap<>(stringObject.length / 2);
+
+        String tagName = null;
+        for (Object o : stringObject) {
+            if (tagName != null) {
+                fields.put(tagName, o);
+                tagName = null;
+            } else {
+                tagName = (String)o;
+            }
+        }
+
+        return fields(fields);
+    }
+
     public static SliceBuilder slice(String name) {
         return new SliceBuilder(name);
     }

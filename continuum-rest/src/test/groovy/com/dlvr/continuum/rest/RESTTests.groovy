@@ -44,6 +44,7 @@ class RESTTests extends GroovyTestCase {
                                 'tag1', 'foo'
                                 //'tag2', 'bar'
                         ))
+                        .fields(Continuum.fields("field1", 123445.2, "2field", "value2"))
                         .value(54.54)
                         .timestamp(timestamp)
                         .build()
@@ -53,7 +54,9 @@ class RESTTests extends GroovyTestCase {
                         .start(System.currentTimeMillis())
                         .end(Interval.valueOf("10d"))
                         .build()
+
         SliceResult result = client.slice(slice)
+
         println JSON.encode(result)
     }
 

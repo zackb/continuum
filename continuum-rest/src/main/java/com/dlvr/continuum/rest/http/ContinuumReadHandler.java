@@ -1,6 +1,7 @@
 package com.dlvr.continuum.rest.http;
 
 import com.dlvr.continuum.Continuum;
+import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Slice;
@@ -30,6 +31,7 @@ public class ContinuumReadHandler implements HttpRequestHandler {
                 .interval(request.interval)
                 .function(request.function)
                 .particles(request.particles)
+                .fields(request.fields)
                 .group(request.group)
                 .build();
 
@@ -62,12 +64,14 @@ public class ContinuumReadHandler implements HttpRequestHandler {
         Interval interval;
         Function function;
         Particles particles;
+        Fields fields;
         String[] group;
 
         @SuppressWarnings("unchecked")
         public ReadRequest(Map<String, Object> data) throws Exception {
 
             particles = Continuum.particles();
+            fields = Continuum.fields();
 
             for (String key : data.keySet()) {
                 Object value = data.get(key);
@@ -89,6 +93,9 @@ public class ContinuumReadHandler implements HttpRequestHandler {
                         break;
                     case "group":
                         group = ((String)value).split(",");
+                        break;
+                    case "fields":
+                        fields.putAll((Map<String, Object>)value);
                         break;
                     case "particles":
                         particles.putAll((Map<String, String>)value);

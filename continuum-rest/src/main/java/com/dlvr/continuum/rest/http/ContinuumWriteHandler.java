@@ -2,6 +2,7 @@ package com.dlvr.continuum.rest.http;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.rest.REST;
 import com.dlvr.continuum.rest.http.exception.MethodNotAllowedException;
@@ -31,6 +32,7 @@ public class ContinuumWriteHandler implements HttpRequestHandler {
         Atom atom = continuum.atom()
                         .name(request.name)
                         .particles(request.particles)
+                        .fields(request.fields)
                         .values(Continuum.values(request.min, request.max, request.count, request.sum, request.value))
                         .timestamp(request.timestamp)
                         .build();
@@ -58,9 +60,11 @@ public class ContinuumWriteHandler implements HttpRequestHandler {
         public Double value = null;
         long timestamp;
         Particles particles;
+        Fields fields;
 
         public WriteRequest(Map<String, Object> data) throws Exception {
             particles = Continuum.particles();
+            fields = Continuum.fields();
             timestamp = System.currentTimeMillis();
             for (String key : data.keySet()) {
                 Object value = data.get(key);
@@ -93,6 +97,9 @@ public class ContinuumWriteHandler implements HttpRequestHandler {
                         break;
                     case "timestamp":
                         timestamp = (long)value;
+                        break;
+                    case "fields":
+                        fields.putAll((Map)value);
                         break;
                     default:
                         particles.putAll((Map)value);
