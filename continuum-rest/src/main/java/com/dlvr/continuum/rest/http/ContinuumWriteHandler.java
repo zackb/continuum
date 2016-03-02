@@ -86,7 +86,10 @@ public class ContinuumWriteHandler implements HttpRequestHandler {
                         this.sum = (double)value;
                         break;
                     case "value":
-                        this.value = (double)value;
+                        if (value instanceof String)
+                            this.value = Double.valueOf((String)value);
+                        else
+                            this.value = (double)value;
                         break;
                     case "values":
                         Map<String, Double> vs = (Map<String, Double>)value;

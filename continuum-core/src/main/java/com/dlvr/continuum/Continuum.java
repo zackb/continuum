@@ -94,7 +94,7 @@ public class Continuum implements Closeable {
         String tagName = null;
         for (String s : strings) {
             if (tagName != null) {
-                tags.put(tagName, s);
+                if (s != null) tags.put(tagName, s);
                 tagName = null;
             } else {
                 tagName = s;
@@ -373,8 +373,8 @@ public class Continuum implements Closeable {
             return this;
         }
         public SliceBuilder particles(Map<String, String> particles) {
-            //target.particles = particles;
-            throw new Error("TODO");
+            target.particles = Continuum.particles(particles);
+            return this;
         }
         public SliceBuilder particles(Particles particles) {
             target.particles = particles;
