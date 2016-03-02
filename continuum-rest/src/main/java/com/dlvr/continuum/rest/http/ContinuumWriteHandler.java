@@ -68,7 +68,11 @@ public class ContinuumWriteHandler implements HttpRequestHandler {
             fields = Continuum.fields();
             timestamp = System.currentTimeMillis();
             for (String key : data.keySet()) {
+
                 Object value = data.get(key);
+
+                if (value == null) continue;
+
                 switch (key) {
                     case "name":
                         name = (String) value;

@@ -22,7 +22,7 @@ public class Interval {
     private Interval(Unit unit, long count) {
         // assume unix time in seconds
         if (unit == null) {
-            this.unit = Unit.SECOND;
+            this.unit = Unit.MILLISECOND;
             this.count = Util.now() - count;
         } else {
             this.unit = unit;
@@ -31,6 +31,10 @@ public class Interval {
     }
 
     private static final Pattern pattern = Pattern.compile("(\\d+)(.*)");
+
+    public static Interval valueOf(long millis) {
+        return new Interval(Unit.MILLISECOND, millis);
+    }
 
     public static Interval valueOf(String s) {
         Interval result = null;
@@ -105,6 +109,10 @@ public class Interval {
                 break;
         }
         return millis;
+    }
+
+    public long epoch() {
+        return Util.now() - toMillis();
     }
 
     @Override

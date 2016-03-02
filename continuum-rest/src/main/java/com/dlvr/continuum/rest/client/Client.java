@@ -64,8 +64,8 @@ public class Client implements DB {
     public SliceResult slice(Slice slice) throws Exception {
 
         String url = baseUrl + "/read?name=" + slice.name();
-        url += "&start=" + Interval.valueOf(slice.start() + "ms");
-        url += "&end=" + Interval.valueOf(slice.end() + "ms");
+        url += "&start=" + slice.start();
+        url += "&end=" + slice.end();
 
         if (slice.particles() != null) {
             for (String name : slice.particles().keySet()) {

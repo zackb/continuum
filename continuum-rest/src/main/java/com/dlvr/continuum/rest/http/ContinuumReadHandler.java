@@ -60,7 +60,7 @@ public class ContinuumReadHandler implements HttpRequestHandler {
 
     class ReadRequest {
         public String name;
-        public long start = 0;
+        public long start = System.currentTimeMillis();
         public long end = System.currentTimeMillis() - Interval.valueOf("1h").toMillis();
         Interval interval;
         Function function;
@@ -81,10 +81,10 @@ public class ContinuumReadHandler implements HttpRequestHandler {
                         name = (String)value;
                         break;
                     case "start":
-                        start = Interval.valueOf((String)value).toMillis();
+                        start = Interval.valueOf((String)value).epoch();
                         break;
                     case "end":
-                        end = Interval.valueOf((String)value).toMillis();
+                        end = Interval.valueOf((String)value).epoch();
                         break;
                     case "interval":
                         interval = Interval.valueOf((String)value);

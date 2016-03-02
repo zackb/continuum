@@ -7,7 +7,6 @@ import com.dlvr.continuum.core.io.file.FileSystemReference
 import com.dlvr.continuum.db.slice.Slice
 import com.dlvr.continuum.db.slice.SliceResult
 import com.dlvr.continuum.rest.client.Client
-import com.dlvr.continuum.util.JSON
 import com.dlvr.continuum.util.datetime.Interval
 import org.junit.Test
 
@@ -40,7 +39,7 @@ class RESTTests extends GroovyTestCase {
 
         Long timestamp = System.currentTimeMillis()
 
-        Atom atom = continuum.atom()
+        Atom atom = client.atom()
                         .name('fooey1')
                         .particles(Continuum.particles(
                                 'tag1', 'foo',

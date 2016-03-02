@@ -35,8 +35,12 @@ public class Util {
      * Current unix epoch time in seconds
      * @return time in seconds
      */
-    public static long now() {
+    public static long nowSecs() {
         return System.currentTimeMillis() / 1000;
+    }
+
+    public static long now() {
+        return System.currentTimeMillis();
     }
 
     public static long unixTimeAgo(Interval interval) {
