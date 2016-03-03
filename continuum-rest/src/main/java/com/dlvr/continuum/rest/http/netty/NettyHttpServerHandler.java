@@ -69,6 +69,7 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<Object> 
             }
             handler = selectHandler(uri);
 
+            parameters.clear();
             parseHeaders();
             parseParameters();
         }
