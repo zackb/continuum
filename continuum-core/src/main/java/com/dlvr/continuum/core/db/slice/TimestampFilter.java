@@ -3,6 +3,7 @@ package com.dlvr.continuum.core.db.slice;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Filter;
 
+
 /**
  * Filter by time range
  * Created by zack on 2/24/16.
@@ -21,10 +22,10 @@ public class TimestampFilter implements Filter {
     public Action filter(Atom atom) {
 
         if (atom.timestamp() < end)
-            return Action.STOP;
+            return Action.SKIP;
 
         if (atom.timestamp() > start)
-            return Action.STOP;
+            return Action.SKIP;
 
         return Action.CONTINUE;
     }
