@@ -15,12 +15,16 @@ public class IntervalCollector implements Collector {
 
     private final Slice slice;
     final Map<Long, StatsCollector> collectors = new HashMap<>();
-    final StatsCollector collector;
+    final Collector collector;
     private long timestamp = 0L;
 
     public IntervalCollector(Slice slice) {
         this.slice = slice;
-        this.collector = new StatsCollector(slice);
+        if (slice.groups() != null) {
+            this.collector = new GroupCollector(slice);
+        } else {
+            this.collector = new StatsCollector(slice);
+        }
     }
 
     @Override
