@@ -20,11 +20,7 @@ public class IntervalCollector implements Collector {
 
     public IntervalCollector(Slice slice) {
         this.slice = slice;
-        if (slice.groups() != null) {
-            this.collector = new GroupCollector(slice);
-        } else {
-            this.collector = new StatsCollector(slice);
-        }
+        this.collector = new StatsCollector(slice);
     }
 
     @Override
