@@ -7,6 +7,7 @@ import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.core.db.SSliceID;
 import com.dlvr.continuum.db.slice.Collector;
+import com.dlvr.continuum.db.slice.Filter;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.except.ZiggyStardustError;
@@ -90,5 +91,15 @@ public class NSlice implements Slice {
     @Override
     public String[] groups() {
         return groups;
+    }
+
+    @Override
+    public Collector collector() {
+        return null;
+    }
+
+    @Override
+    public Filter filter() {
+        return null;
     }
 }

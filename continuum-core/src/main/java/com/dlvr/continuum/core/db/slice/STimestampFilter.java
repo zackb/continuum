@@ -5,15 +5,15 @@ import com.dlvr.continuum.db.slice.Filter;
 
 
 /**
- * Filter by time range
+ * Space Filter by time range. Space is not ordered by timestamp so can MUST SKIP
  * Created by zack on 2/24/16.
  */
-public class TimestampFilter implements Filter {
+public class STimestampFilter implements Filter {
 
     private final long start;
     private final long end;
 
-    public TimestampFilter(long start, long end) {
+    public STimestampFilter(long start, long end) {
         this.start = start;
         this.end = end;
     }

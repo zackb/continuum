@@ -7,9 +7,9 @@ import com.dlvr.continuum.db.slice.Filter;
  * Combine multiple filters
  * Created by zack on 2/24/16.
  */
-public class CompositeFilter implements Filter {
+public class AndFilter implements Filter {
     private final Filter[] filters;
-    public CompositeFilter(Filter... filters) {
+    public AndFilter(Filter... filters) {
         this.filters = filters;
     }
     @Override

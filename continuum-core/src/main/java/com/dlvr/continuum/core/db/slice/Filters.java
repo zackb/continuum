@@ -1,7 +1,10 @@
 package com.dlvr.continuum.core.db.slice;
 
+import com.dlvr.continuum.Continuum;
+import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.slice.Filter;
 import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.except.ZiggyStardustError;
 
 /**
  * Filters engine, factory, and utils
@@ -9,10 +12,52 @@ import com.dlvr.continuum.db.slice.Slice;
  */
 public class Filters {
     public static Filter forSlice(Slice slice) {
-        return new CompositeFilter(
-            new TimestampFilter(slice.start(), slice.end()),
-            new NameFilter(slice.name()),
-            new ParticlesFilter(slice)
+        return and(
+            timestamp(Continuum.Dimension.SPACE /*WART!*/, slice.start(), slice.end()),
+            name(slice.name()),
+            particles(slice.particles())
         );
+    }
+
+    /**
+     * Filter on atom particle names and values
+     * @param particles to filter on
+     * @return new particles filter
+     */
+    public static ParticlesFilter particles(Particles particles) {
+        return new ParticlesFilter(particles);
+    }
+
+    /**
+     * Filter on atom name
+     * @param name atom name
+     * @return new name filter
+     */
+    public static NameFilter name(String name) {
+        return new NameFilter(name);
+    }
+
+    /**
+     * Filter on atom timestamp
+     * @param dimension of this continuum
+     * @param start epoch millis to begin slicing, largest time
+     * @param end epoch millis to stop slicing, smallest time
+     * @return new timestamp filter
+     */
+    public static Filter timestamp(Continuum.Dimension dimension, long start, long end) {
+        if (dimension == Continuum.Dimension.SPACE)
+            return new STimestampFilter(start, end);
+        else if (dimension == Continuum.Dimension.TIME)
+            return new KTimestampFilter(start, end);
+        throw new ZiggyStardustError();
+    }
+
+    /**
+     * Combine filters using AND operator
+     * @param filters to combine
+     * @return new and filter
+     */
+    public static AndFilter and(Filter... filters) {
+        return new AndFilter(filters);
     }
 }

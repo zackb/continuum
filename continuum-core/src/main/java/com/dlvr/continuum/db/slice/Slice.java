@@ -81,4 +81,18 @@ public interface Slice {
      * @return particle names to group by
      */
     String[] groups();
+
+
+    /**
+     * User supplied Collector to add to the slice in addition to the standard group,interval,stats,etc
+     * @return optional user defined collector
+     */
+    Collector collector();
+
+
+    /**
+     * User supplied Filter to add to the slice in addition to any implied filters on timestamps, particles, and fields
+     * @return optional user defined filter
+     */
+    Filter filter();
 }
