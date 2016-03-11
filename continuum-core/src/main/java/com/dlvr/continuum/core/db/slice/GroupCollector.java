@@ -3,8 +3,9 @@ package com.dlvr.continuum.core.db.slice;
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Collector;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.util.datetime.Interval;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,14 +18,18 @@ import java.util.Map;
  */
 public class GroupCollector implements Collector {
 
-    private final Slice slice;
+    private final String[] groups;
+    private final Interval interval;
+    private final Function function;
 
     private final Map<String, Collector> collectors = new HashMap<>();
     private final Collector stats;
 
-    public GroupCollector(Slice slice) {
-        this.slice = slice;
-        this.stats = new StatsCollector(slice);
+    public GroupCollector(final String[] groups, final Interval interval, final Function function) {
+        this.groups = groups;
+        this.interval = interval;
+        this.function = function;
+        this.stats = new StatsCollector(function);
     }
 
     @Override
@@ -55,7 +60,7 @@ public class GroupCollector implements Collector {
         */
 
         return Continuum
-                .result(String.join(",", slice.groups()))
+                .result(String.join(",", groups))
                 .children(children)
                 .values(stats.result().values())
                 .build();
@@ -63,10 +68,11 @@ public class GroupCollector implements Collector {
 
     private Collector createSubCollector() {
         Collector collector = null;
-        if (slice.interval() != null) {
-            collector = new IntervalCollector(slice);
+
+        if (interval != null) {
+            collector = new IntervalCollector(interval, function);
         } else {
-            collector = new StatsCollector(slice);
+            collector = new StatsCollector(function);
         }
         return collector;
     }
@@ -75,7 +81,7 @@ public class GroupCollector implements Collector {
 
         String key = "";
 
-        for (String group : slice.groups()) {
+        for (String group : groups) {
             key += atom.particles().get(group) + ",";
         }
 

@@ -2,8 +2,9 @@ package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Collector;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.util.datetime.Interval;
 
 import java.util.*;
 
@@ -13,14 +14,20 @@ import java.util.*;
  */
 public class IntervalCollector implements Collector {
 
-    private final Slice slice;
+    private final Interval interval;
+    private final Function function;
     final Map<Long, StatsCollector> collectors = new HashMap<>();
     final Collector collector;
     private long timestamp = 0L;
 
-    public IntervalCollector(Slice slice) {
-        this.slice = slice;
-        this.collector = new StatsCollector(slice);
+    public IntervalCollector(Interval interval) {
+        this(interval, Function.AVG);
+    }
+
+    public IntervalCollector(Interval interval, Function function) {
+        this.interval = interval;
+        this.function = function == null ? Function.AVG : function;
+        this.collector = new StatsCollector(function);
     }
 
     @Override
@@ -29,9 +36,9 @@ public class IntervalCollector implements Collector {
         if (timestamp == 0L) timestamp = atom.timestamp();
 
         long ts = atom.timestamp();
-        long bucket = ts - (ts % slice.interval().toMillis());
+        long bucket = ts - (ts % interval.toMillis());
 
-        if (collectors.get(bucket) == null) collectors.put(bucket, new StatsCollector(slice));
+        if (collectors.get(bucket) == null) collectors.put(bucket, new StatsCollector(function));
 
         collectors.get(bucket).collect(atom);
         collector.collect(atom);

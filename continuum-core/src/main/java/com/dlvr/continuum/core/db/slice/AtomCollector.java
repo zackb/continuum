@@ -3,7 +3,7 @@ package com.dlvr.continuum.core.db.slice;
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Collector;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
 
 import java.util.ArrayList;
@@ -19,9 +19,13 @@ public class AtomCollector implements Collector {
     public final List<Atom> atoms;
     private final StatsCollector stats;
 
-    public AtomCollector(Slice slice) {
+    public AtomCollector() {
+        this(Function.AVG);
+    }
+
+    public AtomCollector(Function function) {
         atoms = new ArrayList<>();
-        stats = new StatsCollector(slice);
+        stats = new StatsCollector(function == null ? Function.AVG : function);
     }
 
     @Override

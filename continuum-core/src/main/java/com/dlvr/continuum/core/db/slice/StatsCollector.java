@@ -5,7 +5,6 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.db.slice.SliceResult;
 
 /**
@@ -19,11 +18,11 @@ public class StatsCollector implements Collector {
     private long count = 0;
     private double sum = 0.0d;
 
-    private final Slice slice;
+    private final Function function;
     private long timestamp = 0L;
 
-    public StatsCollector(Slice slice) {
-        this.slice = slice;
+    public StatsCollector(Function function) {
+        this.function = function;
     }
 
     @Override
@@ -66,9 +65,10 @@ public class StatsCollector implements Collector {
         if (max == Double.MIN_VALUE) max = 0;
         double value;
 
-        Function function = slice.function();
-        function = function != null ? function : Function.AVG;
-        switch (function) {
+
+        Function fxn = function != null ? function : Function.AVG;
+
+        switch (fxn) {
             case AVG:
                 value = avg();
                 break;
@@ -88,7 +88,7 @@ public class StatsCollector implements Collector {
                 value = count();
                 break;
             default:
-                throw new Error("Not implemented: " + slice.function());
+                throw new Error("Not implemented: " + fxn);
         }
 
         Values values = Continuum.values()
@@ -99,7 +99,7 @@ public class StatsCollector implements Collector {
                 .value(value)
                 .build();
 
-        return Continuum.result(function.name().toLowerCase())
+        return Continuum.result(fxn.name().toLowerCase())
                 .values(values)
                 .timestamp(timestamp)
                 .build();
