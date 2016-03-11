@@ -19,9 +19,7 @@ import com.dlvr.continuum.core.db.slice.NSlice;
 import com.dlvr.continuum.core.db.slice.NSliceResult;
 import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.io.file.Reference;
-import com.dlvr.continuum.util.Maths;
 import com.dlvr.continuum.util.datetime.Interval;
-import com.dlvr.util.Metrics;
 
 import java.io.Closeable;
 import java.util.*;
@@ -434,6 +432,7 @@ public class Continuum implements Closeable {
      // Series / Key
     }
 
+    /*
     static class LoadTest {
 
         private Continuum continuum = null;
@@ -507,4 +506,5 @@ public class Continuum implements Closeable {
             }
         }
     }
+    */
 }

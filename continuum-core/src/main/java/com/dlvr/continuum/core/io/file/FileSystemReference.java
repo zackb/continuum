@@ -2,8 +2,8 @@ package com.dlvr.continuum.core.io.file;
 
 import com.dlvr.continuum.io.file.Endpoint;
 import com.dlvr.continuum.io.file.Reference;
-import com.dlvr.util.IOUtil;
-import com.dlvr.util.StringUtil;
+import com.dlvr.continuum.util.IO;
+import com.dlvr.continuum.util.Strings;
 
 import java.io.*;
 import java.nio.file.*;
@@ -73,10 +73,10 @@ public class FileSystemReference implements Reference {
         OutputStream outs = null;
         try {
             outs = outputStream();
-            size = IOUtil.copyStream(ins, outs);
+            size = IO.copyStream(ins, outs);
         } finally {
-            IOUtil.close(ins);
-            IOUtil.close(outs);
+            IO.close(ins);
+            IO.close(outs);
         }
         return size;
     }
@@ -131,7 +131,7 @@ public class FileSystemReference implements Reference {
         int i = 0;
         for (File file : files) {
             String newVirtualPath = virtualPath() + '/' + file.getName();
-            newVirtualPath = StringUtil.trim(newVirtualPath, "/");
+            newVirtualPath = Strings.trim(newVirtualPath, '/');
             refs[i++] = new FileSystemReference(base, newVirtualPath);
         }
         return refs;

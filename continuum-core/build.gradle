@@ -22,9 +22,6 @@ buildscript {
 
 dependencies {
 
-    // DLVR Common
-    compile 'com.dlvr.common:dlvr-common-lib:1.+'
-
     // RocksDB
     compile 'org.rocksdb:rocksdbjni:4.1.0'
     // https://github.com/facebook/rocksdb/issues/871

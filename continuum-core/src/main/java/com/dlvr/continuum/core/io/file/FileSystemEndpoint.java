@@ -1,7 +1,7 @@
 package com.dlvr.continuum.core.io.file;
 
 import com.dlvr.continuum.io.file.Endpoint;
-import com.dlvr.util.IOUtil;
+import com.dlvr.continuum.util.IO;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -40,9 +40,9 @@ class FileSystemEndpoint implements Endpoint<FileSystemReference> {
     public void store(FileSystemReference ref, InputStream data) throws IOException {
         ref.create();
         OutputStream out = ref.outputStream();
-        IOUtil.copyStream(data, out);
-        IOUtil.close(out);
-        IOUtil.close(data);
+        IO.copyStream(data, out);
+        IO.close(out);
+        IO.close(data);
     }
 
     @Override

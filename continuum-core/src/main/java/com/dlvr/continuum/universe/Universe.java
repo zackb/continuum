@@ -3,7 +3,7 @@ package com.dlvr.continuum.universe;
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.io.file.Reference;
-import com.dlvr.util.IOUtil;
+import com.dlvr.continuum.util.IO;
 import com.dlvr.continuum.util.JSON;
 
 import java.util.Map;
@@ -29,7 +29,7 @@ public class Universe {
      * @return a universe comensurate with universe.meta
      */
     public static Universe bigBang(String ref) throws Exception {
-        String string = IOUtil.readString(new FileSystemReference(ref).inputStream());
+        String string = IO.readString(new FileSystemReference(ref).inputStream());
         Map<String, Object> meta = JSON.decode(string);
         return new Universe(meta);
     }
@@ -40,7 +40,7 @@ public class Universe {
      * @return a universe comensurate with universe.meta
      */
     public static Universe bigBang(Reference ref) throws Exception {
-        String string = IOUtil.readString(ref.inputStream());
+        String string = IO.readString(ref.inputStream());
         Map<String, Object> meta = JSON.decode(string);
         return new Universe(meta);
     }
