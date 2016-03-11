@@ -7,7 +7,7 @@ import com.dlvr.continuum.rest.http.exception.InternalServerErrorException;
 import com.dlvr.continuum.rest.http.exception.MethodNotAllowedException;
 import com.dlvr.continuum.rest.http.exception.NotFoundException;
 import com.dlvr.continuum.util.JSON;
-import com.dlvr.util.StringUtil;
+import com.dlvr.continuum.util.Strings;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -93,7 +93,7 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<Object> 
     }
 
     private Optional<HttpRequestHandler> selectHandler(String path) {
-        String trimmedPath = StringUtil.rtrim(path, "/");
+        String trimmedPath = Strings.rtrim(path, '/');
         return handlers.stream().filter(handler -> handler.getPath().equals(trimmedPath)).findFirst();
     }
 
@@ -102,7 +102,7 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<Object> 
         boolean keepAlive = HttpUtil.isKeepAlive(request);
 
         String data = buf.toString();
-        if (!StringUtil.empty(data)) {
+        if (!Strings.empty(data)) {
             Map<String, Object> json = JSON.decode(data);
             parameters.putAll(json);
         }
@@ -179,7 +179,7 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<Object> 
     private Map<String, String> createErrorResult(HttpException e) {
         String reason = e.getReasonMessage();
         String message = e.getMessage();
-        if (StringUtil.empty(message) && e.getCause() != null) {
+        if (Strings.empty(message) && e.getCause() != null) {
             message = e.getCause().getMessage();
         }
         Map<String, String> result = new HashMap<>();
