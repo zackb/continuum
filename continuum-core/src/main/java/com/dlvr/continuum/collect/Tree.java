@@ -1,6 +1,8 @@
 package com.dlvr.continuum.collect;
 
 
+import com.dlvr.continuum.util.Strings;
+
 import java.util.*;
 
 /**
@@ -76,8 +78,7 @@ public class Tree<V> implements Map<String, V> {
 
     @Override
     public V remove(Object key) {
-
-        return null;
+        return put((String)key, null);
     }
 
     @Override
@@ -159,9 +160,27 @@ public class Tree<V> implements Map<String, V> {
                 );
     }
 
+    public void search(TreeSearch<V> consumer) {
+        search(consumer, "");
+    }
+
+    private void search(TreeSearch<V> consumer, String prefix) {
+
+        if (nodes != null)
+            nodes.keySet().forEach(s -> nodes.get(s).search(consumer, prefix + (Strings.empty(prefix) ? "" : DELIM) + s));
+
+        if (node != null)
+            node.forEach((s, v) -> consumer.apply(this, prefix + (Strings.empty(prefix) ? "" : DELIM) + s, v));
+    }
+
     @FunctionalInterface
     interface TreeConsumer<V> {
         void apply(String s, V v);
+    }
+
+    @FunctionalInterface
+    interface TreeSearch<V> {
+        void apply(Tree<V> subtree, String s, V v);
     }
 
     public static void main(String[] args) {
@@ -175,6 +194,6 @@ public class Tree<V> implements Map<String, V> {
         tree.put("one.to.the.two", 102.0);
         tree.put("one.to.the.three", 103.0);
         tree.put("one.to.the.four", 104.0);
-        tree.each((s, d) -> System.out.println(s + ": " + d));
+        tree.search((t, s, d) -> System.out.println(s + ": " + d));
     }
 }
