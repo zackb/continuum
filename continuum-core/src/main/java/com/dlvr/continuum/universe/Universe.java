@@ -27,6 +27,7 @@ public class Universe {
      * Create a universe
      * @param ref config location of universe.meta on the filestystem or other storage
      * @return a universe comensurate with universe.meta
+     * @throws Exception
      */
     public static Universe bigBang(String ref) throws Exception {
         String string = IO.readString(new FileSystemReference(ref).inputStream());
@@ -38,6 +39,7 @@ public class Universe {
      * Create a universe
      * @param ref config location of universe.meta on the filestystem or other storage
      * @return a universe comensurate with universe.meta
+     * @throws Exception
      */
     public static Universe bigBang(Reference ref) throws Exception {
         String string = IO.readString(ref.inputStream());

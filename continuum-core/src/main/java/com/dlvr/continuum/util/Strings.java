@@ -1,5 +1,7 @@
 package com.dlvr.continuum.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -178,5 +180,19 @@ public class Strings {
 
     public static boolean empty(String s) {
         return s == null || s.equals("");
+    }
+
+    /**
+     * Sprintf to a string.
+     *
+     * @param format a format string
+     * @param values values referenced by the format specifiers in the format string.
+     * @return the resulting formatted string
+     */
+    public static String sprintf(String format, Object[] values) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outputStream);
+        out.printf(format, values);
+        return outputStream.toString();
     }
 }

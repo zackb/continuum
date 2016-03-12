@@ -13,6 +13,7 @@ public interface Slice {
     /**
      * TODO: How to not need all three of these?
      * Non-unique id for this slice
+     * @return id fo use for slicing
      */
     SliceID ID();
 

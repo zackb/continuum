@@ -36,6 +36,17 @@ public class Collectors {
     }
 
     /**
+     * Group slice results on one or more particles. Respects intervals
+     * @param groups to grop by
+     * @param interval to bucket groups
+     * @param function to aggregate on
+     * @return new grouping collector
+     */
+    public static GroupCollector group(String[] groups, Interval interval, Function function) {
+        return new GroupCollector(groups, interval, function);
+    }
+
+    /**
      * Bucket results into time intervals
      * @param interval to bucket
      * @return new bucketing time interval collector

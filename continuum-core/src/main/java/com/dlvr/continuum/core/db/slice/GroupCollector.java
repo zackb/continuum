@@ -5,6 +5,7 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.util.Strings;
 import com.dlvr.continuum.util.datetime.Interval;
 
 import java.util.ArrayList;
@@ -69,10 +70,16 @@ public class GroupCollector implements Collector {
     private Collector createSubCollector() {
         Collector collector = null;
 
-        if (interval != null) {
-            collector = new IntervalCollector(interval, function);
+        if (groups.length > 1) {
+            String[] subGroup = new String[groups.length - 1];
+            for (int i = 0; i < groups.length - 1; i++)
+                subGroup[i] = groups[i];
+            collector = Collectors.group(subGroup, interval, function);
+        }
+        else if (interval != null) {
+            collector = Collectors.interval(interval, function);
         } else {
-            collector = new StatsCollector(function);
+            collector = Collectors.stats(function);
         }
         return collector;
     }
@@ -86,5 +93,24 @@ public class GroupCollector implements Collector {
         }
 
         return key.substring(0, key.length() - 1);
+    }
+
+    /**
+     * tag values for this key (groups)
+     * @param atom to compute
+     * @return keys
+     */
+    private String[] keys(Atom atom) {
+        String[] keys = new String[groups.length];
+
+        int i = 0;
+        for (String group : groups) {
+            String val = atom.particles().get(group);
+            if (!Strings.empty(val)) {
+                keys[i++] = val;
+            }
+        }
+
+        return keys;
     }
 }

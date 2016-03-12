@@ -162,7 +162,6 @@ public class Continuum implements Closeable {
 
     /**
      * Close all underlying resources for this continuum
-     * @throws Exception on failure
      */
     @Override
     public void close() {
