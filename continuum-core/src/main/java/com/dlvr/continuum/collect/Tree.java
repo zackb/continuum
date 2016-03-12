@@ -13,11 +13,19 @@ import java.util.*;
  */
 public class Tree<V> implements Map<String, V> {
 
-    private static final char DELIM = '.';
+    public final char DELIM;
 
     private Map<String, V> node;
 
     private Map<String, Tree<V>> nodes;
+
+    public Tree() {
+        DELIM = '.';
+    }
+
+    public Tree(char delim) {
+        this.DELIM = delim;
+    }
 
     @Override
     public int size() {
@@ -69,11 +77,19 @@ public class Tree<V> implements Map<String, V> {
         } else {
             if (nodes == null) nodes = new HashMap<>();
             if (nodes.get(parts[0]) == null) {
-                nodes.put(parts[0], new Tree<V>());
+                nodes.put(parts[0], new Tree<>());
             }
             res = nodes.get(parts[0]).put(subkey(key), value);
         }
         return res;
+    }
+
+    public Map<String, V> leaf() {
+        return node;
+    }
+
+    public Map<String, Tree<V>> tree() {
+        return nodes;
     }
 
     @Override
@@ -121,7 +137,6 @@ public class Tree<V> implements Map<String, V> {
     @Override
     @SuppressWarnings("unchecked")
     public Set<Map.Entry<String, V>> entrySet() {
-        if (nodes == null && node == null) return null;
         Set<Map.Entry<String, V>> es = new HashSet<>();
         if (node != null) es.addAll(node.entrySet());
         if (nodes != null) nodes.keySet().forEach(s -> es.addAll(nodes.get(s).entrySet()));
@@ -158,8 +173,8 @@ public class Tree<V> implements Map<String, V> {
 
     public void each(String prefix, TreeConsumer<V> consumer) {
         String[] parts = k(prefix);
-        for (int i = 0; i < parts.length - 1; i++) {
-            String k = String.join("" + DELIM, Arrays.asList(parts).subList(0, parts.length - i));
+        for (int i = 1; i < parts.length; i++) {
+            String k = String.join("" + DELIM, Arrays.asList(parts).subList(0, i));
             V v = get(k);
             consumer.apply(k, v);
         }
