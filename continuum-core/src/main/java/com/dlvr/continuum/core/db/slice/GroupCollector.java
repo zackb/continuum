@@ -2,15 +2,13 @@ package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.collect.Tree;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
 import com.dlvr.continuum.util.Strings;
 import com.dlvr.continuum.util.datetime.Interval;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Results grouped by particles
@@ -22,7 +20,9 @@ public class GroupCollector implements Collector {
     private final Interval interval;
     private final Function function;
 
-    private final Tree<Collector> collectors = new Tree<>();
+    private static final String DELIM = ",";
+
+    private final Map<String, Collector> collectors = new HashMap<>();
     private final Collector stats;
 
     public GroupCollector(final String[] groups, final Interval interval, final Function function) {
@@ -33,62 +33,57 @@ public class GroupCollector implements Collector {
     }
 
     @Override
-    public void collect(Atom atom) {
-        String key = key(atom);
-        Collector collector = collectors.get(key);
-        if (collector == null) {
-            collector = createSubCollector();
-            collectors.put(key, collector);
-        }
-        collector.collect(atom);
-        stats.collect(atom);
-    }
-
-    @Override
     public SliceResult result() {
 
         List<SliceResult> children = new ArrayList<>(collectors.size());
-        //for (String group : collectors.keySet()) {
-        collectors.each((s, v) -> {
-            if (v != null) {
-                NSliceResult res = (NSliceResult) v.result();
-                res.name = s;
-                children.add(res);
-            }
-        });
 
-        /*
-            children = collectors.values().stream().map(
-                Collector::result
-            ).collect(java.util.stream.Collectors.toList());
-        */
+        collectors.keySet()
+                .stream()
+                .sorted((s1, s2) -> s1.length() == s2.length() ? 0 : s1.length() > s2.length() ? 1 : -1)
+                .forEach(key -> {
+                    NSliceResult res = (NSliceResult)collectors.get(key).result();
+                    res.name = key;
+                    children.add(res);
+                });
 
         return Continuum
-                .result(String.join(",", groups))
+                .result(String.join(DELIM, groups))
                 .children(children)
                 .values(stats.result().values())
                 .build();
     }
 
-    private Collector createSubCollector() {
+    private Collector createSubCollector(String[] parts) {
         Collector collector = null;
 
-        if (groups.length > 1) {
-            String[] subGroup = new String[groups.length - 1];
-            for (int i = 0; i < groups.length - 1; i++)
-                subGroup[i] = groups[i];
-            collector = Collectors.group(subGroup, interval, function);
-        }
-        else if (interval != null) {
+        if (parts.length > 1)
+            collector = Collectors.group(parts, interval, function);
+        else if (interval != null)
             collector = Collectors.interval(interval, function);
-        } else {
+        else
             collector = Collectors.stats(function);
-        }
         return collector;
     }
 
     private String key(Atom atom) {
-        return String.join(".", keys(atom));
+        return String.join(DELIM, keys(atom));
+    }
+
+    @Override
+    public void collect(Atom atom) {
+        String[] parts = keys(atom);
+
+        stats.collect(atom);
+        for (int i = parts.length; i > 0; i--) {
+            List<String> ss = Arrays.asList(parts).subList(0, i);
+            String k = String.join(DELIM, ss);
+            Collector collector = collectors.get(k);
+            if (collector == null) {
+                collector = createSubCollector(Strings.range(groups, 0, i - 1));
+                collectors.put(k, collector);
+            }
+            collector.collect(atom);
+        }
     }
 
     /**
@@ -107,6 +102,7 @@ public class GroupCollector implements Collector {
             }
         }
 
-        return keys;
+        if (keys.length > i) return Strings.range(keys, 0, i);
+        else return keys;
     }
 }

@@ -195,4 +195,12 @@ public class Strings {
         out.printf(format, values);
         return outputStream.toString();
     }
+
+    public static String[] range(String[] source, int start, int end) {
+        String[] result = new String[end - start];
+        for (int i = 0, pos = start; pos < end; i++, pos++) {
+            result[i] = source[pos];
+        }
+        return result;
+    }
 }

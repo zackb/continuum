@@ -133,7 +133,11 @@ public class Tree<V> implements Map<String, V> {
     }
 
     private String subkey(String[] keys) {
-        return String.join("" + DELIM, Arrays.asList(keys).subList(1, keys.length));
+        return subkey(1, keys);
+    }
+
+    private String subkey(int start, String[] keys) {
+        return String.join("" + DELIM, Arrays.asList(keys).subList(start, keys.length));
     }
 
     private String[] k(String key) {
@@ -152,9 +156,18 @@ public class Tree<V> implements Map<String, V> {
         return s;
     }
 
+    public void each(String prefix, TreeConsumer<V> consumer) {
+        String[] parts = k(prefix);
+        for (int i = 0; i < parts.length - 1; i++) {
+            String k = String.join("" + DELIM, Arrays.asList(parts).subList(0, parts.length - i));
+            V v = get(k);
+            consumer.apply(k, v);
+        }
+    }
+
     public void each(TreeConsumer<V> consumer) {
         keySet().stream()
-                .sorted((s1, s2) -> s1.length() > s2.length() ? 1 : -1)
+                .sorted((s1, s2) -> s1.length() == s2.length() ? 0 : s1.length() > s2.length() ? 1 : -1)
                 .forEach(s ->
                     consumer.apply(s, get(s))
                 );
