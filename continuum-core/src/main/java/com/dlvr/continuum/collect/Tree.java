@@ -1,146 +1,54 @@
 package com.dlvr.continuum.collect;
 
 
-import com.dlvr.continuum.util.Strings;
-
 import java.util.*;
 
 /**
- * Recursive group and sub-group Map datastructure.
- * Uses DELIM to nest recursive sub-groups
+ * Directed, Acyclic graph
  *
  * Created by zack on 3/11/16.
  */
-public class Tree<V> implements Map<String, V> {
+public class Tree<V> implements Visitable<V> {
 
-    public final char DELIM;
+    private static final String DELIM = ".";
 
-    private Map<String, V> node;
+    private final Tree<V> parent;
 
-    private Map<String, Tree<V>> nodes;
+    private final Set<Tree<V>> nodes = new LinkedHashSet<>();
 
-    public Tree() {
-        DELIM = '.';
+    private V data;
+
+    public Tree(V data) {
+        this(null, data);
     }
 
-    public Tree(char delim) {
-        this.DELIM = delim;
+    public Tree(Tree<V> parent, V data) {
+        this.parent = parent;
+        this.data = data;
     }
 
-    @Override
-    public int size() {
-        return keySet().size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return (node == null || nodes.isEmpty())
-                &&
-               (nodes == null || nodes.isEmpty());
-    }
-
-    @Override
-    public boolean containsKey(Object key) {
-        return (node != null && nodes.containsKey(key))
-                ||
-               (nodes != null && nodes.containsKey(key));
-    }
-
-    @Override
-    public boolean containsValue(Object value) {
-        return
-                (node != null && node.containsValue(value))
-                ||
-                (nodes != null && nodes.containsValue(value));
-    }
-
-    @Override
-    public V get(Object key) {
-        String[] parts = k(key);
-        if (parts.length == 1 && node != null)
-            return node.get(key);
-
-        if (nodes != null) {
-            Tree<V> sub = nodes.get(parts[0]);
-            if (sub != null) return sub.get(subkey((String)key));
-        }
-        return null;
-    }
-
-    @Override
-    public V put(String key, V value) {
-        String[] parts = k(key);
-        V res = value;
-        if (parts.length == 1) {
-            if (node == null) node = new HashMap<>();
-            res = node.put(key, value);
-        } else {
-            if (nodes == null) nodes = new HashMap<>();
-            if (nodes.get(parts[0]) == null) {
-                nodes.put(parts[0], new Tree<>());
+    public Tree<V> child(V data) {
+        for (Tree<V> child : nodes) {
+            if (child.data.equals(data)) {
+                return child;
             }
-            res = nodes.get(parts[0]).put(subkey(key), value);
         }
-        return res;
+
+        return child(new Tree<>(this, data));
     }
 
-    public Map<String, V> leaf() {
-        return node;
+    Tree<V> child(Tree<V> child) {
+        nodes.add(child);
+        return child;
     }
 
-    public Map<String, Tree<V>> tree() {
-        return nodes;
+    public Tree<V> parent() {
+        return parent;
     }
 
-    @Override
-    public V remove(Object key) {
-        return put((String)key, null);
-    }
-
-    @Override
-    public void putAll(Map<? extends String, ? extends V> m) {
-        m.forEach(this::put);
-    }
-
-    @Override
     public void clear() {
-        if (node != null) node.clear();
-        node = null;
+        data = null;
         if (nodes != null) nodes.clear();
-        nodes = null;
-    }
-
-    @Override
-    public Set<String> keySet() {
-        Set<String> ks = new HashSet<>();
-
-        if (node != null) ks.addAll(node.keySet());
-        if (nodes != null) nodes.keySet().forEach(s -> nodes.get(s).add(s, ks));
-        return ks;
-    }
-
-    private void add(String prefix, Set<String> keyset) {
-        if (nodes != null) nodes.keySet().forEach(s -> nodes.get(s).add(prefix + DELIM + s, keyset));
-        if (node != null) node.keySet().forEach(s -> keyset.add(prefix + DELIM + s));
-    }
-
-    @Override
-    public Collection<V> values() {
-        Collection<V> vals = new ArrayList<>();
-        if (node != null) vals.addAll(node.values());
-
-        if (nodes != null) nodes.keySet().forEach(s -> vals.addAll(nodes.get(s).values()));
-
-        return vals;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public Set<Map.Entry<String, V>> entrySet() {
-        Set<Map.Entry<String, V>> es = new HashSet<>();
-        if (node != null) es.addAll(node.entrySet());
-        if (nodes != null) nodes.keySet().forEach(s -> es.addAll(nodes.get(s).entrySet()));
-        return es;
     }
 
     private String subkey(String keys) {
@@ -160,68 +68,53 @@ public class Tree<V> implements Map<String, V> {
     }
 
     private String[] k(Object key) {
-        return ((String)key).split("\\" + DELIM);
+        return ((String) key).split("\\" + DELIM);
     }
 
     @Override
     public String toString() {
         String s = "";
-        if (node != null) s += node.toString();
         if (nodes != null) s += nodes.toString();
         return s;
     }
 
-    public void each(String prefix, TreeConsumer<V> consumer) {
-        String[] parts = k(prefix);
-        for (int i = 1; i < parts.length; i++) {
-            String k = String.join("" + DELIM, Arrays.asList(parts).subList(0, i));
-            V v = get(k);
-            consumer.apply(k, v);
+    public void accept(Visitor<V> visitor) {
+        visitor.visitData(this, data);
+        for (Tree<V> child : nodes) {
+            Visitor<V> childVisitor = visitor.visitTree(child);
+            child.accept(childVisitor);
         }
     }
-
-    public void each(TreeConsumer<V> consumer) {
-        keySet().stream()
-                .sorted((s1, s2) -> s1.length() == s2.length() ? 0 : s1.length() > s2.length() ? 1 : -1)
-                .forEach(s ->
-                    consumer.apply(s, get(s))
-                );
-    }
-
-    public void search(TreeSearch<V> consumer) {
-        search(consumer, "");
-    }
-
-    public void search(TreeSearch<V> consumer, String prefix) {
-
-        if (nodes != null)
-            nodes.keySet().forEach(s -> nodes.get(s).search(consumer, prefix + (Strings.empty(prefix) ? "" : DELIM) + s));
-
-        if (node != null)
-            node.forEach((s, v) -> consumer.apply(this, prefix + (Strings.empty(prefix) ? "" : DELIM) + s, v));
-    }
-
-    @FunctionalInterface
-    public interface TreeConsumer<V> {
-        void apply(String s, V v);
-    }
-
-    @FunctionalInterface
-    public interface TreeSearch<V> {
-        void apply(Tree<V> subtree, String s, V v);
-    }
-
     public static void main(String[] args) {
-        Tree<Double> tree = new Tree<>();
+        Tree<String> tree = new Tree<>("/");
 
-        tree.put("foo", 1.0);
-        tree.put("foo.bar", 2.0);
-        tree.put("foo.bar", 3.0);
-        tree.put("foo.baz", 5.0);
-        tree.put("bad.boy", 56.0);
-        tree.put("one.to.the.two", 102.0);
-        tree.put("one.to.the.three", 103.0);
-        tree.put("one.to.the.four", 104.0);
-        tree.search((t, s, d) -> System.out.println(s + ": " + d));
+        tree.child("foo");
+        tree.child("foo.bar");
+        tree.child("foo.baz");
+        tree.child("foo.bar.baz");
+        tree.accept(new IndentVisitor<>(0));
+    }
+
+    static class IndentVisitor<V> implements Visitor<V> {
+
+        private final int indent;
+
+        IndentVisitor(int indent) {
+            this.indent = indent;
+        }
+
+        @Override
+        public Visitor<V> visitTree(Tree<V> tree) {
+            return new IndentVisitor<>(indent + 2);
+        }
+
+        @Override
+        public void visitData(Tree<V> parent, V data) {
+            for (int i = 0; i < indent; i++) { // TODO: naive implementation
+                System.out.print(" ");
+            }
+
+            System.out.println(data);
+        }
     }
 }

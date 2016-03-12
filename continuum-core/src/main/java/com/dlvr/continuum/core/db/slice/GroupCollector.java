@@ -2,6 +2,7 @@ package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.collect.Tree;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
@@ -20,9 +21,10 @@ public class GroupCollector implements Collector {
     private final Interval interval;
     private final Function function;
 
-    private static final String DELIM = ",";
+    private static final char DELIM = ',';
+    private static final String SDELIM = "" + DELIM;
 
-    private final Map<String, Collector> collectors = new HashMap<>();
+    private final Tree<Collector> collectors;
     private final Collector stats;
 
     public GroupCollector(final String[] groups, final Interval interval, final Function function) {
@@ -30,60 +32,37 @@ public class GroupCollector implements Collector {
         this.interval = interval;
         this.function = function;
         this.stats = new StatsCollector(function);
+        this.collectors = new Tree<>(this);
     }
 
     @Override
     public SliceResult result() {
+        List<SliceResult> children = new ArrayList<>();
+            //NSliceResult res = (NSliceResult)c.result();
 
-        List<SliceResult> children = new ArrayList<>(collectors.size());
-
-        collectors.keySet()
-                .stream()
-                .sorted((s1, s2) -> s1.length() == s2.length() ? 0 : s1.length() > s2.length() ? 1 : -1)
-                .forEach(key -> {
-                    NSliceResult res = (NSliceResult)collectors.get(key).result();
-                    res.name = key;
-                    children.add(res);
-                });
-
-        return Continuum
-                .result(String.join(DELIM, groups))
+        NSliceResult res = (NSliceResult)Continuum
+                .result(String.join(SDELIM, groups))
                 .children(children)
                 .values(stats.result().values())
                 .build();
-    }
 
-    private Collector createSubCollector(String[] parts) {
-        Collector collector = null;
+        return res;
 
-        if (parts.length > 1)
-            collector = Collectors.group(parts, interval, function);
-        else if (interval != null)
-            collector = Collectors.interval(interval, function);
-        else
-            collector = Collectors.stats(function);
-        return collector;
     }
 
     private String key(Atom atom) {
-        return String.join(DELIM, keys(atom));
+        return String.join(SDELIM, keys(atom));
     }
 
     @Override
     public void collect(Atom atom) {
-        String[] parts = keys(atom);
 
         stats.collect(atom);
-        for (int i = 1; i < parts.length; i++) {
-            String[] subparts = Strings.range(parts, 0, i);
-            String k = String.join(DELIM, subparts);
-            Collector collector = collectors.get(k);
-            if (collector == null) {
-                collector = createSubCollector(Strings.range(parts, i, parts.length));
-                collectors.put(k, collector);
-            }
-            collector.collect(atom);
-        }
+
+        String key = key(atom);
+
+        //collectors.put();
+        //c.collect(atom);
     }
 
     /**
