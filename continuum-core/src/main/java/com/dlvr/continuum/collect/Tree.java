@@ -9,15 +9,15 @@ import java.util.*;
  *
  * Created by zack on 3/11/16.
  */
-public class Tree<V> {//implements Map<String, V> {
+public class Tree<V> implements Map<String, V> {
 
     private static final String DELIM = "\\.";
 
     private Map<String, V> node;
 
-    private Tree<V> nodes;
+    private Map<String, Tree<V>> nodes;
 
-    //@Override
+    @Override
     public int size() {
         int size = 0;
         if (node != null) size += node.size();
@@ -25,21 +25,21 @@ public class Tree<V> {//implements Map<String, V> {
         return size;
     }
 
-    //@Override
+    @Override
     public boolean isEmpty() {
         return (node == null || nodes.isEmpty())
                 &&
                (nodes == null || nodes.isEmpty());
     }
 
-    //@Override
+    @Override
     public boolean containsKey(Object key) {
         return (node != null && nodes.containsKey(key))
                 ||
                (nodes != null && nodes.containsKey(key));
     }
 
-    //@Override
+    @Override
     public boolean containsValue(Object value) {
         return
                 (node != null && node.containsValue(value))
@@ -47,13 +47,20 @@ public class Tree<V> {//implements Map<String, V> {
                 (nodes != null && nodes.containsValue(value));
     }
 
-    //@Override
+    @Override
     public V get(Object key) {
         String[] parts = k(key);
-        return parts.length == 1 && node != null ? node.get(key) : nodes == null ? null : nodes.get(subkey(parts));
+        if (parts.length == 1 && node != null)
+            return node.get(key);
+
+        if (nodes != null) {
+            Tree<V> sub = nodes.get(parts[0]);
+            if (sub != null) return sub.get(subkey((String)key));
+        }
+        return null;
     }
 
-    //@Override
+    @Override
     public V put(String key, V value) {
         String[] parts = k(key);
         V res = value;
@@ -61,24 +68,27 @@ public class Tree<V> {//implements Map<String, V> {
             if (node == null) node = new HashMap<>();
             res = node.put(key, value);
         } else {
-            if (nodes == null) nodes = new Tree<>();
-            res = nodes.put(subkey(key), value);
+            if (nodes == null) nodes = new HashMap<>();
+            if (nodes.get(parts[0]) == null) {
+                nodes.put(parts[0], new Tree<V>());
+            }
+            res = nodes.get(parts[0]).put(subkey(key), value);
         }
         return res;
     }
 
-    //@Override
+    @Override
     public V remove(Object key) {
 
         return null;
     }
 
-    //@Override
+    @Override
     public void putAll(Map<? extends String, ? extends V> m) {
         m.forEach(this::put);
     }
 
-    //@Override
+    @Override
     public void clear() {
         if (node != null) node.clear();
         node = null;
@@ -86,51 +96,37 @@ public class Tree<V> {//implements Map<String, V> {
         nodes = null;
     }
 
-    //@Override
+    @Override
     public Set<String> keySet() {
         Set<String> ks = new HashSet<>();
 
-        if (node != null) {
-            if (nodes != null) {
-                node.keySet().forEach(s -> {
-                    nodes.keySet().forEach(k -> {
-                        ks.add(s + "." + k);
-                    });
-                });
-            } else {
-                ks.addAll(node.keySet());
-            }
-        } else if (nodes != null) {
-            ks.addAll(nodes.keySet());
-        }
-
+        if (node != null) ks.addAll(node.keySet());
+        if (nodes != null) nodes.keySet().forEach(s -> nodes.get(s).add(s, ks));
         return ks;
     }
-    /*
 
     private void add(String prefix, Set<String> keyset) {
-        if (nodes != null) nodes.keySet().forEach(s -> keyset.add(prefix + "." + s));
+        if (nodes != null) nodes.keySet().forEach(s -> nodes.get(s).add(prefix + "." + s, keyset));
         if (node != null) node.keySet().forEach(s -> keyset.add(prefix + "." + s));
     }
-    */
 
-    //@Override
+    @Override
     public Collection<V> values() {
         Collection<V> vals = new ArrayList<>();
         if (node != null) vals.addAll(node.values());
 
-        if (nodes != null) vals.addAll(nodes.values());
+        if (nodes != null) nodes.keySet().forEach(s -> vals.addAll(nodes.get(s).values()));
 
         return vals;
     }
 
-    //@Override
+    @Override
     @SuppressWarnings("unchecked")
     public Set<Map.Entry<String, V>> entrySet() {
         if (nodes == null && node == null) return null;
         Set<Map.Entry<String, V>> es = new HashSet<>();
         if (node != null) es.addAll(node.entrySet());
-        if (nodes != null) es.addAll(nodes.entrySet());
+        if (nodes != null) nodes.keySet().forEach(s -> es.addAll(nodes.get(s).entrySet()));
         return es;
     }
 
@@ -162,15 +158,15 @@ public class Tree<V> {//implements Map<String, V> {
         Tree<Double> tree = new Tree<>();
 
         tree.put("foo", 1.0);
-        //tree.put("foo.bar", 2.0);
-        //tree.put("foo.bar", 3.0);
-        //tree.put("foo.baz", 5.0);
-        //tree.put("bad.boy", 56.0);
+        tree.put("foo.bar", 2.0);
+        tree.put("foo.bar", 3.0);
+        tree.put("foo.baz", 5.0);
+        tree.put("bad.boy", 56.0);
         tree.put("one.to.the.two", 102.0);
         System.out.println(tree.get("one.to.the.two"));
         System.out.println(tree.get("foo.bar"));
         System.out.println(tree.get("bad"));
         System.out.println(tree.get("bad.boy"));
-        System.out.println(tree.keySet());
+        System.out.println(tree.values());
     }
 }
