@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class Tree<V> implements Map<String, V> {
 
-    private static final String DELIM = "\\.";
+    private static final char DELIM = '.';
 
     private Map<String, V> node;
 
@@ -103,8 +103,8 @@ public class Tree<V> implements Map<String, V> {
     }
 
     private void add(String prefix, Set<String> keyset) {
-        if (nodes != null) nodes.keySet().forEach(s -> nodes.get(s).add(prefix + "." + s, keyset));
-        if (node != null) node.keySet().forEach(s -> keyset.add(prefix + "." + s));
+        if (nodes != null) nodes.keySet().forEach(s -> nodes.get(s).add(prefix + DELIM + s, keyset));
+        if (node != null) node.keySet().forEach(s -> keyset.add(prefix + DELIM + s));
     }
 
     @Override
@@ -132,15 +132,15 @@ public class Tree<V> implements Map<String, V> {
     }
 
     private String subkey(String[] keys) {
-        return String.join(".", Arrays.asList(keys).subList(1, keys.length));
+        return String.join("" + DELIM, Arrays.asList(keys).subList(1, keys.length));
     }
 
     private String[] k(String key) {
-        return key.split(DELIM);
+        return key.split("\\" + DELIM);
     }
 
     private String[] k(Object key) {
-        return ((String)key).split(DELIM);
+        return ((String)key).split("\\" + DELIM);
     }
 
     @Override

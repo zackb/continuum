@@ -3,6 +3,7 @@ package com.dlvr.continuum.collect;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -18,10 +19,22 @@ public class TreeTest {
         tree.put("foo", 2.3);
         tree.put("one.two.three", 54.1);
         tree.put("one.two.to.the.foo", 54.1);
+        tree.put("one.two.to.the.bar", Double.MAX_VALUE);
         tree.put("one.two.four", 54.1);
 
-        assertEquals(4, tree.size());
+        assertEquals(5, tree.size());
         Set<String> keySet = tree.keySet();
-        assertEquals(4, keySet.size());
+        assertEquals(5, keySet.size());
+        assertEquals(5, tree.values().size());
+        assertEquals(3, new HashSet<>(tree.values()).size());
+
+        assertNull(tree.get("ooon"));
+        assertNull(tree.get("one.two"));
+        assertNull(tree.get("one.two.tttt"));
+        assertNull(tree.get("one.two.threee"));
+        assertNull(tree.get("one.two.to.threee"));
+        assertNull(tree.get("one.two.to.the"));
+        assertEquals(54.1, tree.get("one.two.to.the.foo"), 0.0);
+        assertEquals(Double.MAX_VALUE, tree.get("one.two.to.the.bar"), 0.0);
     }
 }
