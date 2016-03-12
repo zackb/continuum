@@ -48,14 +48,15 @@ public class GroupCollector implements Collector {
     public SliceResult result() {
 
         List<SliceResult> children = new ArrayList<>(collectors.size());
-        for (String group : collectors.keySet()) {
-            Collector collector = collectors.get(group);
-            if (collector != null) {
-                NSliceResult res = (NSliceResult) collector.result();
-                res.name = group;
+        //for (String group : collectors.keySet()) {
+        collectors.each((s, v) -> {
+            if (v != null) {
+                NSliceResult res = (NSliceResult) v.result();
+                res.name = s;
                 children.add(res);
             }
-        }
+        });
+
         /*
             children = collectors.values().stream().map(
                 Collector::result

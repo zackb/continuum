@@ -164,7 +164,7 @@ public class Tree<V> implements Map<String, V> {
         search(consumer, "");
     }
 
-    private void search(TreeSearch<V> consumer, String prefix) {
+    public void search(TreeSearch<V> consumer, String prefix) {
 
         if (nodes != null)
             nodes.keySet().forEach(s -> nodes.get(s).search(consumer, prefix + (Strings.empty(prefix) ? "" : DELIM) + s));
@@ -174,12 +174,12 @@ public class Tree<V> implements Map<String, V> {
     }
 
     @FunctionalInterface
-    interface TreeConsumer<V> {
+    public interface TreeConsumer<V> {
         void apply(String s, V v);
     }
 
     @FunctionalInterface
-    interface TreeSearch<V> {
+    public interface TreeSearch<V> {
         void apply(Tree<V> subtree, String s, V v);
     }
 
