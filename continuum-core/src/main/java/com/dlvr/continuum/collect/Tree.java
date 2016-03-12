@@ -19,10 +19,7 @@ public class Tree<V> implements Map<String, V> {
 
     @Override
     public int size() {
-        int size = 0;
-        if (node != null) size += node.size();
-        if (nodes != null) size += nodes.size();
-        return size;
+        return keySet().size();
     }
 
     @Override
@@ -154,6 +151,19 @@ public class Tree<V> implements Map<String, V> {
         return s;
     }
 
+    public void each(TreeConsumer<V> consumer) {
+        keySet().stream()
+                .sorted((s1, s2) -> s1.length() > s2.length() ? 1 : -1)
+                .forEach(s ->
+                    consumer.apply(s, get(s))
+                );
+    }
+
+    @FunctionalInterface
+    interface TreeConsumer<V> {
+        void apply(String s, V v);
+    }
+
     public static void main(String[] args) {
         Tree<Double> tree = new Tree<>();
 
@@ -163,10 +173,8 @@ public class Tree<V> implements Map<String, V> {
         tree.put("foo.baz", 5.0);
         tree.put("bad.boy", 56.0);
         tree.put("one.to.the.two", 102.0);
-        System.out.println(tree.get("one.to.the.two"));
-        System.out.println(tree.get("foo.bar"));
-        System.out.println(tree.get("bad"));
-        System.out.println(tree.get("bad.boy"));
-        System.out.println(tree.values());
+        tree.put("one.to.the.three", 103.0);
+        tree.put("one.to.the.four", 104.0);
+        tree.each((s, d) -> System.out.println(s + ": " + d));
     }
 }
