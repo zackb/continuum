@@ -116,9 +116,9 @@ public class Tree<V> implements Map<String, V> {
     public Set<Entry<String, V>> entrySet() {
         if (nodes == null && node == null) return null;
         Set<Entry<String, V>> es = new HashSet<>();
-        //if (node != null) es.add(new Entry<String, V>() {
-        //if (nodes != null) es.addAll(nodes.entrySet());
-        throw new Error("Not implemented");
+        if (node != null) es.addAll(node.entrySet());
+        if (nodes != null) es.addAll(nodes.entrySet());
+        return es;
     }
 
     private String subkey(String keys) {
@@ -144,6 +144,9 @@ public class Tree<V> implements Map<String, V> {
         tree.put("foo.bar", 2.0);
         tree.put("foo.bar", 3.0);
         tree.put("foo.baz", 5.0);
+        tree.put("bad.boy", 56.0);
         System.out.println(tree.get("foo"));
+        System.out.println(tree.get("bad"));
+        System.out.println(tree.get("bad.boy"));
     }
 }
