@@ -2,6 +2,7 @@ package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.collect.Tree;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
@@ -9,9 +10,7 @@ import com.dlvr.continuum.util.Strings;
 import com.dlvr.continuum.util.datetime.Interval;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Results grouped by particles
@@ -23,7 +22,7 @@ public class GroupCollector implements Collector {
     private final Interval interval;
     private final Function function;
 
-    private final Map<String, Collector> collectors = new HashMap<>();
+    private final Tree<Collector> collectors = new Tree<>();
     private final Collector stats;
 
     public GroupCollector(final String[] groups, final Interval interval, final Function function) {
@@ -50,9 +49,12 @@ public class GroupCollector implements Collector {
 
         List<SliceResult> children = new ArrayList<>(collectors.size());
         for (String group : collectors.keySet()) {
-            NSliceResult res = (NSliceResult)collectors.get(group).result();
-            res.name = group;
-            children.add(res);
+            Collector collector = collectors.get(group);
+            if (collector != null) {
+                NSliceResult res = (NSliceResult) collector.result();
+                res.name = group;
+                children.add(res);
+            }
         }
         /*
             children = collectors.values().stream().map(
@@ -85,14 +87,7 @@ public class GroupCollector implements Collector {
     }
 
     private String key(Atom atom) {
-
-        String key = "";
-
-        for (String group : groups) {
-            key += atom.particles().get(group) + ",";
-        }
-
-        return key.substring(0, key.length() - 1);
+        return String.join(".", keys(atom));
     }
 
     /**
