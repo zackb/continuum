@@ -74,12 +74,12 @@ public class GroupCollector implements Collector {
         String[] parts = keys(atom);
 
         stats.collect(atom);
-        for (int i = parts.length; i > 0; i--) {
-            List<String> ss = Arrays.asList(parts).subList(0, i);
-            String k = String.join(DELIM, ss);
+        for (int i = 1; i < parts.length; i++) {
+            String[] subparts = Strings.range(parts, 0, i);
+            String k = String.join(DELIM, subparts);
             Collector collector = collectors.get(k);
             if (collector == null) {
-                collector = createSubCollector(Strings.range(groups, 0, i - 1));
+                collector = createSubCollector(Strings.range(parts, i, parts.length));
                 collectors.put(k, collector);
             }
             collector.collect(atom);
