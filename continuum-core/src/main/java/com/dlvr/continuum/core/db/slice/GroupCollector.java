@@ -61,35 +61,33 @@ public class GroupCollector implements Collector {
     public void collect(Atom atom) {
 
         stats.collect(atom);
-        collectors.accept(new Visitor<Collector>() {
-            @Override
-            public Visitor<Collector> visitTree(Tree<Collector> tree) {
-                return null;
+        String[] keys = keys(atom);
+        collectors.breadthFirst((level, tree) -> {
+            if (level > keys.length) return false;
+            if (!keys[level].equals(tree.data.name())) return false;
+
+            if (level == keys.length) {
+                Collector collector = tree.data;
+                if (collector == null) {
+                    String[] subkey = Strings.range(keys, 0, level);
+                    String subgroup = String.join(",", keys[level]);
+                    collector = Collectors.group(
+                        subgroup,
+                        subkey,
+                        interval, function
+                    );
+                    tree.data = collector;
+                }
+                collector.collect(atom);
             }
 
-            @Override
-            public void visitData(Tree<Collector> parent, Collector data) {
-                data.collect(atom);
-            }
+            return true;
         });
     }
 
     @Override
     public String name() {
         return name;
-    }
-
-    class CollectVisitor implements Visitor<Collector> {
-
-        @Override
-        public Visitor<Collector> visitTree(Tree<Collector> tree) {
-            return null;
-        }
-
-        @Override
-        public void visitData(Tree<Collector> parent, Collector data) {
-
-        }
     }
 
     /**
@@ -108,7 +106,6 @@ public class GroupCollector implements Collector {
             }
         }
 
-        if (keys.length > i) return Strings.range(keys, 0, i);
-        else return keys;
+        return keys.length > i ? Strings.range(keys, 0, i) : keys;
     }
 }
