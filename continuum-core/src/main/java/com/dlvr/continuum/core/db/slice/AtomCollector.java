@@ -18,20 +18,27 @@ public class AtomCollector implements Collector {
 
     public final List<Atom> atoms;
     private final StatsCollector stats;
+    private final String name;
 
     public AtomCollector() {
-        this(Function.AVG);
+        this("atoms", Function.AVG);
     }
 
-    public AtomCollector(Function function) {
-        atoms = new ArrayList<>();
-        stats = new StatsCollector(function == null ? Function.AVG : function);
+    public AtomCollector(String name, Function function) {
+        this.name = name;
+        this.atoms = new ArrayList<>();
+        this.stats = new StatsCollector(function == null ? Function.AVG : function);
     }
 
     @Override
     public void collect(Atom atom) {
         atoms.add(atom);
         stats.collect(atom);
+    }
+
+    @Override
+    public String name() {
+        return name;
     }
 
     @Override

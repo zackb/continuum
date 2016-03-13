@@ -3,6 +3,7 @@ package com.dlvr.continuum.core.db.slice;
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.collect.Tree;
+import com.dlvr.continuum.collect.Visitor;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
@@ -20,6 +21,7 @@ public class GroupCollector implements Collector {
     private final String[] groups;
     private final Interval interval;
     private final Function function;
+    private final String name;
 
     private static final char DELIM = ',';
     private static final String SDELIM = "" + DELIM;
@@ -27,12 +29,13 @@ public class GroupCollector implements Collector {
     private final Tree<Collector> collectors;
     private final Collector stats;
 
-    public GroupCollector(final String[] groups, final Interval interval, final Function function) {
+    public GroupCollector(final String[] groups, final String name, final Interval interval, final Function function) {
         this.groups = groups;
         this.interval = interval;
         this.function = function;
         this.stats = new StatsCollector(function);
         this.collectors = new Tree<>(this);
+        this.name = name;
     }
 
     @Override
@@ -58,11 +61,35 @@ public class GroupCollector implements Collector {
     public void collect(Atom atom) {
 
         stats.collect(atom);
+        collectors.accept(new Visitor<Collector>() {
+            @Override
+            public Visitor<Collector> visitTree(Tree<Collector> tree) {
+                return null;
+            }
 
-        String key = key(atom);
+            @Override
+            public void visitData(Tree<Collector> parent, Collector data) {
+                data.collect(atom);
+            }
+        });
+    }
 
-        //collectors.put();
-        //c.collect(atom);
+    @Override
+    public String name() {
+        return name;
+    }
+
+    class CollectVisitor implements Visitor<Collector> {
+
+        @Override
+        public Visitor<Collector> visitTree(Tree<Collector> tree) {
+            return null;
+        }
+
+        @Override
+        public void visitData(Tree<Collector> parent, Collector data) {
+
+        }
     }
 
     /**

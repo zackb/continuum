@@ -8,5 +8,6 @@ import com.dlvr.continuum.atom.Atom;
  */
 public interface Collector {
     void collect(Atom atom);
+    String name();
     SliceResult result();
 }
