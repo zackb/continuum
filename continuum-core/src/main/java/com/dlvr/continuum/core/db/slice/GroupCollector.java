@@ -73,14 +73,17 @@ public class GroupCollector implements Collector {
 
         Tree<Collector> current = collectors;
         for (int i = 0; i < keys.length; i++) {
-            String k = keys[i];
-            Collector c = null;
-            if (interval != null) c = Collectors.interval(k, interval, function);
-            else if (function != null) c = Collectors.stats(k, function);
-            else c = Collectors.atoms(k);
-            current = current.child(c);
+            current = current.child(subCollector(keys[i]));
             current.data.collect(atom);
         }
+    }
+
+    private Collector subCollector(String name) {
+        Collector c = null;
+        if (interval != null) c = Collectors.interval(name, interval, function);
+        else if (function != null) c = Collectors.stats(name, function);
+        else c = Collectors.atoms(name);
+        return c;
     }
 
     @Override

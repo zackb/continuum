@@ -58,22 +58,25 @@ public class Tree<V> implements Visitable<V> {
     }
 
     public void breadthFirst(Consumer<V> consumer) {
-        accept(new BreadthFirst(consumer));
+        visit(new BreadthFirst<>(consumer));
     }
 
-    public void accept(Visitor<V> visitor) {
+    public void visit(Visitor<V> visitor) {
         visitor.visitData(this, data);
         for (Tree<V> child : children()) {
             Visitor<V> childVisitor = visitor.visitTree(child);
             if (childVisitor != null) // stop?
-                child.accept(childVisitor);
+                child.visit(childVisitor);
         }
     }
 
     public Stream<Tree<V>> flattened() {
         return Stream.concat(
-                this.stream(),
-                children().stream().flatMap(Tree::flattened));
+            this.stream(),
+            children()
+                .stream()
+                .flatMap(Tree::flattened)
+        );
     }
 
     public Stream<Tree<V>> stream() {
