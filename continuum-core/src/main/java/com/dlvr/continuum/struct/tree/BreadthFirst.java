@@ -1,0 +1,30 @@
+package com.dlvr.continuum.struct.tree;
+
+/**
+ * Breadth first search a tree
+ * Created by zack on 3/13/16.
+ */
+public class BreadthFirst<V> implements Visitor<V> {
+
+    private final Consumer<V> consumer;
+    private int level;
+
+    public BreadthFirst(Consumer<V> consumer) {
+        this(0, consumer);
+    }
+
+    public BreadthFirst(int level, Consumer<V> consumer) {
+        this.level = level;
+        this.consumer = consumer;
+    }
+
+    @Override
+    public Visitor<V> visitTree(Tree<V> tree) {
+        boolean cont = consumer.visit(level, tree);
+        return cont ? new BreadthFirst(level + 1, consumer) : null;
+    }
+    @Override
+    public void visitData(Tree<V> parent, V data) {
+        consumer.visit(level, parent);
+    }
+}

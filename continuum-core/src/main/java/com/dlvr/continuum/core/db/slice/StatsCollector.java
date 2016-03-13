@@ -6,6 +6,7 @@ import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.util.Strings;
 
 /**
  * Atom slice collector
@@ -144,5 +145,18 @@ public class StatsCollector implements Collector {
         result = 31 * result + (function != null ? function.hashCode() : 0);
         result = 31 * result + (int) (timestamp ^ (timestamp >>> 32));
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return Strings.sprintf("%s, %f,%f,%d,%f,%s,%d",
+            name,
+            max,
+            min,
+            count,
+            sum,
+            function,
+            timestamp
+        );
     }
 }

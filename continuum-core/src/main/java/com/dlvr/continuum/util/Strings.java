@@ -189,7 +189,7 @@ public class Strings {
      * @param values values referenced by the format specifiers in the format string.
      * @return the resulting formatted string
      */
-    public static String sprintf(String format, Object[] values) {
+    public static String sprintf(String format, Object... values) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outputStream);
         out.printf(format, values);

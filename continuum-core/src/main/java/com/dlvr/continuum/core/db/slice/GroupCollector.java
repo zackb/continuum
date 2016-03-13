@@ -2,6 +2,7 @@ package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.struct.tree.PrintVisitor;
 import com.dlvr.continuum.struct.tree.Tree;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
@@ -41,6 +42,16 @@ public class GroupCollector implements Collector {
     public SliceResult result() {
         List<SliceResult> children = new ArrayList<>();
             //NSliceResult res = (NSliceResult)c.result();
+        //System.out.println(JSON.encode(collectors));
+
+        /*
+        collectors.breadthFirst((level, tree) -> {
+            for (int i = 0; i < level;i++) System.out.print(" ");
+
+            return true;
+        });
+        */
+        collectors.accept(new PrintVisitor<>(0));
 
         return Continuum
                 .result(String.join(SDELIM, groups))
@@ -61,14 +72,11 @@ public class GroupCollector implements Collector {
 
         Tree<Collector> current = collectors;
         for (String k : keys) {
-            //String[] parts = k.split(SDELIM);
-            //for (int i = 0; i < parts.length; i++) {
             Collector c = interval == null ?
                     Collectors.stats(k, function) :
                     Collectors.interval(k, interval, function);
             current = current.child(c);
             current.data.collect(atom);
-            //}
         }
     }
 
@@ -108,8 +116,6 @@ public class GroupCollector implements Collector {
         if (interval != null ? !interval.equals(that.interval) : that.interval != null) return false;
         if (function != that.function) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (collectors != null ? !collectors.equals(that.collectors) : that.collectors != null) return false;
-        if (stats != null ? !stats.equals(that.stats) : that.stats != null) return false;
 
         return true;
     }
@@ -120,8 +126,18 @@ public class GroupCollector implements Collector {
         result = 31 * result + (interval != null ? interval.hashCode() : 0);
         result = 31 * result + (function != null ? function.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (collectors != null ? collectors.hashCode() : 0);
-        result = 31 * result + (stats != null ? stats.hashCode() : 0);
+        result = 31 * result + (collectors.hashCode());
+        result = 31 * result + (stats.hashCode());
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return Strings.sprintf("%s,%s,%s:: %s",
+                name,
+                interval,
+                function,
+                collectors.toString()
+        );
     }
 }

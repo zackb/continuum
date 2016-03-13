@@ -4,6 +4,7 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.util.Strings;
 import com.dlvr.continuum.util.datetime.Interval;
 
 import java.util.*;
@@ -92,5 +93,16 @@ public class IntervalCollector implements Collector {
         result = 31 * result + (collector != null ? collector.hashCode() : 0);
         result = 31 * result + (int) (timestamp ^ (timestamp >>> 32));
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return Strings.sprintf("%s,%s,%s,%d:: %s",
+                name,
+                interval,
+                function,
+                timestamp,
+                collectors != null ? collectors.toString() : "()"
+        );
     }
 }
