@@ -111,7 +111,7 @@ public class StatsCollector implements Collector {
                 .value(value)
                 .build();
 
-        return Continuum.result(fxn.name().toLowerCase())
+        return Continuum.result(name != null ? name : fxn.name().toLowerCase())
                 .values(values)
                 .timestamp(timestamp)
                 .build();

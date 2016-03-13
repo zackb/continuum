@@ -20,11 +20,11 @@ public class BreadthFirst<V> implements Visitor<V> {
 
     @Override
     public Visitor<V> visitTree(Tree<V> tree) {
-        boolean cont = consumer.visit(level, tree);
+        boolean cont = consumer.visitTree(level, tree);
         return cont ? new BreadthFirst(level + 1, consumer) : null;
     }
     @Override
     public void visitData(Tree<V> parent, V data) {
-        consumer.visit(level, parent);
+        consumer.visitNode(level, parent, data);
     }
 }

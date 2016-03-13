@@ -4,7 +4,7 @@ package com.dlvr.continuum.struct.tree;
  * Created by zack on 3/13/16.
  */
 
-@FunctionalInterface
 public interface Consumer<V> {
-    boolean visit(int level, Tree<V> tree);
+    boolean visitTree(int level, Tree<V> tree);
+    boolean visitNode(int level, Tree<V> parent, V data);
 }

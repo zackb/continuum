@@ -2,7 +2,7 @@ package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.struct.tree.PrintVisitor;
+import com.dlvr.continuum.struct.tree.Consumer;
 import com.dlvr.continuum.struct.tree.Tree;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
@@ -11,6 +11,9 @@ import com.dlvr.continuum.util.Strings;
 import com.dlvr.continuum.util.datetime.Interval;
 
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Supplier;
 
 /**
  * Results grouped by particles
@@ -41,13 +44,20 @@ public class GroupCollector implements Collector {
     @Override
     public SliceResult result() {
         List<SliceResult> children = new ArrayList<>();
-        collectors.accept(new PrintVisitor<>(0));
-
-        return Continuum
+        final SliceResult g = Continuum
                 .result(String.join(SDELIM, groups))
                 .children(children)
                 .values(stats.result().values())
                 .build();
+
+        collectors.children().stream()
+                .map(collectorTree -> collectorTree.data.result())
+                .reduce((sliceResult, sliceResult2) -> {
+                    sliceResult.addChild(sliceResult2);
+                    return sliceResult;
+                });
+
+        return g;
     }
 
     @Override
@@ -57,16 +67,12 @@ public class GroupCollector implements Collector {
         String[] keys = keys(atom);
 
         Tree<Collector> current = collectors;
-        for (String k : keys) {
-
-            Collector c = null;/*interval == null ?
-                    Collectors.stats(k, function) :
-                    Collectors.interval(k, interval, function);*/
-
-            if (interval != null) c = Collectors.interval(interval);
-            else if (function != null) c = Collectors.stats(function);
-            else c = Collectors.atoms();
-
+        for (int i = 0; i < keys.length; i++) {
+            String k = keys[i];
+            Collector c = null;
+            if (interval != null) c = Collectors.interval(k, interval, function);
+            else if (function != null) c = Collectors.stats(k, function);
+            else c = Collectors.atoms(k);
             current = current.child(c);
             current.data.collect(atom);
         }
@@ -125,11 +131,10 @@ public class GroupCollector implements Collector {
 
     @Override
     public String toString() {
-        return Strings.sprintf("%s,%s,%s:: %s",
+        return Strings.sprintf("%s,%s,%s",
                 name,
                 interval,
-                function,
-                collectors.toString()
+                function != null ? function : "raw"
         );
     }
 }

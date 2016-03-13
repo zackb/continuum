@@ -98,6 +98,23 @@ public class Collectors {
 
     /**
      * Raw atom collector. Used instead of aggregations
+     * @return new raw atom collector
+     */
+    public static AtomCollector atoms() {
+        return new AtomCollector();
+    }
+
+    /**
+     * Raw atom collector. Used instead of aggregations
+     * @param name for collection
+     * @return new raw atom collector
+     */
+    public static AtomCollector atoms(String name) {
+        return new AtomCollector(name);
+    }
+
+    /**
+     * Raw atom collector. Used instead of aggregations
      * @param function to apply
      * @return new raw atom collector
      */
@@ -107,10 +124,12 @@ public class Collectors {
 
     /**
      * Raw atom collector. Used instead of aggregations
+     * @param name for collection
+     * @param function to apply
      * @return new raw atom collector
      */
-    public static AtomCollector atoms() {
-        return new AtomCollector();
+    public static AtomCollector atoms(String name, Function function) {
+        return new AtomCollector(name, function);
     }
 
     /**

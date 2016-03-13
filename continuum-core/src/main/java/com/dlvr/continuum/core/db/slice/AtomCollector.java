@@ -25,6 +25,10 @@ public class AtomCollector implements Collector {
         this("atoms", Function.AVG);
     }
 
+    public AtomCollector(String name) {
+        this(name, Function.AVG);
+    }
+
     public AtomCollector(Function function) {
         this("atoms", function);
     }

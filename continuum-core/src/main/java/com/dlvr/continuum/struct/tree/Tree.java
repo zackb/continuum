@@ -3,6 +3,7 @@ package com.dlvr.continuum.struct.tree;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Directed, Acyclic graph
@@ -67,5 +68,15 @@ public class Tree<V> implements Visitable<V> {
             if (childVisitor != null) // stop?
                 child.accept(childVisitor);
         }
+    }
+
+    public Stream<Tree<V>> flattened() {
+        return Stream.concat(
+                this.stream(),
+                children().stream().flatMap(Tree::flattened));
+    }
+
+    public Stream<Tree<V>> stream() {
+        return Stream.of(this);
     }
 }
