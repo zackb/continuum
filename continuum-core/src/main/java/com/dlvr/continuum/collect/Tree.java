@@ -45,6 +45,10 @@ public class Tree<V> implements Visitable<V> {
         return parent;
     }
 
+    public Set<Tree<V>> children() {
+        return nodes;
+    }
+
     @Override
     public String toString() {
         String s = "";
@@ -58,7 +62,7 @@ public class Tree<V> implements Visitable<V> {
 
     public void accept(Visitor<V> visitor) {
         visitor.visitData(this, data);
-        for (Tree<V> child : nodes) {
+        for (Tree<V> child : children()) {
             Visitor<V> childVisitor = visitor.visitTree(child);
             if (childVisitor != null) // stop?
                 child.accept(childVisitor);

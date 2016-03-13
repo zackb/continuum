@@ -3,7 +3,6 @@ package com.dlvr.continuum.core.db.slice;
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.collect.Tree;
-import com.dlvr.continuum.collect.Visitor;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
@@ -43,14 +42,11 @@ public class GroupCollector implements Collector {
         List<SliceResult> children = new ArrayList<>();
             //NSliceResult res = (NSliceResult)c.result();
 
-        NSliceResult res = (NSliceResult)Continuum
+        return Continuum
                 .result(String.join(SDELIM, groups))
                 .children(children)
                 .values(stats.result().values())
                 .build();
-
-        return res;
-
     }
 
     private String key(Atom atom) {
@@ -62,27 +58,18 @@ public class GroupCollector implements Collector {
 
         stats.collect(atom);
         String[] keys = keys(atom);
-        collectors.breadthFirst((level, tree) -> {
-            if (level > keys.length) return false;
-            if (!keys[level].equals(tree.data.name())) return false;
 
-            if (level == keys.length) {
-                Collector collector = tree.data;
-                if (collector == null) {
-                    String[] subkey = Strings.range(keys, 0, level);
-                    String subgroup = String.join(",", keys[level]);
-                    collector = Collectors.group(
-                        subgroup,
-                        subkey,
-                        interval, function
-                    );
-                    tree.data = collector;
-                }
-                collector.collect(atom);
+        Tree<Collector> current = collectors;
+        for (String k : keys) {
+            String[] parts = k.split(SDELIM);
+            for (int i = 0; i < parts.length; i++) {
+                Collector c = interval == null ?
+                        Collectors.stats(function) :
+                        Collectors.interval(interval, function);
+                current = current.child(c);
+                current.data.collect(atom);
             }
-
-            return true;
-        });
+        }
     }
 
     @Override
@@ -107,5 +94,34 @@ public class GroupCollector implements Collector {
         }
 
         return keys.length > i ? Strings.range(keys, 0, i) : keys;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GroupCollector)) return false;
+
+        GroupCollector that = (GroupCollector) o;
+
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(groups, that.groups)) return false;
+        if (interval != null ? !interval.equals(that.interval) : that.interval != null) return false;
+        if (function != that.function) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (collectors != null ? !collectors.equals(that.collectors) : that.collectors != null) return false;
+        if (stats != null ? !stats.equals(that.stats) : that.stats != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.hashCode(groups);
+        result = 31 * result + (interval != null ? interval.hashCode() : 0);
+        result = 31 * result + (function != null ? function.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (collectors != null ? collectors.hashCode() : 0);
+        result = 31 * result + (stats != null ? stats.hashCode() : 0);
+        return result;
     }
 }
