@@ -14,6 +14,7 @@ import java.util.*;
  */
 public class IntervalCollector implements Collector {
 
+    private final String name;
     private final Interval interval;
     private final Function function;
     final Map<Long, StatsCollector> collectors = new HashMap<>();
@@ -21,10 +22,15 @@ public class IntervalCollector implements Collector {
     private long timestamp = 0L;
 
     public IntervalCollector(Interval interval) {
-        this(interval, Function.AVG);
+        this("hist", interval, Function.AVG);
     }
 
     public IntervalCollector(Interval interval, Function function) {
+        this("hist", interval, function);
+    }
+
+    public IntervalCollector(String name, Interval interval, Function function) {
+        this.name = name;
         this.interval = interval;
         this.function = function == null ? Function.AVG : function;
         this.collector = new StatsCollector(function);
@@ -42,6 +48,11 @@ public class IntervalCollector implements Collector {
 
         collectors.get(bucket).collect(atom);
         collector.collect(atom);
+    }
+
+    @Override
+    public String name() {
+        return name;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class GroupCollector implements Collector {
     private final Tree<Collector> collectors;
     private final Collector stats;
 
-    public GroupCollector(final String[] groups, final String name, final Interval interval, final Function function) {
+    public GroupCollector(final String name, final String[] groups, final Interval interval, final Function function) {
         this.groups = groups;
         this.interval = interval;
         this.function = function;

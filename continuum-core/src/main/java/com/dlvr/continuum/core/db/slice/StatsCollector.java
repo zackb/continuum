@@ -13,6 +13,7 @@ import com.dlvr.continuum.db.slice.SliceResult;
  */
 public class StatsCollector implements Collector {
 
+    private final String name;
     private double max = Double.MIN_VALUE;
     private double min = Double.MAX_VALUE;
     private long count = 0;
@@ -22,6 +23,11 @@ public class StatsCollector implements Collector {
     private long timestamp = 0L;
 
     public StatsCollector(Function function) {
+        this("values", function);
+    }
+
+    public StatsCollector(String name, Function function) {
+        this.name = name;
         this.function = function;
     }
 
@@ -33,6 +39,11 @@ public class StatsCollector implements Collector {
         if (timestamp == 0L) timestamp = atom.timestamp();
         sum += value;
         count++;
+    }
+
+    @Override
+    public String name() {
+        return name;
     }
 
     public double max() {

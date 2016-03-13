@@ -28,6 +28,11 @@ public class AndCollector implements Collector {
     }
 
     @Override
+    public String name() {
+        return "and";
+    }
+
+    @Override
     public SliceResult result() {
         SliceResult result = stats.result();
         for (Collector collector : collectors) {

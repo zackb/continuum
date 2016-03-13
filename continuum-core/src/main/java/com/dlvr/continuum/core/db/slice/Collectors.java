@@ -15,11 +15,21 @@ public class Collectors {
         Collector collector = null;
 
         if (slice.groups() != null)
-            collector = group(slice);
+            collector = group(
+                String.join(",", slice.groups()),
+                slice.groups(),
+                slice.interval(),
+                slice.function()
+            );
         else if (slice.interval() != null)
-            collector = interval(slice.interval(), slice.function());
+            collector = interval(
+                slice.interval(),
+                slice.function()
+            );
         else if (slice.function() != null)
-            collector = stats(slice.function());
+            collector = stats(
+                slice.function()
+            );
         else
             collector = atoms(slice.function());
 
@@ -28,22 +38,14 @@ public class Collectors {
 
     /**
      * Group slice results on one or more particles. Respects intervals
-     * @param slice to group results by
-     * @return new grouping collector
-     */
-    public static GroupCollector group(Slice slice) {
-        return new GroupCollector(slice.groups(), slice.interval(), slice.function());
-    }
-
-    /**
-     * Group slice results on one or more particles. Respects intervals
+     * @param name label for group
      * @param groups to grop by
      * @param interval to bucket groups
      * @param function to aggregate on
      * @return new grouping collector
      */
-    public static GroupCollector group(String[] groups, Interval interval, Function function) {
-        return new GroupCollector(groups, interval, function);
+    public static GroupCollector group(String name, String[] groups, Interval interval, Function function) {
+        return new GroupCollector(name, groups, interval, function);
     }
 
     /**
