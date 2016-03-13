@@ -52,11 +52,16 @@ public class Tree<V> implements Visitable<V> {
         return s;
     }
 
+    public void breadthFirst(Consumer<V> consumer) {
+        accept(new BreadthFirst(consumer));
+    }
+
     public void accept(Visitor<V> visitor) {
         visitor.visitData(this, data);
         for (Tree<V> child : nodes) {
             Visitor<V> childVisitor = visitor.visitTree(child);
-            child.accept(childVisitor);
+            if (childVisitor != null) // stop?
+                child.accept(childVisitor);
         }
     }
 
@@ -81,5 +86,35 @@ public class Tree<V> implements Visitable<V> {
 
             System.out.println(data);
         }
+    }
+
+    public class BreadthFirst implements Visitor<V> {
+
+        private final Consumer<V> consumer;
+        private int level;
+
+        public BreadthFirst(Consumer<V> consumer) {
+            this(0, consumer);
+        }
+
+        public BreadthFirst(int level, Consumer<V> consumer) {
+            this.level = level;
+            this.consumer = consumer;
+        }
+
+        @Override
+        public Visitor<V> visitTree(Tree<V> tree) {
+            boolean cont = consumer.visit(level, tree);
+            return cont ? new BreadthFirst(level + 1, consumer) : null;
+        }
+        @Override
+        public void visitData(Tree<V> parent, V data) {
+            consumer.visit(level, parent);
+        }
+    }
+
+    @FunctionalInterface
+    public interface Consumer<V> {
+        boolean visit(int level, Tree<V> tree);
     }
 }
