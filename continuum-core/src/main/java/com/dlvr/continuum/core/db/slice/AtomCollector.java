@@ -5,6 +5,7 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.util.Strings;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,5 +53,30 @@ public class AtomCollector implements Collector {
                 .values(stats.result().values())
                 .atoms(atoms)
                 .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AtomCollector)) return false;
+
+        AtomCollector that = (AtomCollector) o;
+
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = atoms != null ? atoms.hashCode() : 0;
+        result = 31 * result + (stats != null ? stats.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return Strings.sprintf("%s,%d", name, atoms != null ? atoms.size() : 0);
     }
 }

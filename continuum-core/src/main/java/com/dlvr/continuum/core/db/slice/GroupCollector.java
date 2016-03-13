@@ -41,16 +41,6 @@ public class GroupCollector implements Collector {
     @Override
     public SliceResult result() {
         List<SliceResult> children = new ArrayList<>();
-            //NSliceResult res = (NSliceResult)c.result();
-        //System.out.println(JSON.encode(collectors));
-
-        /*
-        collectors.breadthFirst((level, tree) -> {
-            for (int i = 0; i < level;i++) System.out.print(" ");
-
-            return true;
-        });
-        */
         collectors.accept(new PrintVisitor<>(0));
 
         return Continuum
@@ -58,10 +48,6 @@ public class GroupCollector implements Collector {
                 .children(children)
                 .values(stats.result().values())
                 .build();
-    }
-
-    private String key(Atom atom) {
-        return String.join(SDELIM, keys(atom));
     }
 
     @Override
@@ -72,9 +58,15 @@ public class GroupCollector implements Collector {
 
         Tree<Collector> current = collectors;
         for (String k : keys) {
-            Collector c = interval == null ?
+
+            Collector c = null;/*interval == null ?
                     Collectors.stats(k, function) :
-                    Collectors.interval(k, interval, function);
+                    Collectors.interval(k, interval, function);*/
+
+            if (interval != null) c = Collectors.interval(interval);
+            else if (function != null) c = Collectors.stats(function);
+            else c = Collectors.atoms();
+
             current = current.child(c);
             current.data.collect(atom);
         }

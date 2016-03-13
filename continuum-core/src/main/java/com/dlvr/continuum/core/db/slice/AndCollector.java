@@ -5,6 +5,8 @@ import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.SliceResult;
 
+import java.util.Arrays;
+
 /**
  * Convenience collector to wrap a list of collectors
  * Created by zack on 3/11/16.
@@ -39,5 +41,20 @@ public class AndCollector implements Collector {
             result.addChild(collector.result());
         }
         return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AndCollector)) return false;
+
+        AndCollector that = (AndCollector) o;
+
+        return Arrays.equals(collectors, that.collectors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(collectors);
     }
 }

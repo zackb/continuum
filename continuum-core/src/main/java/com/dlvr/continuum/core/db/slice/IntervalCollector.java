@@ -33,7 +33,7 @@ public class IntervalCollector implements Collector {
     public IntervalCollector(String name, Interval interval, Function function) {
         this.name = name;
         this.interval = interval;
-        this.function = function == null ? Function.AVG : function;
+        this.function = function;
         this.collector = new StatsCollector(function);
     }
 
