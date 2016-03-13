@@ -50,6 +50,26 @@ public class GroupCollector implements Collector {
                 .values(stats.result().values())
                 .build();
 
+        /*
+        collectors.breadthFirst(new Consumer<Collector>() {
+            private SliceResult res;
+            @Override
+            public boolean visitTree(int level, Tree<Collector> tree) {
+                res = tree.data.result();
+                return true;
+            }
+
+            @Override
+            public boolean visitNode(int level, Tree<Collector> stree, Collector data) {
+                NSliceResult s = (NSliceResult)stree.data.result();
+                s.name = stree.data.name();
+                //stree.children().stream().map(ctree -> ctree.data.result()).forEach(s::addChild);
+                res.addChild(s);
+                return false;
+            }
+        });
+        */
+
        collectors.children().stream().map(stree -> {
            NSliceResult s = (NSliceResult)stree.data.result();
            s.name = stree.data.name();

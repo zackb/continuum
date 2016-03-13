@@ -59,7 +59,8 @@ public class IntervalCollector implements Collector {
     @Override
     public SliceResult result() {
 
-        SliceResult result = collector.result();
+        NSliceResult result = (NSliceResult)collector.result();
+        result.name = name();
         List<Long> sorted = new ArrayList<>(collectors.keySet());
         Collections.sort(sorted, (o1, o2) -> o2.compareTo(o1));
         for (Long ts : sorted) {

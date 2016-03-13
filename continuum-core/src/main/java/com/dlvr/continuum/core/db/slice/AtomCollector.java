@@ -53,7 +53,7 @@ public class AtomCollector implements Collector {
     @Override
     public SliceResult result() {
         Collections.sort(atoms, (o1, o2) -> o2.timestamp().compareTo(o1.timestamp()));
-        return Continuum.result("atoms")
+        return Continuum.result(name())
                 .values(stats.result().values())
                 .atoms(atoms)
                 .build();
