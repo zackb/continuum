@@ -68,12 +68,32 @@ public class Collectors {
     }
 
     /**
+     * Bucket results into time intervals
+     * @param interval to bucket
+     * @param function to apply
+     * @return new bucketing time interval collector
+     */
+    public static IntervalCollector interval(String name, Interval interval, Function function) {
+        return new IntervalCollector(name, interval, function);
+    }
+
+    /**
      * Collect values min,max,sum,count,value
      * @param function to report on in addition to standard 5 values
      * @return new stats collector
      */
     public static StatsCollector stats(Function function) {
         return new StatsCollector(function);
+    }
+
+    /**
+     * Collect values min,max,sum,count,value
+     * @param name for collection
+     * @param function to report on in addition to standard 5 values
+     * @return new stats collector
+     */
+    public static StatsCollector stats(String name, Function function) {
+        return new StatsCollector(name, function);
     }
 
     /**

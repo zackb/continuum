@@ -61,14 +61,14 @@ public class GroupCollector implements Collector {
 
         Tree<Collector> current = collectors;
         for (String k : keys) {
-            String[] parts = k.split(SDELIM);
-            for (int i = 0; i < parts.length; i++) {
-                Collector c = interval == null ?
-                        Collectors.stats(function) :
-                        Collectors.interval(interval, function);
-                current = current.child(c);
-                current.data.collect(atom);
-            }
+            //String[] parts = k.split(SDELIM);
+            //for (int i = 0; i < parts.length; i++) {
+            Collector c = interval == null ?
+                    Collectors.stats(k, function) :
+                    Collectors.interval(k, interval, function);
+            current = current.child(c);
+            current.data.collect(atom);
+            //}
         }
     }
 

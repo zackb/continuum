@@ -79,8 +79,6 @@ public class IntervalCollector implements Collector {
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (interval != null ? !interval.equals(that.interval) : that.interval != null) return false;
         if (function != that.function) return false;
-        if (collectors != null ? !collectors.equals(that.collectors) : that.collectors != null) return false;
-        if (collector != null ? !collector.equals(that.collector) : that.collector != null) return false;
 
         return true;
     }

@@ -123,11 +123,6 @@ public class StatsCollector implements Collector {
 
         StatsCollector that = (StatsCollector) o;
 
-        if (Double.compare(that.max, max) != 0) return false;
-        if (Double.compare(that.min, min) != 0) return false;
-        if (count != that.count) return false;
-        if (Double.compare(that.sum, sum) != 0) return false;
-        if (timestamp != that.timestamp) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (function != that.function) return false;
 
