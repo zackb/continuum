@@ -1,4 +1,4 @@
-package com.dlvr.continuum.datastructure;
+package com.dlvr.continuum.datastructure.tree;
 
 
 import java.util.LinkedHashSet;
@@ -69,7 +69,7 @@ public class Tree<V> implements Visitable<V> {
         }
     }
 
-    static class IndentVisitor<V> implements Visitor<V> {
+    public class IndentVisitor<V> implements Visitor<V> {
 
         private final int indent;
 

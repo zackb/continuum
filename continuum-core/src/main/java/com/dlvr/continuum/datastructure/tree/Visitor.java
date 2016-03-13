@@ -1,4 +1,4 @@
-package com.dlvr.continuum.datastructure;
+package com.dlvr.continuum.datastructure.tree;
 
 /**
  * Visitor

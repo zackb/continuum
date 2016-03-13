@@ -1,5 +1,6 @@
 package com.dlvr.continuum.datastructure;
 
+import com.dlvr.continuum.datastructure.tree.Tree;
 import org.junit.Test;
 
 /**

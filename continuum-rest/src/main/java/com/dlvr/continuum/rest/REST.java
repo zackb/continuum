@@ -66,7 +66,7 @@ public class REST {
     }
 
     public static void main(String[] args) throws Exception {
-        Universe universe = Universe.bigBang("/home/zack/code/dlvr/continuum/continuum-core/universe.meta");
+        Universe universe = Universe.bigBang("/Users/zack/code/dlvr/continuum/continuum-core/universe.meta");
         Continuum continuum = Continuum.continuum()
                 .name(universe.name())
                 .base(universe.hot())
