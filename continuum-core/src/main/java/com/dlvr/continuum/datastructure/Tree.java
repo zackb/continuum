@@ -1,4 +1,4 @@
-package com.dlvr.continuum.collect;
+package com.dlvr.continuum.datastructure;
 
 
 import java.util.LinkedHashSet;
