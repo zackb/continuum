@@ -50,12 +50,12 @@ public class GroupCollector implements Collector {
                 .values(stats.result().values())
                 .build();
 
-        collectors.children().stream()
-                .map(collectorTree -> collectorTree.data.result())
-                .reduce((sliceResult, sliceResult2) -> {
-                    sliceResult.addChild(sliceResult2);
-                    return sliceResult;
-                });
+       collectors.children().stream().map(stree -> {
+           NSliceResult s = (NSliceResult)stree.data.result();
+           s.name = stree.data.name();
+           stree.children().stream().map(ctree -> ctree.data.result()).forEach(s::addChild);
+           return s;
+       }).forEach(g::addChild);
 
         return g;
     }
