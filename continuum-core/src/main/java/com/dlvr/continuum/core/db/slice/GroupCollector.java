@@ -2,7 +2,6 @@ package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.struct.tree.Consumer;
 import com.dlvr.continuum.struct.tree.Tree;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
@@ -11,9 +10,6 @@ import com.dlvr.continuum.util.Strings;
 import com.dlvr.continuum.util.datetime.Interval;
 
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Supplier;
 
 /**
  * Results grouped by particles
@@ -50,34 +46,16 @@ public class GroupCollector implements Collector {
                 .values(stats.result().values())
                 .build();
 
-        /*
-        collectors.breadthFirst(new Consumer<Collector>() {
-            private SliceResult res;
-            @Override
-            public boolean visitTree(int level, Tree<Collector> tree) {
-                res = tree.data.result();
-                return true;
-            }
-
-            @Override
-            public boolean visitNode(int level, Tree<Collector> stree, Collector data) {
-                NSliceResult s = (NSliceResult)stree.data.result();
-                s.name = stree.data.name();
-                //stree.children().stream().map(ctree -> ctree.data.result()).forEach(s::addChild);
-                res.addChild(s);
-                return false;
-            }
-        });
-        */
-
-       collectors.children().stream().map(stree -> {
-           NSliceResult s = (NSliceResult)stree.data.result();
-           s.name = stree.data.name();
-           stree.children().stream().map(ctree -> ctree.data.result()).forEach(s::addChild);
-           return s;
-       }).forEach(g::addChild);
+        collectors.children().stream().map(GroupCollector::toResult).forEach(g::addChild);
 
         return g;
+    }
+
+    public static SliceResult toResult(Tree<Collector> stree) {
+        NSliceResult s = (NSliceResult) stree.data.result();
+        s.name = stree.data.name();
+        stree.children().stream().map(GroupCollector::toResult).forEach(s::addChild);
+        return s;
     }
 
     @Override
