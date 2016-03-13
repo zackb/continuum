@@ -46,15 +46,22 @@ public class GroupCollector implements Collector {
                 .values(stats.result().values())
                 .build();
 
-        collectors.children().stream().map(GroupCollector::toResult).forEach(g::addChild);
+        collectors
+                .children()
+                .stream()
+                .map(GroupCollector::result)
+                .forEach(g::addChild);
 
         return g;
     }
 
-    public static SliceResult toResult(Tree<Collector> stree) {
+    public static SliceResult result(Tree<Collector> stree) {
         NSliceResult s = (NSliceResult) stree.data.result();
         s.name = stree.data.name();
-        stree.children().stream().map(GroupCollector::toResult).forEach(s::addChild);
+        stree.children()
+             .stream()
+             .map(GroupCollector::result)
+             .forEach(s::addChild);
         return s;
     }
 
