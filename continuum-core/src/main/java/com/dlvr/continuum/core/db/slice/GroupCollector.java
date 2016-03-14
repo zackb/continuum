@@ -26,13 +26,13 @@ public class GroupCollector implements Collector {
     private static final String SDELIM = "" + DELIM;
 
     private final Tree<Collector> collectors;
-    private final Collector stats;
+    private final Collector values;
 
     public GroupCollector(final String name, final String[] groups, final Interval interval, final Function function) {
         this.groups = groups;
         this.interval = interval;
         this.function = function;
-        this.stats = new ValuesCollector(function);
+        this.values = Collectors.values(function);
         this.collectors = new Tree<>(this);
         this.name = name;
     }
@@ -43,7 +43,7 @@ public class GroupCollector implements Collector {
         final Slice g = Continuum
                 .result(name())
                 .children(children)
-                .values(stats.result().values())
+                .values(values.result().values())
                 .build();
 
         collectors
@@ -76,7 +76,7 @@ public class GroupCollector implements Collector {
     @Override
     public void collect(Atom atom) {
 
-        stats.collect(atom);
+        values.collect(atom);
         String[] keys = keys(atom);
 
         Tree<Collector> current = collectors;
@@ -89,7 +89,7 @@ public class GroupCollector implements Collector {
     private Collector subCollector(String name) {
         Collector c = null;
         if (interval != null) c = Collectors.interval(name, interval, function);
-        else if (function != null) c = Collectors.stats(name, function);
+        else if (function != null) c = Collectors.values(name, function);
         else c = Collectors.atoms(name);
         return c;
     }
@@ -141,7 +141,7 @@ public class GroupCollector implements Collector {
         result = 31 * result + (function != null ? function.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (collectors.hashCode());
-        result = 31 * result + (stats.hashCode());
+        result = 31 * result + (values.hashCode());
         return result;
     }
 

@@ -100,7 +100,7 @@ public class Bytes {
     }
 
     /**
-     * // TODO: Store stats instead of values/avg?
+     * // TODO: Store values instead of values/avg?
      *      Quark! byte[bson(fields)] + 0x0 + byte[min] + 0x0 + byte[max] + 0x0 + byte[sum] + byte[count] + 0x0
      * // TOOD: String values support
      *

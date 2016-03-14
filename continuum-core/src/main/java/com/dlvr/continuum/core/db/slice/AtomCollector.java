@@ -18,7 +18,7 @@ import java.util.List;
 public class AtomCollector implements Collector {
 
     public final List<Atom> atoms;
-    private final ValuesCollector stats;
+    private final ValuesCollector values;
     private final String name;
 
     public AtomCollector() {
@@ -36,13 +36,13 @@ public class AtomCollector implements Collector {
     public AtomCollector(String name, Function function) {
         this.name = name;
         this.atoms = new ArrayList<>();
-        this.stats = new ValuesCollector(function == null ? Function.AVG : function);
+        this.values = new ValuesCollector(function == null ? Function.AVG : function);
     }
 
     @Override
     public void collect(Atom atom) {
         atoms.add(atom);
-        stats.collect(atom);
+        values.collect(atom);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class AtomCollector implements Collector {
     public Slice result() {
         Collections.sort(atoms, (o1, o2) -> o2.timestamp().compareTo(o1.timestamp()));
         return Continuum.result(name())
-                .values(stats.result().values())
+                .values(values.result().values())
                 .atoms(atoms)
                 .build();
     }
@@ -74,7 +74,7 @@ public class AtomCollector implements Collector {
     @Override
     public int hashCode() {
         int result = atoms != null ? atoms.hashCode() : 0;
-        result = 31 * result + (stats != null ? stats.hashCode() : 0);
+        result = 31 * result + (values != null ? values.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }

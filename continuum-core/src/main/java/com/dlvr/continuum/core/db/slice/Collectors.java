@@ -27,7 +27,7 @@ public class Collectors {
                 scan.function()
             );
         else if (scan.function() != null)
-            collector = stats(
+            collector = values(
                 scan.function()
             );
         else
@@ -80,9 +80,9 @@ public class Collectors {
     /**
      * Collect values min,max,sum,count,value
      * @param function to report on in addition to standard 5 values
-     * @return new stats collector
+     * @return new values collector
      */
-    public static ValuesCollector stats(Function function) {
+    public static ValuesCollector values(Function function) {
         return new ValuesCollector(function);
     }
 
@@ -90,9 +90,9 @@ public class Collectors {
      * Collect values min,max,sum,count,value
      * @param name for collection
      * @param function to report on in addition to standard 5 values
-     * @return new stats collector
+     * @return new values collector
      */
-    public static ValuesCollector stats(String name, Function function) {
+    public static ValuesCollector values(String name, Function function) {
         return new ValuesCollector(name, function);
     }
 

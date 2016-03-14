@@ -15,11 +15,11 @@ public class AndCollector implements Collector {
 
     private final Collector[] collectors;
 
-    private final Collector stats;
+    private final Collector values;
 
     public AndCollector(Collector... collectors) {
         this.collectors = collectors;
-        this.stats = Collectors.stats(Function.AVG);
+        this.values = Collectors.values(Function.AVG);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class AndCollector implements Collector {
 
     @Override
     public Slice result() {
-        Slice result = stats.result();
+        Slice result = values.result();
         for (Collector collector : collectors) {
             result.addChild(collector.result());
         }

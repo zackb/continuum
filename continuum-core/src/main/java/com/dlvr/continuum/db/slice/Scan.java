@@ -85,7 +85,7 @@ public interface Scan {
 
 
     /**
-     * User supplied Collector to add to the scan in addition to the standard group,interval,stats,etc
+     * User supplied Collector to add to the scan in addition to the standard group,interval,values,etc
      * @return optional user defined collector
      */
     Collector collector();
