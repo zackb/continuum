@@ -1,6 +1,6 @@
 package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.db.SliceID;
+import com.dlvr.continuum.db.ScanID;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.slice.Const;
 import com.dlvr.continuum.util.Bytes;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Series based SliceID implementation
+ * Series based ScanID implementation
  * Created by zack on 2/12/16.
  */
-public class SSliceID implements SliceID {
+public class SScanID implements ScanID {
 
     private static final byte b = 0x0;
 
@@ -26,7 +26,7 @@ public class SSliceID implements SliceID {
     // TODO: disable scanning to exact name + particles match as depends on particle name ordering
     private static final boolean USE_PARTICLES = false;
 
-    public SSliceID(String name, Particles particles) {
+    public SScanID(String name, Particles particles) {
         this.name = name;
         this.particles = particles;
         byte[] bname = Bytes.bytes(name);

@@ -4,6 +4,7 @@ import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.core.atom.*;
 import com.dlvr.continuum.core.db.RockSlab;
 import com.dlvr.continuum.core.db.Slabs;
+import com.dlvr.continuum.core.db.slice.NScan;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Fields;
@@ -13,9 +14,8 @@ import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.db.Slab;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.SliceResult;
-import com.dlvr.continuum.core.db.slice.NSlice;
 import com.dlvr.continuum.core.db.slice.NSliceResult;
 import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.io.file.Reference;
@@ -190,10 +190,10 @@ public class Continuum implements Closeable {
 
     /**
      * Compact atoms into quarks given a given time range and size
-     * @param slice time slice to compact
+     * @param scan time scan to compact
      * @throws Exception
      */
-    public void contract(Slice slice) throws Exception {
+    public void contract(Scan scan) throws Exception {
 
     }
 
@@ -204,11 +204,11 @@ public class Continuum implements Closeable {
 
     }
 
-    public void delete(Slice slice) throws Exception {
+    public void delete(Scan scan) throws Exception {
 
     }
 
-    public Reference clone(Slice slice) throws Exception {
+    public Reference clone(Scan scan) throws Exception {
         return null;
     }
 
@@ -329,7 +329,7 @@ public class Continuum implements Closeable {
     }
 
     public static class SliceBuilder {
-        private final NSlice target = new NSlice();
+        private final NScan target = new NScan();
         private SliceBuilder() {
             target.start = System.currentTimeMillis();
         }
@@ -389,7 +389,7 @@ public class Continuum implements Closeable {
             target.dimension = dimension;
             return this;
         }
-        public Slice build() {
+        public Scan build() {
             return target;
         }
     }

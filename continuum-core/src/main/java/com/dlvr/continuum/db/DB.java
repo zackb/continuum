@@ -1,7 +1,7 @@
 package com.dlvr.continuum.db;
 
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.SliceResult;
 
 /**
@@ -24,11 +24,11 @@ public interface DB {
     Atom get(AtomID id) throws Exception;
 
     /**
-     * Query: Execute a set of operations on a slice of time from the datastore
+     * Query: Execute a set of operations on a scan of time from the datastore
      * Blocking
-     * @return slice result including aggregate functions, date ranges, and groupings if applicatble
+     * @return scan result including aggregate functions, date ranges, and groupings if applicatble
      */
-    SliceResult slice(Slice slice) throws Exception;
+    SliceResult slice(Scan scan) throws Exception;
 
     /**
      * Database Iterator to iterate over time data

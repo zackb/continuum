@@ -1,23 +1,23 @@
 package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.Continuum;
-import com.dlvr.continuum.core.db.KSliceID;
-import com.dlvr.continuum.db.SliceID;
+import com.dlvr.continuum.core.db.KScanID;
+import com.dlvr.continuum.core.db.SScanID;
+import com.dlvr.continuum.db.ScanID;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
-import com.dlvr.continuum.core.db.SSliceID;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Filter;
 import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.util.datetime.Interval;
 
 
 /**
- * Base Slice implementation
+ * Base Scan implementation
  */
-public class NSlice implements Slice {
+public class NScan implements Scan {
 
     public String name;
     public Function function;
@@ -32,7 +32,7 @@ public class NSlice implements Slice {
     public String[] groups;
 
     @Override
-    public SliceID ID() {
+    public ScanID ID() {
         //TODO:
         // Cache/Mutability?
         if (dimension == Continuum.Dimension.SPACE)
@@ -44,13 +44,13 @@ public class NSlice implements Slice {
     }
 
     @Override
-    public SliceID TimeID() {
-        return new KSliceID(start, name, particles);
+    public ScanID TimeID() {
+        return new KScanID(start, name, particles);
     }
 
     @Override
-    public SliceID SpaceID() {
-        return new SSliceID(name, particles);
+    public ScanID SpaceID() {
+        return new SScanID(name, particles);
     }
 
     @Override

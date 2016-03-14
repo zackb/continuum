@@ -4,7 +4,7 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Values;
 
 /**
- * Time and Space Slice Iterator
+ * Time and Space Scan Iterator
  * Created by zack on 2/11/16.
  */
 public interface Iterator {

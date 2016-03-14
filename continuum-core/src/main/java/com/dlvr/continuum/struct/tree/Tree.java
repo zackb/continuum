@@ -52,7 +52,7 @@ public class Tree<V> implements Visitable<V> {
 
     @Override
     public String toString() {
-        String s = "";
+        String s = " " + data;
         if (nodes != null) s += nodes.toString();
         return s;
     }

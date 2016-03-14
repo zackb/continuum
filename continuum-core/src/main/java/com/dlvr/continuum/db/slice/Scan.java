@@ -1,33 +1,33 @@
 package com.dlvr.continuum.db.slice;
 
-import com.dlvr.continuum.db.SliceID;
+import com.dlvr.continuum.db.ScanID;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.util.datetime.Interval;
 
 /**
- * Take a slice of space time
+ * Scan over space time
  */
-public interface Slice {
+public interface Scan {
 
     /**
      * TODO: How to not need all three of these?
      * Non-unique id for this slice
      * @return id fo use for slicing
      */
-    SliceID ID();
+    ScanID ID();
 
     /**
      * ID for time key
      * @return id
      */
-    SliceID TimeID();
+    ScanID TimeID();
 
     /**
      * ID for time series
      * @return id
      */
-    SliceID SpaceID();
+    ScanID SpaceID();
 
     /**
      * The measurement name to slice for

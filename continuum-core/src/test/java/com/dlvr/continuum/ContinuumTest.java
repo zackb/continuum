@@ -4,7 +4,7 @@ import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.SliceResult;
 import com.dlvr.continuum.util.datetime.Interval;
 import org.junit.Test;
@@ -104,7 +104,7 @@ public class ContinuumTest {
                     .build();
             continuum.db().write(atom);
 
-            Slice slice = Continuum
+            Scan scan = Continuum
                     .slice("a1")
                     .particles(Continuum.particles(particles))
                     .start(System.currentTimeMillis())
@@ -112,10 +112,10 @@ public class ContinuumTest {
                     .function(Function.AVG)
                     .build();
 
-            Double val = continuum.db().slice(slice).values().value();
+            Double val = continuum.db().slice(scan).values().value();
             assertEquals(28.74999875, val, 0.001);
 
-            slice = Continuum
+            scan = Continuum
                     .slice("a1")
                     .particles(Continuum.particles(particles))
                     .start(System.currentTimeMillis())
@@ -124,7 +124,7 @@ public class ContinuumTest {
                     .function(Function.AVG)
                     .build();
 
-            SliceResult res = continuum.db().slice(slice);
+            SliceResult res = continuum.db().slice(scan);
             assertEquals(3, res.children().size());
             assertEquals(10.0D, res.getChild(2).values().value(), 0.000001);
             assertEquals(-0.000005D, res.getChild(0).values().value(), 0.000001);

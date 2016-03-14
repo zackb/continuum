@@ -5,7 +5,7 @@ import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.*;
 import com.dlvr.continuum.db.slice.Filter;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.SliceResult;
 import com.dlvr.continuum.core.db.slice.Collectors;
 import com.dlvr.continuum.db.slice.Collector;
@@ -56,13 +56,13 @@ public class RockDB implements DB {
     }
 
     @Override
-    public SliceResult slice(Slice slice) {
+    public SliceResult slice(Scan scan) {
         Iterator itr = null;
-        Collector collector = Collectors.forSlice(slice);
-        Filter filter = Filters.forSlice(slice); // TODO: filter fields and values
+        Collector collector = Collectors.forSlice(scan);
+        Filter filter = Filters.forSlice(scan); // TODO: filter fields and values
         try {
             itr = iterator();
-            ID id = dimension == Dimension.SPACE ? slice.SpaceID() : slice.TimeID();
+            ID id = dimension == Dimension.SPACE ? scan.SpaceID() : scan.TimeID();
             itr.seek(id.bytes());
             while (itr.hasNext()) {
                 Atom atom = itr.get();

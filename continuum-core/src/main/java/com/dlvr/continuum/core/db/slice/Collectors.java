@@ -2,36 +2,36 @@ package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.util.datetime.Interval;
 
 /**
- * Slice atom collector factory and utils
+ * Scan atom collector factory and utils
  */
 public class Collectors {
 
-    public static Collector forSlice(Slice slice) {
+    public static Collector forSlice(Scan scan) {
 
         Collector collector = null;
 
-        if (slice.groups() != null)
+        if (scan.groups() != null)
             collector = group(
-                String.join(",", slice.groups()),
-                slice.groups(),
-                slice.interval(),
-                slice.function()
+                String.join(",", scan.groups()),
+                scan.groups(),
+                scan.interval(),
+                scan.function()
             );
-        else if (slice.interval() != null)
+        else if (scan.interval() != null)
             collector = interval(
-                slice.interval(),
-                slice.function()
+                scan.interval(),
+                scan.function()
             );
-        else if (slice.function() != null)
+        else if (scan.function() != null)
             collector = stats(
-                slice.function()
+                scan.function()
             );
         else
-            collector = atoms(slice.function());
+            collector = atoms(scan.function());
 
         return collector;
     }

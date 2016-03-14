@@ -3,7 +3,7 @@ package com.dlvr.continuum.core.db.slice;
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.slice.Filter;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.except.ZiggyStardustError;
 
 /**
@@ -11,11 +11,11 @@ import com.dlvr.continuum.except.ZiggyStardustError;
  * Created by zack on 2/12/16.
  */
 public class Filters {
-    public static Filter forSlice(Slice slice) {
+    public static Filter forSlice(Scan scan) {
         return and(
-            timestamp(Continuum.Dimension.SPACE /*WART!*/, slice.start(), slice.end()),
-            name(slice.name()),
-            particles(slice.particles())
+            timestamp(Continuum.Dimension.SPACE /*WART!*/, scan.start(), scan.end()),
+            name(scan.name()),
+            particles(scan.particles())
         );
     }
 
