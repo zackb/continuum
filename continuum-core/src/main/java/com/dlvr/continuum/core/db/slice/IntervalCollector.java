@@ -65,7 +65,7 @@ public class IntervalCollector implements Collector {
         Collections.sort(sorted, (o1, o2) -> o2.compareTo(o1));
         for (Long ts : sorted) {
             Slice child = collectors.get(ts).result();
-            result.addChild(child);
+            result.add(child);
         }
         return result;
     }

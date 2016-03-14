@@ -126,9 +126,9 @@ public class ContinuumTest {
 
             Slice res = continuum.db().slice(scan);
             assertEquals(3, res.slices().size());
-            assertEquals(10.0D, res.getChild(2).values().value(), 0.000001);
-            assertEquals(-0.000005D, res.getChild(0).values().value(), 0.000001);
-            assertEquals(52.5D, res.getChild(1).values().value(), 0.000001);
+            assertEquals(10.0D, res.child(2).values().value(), 0.000001);
+            assertEquals(-0.000005D, res.child(0).values().value(), 0.000001);
+            assertEquals(52.5D, res.child(1).values().value(), 0.000001);
 
         } finally {
             if (continuum != null) continuum.delete();

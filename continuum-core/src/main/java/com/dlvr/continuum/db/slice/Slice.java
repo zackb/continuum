@@ -13,8 +13,10 @@ public interface Slice {
     Values values();
     List<Slice> slices();
     List<? extends Atom> atoms();
-    void addChild(Slice result);
-    Slice getChild(String name);
-    Slice getChild(int idx);
+    Slice add(Slice result);
+    Slice remove(Slice result);
+    Slice child(String name);
+    Slice child(int idx);
+    List<Slice> children();
     long timestamp();
 }

@@ -39,13 +39,21 @@ public class NSlice implements Slice {
     }
 
     @Override
-    public void addChild(Slice result) {
+    public Slice add(Slice result) {
         if (children == null) children = new ArrayList<>();
         children.add(result);
+        return result;
     }
 
     @Override
-    public Slice getChild(String name) {
+    public Slice remove(Slice result) {
+        if (children == null) return result;
+        children.remove(result);
+        return result;
+    }
+
+    @Override
+    public Slice child(String name) {
         for (Slice res : children) {
             if (res.name().equals(name)) {
                 return res;
@@ -55,8 +63,13 @@ public class NSlice implements Slice {
     }
 
     @Override
-    public Slice getChild(int idx) {
+    public Slice child(int idx) {
         return children.get(idx);
+    }
+
+    @Override
+    public List<Slice> children() {
+        return children;
     }
 
     @Override

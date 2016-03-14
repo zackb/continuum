@@ -38,7 +38,7 @@ public class AndCollector implements Collector {
     public Slice result() {
         Slice result = values.result();
         for (Collector collector : collectors) {
-            result.addChild(collector.result());
+            result.add(collector.result());
         }
         return result;
     }

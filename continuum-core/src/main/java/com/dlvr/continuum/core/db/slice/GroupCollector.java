@@ -50,7 +50,7 @@ public class GroupCollector implements Collector {
                 .children()
                 .stream()
                 .map(GroupCollector::result)
-                .forEach(g::addChild);
+                .forEach(g::add);
 
         return g;
     }
@@ -60,6 +60,7 @@ public class GroupCollector implements Collector {
         s.name = stree.data.name();
 
         // prefix name with names of all parents
+        // TODO: functional!
         for (Tree<Collector> cur =
                 stree.parent();
                     cur != null;
@@ -69,7 +70,7 @@ public class GroupCollector implements Collector {
         stree.children()
              .stream()
              .map(GroupCollector::result)
-             .forEach(s::addChild);
+             .forEach(s::add);
         return s;
     }
 
