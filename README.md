@@ -51,8 +51,8 @@ TODO: Javadocs [available on the web](http://TODO.com)
  - Age out over time
  - Stream 
   - Fast data: hot, open sets of newest data
-  - Slow data: rolling window of data through ColdStorage (S3, NAS)
- - Example: "Realtime" analytics data events grouped by session/user id
+  - Slow data: rolling window of data through ColdStorage (S3, Hadoop, NAS)
+ - Example: "Realtime" analytics data events grouped by session or user id
  - Core, Repl
 
 ###Scaling
