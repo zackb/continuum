@@ -19,22 +19,22 @@ public class IntervalCollector implements Collector {
     private final Interval interval;
     private final Function function;
     final Map<Long, ValuesCollector> collectors = new HashMap<>();
-    final Collector collector;
+    final Collector values;
     private long timestamp = 0L;
 
     public IntervalCollector(Interval interval) {
-        this("hist", interval, Function.AVG);
+        this("interval", interval, Function.AVG);
     }
 
     public IntervalCollector(Interval interval, Function function) {
-        this("hist", interval, function);
+        this("interval", interval, function);
     }
 
     public IntervalCollector(String name, Interval interval, Function function) {
         this.name = name;
         this.interval = interval;
         this.function = function;
-        this.collector = new ValuesCollector(function);
+        this.values = Collectors.values(function);
     }
 
     @Override
@@ -45,10 +45,10 @@ public class IntervalCollector implements Collector {
         long ts = atom.timestamp();
         long bucket = ts - (ts % interval.toMillis());
 
-        if (collectors.get(bucket) == null) collectors.put(bucket, new ValuesCollector(function));
+        if (collectors.get(bucket) == null) collectors.put(bucket, Collectors.values(function));
 
         collectors.get(bucket).collect(atom);
-        collector.collect(atom);
+        values.collect(atom);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class IntervalCollector implements Collector {
     @Override
     public Slice result() {
 
-        NSlice result = (NSlice)collector.result();
+        NSlice result = (NSlice) values.result();
         result.name = name();
         List<Long> sorted = new ArrayList<>(collectors.keySet());
         Collections.sort(sorted, (o1, o2) -> o2.compareTo(o1));
@@ -91,7 +91,7 @@ public class IntervalCollector implements Collector {
         result = 31 * result + (interval != null ? interval.hashCode() : 0);
         result = 31 * result + (function != null ? function.hashCode() : 0);
         result = 31 * result + (collectors != null ? collectors.hashCode() : 0);
-        result = 31 * result + (collector != null ? collector.hashCode() : 0);
+        result = 31 * result + (values != null ? values.hashCode() : 0);
         result = 31 * result + (int) (timestamp ^ (timestamp >>> 32));
         return result;
     }
