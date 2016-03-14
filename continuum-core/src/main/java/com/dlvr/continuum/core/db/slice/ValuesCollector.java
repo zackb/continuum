@@ -9,10 +9,10 @@ import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.util.Strings;
 
 /**
- * Atom scan collector
+ * Collect Values
  * Created by zack on 2/11/16.
  */
-public class StatsCollector implements Collector {
+public class ValuesCollector implements Collector {
 
     private final String name;
     private double max = Double.MIN_VALUE;
@@ -23,11 +23,11 @@ public class StatsCollector implements Collector {
     private final Function function;
     private long timestamp = 0L;
 
-    public StatsCollector(Function function) {
+    public ValuesCollector(Function function) {
         this("values", function);
     }
 
-    public StatsCollector(String name, Function function) {
+    public ValuesCollector(String name, Function function) {
         this.name = name;
         this.function = function;
     }
@@ -120,9 +120,9 @@ public class StatsCollector implements Collector {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof StatsCollector)) return false;
+        if (!(o instanceof ValuesCollector)) return false;
 
-        StatsCollector that = (StatsCollector) o;
+        ValuesCollector that = (ValuesCollector) o;
 
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (function != that.function) return false;

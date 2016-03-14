@@ -18,7 +18,7 @@ public class IntervalCollector implements Collector {
     private final String name;
     private final Interval interval;
     private final Function function;
-    final Map<Long, StatsCollector> collectors = new HashMap<>();
+    final Map<Long, ValuesCollector> collectors = new HashMap<>();
     final Collector collector;
     private long timestamp = 0L;
 
@@ -34,7 +34,7 @@ public class IntervalCollector implements Collector {
         this.name = name;
         this.interval = interval;
         this.function = function;
-        this.collector = new StatsCollector(function);
+        this.collector = new ValuesCollector(function);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class IntervalCollector implements Collector {
         long ts = atom.timestamp();
         long bucket = ts - (ts % interval.toMillis());
 
-        if (collectors.get(bucket) == null) collectors.put(bucket, new StatsCollector(function));
+        if (collectors.get(bucket) == null) collectors.put(bucket, new ValuesCollector(function));
 
         collectors.get(bucket).collect(atom);
         collector.collect(atom);

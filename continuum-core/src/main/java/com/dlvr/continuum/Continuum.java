@@ -1,7 +1,6 @@
 package com.dlvr.continuum;
 
 import com.dlvr.continuum.atom.Values;
-import com.dlvr.continuum.core.atom.*;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
@@ -11,6 +10,8 @@ import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.Slice;
+
+import com.dlvr.continuum.core.atom.*;
 import com.dlvr.continuum.core.db.slice.NSlice;
 import com.dlvr.continuum.core.db.Slabs;
 import com.dlvr.continuum.core.db.RockSlab;

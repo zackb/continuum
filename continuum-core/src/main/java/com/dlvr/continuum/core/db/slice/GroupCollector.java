@@ -22,7 +22,7 @@ public class GroupCollector implements Collector {
     private final Function function;
     private final String name;
 
-    private static final char DELIM = ',';
+    private static final char DELIM = ':';
     private static final String SDELIM = "" + DELIM;
 
     private final Tree<Collector> collectors;
@@ -32,7 +32,7 @@ public class GroupCollector implements Collector {
         this.groups = groups;
         this.interval = interval;
         this.function = function;
-        this.stats = new StatsCollector(function);
+        this.stats = new ValuesCollector(function);
         this.collectors = new Tree<>(this);
         this.name = name;
     }
@@ -41,7 +41,7 @@ public class GroupCollector implements Collector {
     public Slice result() {
         List<Slice> children = new ArrayList<>();
         final Slice g = Continuum
-                .result(String.join(SDELIM, groups))
+                .result(name())
                 .children(children)
                 .values(stats.result().values())
                 .build();
@@ -58,6 +58,14 @@ public class GroupCollector implements Collector {
     public static Slice result(Tree<Collector> stree) {
         NSlice s = (NSlice) stree.data.result();
         s.name = stree.data.name();
+
+        // prefix name with names of all parents
+        for (Tree<Collector> cur =
+                stree.parent();
+                    cur != null;
+                        s.name = cur.data.name() + DELIM + s.name,
+                        cur = cur.parent());
+
         stree.children()
              .stream()
              .map(GroupCollector::result)

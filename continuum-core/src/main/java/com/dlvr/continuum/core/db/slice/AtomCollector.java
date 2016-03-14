@@ -18,7 +18,7 @@ import java.util.List;
 public class AtomCollector implements Collector {
 
     public final List<Atom> atoms;
-    private final StatsCollector stats;
+    private final ValuesCollector stats;
     private final String name;
 
     public AtomCollector() {
@@ -36,7 +36,7 @@ public class AtomCollector implements Collector {
     public AtomCollector(String name, Function function) {
         this.name = name;
         this.atoms = new ArrayList<>();
-        this.stats = new StatsCollector(function == null ? Function.AVG : function);
+        this.stats = new ValuesCollector(function == null ? Function.AVG : function);
     }
 
     @Override

@@ -16,7 +16,7 @@ public class Collectors {
 
         if (scan.groups() != null)
             collector = group(
-                String.join(",", scan.groups()),
+                scan.name(),
                 scan.groups(),
                 scan.interval(),
                 scan.function()
@@ -82,8 +82,8 @@ public class Collectors {
      * @param function to report on in addition to standard 5 values
      * @return new stats collector
      */
-    public static StatsCollector stats(Function function) {
-        return new StatsCollector(function);
+    public static ValuesCollector stats(Function function) {
+        return new ValuesCollector(function);
     }
 
     /**
@@ -92,8 +92,8 @@ public class Collectors {
      * @param function to report on in addition to standard 5 values
      * @return new stats collector
      */
-    public static StatsCollector stats(String name, Function function) {
-        return new StatsCollector(name, function);
+    public static ValuesCollector stats(String name, Function function) {
+        return new ValuesCollector(name, function);
     }
 
     /**
