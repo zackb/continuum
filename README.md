@@ -4,8 +4,8 @@ continuum is a JVM library for storing and analyzing large amounts of time based
 
  - Core library for storage, retreival, and analysis of time series and time key value data
  - REST Interface
- - Streaming master/slave replication
- - Limited "database" server
+ - Streaming backup/restore
+ - Streaming master/slave and master/master replication
 
 ## tl;dr
 <p align="center">
@@ -56,12 +56,11 @@ TODO: Javadocs [available on the web](http://TODO.com)
  - Core, Repl
 
 ###Scaling
- - add disks via ShardRockSlab (or ShardedSlab? no)
- - add slaves/read replicas
+ - add disks
+ - cold online backup (backup/restore)
+ - hot online backup(s) (read-only replication)
  - application level sharding by key or time
- - will never be support for clustering
-
+ - cluserting (master-master replication)
 
 ## Maintainer
- 
-Zack Bartel `zack@bartel.com` `zackbartel.com`
+Zack Bartel `zack@bartel.com` [zackbartel.com](zackbartel.com)
