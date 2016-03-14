@@ -1,0 +1,91 @@
+group 'com.dlvr'
+version '0.1'
+def mainClassName = 'com.dlvr.continuum.Main'
+
+def packageDistDir = '/opt/continuum'
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'maven-publish'
+apply plugin: 'fpm-packaging'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.kenshoo:gradle-fpm:0.+'
+    }
+}
+
+dependencies {
+    // Continuum core
+    compile 'com.dlvr:continuum-core:+'
+
+    // Continuum REST
+    compile 'com.dlvr:continuum-rest:+'
+
+    testCompile 'org.codehaus.groovy:groovy-test:2.5+'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+
+jar {
+    dependsOn configurations.runtime
+    from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+task install(dependsOn: ['clean', 'jar', 'test', 'publishToMavenLocal']) //, 'debian'])
+
+def stagingDir = new File(project.buildDir, 'staging')
+task stageFiles(type: Copy) {
+    stagingDir.mkdir()
+    into new File(stagingDir, packageDistDir)
+    from jar.archivePath
+    rename(/$project.name(.+)\.jar/, "${project.name}.jar")
+}
+
+packaging {
+    packageName = project.name
+    //dependencies = ['dlvr-java']
+    baseDir = stagingDir
+    extraOptions = [
+            '--vendor': 'DLVR',
+            '--maintainer': 'Zack Bartel',
+            '--description': "${project.name} ${System.getenv('VERSION')} ${System.getenv('GIT_COMMIT')} ${System.getenv('GIT_BRANCH')}",
+            '-n': project.name,
+            '-a': 'amd64'
+    ]
+    extraFlags = [ ]
+}
+
+stageFiles.dependsOn jar
+debian.dependsOn stageFiles
+
+applicationDefaultJvmArgs = [
+'-XX:+UnlockCommercialFeatures',
+'-XX:+FlightRecorder',
+'-Xprof'
+]
+
+publishing {
+    publications {
+        api(MavenPublication) {
+            groupId group
+            artifactId name
+            version version
+            from components.java
+        }
+    }
+}
