@@ -38,14 +38,14 @@ TODO: Javadocs [available on the web](http://TODO.com)
 4. A continuous, scalable infintie time-based data stream by incorporating data windowing, downsampling, or both
 5. Utilize TWO specialized schema designs for time series data and time key value data.
 
-####TimeSeries Data (space/time): (ScoreCard and Portal)
+####TimeSeries Data (space/time): (Analysis and Dashboard/UI)
  - Small number of unique time series with very large data volume
  - Infinite storage using retention policies and data downsampling (RRDTool, Whisper, InfluxDB inspired)
  - Downsampling OK
  - Example: "Realtime" performance metrics, measurements of cpu, or weather temperature readings over time
  - Core only
 
-####TimeKeyValue Data (time/key:value): (Session and Metrics)
+####TimeKeyValue Data (time/key:value): (User Session and Session metrics)
  - For aggregating small amounts of data into buckets by a unique key
  - Large number of unique keys with small amount of data
  - Age out over time
