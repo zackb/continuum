@@ -8,7 +8,7 @@ continuum is a JVM library for storing and analyzing large amounts of time based
  - Limited "database" server
 
 ## tl;dr
-![alt tag](http://zackbartel.com/incoming/spacetime.png)
+![alt tag](/docs/img/spacetime.png)
 
 ## Building
 
@@ -27,7 +27,7 @@ continuum is a JVM library for storing and analyzing large amounts of time based
 		</dependency>
 ```
 
-TODO: Javadocs [available on the web](http://url.com/to/docs).
+TODO: Javadocs [available on the web](http://TODO.com)
 
 ##Goals
 1. Use memory mapped files and log-structured-merge trees (LSM) to efficienty store, retreive, and analyze large amounts of time-based data.
@@ -62,4 +62,4 @@ TODO: Javadocs [available on the web](http://url.com/to/docs).
 
 ## Maintainer
  
-Zack @ DLVR `zack@dlvr.com`
+Zack Bartel `zack@bartel.com` `zackbartel.com`

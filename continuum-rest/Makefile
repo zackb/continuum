@@ -1,5 +1,5 @@
 default: install
 install:
 	./gradlew install
-docs: install
-	restdown -m . README.md
+docs:
+	restdown -b html -m . README.md

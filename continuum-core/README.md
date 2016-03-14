@@ -1,6 +1,6 @@
 #Continuum core
 ###Premise
-Using log-structured-merge trees, memory mapped files, and two sepcialized schema designs, continuum can efficiently store, retrieve, and analyze data for ScoreCard, Portal, Session, and Metrics
+Using log-structured-merge trees, memory mapped files, and two sepcialized schema designs, continuum can efficiently store, retrieve, and analyze data for Statistical analysis, Dashboard / UI presentation, User session and metric data storage and retrieval 
 
 ###Concepts
 
