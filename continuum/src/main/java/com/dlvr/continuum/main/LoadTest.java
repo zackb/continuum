@@ -53,8 +53,7 @@ public class LoadTest {
         reader.cancel();
     }
 
-    private void load(final Continuum continuum) {
-        int iterations = 2000000000; //Integer.MAX_VALUE;
+    private void load(final Continuum continuum, int iterations) {
         for (int i = 0; i < iterations; i++) {
             Metrics.time("write", () -> {
                 continuum.db().write(createAtom());
@@ -73,8 +72,16 @@ public class LoadTest {
         }
     }
 
+    public static void load(String dataDir) throws Exception {
+        load(dataDir, 2000000);
+    }
+
+    public static void load(String dataDir, int iterations) throws Exception {
+        load(dataDir, iterations, true);
+    }
+
     // 50MB/10M metrics
-    public static void load(String dataDir, boolean delete) throws Exception {
+    public static void load(String dataDir, int iterations, boolean delete) throws Exception {
         FileSystemReference ref = new FileSystemReference(dataDir);
 
         Continuum.Builder builder =
@@ -85,7 +92,7 @@ public class LoadTest {
         LoadTest test = null;
         try (Continuum c = builder.open()){
             test = new LoadTest(c);
-            test.load(c);
+            test.load(c, iterations);
         } finally {
             if (test != null) test.stop();
             if (delete) ref.delete();
