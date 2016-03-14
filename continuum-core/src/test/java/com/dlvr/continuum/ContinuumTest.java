@@ -5,7 +5,7 @@ import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Scan;
-import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.util.datetime.Interval;
 import org.junit.Test;
 
@@ -105,7 +105,7 @@ public class ContinuumTest {
             continuum.db().write(atom);
 
             Scan scan = Continuum
-                    .slice("a1")
+                    .scan("a1")
                     .particles(Continuum.particles(particles))
                     .start(System.currentTimeMillis())
                     .end(1455088000007L)
@@ -116,7 +116,7 @@ public class ContinuumTest {
             assertEquals(28.74999875, val, 0.001);
 
             scan = Continuum
-                    .slice("a1")
+                    .scan("a1")
                     .particles(Continuum.particles(particles))
                     .start(System.currentTimeMillis())
                     .end(1455088000007L)
@@ -124,8 +124,8 @@ public class ContinuumTest {
                     .function(Function.AVG)
                     .build();
 
-            SliceResult res = continuum.db().slice(scan);
-            assertEquals(3, res.children().size());
+            Slice res = continuum.db().slice(scan);
+            assertEquals(3, res.slices().size());
             assertEquals(10.0D, res.getChild(2).values().value(), 0.000001);
             assertEquals(-0.000005D, res.getChild(0).values().value(), 0.000001);
             assertEquals(52.5D, res.getChild(1).values().value(), 0.000001);
@@ -181,8 +181,8 @@ public class ContinuumTest {
             long end = now - 100000;
 
             // test scanning all atoms
-            SliceResult result = continuum.db().slice(
-                    Continuum.slice("test0").end(end).build()
+            Slice result = continuum.db().slice(
+                    Continuum.scan("test0").end(end).build()
             );
 
             assertNotNull(result);
@@ -192,28 +192,28 @@ public class ContinuumTest {
 
             // test averaging
             result = continuum.db().slice(
-                    Continuum.slice("test5").end(end).function(Function.AVG).build()
+                    Continuum.scan("test5").end(end).function(Function.AVG).build()
             );
             assertEquals(5555.27828, result.values().value(), 0.000d);
 
             // test count interval
             result = continuum.db().slice(
-                    Continuum.slice("test5").end(end).function(Function.COUNT).interval(Interval.valueOf("1s")).build()
+                    Continuum.scan("test5").end(end).function(Function.COUNT).interval(Interval.valueOf("1s")).build()
             );
 
             assertNotNull(result);
-            assertEquals("count", result.name());
-            assertEquals(2, result.children().size());
+            assertEquals("hist", result.name());
+            assertEquals(2, result.slices().size());
 
-            assertEquals(1.0, result.children().get(0).values().value(), 0);
-            assertEquals(1.0, result.children().get(1).values().value(), 0);
+            assertEquals(1.0, result.slices().get(0).values().value(), 0);
+            assertEquals(1.0, result.slices().get(1).values().value(), 0);
 
             // test scan all atoms
             result = continuum.db().slice(
-                    Continuum.slice("test5").end(end).build()
+                    Continuum.scan("test5").end(end).build()
             );
 
-            assertNull(result.children());
+            assertNull(result.slices());
             assertEquals(2, result.atoms().size());
 
             long ts = result.atoms().get(0).timestamp();
@@ -238,14 +238,14 @@ public class ContinuumTest {
 
             // test scan some particles
             result = continuum.db().slice(
-                    Continuum.slice("test5").end(now - 100000).build()
+                    Continuum.scan("test5").end(now - 100000).build()
             );
             assertEquals(2, result.atoms().size());
 
             Map<String, String> map = new HashMap<>();
             map.put("provider", "limelight");
             result = continuum.db().slice(
-                    Continuum.slice("test5").dimension(Continuum.Dimension.SPACE).particles(Continuum.particles(map)).end(now - 100000).build()
+                    Continuum.scan("test5").dimension(Continuum.Dimension.SPACE).particles(Continuum.particles(map)).end(now - 100000).build()
             );
             assertEquals(1, result.atoms().size());
             assertEquals(5555.001, result.atoms().get(0).values().value(), 0);

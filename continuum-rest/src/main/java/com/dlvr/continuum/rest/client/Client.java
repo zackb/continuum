@@ -5,9 +5,8 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.db.Iterator;
+import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.Slice;
-import com.dlvr.continuum.db.slice.SliceResult;
-import com.dlvr.continuum.util.datetime.Interval;
 import com.dlvr.net.http.HTTP;
 
 import java.util.HashMap;
@@ -61,20 +60,20 @@ public class Client implements DB {
     }
 
     @Override
-    public SliceResult slice(Slice slice) throws Exception {
+    public Slice slice(Scan scan) throws Exception {
 
-        String url = baseUrl + "/read?name=" + slice.name();
-        url += "&start=" + slice.start();
-        url += "&end=" + slice.end();
+        String url = baseUrl + "/read?name=" + scan.name();
+        url += "&start=" + scan.start();
+        url += "&end=" + scan.end();
 
-        if (slice.particles() != null) {
-            for (String name : slice.particles().keySet()) {
-                Object value = slice.particles().get(name);
+        if (scan.particles() != null) {
+            for (String name : scan.particles().keySet()) {
+                Object value = scan.particles().get(name);
                 url += "&" + name + "=" + value;
             }
         }
 
-        return HTTP.getJSONObject(url, CSliceResult.class);
+        return HTTP.getJSONObject(url, CSlice.class);
     }
 
 

@@ -46,7 +46,7 @@ public class SScanID implements ScanID {
     /**
      * build tag/values structure omitting values with wildcard
      * @param particles to use
-     * @return bytes to use for slice
+     * @return bytes to use for scan
      */
     static byte[] encode(Particles particles) {
         byte[] bid = new byte[1024];

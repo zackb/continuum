@@ -2,7 +2,7 @@ package com.dlvr.continuum.db;
 
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Scan;
-import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.db.slice.Slice;
 
 /**
  * Time datastore
@@ -28,7 +28,7 @@ public interface DB {
      * Blocking
      * @return scan result including aggregate functions, date ranges, and groupings if applicatble
      */
-    SliceResult slice(Scan scan) throws Exception;
+    Slice slice(Scan scan) throws Exception;
 
     /**
      * Database Iterator to iterate over time data

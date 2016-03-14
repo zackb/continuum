@@ -15,8 +15,8 @@ import com.dlvr.continuum.db.Slab;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Scan;
-import com.dlvr.continuum.db.slice.SliceResult;
-import com.dlvr.continuum.core.db.slice.NSliceResult;
+import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.core.db.slice.NSlice;
 import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.io.file.Reference;
 import com.dlvr.continuum.util.datetime.Interval;
@@ -123,12 +123,12 @@ public class Continuum implements Closeable {
         return fields(fields);
     }
 
-    public static SliceBuilder slice(String name) {
-        return new SliceBuilder(name);
+    public static ScanBuilder scan(String name) {
+        return new ScanBuilder(name);
     }
 
-    public static SliceResultBuilder result(String name) {
-        return new SliceResultBuilder(name);
+    public static SliceBuilder result(String name) {
+        return new SliceBuilder(name);
     }
 
     private Continuum(String name, Dimension dimension, List<FileSystemReference> bases) throws Exception {
@@ -328,64 +328,64 @@ public class Continuum implements Closeable {
         }
     }
 
-    public static class SliceBuilder {
+    public static class ScanBuilder {
         private final NScan target = new NScan();
-        private SliceBuilder() {
+        private ScanBuilder() {
             target.start = System.currentTimeMillis();
         }
-        SliceBuilder(String name) {
+        ScanBuilder(String name) {
             target.start = System.currentTimeMillis();
             target.name = name;
         }
-        public SliceBuilder start(long start) {
+        public ScanBuilder start(long start) {
             target.start = start;
             return this;
         }
-        public SliceBuilder start(Interval start) {
+        public ScanBuilder start(Interval start) {
             target.start = System.currentTimeMillis() - start.toMillis();
             return this;
         }
-        public SliceBuilder end(long end) {
+        public ScanBuilder end(long end) {
             target.end = end;
             return this;
         }
-        public SliceBuilder end(Interval end) {
+        public ScanBuilder end(Interval end) {
             target.end = System.currentTimeMillis() - end.toMillis();
             return this;
         }
-        public SliceBuilder interval(Interval interval) {
+        public ScanBuilder interval(Interval interval) {
             target.interval = interval;
             return this;
         }
-        public SliceBuilder function(Function function) {
+        public ScanBuilder function(Function function) {
             target.function = function;
             return this;
         }
-        public SliceBuilder group(String group) {
+        public ScanBuilder group(String group) {
             target.groups = new String[] { group };
             return this;
         }
-        public SliceBuilder group(String... groups) {
+        public ScanBuilder group(String... groups) {
             target.groups = groups;
             return this;
         }
-        public SliceBuilder particles(Map<String, String> particles) {
+        public ScanBuilder particles(Map<String, String> particles) {
             target.particles = Continuum.particles(particles);
             return this;
         }
-        public SliceBuilder particles(Particles particles) {
+        public ScanBuilder particles(Particles particles) {
             target.particles = particles;
             return this;
         }
-        public SliceBuilder collectors(Collector... collectors) {
+        public ScanBuilder collectors(Collector... collectors) {
             target.collectors = collectors;
             return this;
         }
-        public SliceBuilder fields(Fields fields) {
+        public ScanBuilder fields(Fields fields) {
             target.fields = fields;
             return this;
         }
-        public SliceBuilder dimension(Dimension dimension) {
+        public ScanBuilder dimension(Dimension dimension) {
             target.dimension = dimension;
             return this;
         }
@@ -394,34 +394,34 @@ public class Continuum implements Closeable {
         }
     }
 
-    public static class SliceResultBuilder {
-        private final NSliceResult target = new NSliceResult();
-        private SliceResultBuilder() { }
-        SliceResultBuilder(String name) {
+    public static class SliceBuilder {
+        private final NSlice target = new NSlice();
+        private SliceBuilder() { }
+        SliceBuilder(String name) {
             target.name = name;
         }
-        public SliceResultBuilder value(Double value) {
+        public SliceBuilder value(Double value) {
             target.values = (NValues)Continuum.values(value);
             return this;
         }
-        public SliceResultBuilder values(Values values) {
+        public SliceBuilder values(Values values) {
             target.values = (NValues)values;
             return this;
         }
-        public SliceResultBuilder atoms(List<Atom> atoms) {
+        public SliceBuilder atoms(List<Atom> atoms) {
             target.atoms = atoms;
             return this;
         }
-        public SliceResultBuilder children(List<SliceResult> children) {
+        public SliceBuilder children(List<Slice> children) {
             target.children = children;
             return this;
         }
-        public SliceResultBuilder timestamp(long timestamp) {
+        public SliceBuilder timestamp(long timestamp) {
             target.timestamp = timestamp;
             return this;
         }
 
-        public SliceResult build() {
+        public Slice build() {
             return target;
         }
     }
@@ -445,8 +445,8 @@ public class Continuum implements Closeable {
         private final TimerTask reader = new MetricTimer().schedule(() -> {
             try {
                 Metrics.time("read", () -> {
-                        continuum.db().slice(
-                                Continuum.slice("series" + Maths.randInt(0, 100))
+                        continuum.db().scan(
+                                Continuum.scan("series" + Maths.randInt(0, 100))
                                         .function(Function.AVG)
                                         .interval(Interval.valueOf("1m"))
                                         .build()

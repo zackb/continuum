@@ -4,8 +4,9 @@ import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.slice.Function;
+import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.Slice;
-import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.rest.REST;
 import com.dlvr.continuum.rest.http.exception.BadRequestException;
 import com.dlvr.continuum.rest.http.exception.MethodNotAllowedException;
@@ -26,7 +27,7 @@ public class ContinuumReadHandler implements HttpRequestHandler {
     @Override
     public Object onGet(Map<String, Object> params) throws Exception {
         ReadRequest request = new ReadRequest(params);
-        Slice slice = Continuum.slice(request.name)
+        Scan scan = Continuum.scan(request.name)
                 .start(request.start)
                 .end(request.end)
                 .interval(request.interval)
@@ -36,10 +37,11 @@ public class ContinuumReadHandler implements HttpRequestHandler {
                 .group(request.group)
                 .build();
 
-        SliceResult result = REST.instance()
+        Slice result = REST.instance()
                 .continuum()
                 .db()
-                .slice(slice);
+                .slice(scan);
+
         return result;
     }
 

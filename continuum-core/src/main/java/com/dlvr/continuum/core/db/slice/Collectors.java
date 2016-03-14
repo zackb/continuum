@@ -37,7 +37,7 @@ public class Collectors {
     }
 
     /**
-     * Group slice results on one or more particles. Respects intervals
+     * Group scan results on one or more particles. Respects intervals
      * @param name label for group
      * @param groups to grop by
      * @param interval to bucket groups

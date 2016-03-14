@@ -3,7 +3,7 @@ package com.dlvr.continuum.core.db.slice;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.util.Strings;
 import com.dlvr.continuum.util.datetime.Interval;
 
@@ -57,14 +57,14 @@ public class IntervalCollector implements Collector {
     }
 
     @Override
-    public SliceResult result() {
+    public Slice result() {
 
-        NSliceResult result = (NSliceResult)collector.result();
+        NSlice result = (NSlice)collector.result();
         result.name = name();
         List<Long> sorted = new ArrayList<>(collectors.keySet());
         Collections.sort(sorted, (o1, o2) -> o2.compareTo(o1));
         for (Long ts : sorted) {
-            SliceResult child = collectors.get(ts).result();
+            Slice child = collectors.get(ts).result();
             result.addChild(child);
         }
         return result;

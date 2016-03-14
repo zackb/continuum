@@ -12,7 +12,7 @@ public interface Scan {
 
     /**
      * TODO: How to not need all three of these?
-     * Non-unique id for this slice
+     * Non-unique id for this scan
      * @return id fo use for slicing
      */
     ScanID ID();
@@ -30,7 +30,7 @@ public interface Scan {
     ScanID SpaceID();
 
     /**
-     * The measurement name to slice for
+     * The measurement name to scan for
      * @return measurement name
      */
     String name();
@@ -51,28 +51,28 @@ public interface Scan {
 
     /**
      * Aggregation function for result's 'values' field.
-     * If non-null, slice results are aggreagate values.
-     * If null, slice results will have raw measurement values
+     * If non-null, scan results are aggreagate values.
+     * If null, scan results will have raw measurement values
      * @return aggregation function
      */
     Function function();
 
     /**
-     * Timestamp to begin slice range (the smallest timestamp), expresed in millisecond epoch
+     * Timestamp to begin scan range (the smallest timestamp), expresed in millisecond epoch
      * @return unix epoch in milliseconds
      */
     long start();
 
     /**
-     * Timestamp to end slice range (the largest timestamp), expresed in millisecond epoch
+     * Timestamp to end scan range (the largest timestamp), expresed in millisecond epoch
      * @return unix epoch in milliseconds
      */
     long end();
 
     /**
      * Date range interval to bucket results
-     * If non-null, slice results are bucketed into date ranges using the {#getFunction()} aggreagate function
-     * If null, slice results are atom-in-time values
+     * If non-null, scan results are bucketed into date ranges using the {#getFunction()} aggreagate function
+     * If null, scan results are atom-in-time values
      * @return time unit
      */
     Interval interval();
@@ -85,14 +85,14 @@ public interface Scan {
 
 
     /**
-     * User supplied Collector to add to the slice in addition to the standard group,interval,stats,etc
+     * User supplied Collector to add to the scan in addition to the standard group,interval,stats,etc
      * @return optional user defined collector
      */
     Collector collector();
 
 
     /**
-     * User supplied Filter to add to the slice in addition to any implied filters on timestamps, particles, and fields
+     * User supplied Filter to add to the scan in addition to any implied filters on timestamps, particles, and fields
      * @return optional user defined filter
      */
     Filter filter();

@@ -4,7 +4,7 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.core.atom.NValues;
 import com.dlvr.continuum.core.atom.SAtom;
-import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.db.slice.Slice;
 
 import java.util.List;
 
@@ -12,11 +12,11 @@ import java.util.List;
  * POJO version of a slice result
  * Created by zack on 2/26/16.
  */
-public class CSliceResult implements SliceResult {
+public class CSlice implements Slice {
 
     public String name;
     public NValues values;
-    public List<SliceResult> children;
+    public List<Slice> children;
     public List<SAtom> atoms;
     public long timestamp;
 
@@ -31,7 +31,7 @@ public class CSliceResult implements SliceResult {
     }
 
     @Override
-    public List<SliceResult> children() {
+    public List<Slice> slices() {
         return children;
     }
 
@@ -41,20 +41,20 @@ public class CSliceResult implements SliceResult {
     }
 
     @Override
-    public void addChild(SliceResult sliceResult) { }
+    public void addChild(Slice slice) { }
 
     @Override
-    public SliceResult getChild(String s) {
-        for (SliceResult res : children) {
-            if (res.name().equals(name)) {
-                return res;
+    public Slice getChild(String name) {
+        for (Slice slice: children) {
+            if (slice.name().equals(name)) {
+                return slice;
             }
         }
         return null;
     }
 
     @Override
-    public SliceResult getChild(int i) {
+    public Slice getChild(int i) {
         return children.get(i);
     }
 

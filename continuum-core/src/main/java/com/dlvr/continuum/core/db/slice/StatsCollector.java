@@ -5,11 +5,11 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.util.Strings;
 
 /**
- * Atom slice collector
+ * Atom scan collector
  * Created by zack on 2/11/16.
  */
 public class StatsCollector implements Collector {
@@ -72,7 +72,7 @@ public class StatsCollector implements Collector {
     }
 
     @Override
-    public SliceResult result() {
+    public Slice result() {
         if (min == Double.MAX_VALUE) min = 0;
         if (max == Double.MIN_VALUE) max = 0;
         double value;

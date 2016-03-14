@@ -3,7 +3,7 @@ package com.dlvr.continuum.core.db.slice;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.db.slice.Slice;
 
 import java.util.Arrays;
 
@@ -35,8 +35,8 @@ public class AndCollector implements Collector {
     }
 
     @Override
-    public SliceResult result() {
-        SliceResult result = stats.result();
+    public Slice result() {
+        Slice result = stats.result();
         for (Collector collector : collectors) {
             result.addChild(collector.result());
         }

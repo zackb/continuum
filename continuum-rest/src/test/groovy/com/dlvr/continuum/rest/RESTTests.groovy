@@ -4,8 +4,8 @@ import com.dlvr.continuum.Continuum
 import com.dlvr.continuum.atom.Atom
 import com.dlvr.continuum.atom.Values
 import com.dlvr.continuum.core.io.file.FileSystemReference
+import com.dlvr.continuum.db.slice.Scan
 import com.dlvr.continuum.db.slice.Slice
-import com.dlvr.continuum.db.slice.SliceResult
 import com.dlvr.continuum.rest.client.Client
 import com.dlvr.continuum.util.datetime.Interval
 import org.junit.Test
@@ -51,12 +51,12 @@ class RESTTests extends GroovyTestCase {
                         .build()
         client.write(atom)
 
-        Slice slice = continuum.slice("fooey1")
+        Scan scan = continuum.scan("fooey1")
                         .start(System.currentTimeMillis())
                         .end(Interval.valueOf("10d"))
                         .build()
 
-        SliceResult result = client.slice(slice)
+        Slice result = client.slice(scan)
 
         assertEquals(1, result.atoms().size())
         atom = result.atoms().get(0)

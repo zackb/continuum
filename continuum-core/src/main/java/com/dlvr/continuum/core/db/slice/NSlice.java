@@ -2,20 +2,20 @@ package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Values;
-import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.db.slice.Slice;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Tree structured results from a db slice
+ * Tree structured results from a db scan
  */
-public class NSliceResult implements SliceResult {
+public class NSlice implements Slice {
 
     public String name;
     public Values values;
     public long timestamp;
-    public List<SliceResult> children;
+    public List<Slice> children;
     public List<Atom> atoms;
 
     @Override
@@ -29,7 +29,7 @@ public class NSliceResult implements SliceResult {
     }
 
     @Override
-    public List<SliceResult> children() {
+    public List<Slice> slices() {
         return children;
     }
 
@@ -39,14 +39,14 @@ public class NSliceResult implements SliceResult {
     }
 
     @Override
-    public void addChild(SliceResult result) {
+    public void addChild(Slice result) {
         if (children == null) children = new ArrayList<>();
         children.add(result);
     }
 
     @Override
-    public SliceResult getChild(String name) {
-        for (SliceResult res : children) {
+    public Slice getChild(String name) {
+        for (Slice res : children) {
             if (res.name().equals(name)) {
                 return res;
             }
@@ -55,7 +55,7 @@ public class NSliceResult implements SliceResult {
     }
 
     @Override
-    public SliceResult getChild(int idx) {
+    public Slice getChild(int idx) {
         return children.get(idx);
     }
 
@@ -67,9 +67,9 @@ public class NSliceResult implements SliceResult {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof NSliceResult)) return false;
+        if (!(o instanceof NSlice)) return false;
 
-        NSliceResult that = (NSliceResult) o;
+        NSlice that = (NSlice) o;
 
         if (timestamp != that.timestamp) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;

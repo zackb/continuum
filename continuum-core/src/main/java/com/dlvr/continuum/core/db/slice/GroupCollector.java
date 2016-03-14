@@ -5,7 +5,7 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.struct.tree.Tree;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.util.Strings;
 import com.dlvr.continuum.util.datetime.Interval;
 
@@ -38,9 +38,9 @@ public class GroupCollector implements Collector {
     }
 
     @Override
-    public SliceResult result() {
-        List<SliceResult> children = new ArrayList<>();
-        final SliceResult g = Continuum
+    public Slice result() {
+        List<Slice> children = new ArrayList<>();
+        final Slice g = Continuum
                 .result(String.join(SDELIM, groups))
                 .children(children)
                 .values(stats.result().values())
@@ -55,8 +55,8 @@ public class GroupCollector implements Collector {
         return g;
     }
 
-    public static SliceResult result(Tree<Collector> stree) {
-        NSliceResult s = (NSliceResult) stree.data.result();
+    public static Slice result(Tree<Collector> stree) {
+        NSlice s = (NSlice) stree.data.result();
         s.name = stree.data.name();
         stree.children()
              .stream()

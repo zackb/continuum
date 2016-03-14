@@ -4,7 +4,7 @@ package com.dlvr.continuum.db.slice;
 import com.dlvr.continuum.atom.Atom;
 
 /**
- * Time slice filter engines
+ * Time scan filter engines
  * Created by zack on 2/12/16.
  */
 public interface Filter {

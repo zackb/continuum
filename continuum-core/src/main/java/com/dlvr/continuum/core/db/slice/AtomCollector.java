@@ -4,7 +4,7 @@ import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.util.Strings;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Collect atoms matching the slice filter. For when neither function nor interval is specified
+ * Collect atoms matching the scan filter. For when neither function nor interval is specified
  * Created by zack on 2/24/16.
  */
 public class AtomCollector implements Collector {
@@ -51,7 +51,7 @@ public class AtomCollector implements Collector {
     }
 
     @Override
-    public SliceResult result() {
+    public Slice result() {
         Collections.sort(atoms, (o1, o2) -> o2.timestamp().compareTo(o1.timestamp()));
         return Continuum.result(name())
                 .values(stats.result().values())

@@ -5,7 +5,7 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.util.datetime.Interval;
 import org.junit.Test;
 
@@ -57,7 +57,7 @@ public class DBTest {
         AtomID id = d.ID();
         d = db.get(id);
         assertEquals(98898.124D, d.values().value(), 0.00001);
-        SliceResult res = db.slice(slice("zack").end(Interval.valueOf("1d")).function(Function.AVG).build());
+        Slice res = db.slice(scan("zack").end(Interval.valueOf("1d")).function(Function.AVG).build());
         Double avg = res.values().value();
         assertEquals((12346555.0000000000D + 98898.124D)/ 2, avg, 0.00001);
         db.close();

@@ -6,15 +6,15 @@ import com.dlvr.continuum.atom.Values;
 import java.util.List;
 
 /**
- * Result of space time slice
+ * Slice of space time
  */
-public interface SliceResult {
+public interface Slice {
     String name();
     Values values();
-    List<SliceResult> children();
+    List<Slice> slices();
     List<? extends Atom> atoms();
-    void addChild(SliceResult result);
-    SliceResult getChild(String name);
-    SliceResult getChild(int idx);
+    void addChild(Slice result);
+    Slice getChild(String name);
+    Slice getChild(int idx);
     long timestamp();
 }

@@ -6,7 +6,7 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.*;
 import com.dlvr.continuum.db.slice.Filter;
 import com.dlvr.continuum.db.slice.Scan;
-import com.dlvr.continuum.db.slice.SliceResult;
+import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.core.db.slice.Collectors;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.except.ZiggyStardustError;
@@ -56,7 +56,7 @@ public class RockDB implements DB {
     }
 
     @Override
-    public SliceResult slice(Scan scan) {
+    public Slice slice(Scan scan) {
         Iterator itr = null;
         Collector collector = Collectors.forSlice(scan);
         Filter filter = Filters.forSlice(scan); // TODO: filter fields and values
