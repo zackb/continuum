@@ -37,7 +37,7 @@ public class Bytes {
      * TODO: String values
      * Decode only the values of the atom. If the full body is not needed to be decoded.
      * @param bytes encoded with {#values(Atom)}
-     * @return
+     * @return 64 bit min, max, count, sum, value from bytes
      */
     public static Values Values(byte[] bytes) {
         int pos = bytes.length;

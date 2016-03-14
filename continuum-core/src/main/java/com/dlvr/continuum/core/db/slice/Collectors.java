@@ -38,7 +38,7 @@ public class Collectors {
 
     /**
      * Group scan results on one or more particles. Respects intervals
-     * @param name label for group
+     * @param name to refer to group
      * @param groups to grop by
      * @param interval to bucket groups
      * @param function to aggregate on
@@ -69,6 +69,7 @@ public class Collectors {
 
     /**
      * Bucket results into time intervals
+     * @param name to refer to collector
      * @param interval to bucket
      * @param function to apply
      * @return new bucketing time interval collector
@@ -88,7 +89,7 @@ public class Collectors {
 
     /**
      * Collect values min,max,sum,count,value
-     * @param name for collection
+     * @param name to refer to the values collection
      * @param function to report on in addition to standard 5 values
      * @return new values collector
      */
@@ -106,7 +107,7 @@ public class Collectors {
 
     /**
      * Raw atom collector. Used instead of aggregations
-     * @param name for collection
+     * @param name to refer to the atom collection
      * @return new raw atom collector
      */
     public static AtomCollector atoms(String name) {
@@ -124,7 +125,7 @@ public class Collectors {
 
     /**
      * Raw atom collector. Used instead of aggregations
-     * @param name for collection
+     * @param name to refer to the atom collection
      * @param function to apply
      * @return new raw atom collector
      */

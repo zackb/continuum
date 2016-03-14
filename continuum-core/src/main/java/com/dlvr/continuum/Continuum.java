@@ -63,15 +63,20 @@ public class Continuum implements Closeable {
 
     /**
      * Convenience method to create an initial values
-     * @param value
+     * @param value current value
      * @return values with all members set to values
      */
     public static Values values(double value) {
         return values(value, value, 1, value, value);
     }
+
     /**
      * Convenience method to create a Values
-     * @param value
+     * @param min minumum
+     * @param max maximum
+     * @param count count
+     * @param sum sum
+     * @param value current value
      * @return values with all members set to values
      */
     public static Values values(double min, double max, double count, double sum, double value) {
@@ -192,7 +197,7 @@ public class Continuum implements Closeable {
     /**
      * Compact atoms into quarks given a given time range and size
      * @param scan time scan to compact
-     * @throws Exception
+     * @throws Exception error contracting
      */
     public void contract(Scan scan) throws Exception {
 
@@ -200,6 +205,8 @@ public class Continuum implements Closeable {
 
     /**
      * Expand a continuum (universe)? from cold storage data
+     * @param reference incoming reference to add to this continuum
+     * @throws Exception error expanding
      */
     public void expand(Reference reference) throws Exception {
 

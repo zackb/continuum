@@ -12,6 +12,7 @@ public interface DB {
     /**
      * Write a datapoint to the time datastore
      * @param atom to write
+     * @throws Exception error writing atom
      */
     void write(Atom atom) throws Exception;
 
@@ -26,7 +27,10 @@ public interface DB {
     /**
      * Query: Execute a set of operations on a scan of time from the datastore
      * Blocking
-     * @return scan result including aggregate functions, date ranges, and groupings if applicatble
+     * @param scan description of the view of the slice
+     * @return Slice of atoms resulting from the scan
+     *          includes: aggregate functions, date ranges, and groupings if applicatble
+     * @throws Exception error reading or collecting atoms
      */
     Slice slice(Scan scan) throws Exception;
 
@@ -39,7 +43,7 @@ public interface DB {
 
     /**
      * Attempt to flush and close the datastore and free all resources
-     * @throws Exception
+     * @throws Exception error closing datastore
      */
     void close() throws Exception;
 }
