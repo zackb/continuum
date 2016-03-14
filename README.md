@@ -8,7 +8,9 @@ continuum is a JVM library for storing and analyzing large amounts of time based
  - Limited "database" server
 
 ## tl;dr
+<p align="center">
 ![alt tag](/docs/img/spacetime.png)
+<p>
 
 ## Building
 
