@@ -6,8 +6,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 /**
- * Directed, Acyclic graph
- *
+ * Undirected, Acyclic graph
  * Created by zack on 3/11/16.
  */
 public class Tree<V> implements Visitable<V> {

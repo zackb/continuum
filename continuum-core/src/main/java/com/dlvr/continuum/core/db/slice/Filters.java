@@ -6,14 +6,16 @@ import com.dlvr.continuum.db.slice.Filter;
 import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.except.ZiggyStardustError;
 
+import static com.dlvr.continuum.Continuum.Dimension;
+
 /**
  * Filters engine, factory, and utils
  * Created by zack on 2/12/16.
  */
 public class Filters {
-    public static Filter forSlice(Scan scan) {
+    public static Filter forSlice(Scan scan, Dimension dimension) {
         return and(
-            timestamp(Continuum.Dimension.SPACE /*WART!*/, scan.start(), scan.end()),
+            timestamp(dimension, scan.start(), scan.end()),
             name(scan.name()),
             particles(scan.particles())
         );
