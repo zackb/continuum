@@ -2,21 +2,21 @@ package com.dlvr.continuum;
 
 import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.core.atom.*;
-import com.dlvr.continuum.core.db.RockSlab;
-import com.dlvr.continuum.core.db.Slabs;
-import com.dlvr.continuum.core.db.slice.NScan;
-import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.DB;
-import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.db.Slab;
 import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.core.db.slice.NSlice;
+import com.dlvr.continuum.core.db.Slabs;
+import com.dlvr.continuum.core.db.RockSlab;
+import com.dlvr.continuum.core.db.RockDB;
+import com.dlvr.continuum.core.db.slice.NScan;
+import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.io.file.Reference;
 import com.dlvr.continuum.util.datetime.Interval;
@@ -401,11 +401,11 @@ public class Continuum implements Closeable {
             target.name = name;
         }
         public SliceBuilder value(Double value) {
-            target.values = (NValues)Continuum.values(value);
+            target.values = Continuum.values(value);
             return this;
         }
         public SliceBuilder values(Values values) {
-            target.values = (NValues)values;
+            target.values = values;
             return this;
         }
         public SliceBuilder atoms(List<Atom> atoms) {
