@@ -202,7 +202,7 @@ public class ContinuumTest {
             );
 
             assertNotNull(result);
-            assertEquals("hist", result.name());
+            assertEquals("interval", result.name());
             assertEquals(2, result.slices().size());
 
             assertEquals(1.0, result.slices().get(0).values().value(), 0);
