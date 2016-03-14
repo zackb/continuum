@@ -3,6 +3,7 @@ package com.dlvr.continuum.rest.http;
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
+import com.dlvr.continuum.core.db.slice.NSlice;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.Slice;

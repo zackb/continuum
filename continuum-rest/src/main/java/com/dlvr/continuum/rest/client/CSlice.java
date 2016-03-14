@@ -6,6 +6,7 @@ import com.dlvr.continuum.core.atom.NValues;
 import com.dlvr.continuum.core.atom.SAtom;
 import com.dlvr.continuum.db.slice.Slice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,21 +42,39 @@ public class CSlice implements Slice {
     }
 
     @Override
-    public void addChild(Slice slice) { }
+    public Slice add(Slice slice) {
+        if (children == null) children = new ArrayList<>();
+        children.add(slice);
+        return slice;
+    }
 
     @Override
-    public Slice getChild(String name) {
-        for (Slice slice: children) {
-            if (slice.name().equals(name)) {
+    public Slice remove(Slice slice) {
+        if (children != null)
+            children.remove(slice);
+        return slice;
+    }
+
+    @Override
+    public Slice child(String name) {
+
+        if (children == null) return null;
+
+        for (Slice slice : children)
+            if (slice.name().equals(name))
                 return slice;
-            }
-        }
+
         return null;
     }
 
     @Override
-    public Slice getChild(int i) {
+    public Slice child(int i) {
         return children.get(i);
+    }
+
+    @Override
+    public List<Slice> children() {
+        return children;
     }
 
     @Override
