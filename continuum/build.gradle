@@ -34,7 +34,7 @@ dependencies {
     compile 'com.dlvr:continuum-rest:+'
 
     testCompile 'org.codehaus.groovy:groovy-test:2.5+'
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'junit', name: 'junit', version: '4+'
 }
 
 
