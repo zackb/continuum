@@ -17,10 +17,6 @@ dependencies {
     // Continuum core
     compile 'com.dlvr:continuum-core:+'
 
-    // DLVR Common
-    compile 'com.dlvr.common:dlvr-common-lib:1.+'
-
-
     // RxNetty
     compile 'io.reactivex:rxnetty:0.4.+'
 

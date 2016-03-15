@@ -7,7 +7,7 @@ import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.Slice;
-import com.dlvr.net.http.HTTP;
+import com.dlvr.continuum.rest.http.HTTP;
 
 import java.util.HashMap;
 import java.util.Map;
