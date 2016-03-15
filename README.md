@@ -61,4 +61,4 @@ Javadocs [available on the web](https://zackb.github.io/continuum/javadoc/)
  - cluserting (master-master replication)
 
 ## Maintainer
-Zack Bartel `zack@bartel.com` [zackbartel.com](zackbartel.com)
+Zack Bartel `zack@bartel.com` [zackbartel.com](http://zackbartel.com)
