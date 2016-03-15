@@ -60,7 +60,7 @@ public class ContinuumTest {
             // auto assigned timestamp if not supplied
             long diff = Math.abs(atom.timestamp() - time);
 
-            assertTrue(diff < 0.2);
+            assertTrue(diff < 5);
 
             continuum.write(atom);
 

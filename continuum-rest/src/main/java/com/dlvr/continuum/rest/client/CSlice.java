@@ -56,7 +56,7 @@ public class CSlice implements Slice {
     }
 
     @Override
-    public Slice child(String name) {
+    public Slice slice(String name) {
 
         if (children == null) return null;
 
@@ -68,13 +68,8 @@ public class CSlice implements Slice {
     }
 
     @Override
-    public Slice child(int i) {
+    public Slice slice(int i) {
         return children.get(i);
-    }
-
-    @Override
-    public List<Slice> children() {
-        return children;
     }
 
     @Override
