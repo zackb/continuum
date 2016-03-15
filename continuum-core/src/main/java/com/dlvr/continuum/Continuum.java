@@ -134,8 +134,12 @@ public class Continuum implements Closeable {
         return fields(fields);
     }
 
-    public static ScanBuilder scan(String name) {
-        return new ScanBuilder(name);
+    public static ScanBuilder scan() {
+        return new ScanBuilder();
+    }
+
+    public ScanBuilder scan(String name) {
+        return new ScanBuilder(name).dimension(dimension);
     }
 
     public static SliceBuilder result(String name) {
@@ -256,7 +260,6 @@ public class Continuum implements Closeable {
         return null;
     }
 
-    // TODO: Dont even need this? atom.id knows what to do
     public static Builder series() {
         return new Builder().dimension(Dimension.SPACE);
     }
@@ -266,7 +269,7 @@ public class Continuum implements Closeable {
     }
 
     public static class Builder {
-        private Dimension dimension = Dimension.TIME;
+        private Dimension dimension = null;
         private List<FileSystemReference> base = new ArrayList<>();
         private String name = "continuum";
         public Builder name(String name) {
@@ -384,6 +387,10 @@ public class Continuum implements Closeable {
         ScanBuilder(String name) {
             target.start = System.currentTimeMillis();
             target.name = name;
+        }
+        public ScanBuilder name(String name) {
+            target.name = name;
+            return this;
         }
         public ScanBuilder start(long start) {
             target.start = start;

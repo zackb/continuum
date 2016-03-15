@@ -35,7 +35,7 @@ public class ScanTest {
 
             // average over two days
             Slice slice = continuum.slice(
-                    scan("temp")
+                    continuum.scan("temp")
                             .function(Function.AVG)
                             .end(Interval.valueOf("2d"))
                         .build());
@@ -49,7 +49,7 @@ public class ScanTest {
 
             // average over two days grouped by country, state
             slice = continuum.slice(
-                    scan("temp")
+                    continuum.scan("temp")
                             .function(Function.AVG)
                             .group("country", "state")
                             .end(Interval.valueOf("2d"))

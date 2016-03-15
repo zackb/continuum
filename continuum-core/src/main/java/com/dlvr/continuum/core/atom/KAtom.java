@@ -9,6 +9,9 @@ import com.dlvr.continuum.db.AtomID;
  */
 public class KAtom extends NAtom {
 
+    // for serde
+    public KAtom() { }
+
     public KAtom(String name, NParticles particles, long timestamp, NFields fields, NValues values) {
         super(name, particles, timestamp, fields, values);
     }

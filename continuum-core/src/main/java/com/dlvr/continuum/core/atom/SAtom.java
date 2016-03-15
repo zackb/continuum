@@ -9,6 +9,7 @@ import com.dlvr.continuum.db.AtomID;
  */
 public class SAtom extends NAtom {
 
+    // for serde
     public SAtom() { }
 
     public SAtom(String name, NParticles particles, long timestamp, NFields fields, NValues values) {
