@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RockDB.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">continuum-core</a> &gt; <a href="index.source.html" class="el_package">com.dlvr.continuum.core.db</a> &gt; <span class="el_source">RockDB.java</span></div><h1>RockDB.java</h1><pre class="source lang-java linenums">package com.dlvr.continuum.core.db;
+
+import com.dlvr.continuum.core.db.slice.Filters;
+import com.dlvr.continuum.core.io.file.FileSystemReference;
+import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.db.*;
+import com.dlvr.continuum.db.slice.Filter;
+import com.dlvr.continuum.db.slice.Scan;
+import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.core.db.slice.Collectors;
+import com.dlvr.continuum.db.slice.Collector;
+import com.dlvr.continuum.except.ZiggyStardustError;
+import com.dlvr.continuum.util.Bytes;
+import static com.dlvr.continuum.Continuum.*;
+
+/**
+ * DB implemented with RocksDB
+ */
+public class RockDB implements DB {
+
+    private final Slab rock;
+    private final Dimension dimension;
+
+<span class="fc" id="L24">    public RockDB(Dimension dimension, Slab slab) {</span>
+<span class="fc" id="L25">        this.dimension = dimension;</span>
+<span class="fc" id="L26">        this.rock = slab;</span>
+<span class="fc" id="L27">    }</span>
+
+<span class="fc" id="L29">    public RockDB(Dimension dimension, String name, FileSystemReference base) throws Exception {</span>
+<span class="fc" id="L30">        this.dimension = dimension;</span>
+<span class="fc" id="L31">        rock = new RockSlab(name + &quot;.db&quot;, base);</span>
+<span class="fc" id="L32">    }</span>
+
+    @Override
+    public void write(Atom atom) throws Exception {
+<span class="fc" id="L36">        rock.put(atom.ID().bytes(), Bytes.bytes(atom));</span>
+<span class="fc" id="L37">    }</span>
+
+    public Atom get(AtomID id) throws Exception {
+<span class="fc" id="L40">        return Bytes.Atom(rock.get(id.bytes()), dimension);</span>
+    }
+
+    /**
+     * TODO: Remove particles from body (just fields, tags are in the id)
+     * Decode atom from slab storage
+     * @param bytes encoded with {#values(Atom)}
+     * @return
+     */
+    static Atom decodeAtom(byte[] bytes, Dimension dimension) {
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        if (dimension == Dimension.TIME) {</span>
+<span class="nc" id="L51">            return Bytes.KAtom(bytes);</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        } else if (dimension == Dimension.SPACE) {</span>
+<span class="fc" id="L53">            return Bytes.SAtom(bytes);</span>
+        }
+<span class="nc" id="L55">        throw new ZiggyStardustError();</span>
+    }
+
+    @Override
+    public Slice slice(Scan scan) {
+<span class="fc" id="L60">        Iterator itr = null;</span>
+<span class="fc" id="L61">        Collector collector = Collectors.forSlice(scan);</span>
+<span class="fc" id="L62">        Filter filter = Filters.forSlice(scan, dimension); // TODO: filter fields and values</span>
+        try {
+<span class="fc" id="L64">            itr = iterator();</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">            ID id = dimension == Dimension.SPACE ? scan.SpaceID() : scan.TimeID();</span>
+<span class="fc" id="L66">            itr.seek(id.bytes());</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            while (itr.hasNext()) {</span>
+<span class="fc" id="L68">                Atom atom = itr.get();</span>
+<span class="fc" id="L69">                Filter.Action action = filter.filter(atom);</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">                if (action == Filter.Action.CONTINUE)</span>
+<span class="fc" id="L71">                    collector.collect(atom);</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">                else if (action == Filter.Action.STOP)</span>
+<span class="fc" id="L73">                    break;</span>
+<span class="fc" id="L74">                itr.next();</span>
+<span class="fc" id="L75">            }</span>
+        } finally {
+<span class="pc bpc" id="L77" title="3 of 4 branches missed.">            if (itr != null) itr.close();</span>
+        }
+
+<span class="fc" id="L80">        return collector.result();</span>
+    }
+
+    @Override
+    public Iterator iterator() {
+<span class="fc" id="L85">        return new RockIterator(dimension, getSlab());</span>
+    }
+
+    @Override
+    public void close() throws Exception {
+<span class="fc" id="L90">        rock.close();</span>
+<span class="fc" id="L91">    }</span>
+
+    public RockSlab getSlab() {
+<span class="fc" id="L94">        return (RockSlab)rock;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
