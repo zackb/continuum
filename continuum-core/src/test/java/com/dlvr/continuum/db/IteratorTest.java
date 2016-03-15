@@ -2,8 +2,6 @@ package com.dlvr.continuum.db;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Particles;
-import com.dlvr.continuum.db.AtomID;
-import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.core.db.RockDB;
 import org.junit.Test;
@@ -73,7 +71,7 @@ public class IteratorTest {
         } while (itr.next());
         itr.close();
         db.close();
-        db.getSlab().getReference().delete();
+        db.slab().reference().delete();
         assertEquals(2, i);
     }
 }

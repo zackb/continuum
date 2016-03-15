@@ -14,7 +14,7 @@ import com.dlvr.continuum.util.Bytes;
 import static com.dlvr.continuum.Continuum.*;
 
 /**
- * DB implemented with RocksDB
+ * rockdDB implemented with RocksDB
  */
 public class RockDB implements DB {
 
@@ -82,7 +82,7 @@ public class RockDB implements DB {
 
     @Override
     public Iterator iterator() {
-        return new RockIterator(dimension, getSlab());
+        return new RockIterator(dimension, slab());
     }
 
     @Override
@@ -90,7 +90,7 @@ public class RockDB implements DB {
         rock.close();
     }
 
-    public RockSlab getSlab() {
+    public RockSlab slab() {
         return (RockSlab)rock;
     }
 }

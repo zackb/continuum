@@ -117,7 +117,7 @@ public class ContinuumTest {
 
             Slice slice = continuum.slice(
                             continuum.scan("user123")
-                                .end(Interval.valueOf("1d"))
+                                    .start(System.currentTimeMillis() + 1)
                                 .build());
 
             assertEquals(2, slice.atoms().size());

@@ -60,6 +60,6 @@ public class DBTest {
         Double avg = res.values().value();
         assertEquals((12346555.0000000000D + 98898.124D)/ 2, avg, 0.00001);
         db.close();
-        db.getSlab().getReference().delete();
+        db.slab().reference().delete();
     }
 }

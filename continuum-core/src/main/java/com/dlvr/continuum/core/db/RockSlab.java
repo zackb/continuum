@@ -43,7 +43,7 @@ public class RockSlab implements Slab {
         rock.merge(key, value);
     }
 
-    RocksDB getRocksDB() {
+    RocksDB rockdDB() {
         return this.rock;
     }
 
@@ -55,7 +55,7 @@ public class RockSlab implements Slab {
         closed = true;
     }
 
-    public FileSystemReference getReference() {
+    public FileSystemReference reference() {
         return dataDirRef;
     }
 

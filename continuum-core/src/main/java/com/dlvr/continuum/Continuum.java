@@ -380,12 +380,15 @@ public class Continuum implements Closeable {
     }
 
     public static class ScanBuilder {
+
         private final NScan target = new NScan();
+
         private ScanBuilder() {
-            target.start = System.currentTimeMillis();
+            this(null);
         }
         ScanBuilder(String name) {
             target.start = System.currentTimeMillis();
+            target.end = target.start - Interval.valueOf("2d").millis();
             target.name = name;
         }
         public ScanBuilder name(String name) {

@@ -20,7 +20,7 @@ public class RockIterator implements Iterator {
 
     RockIterator(Continuum.Dimension dimension, RockSlab slab) {
         this.dimension = dimension;
-        this.it = slab.getRocksDB().newIterator();
+        this.it = slab.rockdDB().newIterator();
     }
 
     @Override
@@ -65,13 +65,11 @@ public class RockIterator implements Iterator {
 
     @Override
     public boolean next() {
-        it.next();
-        return hasNext();
-    }
+        if (dimension == Continuum.Dimension.TIME)
+            it.prev();
+        else
+            it.next();
 
-    @Override
-    public boolean prev() {
-        it.prev();
         return hasNext();
     }
 

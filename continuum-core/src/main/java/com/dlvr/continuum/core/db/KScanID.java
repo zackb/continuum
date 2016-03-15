@@ -19,7 +19,7 @@ public class KScanID implements ScanID {
     private final String name;
     private final Particles particles;
 
-    public KScanID(double start, String name, Particles particles) {
+    public KScanID(long start, String name, Particles particles) {
         this.name = name;
         this.particles = particles();
 
