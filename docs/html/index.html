@@ -73,11 +73,12 @@
 <h2>
 <a id="goals" class="anchor" href="#goals" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project Goals</h2>
 <ul>
-    <li>Use memory mapped files and log-structured-merge trees (LSM) to store, retreive, and analyze time-based data</li>
-    <li>Leverage existing underlying core technologies like RocksDB, LevelDB, BerkeleyDB and similar datastores</li>
-    <li>Employ time-to-live (TTL) or downsampling (RRD) to efficeintly use disk space</li>
-    <li>A continuous, scalable infintie time-based data stream by incorporating data windowing, downsampling, or both</li>
-    <li>Utilize TWO specialized schema designs for time series data and time key value data</li>
+    <li>200k writes per second forever on commodity hardware</li>
+    <li>Memory mapped files, Log-Structured-Merge trees for storage and retreival</li>
+    <li>Leverage existing technologies: RocksDB, LevelDB, BerkeleyDB</li>
+    <li>Downsample for disk space efficiency</li>
+    <li>Continuous, scalable, infinite time data stream using windowing, downsampling, or both</li>
+    <li>Specialized schema design for time series and time key data</li>
 </ul>
 
 <h3>Atom</h3>
@@ -88,7 +89,7 @@
 <p>Space/Time: Analysis, Dashboard/UI</p>
 <ul>
     <li>Small number of unique time series with very large data volume (millions to trillions)</li>
-    <li>Infinite storage using retention policies and data downsampling (RRDTool, Whisper, InfluxDB inspired)</li>
+    <li>Infinite storage using retention policies and downsampling (RRDTool, Whisper, InfluxDB inspired)</li>
     <li>Downsampling OK</li>
     <li>Example: "Realtime" performance metrics, measurements of cpu, or weather temperature readings over time</li>
 </ul>
@@ -98,10 +99,9 @@
 <p>Time/key:value: User Session and Session Metrics</p>
 <ul>
     <li>Large number of unique keys with smaller amount of data (10s to 1000s)</li>
-    <li>For aggregating small amounts of data into buckets by a unique key</li>
-    <li>Age out over time</li>
-    <li>Stream</li>
-    <li>Fast data: hot, open sets of newest data</li>
+    <li>For aggregating data by a unique key</li>
+    <li>Stream to cold storage over time</li>
+    <li>Fast data (SSD): hot, newest data</li>
     <li>Slow data: rolling window of data through ColdStorage (S3, Hadoop, NAS)</li>
     <li>Example: "Realtime" analytics data events grouped by session or user id</li>
 </ul>
@@ -161,7 +161,7 @@
 <h2>
 <a id="hacking" class="anchor" href="#hacking" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hacking</h2>
 
-<p>We'd love contributions. For now please <a href="https://github.com/zackb/continuum/issues">open an issue</a> or <a href="https://twitter.com/zackb">contact me</a></p>
+<p>We love contributions. For now please <a href="https://github.com/zackb/continuum/issues">open an issue</a> or <a href="https://twitter.com/zackb">contact me</a></p>
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/zackb/continuum">Continuum</a> is maintained by <a href="https://github.com/zackb">zackb</a></span>
         <span class="site-footer-credits">Copyright <a href="http://dlvr.com">DLVR</a></span>
