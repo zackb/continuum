@@ -6,6 +6,7 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.universe.Earthling;
 import com.dlvr.continuum.util.datetime.Interval;
 import org.junit.Test;
 
@@ -44,13 +45,31 @@ public class ContinuumTest {
         Continuum continuum = null;
         try {
             continuum = Continuum.continuum()
+                    .dimension(Continuum.Dimension.SPACE)
                     .name("testWriteRead")
                     .base(reference)
                     .open();
 
-            Atom atom = Continuum.satom().name("test1")
-                    .build();
+            long time = System.currentTimeMillis();
+            Atom atom = continuum
+                            .atom()
+                            .name("test1")
+                            .value(1.2)
+                            .build();
 
+            long diff = Math.abs(atom.timestamp() - time);
+
+            assertTrue(diff < 0.1);
+
+            continuum.write(atom);
+
+            atom = continuum.get(atom.ID());
+            assertEquals("test1", atom.name());
+            assertEquals(1.2, atom.values().value(), 0.0);
+            assertEquals(1.2, atom.values().max(), 0.0);
+            assertEquals(1.2, atom.values().min(), 0.0);
+            assertEquals(1, atom.values().count(), 0);
+            assertEquals(1.2, atom.values().sum(), 0.0);
         } finally {
             if (continuum != null) continuum.delete();
         }

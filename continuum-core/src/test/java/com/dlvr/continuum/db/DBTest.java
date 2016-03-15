@@ -1,9 +1,8 @@
-package com.dlvr.continuum.db.db;
+package com.dlvr.continuum.db;
 
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.core.db.RockDB;
-import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.util.datetime.Interval;

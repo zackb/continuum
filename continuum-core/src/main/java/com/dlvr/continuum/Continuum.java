@@ -4,6 +4,7 @@ import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
+import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.db.Slab;
 import com.dlvr.continuum.db.slice.Collector;
@@ -173,6 +174,16 @@ public class Continuum implements Closeable {
      */
     public void write(Atom atom) throws Exception {
         db().write(atom);
+    }
+
+    /**
+     * Retreive a single atom by id from the datastore
+     * @param id to retrieve for
+     * @return atom for given id or null if not exist
+     * @throws Exception on underlying slabs failure
+     */
+    Atom get(AtomID id) throws Exception {
+        return db().get(id);
     }
 
     /**

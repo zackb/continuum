@@ -1,4 +1,4 @@
-package com.dlvr.continuum.db.db;
+package com.dlvr.continuum.db;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.core.db.KAtomID;
