@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Tree structured results from a db scan
  */
-<span class="nc" id="L13">public class NSlice implements Slice {</span>
+<span class="fc" id="L13">public class NSlice implements Slice {</span>
 
     public String name;
     public Values values;
@@ -20,29 +20,29 @@ import java.util.List;
 
     @Override
     public String name() {
-<span class="nc" id="L23">        return name;</span>
+<span class="fc" id="L23">        return name;</span>
     }
 
     @Override
     public Values values() {
-<span class="nc" id="L28">        return values;</span>
+<span class="fc" id="L28">        return values;</span>
     }
 
     @Override
     public List&lt;Slice&gt; slices() {
-<span class="nc" id="L33">        return children;</span>
+<span class="fc" id="L33">        return children;</span>
     }
 
     @Override
     public List&lt;Atom&gt; atoms() {
-<span class="nc" id="L38">        return atoms;</span>
+<span class="fc" id="L38">        return atoms;</span>
     }
 
     @Override
     public Slice add(Slice result) {
-<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (children == null) children = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L44">        children.add(result);</span>
-<span class="nc" id="L45">        return result;</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (children == null) children = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L44">        children.add(result);</span>
+<span class="fc" id="L45">        return result;</span>
     }
 
     @Override
@@ -54,17 +54,17 @@ import java.util.List;
 
     @Override
     public Slice slice(String name) {
-<span class="nc bnc" id="L57" title="All 2 branches missed.">        for (Slice res : children) {</span>
-<span class="nc bnc" id="L58" title="All 2 branches missed.">            if (res.name().equals(name)) {</span>
-<span class="nc" id="L59">                return res;</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        for (Slice res : children) {</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            if (res.name().equals(name)) {</span>
+<span class="fc" id="L59">                return res;</span>
             }
-<span class="nc" id="L61">        }</span>
+<span class="fc" id="L61">        }</span>
 <span class="nc" id="L62">        return null;</span>
     }
 
     @Override
     public Slice slice(int idx) {
-<span class="nc" id="L67">        return children.get(idx);</span>
+<span class="fc" id="L67">        return children.get(idx);</span>
     }
 
     @Override

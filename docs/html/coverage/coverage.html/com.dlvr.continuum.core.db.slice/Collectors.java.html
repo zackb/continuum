@@ -14,12 +14,12 @@ import com.dlvr.continuum.util.datetime.Interval;
 
 <span class="fc" id="L15">        Collector collector = null;</span>
 
-<span class="pc bpc" id="L17" title="1 of 2 branches missed.">        if (scan.groups() != null)</span>
-<span class="nc" id="L18">            collector = group(</span>
-<span class="nc" id="L19">                scan.name(),</span>
-<span class="nc" id="L20">                scan.groups(),</span>
-<span class="nc" id="L21">                scan.interval(),</span>
-<span class="nc" id="L22">                scan.function()</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">        if (scan.groups() != null)</span>
+<span class="fc" id="L18">            collector = group(</span>
+<span class="fc" id="L19">                scan.name(),</span>
+<span class="fc" id="L20">                scan.groups(),</span>
+<span class="fc" id="L21">                scan.interval(),</span>
+<span class="fc" id="L22">                scan.function()</span>
             );
 <span class="fc bfc" id="L24" title="All 2 branches covered.">        else if (scan.interval() != null)</span>
 <span class="fc" id="L25">            collector = interval(</span>
@@ -45,7 +45,7 @@ import com.dlvr.continuum.util.datetime.Interval;
      * @return new grouping collector
      */
     public static GroupCollector group(String name, String[] groups, Interval interval, Function function) {
-<span class="nc" id="L48">        return new GroupCollector(name, groups, interval, function);</span>
+<span class="fc" id="L48">        return new GroupCollector(name, groups, interval, function);</span>
     }
 
     /**
@@ -94,7 +94,7 @@ import com.dlvr.continuum.util.datetime.Interval;
      * @return new values collector
      */
     public static ValuesCollector values(String name, Function function) {
-<span class="nc" id="L97">        return new ValuesCollector(name, function);</span>
+<span class="fc" id="L97">        return new ValuesCollector(name, function);</span>
     }
 
     /**

@@ -414,8 +414,8 @@ public class Continuum implements Closeable {
 <span class="nc" id="L414">            return this;</span>
         }
         public ScanBuilder group(String... groups) {
-<span class="nc" id="L417">            target.groups = groups;</span>
-<span class="nc" id="L418">            return this;</span>
+<span class="fc" id="L417">            target.groups = groups;</span>
+<span class="fc" id="L418">            return this;</span>
         }
         public ScanBuilder particles(Map&lt;String, String&gt; particles) {
 <span class="nc" id="L421">            target.particles = Continuum.particles(particles);</span>
@@ -461,8 +461,8 @@ public class Continuum implements Closeable {
 <span class="fc" id="L461">            return this;</span>
         }
         public SliceBuilder children(List&lt;Slice&gt; children) {
-<span class="nc" id="L464">            target.children = children;</span>
-<span class="nc" id="L465">            return this;</span>
+<span class="fc" id="L464">            target.children = children;</span>
+<span class="fc" id="L465">            return this;</span>
         }
         public SliceBuilder timestamp(long timestamp) {
 <span class="fc" id="L468">            target.timestamp = timestamp;</span>
