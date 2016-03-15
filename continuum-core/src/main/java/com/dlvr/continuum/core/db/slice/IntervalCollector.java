@@ -43,7 +43,7 @@ public class IntervalCollector implements Collector {
         if (timestamp == 0L) timestamp = atom.timestamp();
 
         long ts = atom.timestamp();
-        long bucket = ts - (ts % interval.toMillis());
+        long bucket = ts - (ts % interval.millis());
 
         if (collectors.get(bucket) == null) collectors.put(bucket, Collectors.values(function));
 

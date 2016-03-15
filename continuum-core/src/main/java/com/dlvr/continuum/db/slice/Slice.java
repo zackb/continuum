@@ -11,12 +11,15 @@ import java.util.List;
 public interface Slice {
     String name();
     Values values();
-    List<Slice> slices();
     List<? extends Atom> atoms();
+    long timestamp();
+    List<Slice> slices();
+    Slice slice(String name);
+    Slice slice(int idx);
+
+    /**
+     * TODO JAVADOC
+     */
     Slice add(Slice result);
     Slice remove(Slice result);
-    Slice child(String name);
-    Slice child(int idx);
-    List<Slice> children();
-    long timestamp();
 }

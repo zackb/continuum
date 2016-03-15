@@ -50,6 +50,10 @@ public class Continuum implements Closeable {
         return new AtomBuilder().dimension(dimension);
     }
 
+    public AtomBuilder atom(String name) {
+        return new AtomBuilder().dimension(dimension).name(name);
+    }
+
     public static AtomBuilder satom() {
         return new AtomBuilder().dimension(Dimension.SPACE);
     }
@@ -339,6 +343,10 @@ public class Continuum implements Closeable {
             this.particles = (NParticles)Continuum.particles(particles);
             return this;
         }
+        public AtomBuilder particles(String... particles) {
+            this.particles = (NParticles)Continuum.particles(particles);
+            return this;
+        }
         public AtomBuilder fields(Fields fields) {
             this.fields = (NFields)fields;
             return this;
@@ -382,7 +390,7 @@ public class Continuum implements Closeable {
             return this;
         }
         public ScanBuilder start(Interval start) {
-            target.start = System.currentTimeMillis() - start.toMillis();
+            target.start = System.currentTimeMillis() - start.millis();
             return this;
         }
         public ScanBuilder end(long end) {
@@ -390,7 +398,7 @@ public class Continuum implements Closeable {
             return this;
         }
         public ScanBuilder end(Interval end) {
-            target.end = System.currentTimeMillis() - end.toMillis();
+            target.end = System.currentTimeMillis() - end.millis();
             return this;
         }
         public ScanBuilder interval(Interval interval) {

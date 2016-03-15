@@ -51,7 +51,7 @@ public class Interval {
         return new Interval(unit, count);
     }
 
-    public long toSeconds() {
+    public long seconds() {
         long secs = count;
         switch (unit) {
             case MILLISECOND:
@@ -81,7 +81,7 @@ public class Interval {
         return secs;
     }
 
-    public long toMillis() {
+    public long millis() {
         long millis = count;
         switch (unit) {
             case MILLISECOND:
@@ -112,7 +112,7 @@ public class Interval {
     }
 
     public long epoch() {
-        return Util.now() - toMillis();
+        return Util.now() - millis();
     }
 
     @Override

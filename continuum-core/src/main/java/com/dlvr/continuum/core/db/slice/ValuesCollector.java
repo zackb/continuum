@@ -60,7 +60,7 @@ public class ValuesCollector implements Collector {
     }
 
     public double stddev() {
-        throw new Error("Not implemented");
+        throw new Error("Not implemented: " + function);
     }
 
     public double sum() {

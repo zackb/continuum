@@ -44,6 +44,6 @@ public class Util {
     }
 
     public static long unixTimeAgo(Interval interval) {
-        return now() - interval.toSeconds();
+        return now() - interval.seconds();
     }
 }

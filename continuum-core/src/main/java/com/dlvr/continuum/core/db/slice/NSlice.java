@@ -53,7 +53,7 @@ public class NSlice implements Slice {
     }
 
     @Override
-    public Slice child(String name) {
+    public Slice slice(String name) {
         for (Slice res : children) {
             if (res.name().equals(name)) {
                 return res;
@@ -63,13 +63,8 @@ public class NSlice implements Slice {
     }
 
     @Override
-    public Slice child(int idx) {
+    public Slice slice(int idx) {
         return children.get(idx);
-    }
-
-    @Override
-    public List<Slice> children() {
-        return children;
     }
 
     @Override
