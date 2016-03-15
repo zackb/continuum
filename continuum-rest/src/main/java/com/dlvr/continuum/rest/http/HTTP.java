@@ -134,7 +134,8 @@ public class HTTP {
     public static <T> T getJSONObject(String url, Class<T> clazz) throws Exception {
         Request request = new Request()
                 .url(url)
-                .headers(JSON_CONTENT_TYPE);
+                .headers(JSON_CONTENT_TYPE)
+                .method("GET");
         return JSON.decodeObject(get(request), clazz);
     }
 

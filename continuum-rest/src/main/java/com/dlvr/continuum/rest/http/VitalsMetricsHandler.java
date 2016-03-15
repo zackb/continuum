@@ -1,6 +1,6 @@
 package com.dlvr.continuum.rest.http;
 
-import com.dlvr.util.Metrics;
+import com.dlvr.continuum.util.Metrics;
 
 import java.util.Map;
 
