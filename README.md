@@ -29,7 +29,7 @@ continuum is a JVM library for storing and analyzing large amounts of time based
 		</dependency>
 ```
 
-Javadocs [available on the web](https://zackb.github.io/continuum/javadoc/)
+Javadocs [available on the web](http://continuum.zackbartel.com/javadoc/)
 
 ##Goals
 1. Use memory mapped files and log-structured-merge trees (LSM) to efficienty store, retreive, and analyze large amounts of time-based data.
