@@ -1,7 +1,2 @@
 #Continuum streaming replication
-Enable read replica slaves
-
-#TODO
-
-###Streaming
- - RocksDB Snapshots and pruning?
+Streaming master/slave and master/master replication
