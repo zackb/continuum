@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Continuum</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <p align="center"><img width="200px" src="img/logo.png"><p>
+      <h1 class="project-name">Continuum</h1>
+      <h2 class="project-tagline">A range or series of things that are slightly different from each other and that exist between two different possibilities</h2>
+      <a href="https://github.com/zackb/continuum" class="btn">View on GitHub</a>
+      <a href="https://github.com/zackb/continuum/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/zackb/continuum/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h2>
+<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Continuum</h2>
+
+<p>A JVM library for storing and analyzing large amounts of time based data</p>
+<i>Includes:</i>
+<ul>
+    <li>
+        <a href="javadoc">Core Library</a>
+        <ul>
+            <li><a href="coverage">tested</a></li>
+            <li>storage, retreival, and analysis of time data</li>
+        </ul>
+    </li>
+    <li><a href="rest">REST Interface</a></li>
+    <li>Streaming backup/restore</li>
+    <li>Replication
+        <ul>
+            <li>master/slave</li>
+            <li>master/master</li>
+        </ul>
+    </li>
+</ul>
+
+<p align="center"><img src="img/spacetime.png"><p>
+
+<h2>
+<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project Goals</h2>
+<ul>
+    <li>Use memory mapped files and log-structured-merge trees (LSM) to store, retreive, and analyze time-based data</li>
+    <li>Leverage existing underlying core technologies like RocksDB, LevelDB, BerkeleyDB and similar datastores</li>
+    <li>Employ time-to-live (TTL) or downsampling (RRD) to efficeintly use disk space</li>
+    <li>A continuous, scalable infintie time-based data stream by incorporating data windowing, downsampling, or both</li>
+    <li>Utilize TWO specialized schema designs for time series data and time key value data</li>
+</ul>
+
+<h3>Atom</h3>
+<p align="center"><img src="img/atom.png"><p>
+
+<h2>
+<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Time Series</h2>
+<p>Space/Time: Analysis, Dashboard/UI</p>
+<ul>
+    <li>Small number of unique time series with very large data volume (millions to trillions)</li>
+    <li>Infinite storage using retention policies and data downsampling (RRDTool, Whisper, InfluxDB inspired)</li>
+    <li>Downsampling OK</li>
+    <li>Example: "Realtime" performance metrics, measurements of cpu, or weather temperature readings over time</li>
+</ul>
+
+<h2>
+<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Time Key Value</h2>
+<p>Time/key:value: User Session and Session Metrics</p>
+<ul>
+    <li>Large number of unique keys with smaller amount of data (10s to 1000s)</li>
+    <li>For aggregating small amounts of data into buckets by a unique key</li>
+    <li>Age out over time</li>
+    <li>Stream</li>
+    <li>Fast data: hot, open sets of newest data</li>
+    <li>Slow data: rolling window of data through ColdStorage (S3, Hadoop, NAS)</li>
+    <li>Example: "Realtime" analytics data events grouped by session or user id</li>
+</ul>
+
+<h3>API</h3>
+<p><img src="img/jar.png"><p>
+<p><img src="img/api.png"><p>
+
+<h2>
+<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Scaling</h2>
+<ul>
+    <li>Add disks</li>
+    <li>Cold online backup (backup/restore)</li>
+    <li>Hot online backup(s) (read-only replication)</li>
+    <li>Application level sharding by key or time</li>
+    <li>Cluserting (master-master replication)</li>
+</ul>
+
+<h2>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors</h2>
+
+<p>Zack Bartel (<a href="http://zackbartel.com" class="user-mention">@zackb</a>), and Matt Johnson (<a href="https://github.com/mj-dlvr" class="user-mention">@mj-dlvr</a>) work on Continuum.</p>
+
+<h2>
+<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hacking</h2>
+
+<p>We'd love contributions. For now please <a href="https://github.com/zackb/continuum/issues">open an issue</a> or <a href="https://twitter.com/zackb">contact me</a></p>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/zackb/continuum">Continuum</a> is maintained by <a href="https://github.com/zackb">zackb</a></span>
+        <span class="site-footer-credits">Copyright <a href="http://dlvr.com">DLVR</a></span>
+      </footer>
+    </section>
+  </body>
+</html>
