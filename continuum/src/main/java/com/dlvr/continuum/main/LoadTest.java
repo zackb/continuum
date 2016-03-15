@@ -27,12 +27,12 @@ public class LoadTest {
     private final TimerTask reader = new MetricTimer().schedule(() -> {
         try {
             Metrics.time("read", () -> {
-                    continuum.db().slice(
-                            Continuum.scan("series" + Maths.randInt(0, 100))
-                                    .function(Function.AVG)
-                                    .interval(Interval.valueOf("1m"))
-                                    .build()
-                    );
+                continuum.db().slice(
+                    Continuum.scan("series" + Maths.randInt(0, 100))
+                            .function(Function.AVG)
+                            .interval(Interval.valueOf("1m"))
+                            .build()
+                );
                 return null;
             });
         } catch (Exception e) {
