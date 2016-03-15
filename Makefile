@@ -27,5 +27,8 @@ docs:
 	cp -r $(CORE)/build/reports/tests docs/html/
 	cp -r $(CORE)/build/coverage.html docs/html/coverage/
 	mkdir -p docs/html/rest
-	cp -r $(REST)/media/ docs/html/rest/
+	cp -r $(REST)/media docs/html/rest/
 	cp -r $(REST)/README.html docs/html/rest/index.html
+
+deploydocs: docs
+	rsync -aurv docs/html/ zackbart@zackbartel.com:~/web/continuum/
