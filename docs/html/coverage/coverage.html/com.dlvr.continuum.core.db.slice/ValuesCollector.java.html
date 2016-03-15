@@ -15,32 +15,32 @@ import com.dlvr.continuum.util.Strings;
 public class ValuesCollector implements Collector {
 
     private final String name;
-<span class="fc" id="L18">    private double max = Double.MIN_VALUE;</span>
-<span class="fc" id="L19">    private double min = Double.MAX_VALUE;</span>
-<span class="fc" id="L20">    private long count = 0;</span>
-<span class="fc" id="L21">    private double sum = 0.0d;</span>
+<span class="nc" id="L18">    private double max = Double.MIN_VALUE;</span>
+<span class="nc" id="L19">    private double min = Double.MAX_VALUE;</span>
+<span class="nc" id="L20">    private long count = 0;</span>
+<span class="nc" id="L21">    private double sum = 0.0d;</span>
 
     private final Function function;
-<span class="fc" id="L24">    private long timestamp = 0L;</span>
+<span class="nc" id="L24">    private long timestamp = 0L;</span>
 
     public ValuesCollector(Function function) {
-<span class="fc" id="L27">        this(&quot;values&quot;, function);</span>
-<span class="fc" id="L28">    }</span>
+<span class="nc" id="L27">        this(&quot;values&quot;, function);</span>
+<span class="nc" id="L28">    }</span>
 
-<span class="fc" id="L30">    public ValuesCollector(String name, Function function) {</span>
-<span class="fc" id="L31">        this.name = name;</span>
-<span class="fc" id="L32">        this.function = function;</span>
-<span class="fc" id="L33">    }</span>
+<span class="nc" id="L30">    public ValuesCollector(String name, Function function) {</span>
+<span class="nc" id="L31">        this.name = name;</span>
+<span class="nc" id="L32">        this.function = function;</span>
+<span class="nc" id="L33">    }</span>
 
     @Override
     public void collect(Atom atom) {
-<span class="fc" id="L37">        double value = atom.values().value();</span>
-<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (value &gt; max) max = value;</span>
-<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (value &lt; min) min = value;</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (timestamp == 0L) timestamp = atom.timestamp();</span>
-<span class="fc" id="L41">        sum += value;</span>
-<span class="fc" id="L42">        count++;</span>
-<span class="fc" id="L43">    }</span>
+<span class="nc" id="L37">        double value = atom.values().value();</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (value &gt; max) max = value;</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if (value &lt; min) min = value;</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (timestamp == 0L) timestamp = atom.timestamp();</span>
+<span class="nc" id="L41">        sum += value;</span>
+<span class="nc" id="L42">        count++;</span>
+<span class="nc" id="L43">    }</span>
 
     @Override
     public String name() {
@@ -56,11 +56,11 @@ public class ValuesCollector implements Collector {
     }
 
     public double avg() {
-<span class="fc" id="L59">        return sum / count;</span>
+<span class="nc" id="L59">        return sum / count;</span>
     }
 
     public double stddev() {
-<span class="nc" id="L63">        throw new Error(&quot;Not implemented&quot;);</span>
+<span class="nc" id="L63">        throw new Error(&quot;Not implemented: &quot; + function);</span>
     }
 
     public double sum() {
@@ -68,22 +68,22 @@ public class ValuesCollector implements Collector {
     }
 
     public long count() {
-<span class="fc" id="L71">        return count;</span>
+<span class="nc" id="L71">        return count;</span>
     }
 
     @Override
     public Slice result() {
-<span class="pc bpc" id="L76" title="1 of 2 branches missed.">        if (min == Double.MAX_VALUE) min = 0;</span>
-<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (max == Double.MIN_VALUE) max = 0;</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (min == Double.MAX_VALUE) min = 0;</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (max == Double.MIN_VALUE) max = 0;</span>
         double value;
 
 
-<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        Function fxn = function != null ? function : Function.AVG;</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        Function fxn = function != null ? function : Function.AVG;</span>
 
-<span class="pc bpc" id="L83" title="5 of 7 branches missed.">        switch (fxn) {</span>
+<span class="pc bnc" id="L83" title="All 7 branches missed.">        switch (fxn) {</span>
             case AVG:
-<span class="fc" id="L85">                value = avg();</span>
-<span class="fc" id="L86">                break;</span>
+<span class="nc" id="L85">                value = avg();</span>
+<span class="nc" id="L86">                break;</span>
             case MIN:
 <span class="nc" id="L88">                value = min();</span>
 <span class="nc" id="L89">                break;</span>
@@ -97,24 +97,24 @@ public class ValuesCollector implements Collector {
 <span class="nc" id="L97">                value = sum();</span>
 <span class="nc" id="L98">                break;</span>
             case COUNT:
-<span class="fc" id="L100">                value = count();</span>
-<span class="fc" id="L101">                break;</span>
+<span class="nc" id="L100">                value = count();</span>
+<span class="nc" id="L101">                break;</span>
             default:
 <span class="nc" id="L103">                throw new Error(&quot;Not implemented: &quot; + fxn);</span>
         }
 
-<span class="fc" id="L106">        Values values = Continuum.values()</span>
-<span class="fc" id="L107">                .min(min)</span>
-<span class="fc" id="L108">                .max(max)</span>
-<span class="fc" id="L109">                .count(count)</span>
-<span class="fc" id="L110">                .sum(sum)</span>
-<span class="fc" id="L111">                .value(value)</span>
-<span class="fc" id="L112">                .build();</span>
+<span class="nc" id="L106">        Values values = Continuum.values()</span>
+<span class="nc" id="L107">                .min(min)</span>
+<span class="nc" id="L108">                .max(max)</span>
+<span class="nc" id="L109">                .count(count)</span>
+<span class="nc" id="L110">                .sum(sum)</span>
+<span class="nc" id="L111">                .value(value)</span>
+<span class="nc" id="L112">                .build();</span>
 
-<span class="pc bpc" id="L114" title="1 of 2 branches missed.">        return Continuum.result(name != null ? name : fxn.name().toLowerCase())</span>
-<span class="fc" id="L115">                .values(values)</span>
-<span class="fc" id="L116">                .timestamp(timestamp)</span>
-<span class="fc" id="L117">                .build();</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        return Continuum.result(name != null ? name : fxn.name().toLowerCase())</span>
+<span class="nc" id="L115">                .values(values)</span>
+<span class="nc" id="L116">                .timestamp(timestamp)</span>
+<span class="nc" id="L117">                .build();</span>
     }
 
     @Override

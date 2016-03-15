@@ -43,7 +43,7 @@ public class IntervalCollector implements Collector {
 <span class="fc bfc" id="L43" title="All 2 branches covered.">        if (timestamp == 0L) timestamp = atom.timestamp();</span>
 
 <span class="fc" id="L45">        long ts = atom.timestamp();</span>
-<span class="fc" id="L46">        long bucket = ts - (ts % interval.toMillis());</span>
+<span class="fc" id="L46">        long bucket = ts - (ts % interval.millis());</span>
 
 <span class="fc bfc" id="L48" title="All 2 branches covered.">        if (collectors.get(bucket) == null) collectors.put(bucket, Collectors.values(function));</span>
 

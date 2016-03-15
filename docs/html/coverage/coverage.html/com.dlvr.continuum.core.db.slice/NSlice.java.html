@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Tree structured results from a db scan
  */
-<span class="fc" id="L13">public class NSlice implements Slice {</span>
+<span class="nc" id="L13">public class NSlice implements Slice {</span>
 
     public String name;
     public Values values;
@@ -20,29 +20,29 @@ import java.util.List;
 
     @Override
     public String name() {
-<span class="fc" id="L23">        return name;</span>
+<span class="nc" id="L23">        return name;</span>
     }
 
     @Override
     public Values values() {
-<span class="fc" id="L28">        return values;</span>
+<span class="nc" id="L28">        return values;</span>
     }
 
     @Override
     public List&lt;Slice&gt; slices() {
-<span class="fc" id="L33">        return children;</span>
+<span class="nc" id="L33">        return children;</span>
     }
 
     @Override
     public List&lt;Atom&gt; atoms() {
-<span class="fc" id="L38">        return atoms;</span>
+<span class="nc" id="L38">        return atoms;</span>
     }
 
     @Override
     public Slice add(Slice result) {
-<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (children == null) children = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L44">        children.add(result);</span>
-<span class="fc" id="L45">        return result;</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (children == null) children = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L44">        children.add(result);</span>
+<span class="nc" id="L45">        return result;</span>
     }
 
     @Override
@@ -53,7 +53,7 @@ import java.util.List;
     }
 
     @Override
-    public Slice child(String name) {
+    public Slice slice(String name) {
 <span class="nc bnc" id="L57" title="All 2 branches missed.">        for (Slice res : children) {</span>
 <span class="nc bnc" id="L58" title="All 2 branches missed.">            if (res.name().equals(name)) {</span>
 <span class="nc" id="L59">                return res;</span>
@@ -63,44 +63,39 @@ import java.util.List;
     }
 
     @Override
-    public Slice child(int idx) {
-<span class="fc" id="L67">        return children.get(idx);</span>
-    }
-
-    @Override
-    public List&lt;Slice&gt; children() {
-<span class="nc" id="L72">        return children;</span>
+    public Slice slice(int idx) {
+<span class="nc" id="L67">        return children.get(idx);</span>
     }
 
     @Override
     public long timestamp() {
-<span class="nc" id="L77">        return timestamp;</span>
+<span class="nc" id="L72">        return timestamp;</span>
     }
 
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (!(o instanceof NSlice)) return false;</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (!(o instanceof NSlice)) return false;</span>
 
-<span class="nc" id="L85">        NSlice that = (NSlice) o;</span>
+<span class="nc" id="L80">        NSlice that = (NSlice) o;</span>
 
-<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (timestamp != that.timestamp) return false;</span>
-<span class="nc bnc" id="L88" title="All 6 branches missed.">        if (name != null ? !name.equals(that.name) : that.name != null) return false;</span>
-<span class="nc bnc" id="L89" title="All 6 branches missed.">        if (values != null ? !values.equals(that.values) : that.values != null) return false;</span>
-<span class="nc bnc" id="L90" title="All 6 branches missed.">        if (children != null ? !children.equals(that.children) : that.children != null) return false;</span>
-<span class="nc bnc" id="L91" title="All 6 branches missed.">        if (atoms != null ? !atoms.equals(that.atoms) : that.atoms != null) return false;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (timestamp != that.timestamp) return false;</span>
+<span class="nc bnc" id="L83" title="All 6 branches missed.">        if (name != null ? !name.equals(that.name) : that.name != null) return false;</span>
+<span class="nc bnc" id="L84" title="All 6 branches missed.">        if (values != null ? !values.equals(that.values) : that.values != null) return false;</span>
+<span class="nc bnc" id="L85" title="All 6 branches missed.">        if (children != null ? !children.equals(that.children) : that.children != null) return false;</span>
+<span class="nc bnc" id="L86" title="All 6 branches missed.">        if (atoms != null ? !atoms.equals(that.atoms) : that.atoms != null) return false;</span>
 
-<span class="nc" id="L93">        return true;</span>
+<span class="nc" id="L88">        return true;</span>
     }
 
     @Override
     public int hashCode() {
-<span class="nc bnc" id="L98" title="All 2 branches missed.">        int result = name != null ? name.hashCode() : 0;</span>
-<span class="nc bnc" id="L99" title="All 2 branches missed.">        result = 31 * result + (values != null ? values.hashCode() : 0);</span>
-<span class="nc" id="L100">        result = 31 * result + (int) (timestamp ^ (timestamp &gt;&gt;&gt; 32));</span>
-<span class="nc bnc" id="L101" title="All 2 branches missed.">        result = 31 * result + (children != null ? children.hashCode() : 0);</span>
-<span class="nc bnc" id="L102" title="All 2 branches missed.">        result = 31 * result + (atoms != null ? atoms.hashCode() : 0);</span>
-<span class="nc" id="L103">        return result;</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        int result = name != null ? name.hashCode() : 0;</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        result = 31 * result + (values != null ? values.hashCode() : 0);</span>
+<span class="nc" id="L95">        result = 31 * result + (int) (timestamp ^ (timestamp &gt;&gt;&gt; 32));</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        result = 31 * result + (children != null ? children.hashCode() : 0);</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        result = 31 * result + (atoms != null ? atoms.hashCode() : 0);</span>
+<span class="nc" id="L98">        return result;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
