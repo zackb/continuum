@@ -64,7 +64,7 @@ public class ContinuumReadHandler implements HttpRequestHandler {
     class ReadRequest {
         public String name;
         public long start = System.currentTimeMillis();
-        public long end = System.currentTimeMillis() - Interval.valueOf("1h").toMillis();
+        public long end = System.currentTimeMillis() - Interval.valueOf("1h").millis();
         Interval interval;
         Function function;
         Particles particles;
