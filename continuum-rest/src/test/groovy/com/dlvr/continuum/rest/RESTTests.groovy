@@ -10,6 +10,8 @@ import com.dlvr.continuum.rest.client.Client
 import com.dlvr.continuum.util.datetime.Interval
 import org.junit.Test
 
+import static com.dlvr.continuum.Continuum.*
+
 /**
  * Created by zack on 2/25/16.
  */
@@ -77,6 +79,56 @@ class RESTTests extends GroovyTestCase {
 
     @Override
     void tearDown() throws Exception {
+
+
+        Continuum continuum = continuum().open()
+
+        Atom atom = continuum.atom()
+                        .name('temp')
+                        .particles(city:'lax', state:'ca', country:'us')
+                        .value(99.5)
+                        .build()
+
+        continuum.write(atom)
+
+        Slice slice =
+            continuum.slice(
+                scan('temp')
+                    .particles(country: 'us')
+                    .group('state', 'city')
+                    .end(Interval.valueOf('10d'))
+                    .interval(Interval.valueOf('1d'))
+                    .build())
+
+        Values values = slice.values()
+
+        List<Slice> groups = slice.slices()
+
+        continuum.close()
+
+
+        groups.size()
+        values.count()
+
+        continuum.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         rest.stop()
         continuum.delete()
     }

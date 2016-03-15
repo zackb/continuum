@@ -167,6 +167,27 @@ public class Continuum implements Closeable {
     }
 
     /**
+     * Write an atom to the time data store
+     * @param atom to write or overwrite
+     * @throws Exception error writing data
+     */
+    public void write(Atom atom) throws Exception {
+        db().write(atom);
+    }
+
+    /**
+     * Query: Execute a set of operations on a scan of time from the datastore
+     * Blocking
+     * @param scan description of the view of the slice
+     * @return Slice of atoms resulting from the scan
+     *          includes: aggregate functions, date ranges, and groupings if applicatble
+     * @throws Exception error reading or collecting atoms
+     */
+    public Slice slice(Scan scan) throws Exception {
+        return db().slice(scan);
+    }
+
+    /**
      * Close all underlying resources for this continuum
      */
     @Override

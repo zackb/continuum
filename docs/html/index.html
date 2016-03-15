@@ -99,9 +99,42 @@
     <li>Example: "Realtime" analytics data events grouped by session or user id</li>
 </ul>
 
-<h3>API</h3>
+<h2>API</h2>
 <p><img src="img/jar.png"><p>
 <p><img src="img/api.png"><p>
+
+<h4>Creating Atoms</h4>
+<pre>
+        // open continuum
+        Continuum continuum = continuum().open()
+
+        // create an atom
+        Atom atom = continuum.atom()
+                        .name('temp')
+                        .particles(city:'lax', state:'ca', country:'us')
+                        .value(99.5)
+                        .build()
+
+        continuum.write(atom)
+</pre>
+<h4>Scans and Slices</h4>
+<pre>
+        // scan continuum and get a slice of the atoms
+        Slice slice =
+            continuum.slice(
+                scan('temp')                            // temp series
+                    .function(Function.AVG)             // average temperature
+                    .particles(country: 'us')           // where country = us
+                    .group('state', 'city')             // group by state, city
+                    .end(Interval.valueOf('10d'))       // last 10 days of atoms
+                    .interval(Interval.valueOf('1d'))   // in 1 day intervals
+                    .build())
+
+        Values values = slice.values()                  // {min,max,count,sum,value}
+        List<Slice> groups = slice.slices()                    // {ca:values,lax:values}
+
+        continuum.close()
+</pre>
 
 <h2>
 <a id="designer-templates" class="anchor" href="#scaling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Scaling</h2>
