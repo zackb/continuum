@@ -6,7 +6,6 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.Slice;
-import com.dlvr.continuum.universe.Earthling;
 import com.dlvr.continuum.util.datetime.Interval;
 import org.junit.Test;
 
@@ -16,6 +15,7 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 /**
+ * Continuum core api test
  * Created by zack on 2/10/16.
  */
 public class ContinuumTest {
@@ -57,9 +57,10 @@ public class ContinuumTest {
                             .value(1.2)
                             .build();
 
+            // auto assigned timestamp if not supplied
             long diff = Math.abs(atom.timestamp() - time);
 
-            assertTrue(diff < 0.1);
+            assertTrue(diff < 0.2);
 
             continuum.write(atom);
 
@@ -145,9 +146,9 @@ public class ContinuumTest {
 
             Slice res = continuum.slice(scan);
             assertEquals(3, res.slices().size());
-            assertEquals(10.0D, res.child(2).values().value(), 0.000001);
-            assertEquals(-0.000005D, res.child(0).values().value(), 0.000001);
-            assertEquals(52.5D, res.child(1).values().value(), 0.000001);
+            assertEquals(10.0D, res.slice(2).values().value(), 0.000001);
+            assertEquals(-0.000005D, res.slice(0).values().value(), 0.000001);
+            assertEquals(52.5D, res.slice(1).values().value(), 0.000001);
 
         } finally {
             if (continuum != null) continuum.delete();
