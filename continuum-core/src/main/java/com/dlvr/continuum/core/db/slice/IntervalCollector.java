@@ -13,7 +13,7 @@ import java.util.*;
  * Collect sub-aggregated data at a given interval
  * Created by zack on 2/19/16.
  */
-public class IntervalCollector implements Collector {
+public class IntervalCollector implements Collector<Atom> {
 
     private final String name;
     private final Interval interval;

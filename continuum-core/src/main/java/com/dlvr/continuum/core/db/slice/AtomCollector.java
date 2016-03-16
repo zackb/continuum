@@ -15,7 +15,7 @@ import java.util.List;
  * Collect atoms matching the scan filter. For when neither function nor interval is specified
  * Created by zack on 2/24/16.
  */
-public class AtomCollector implements Collector {
+public class AtomCollector implements Collector<Atom> {
 
     public final List<Atom> atoms;
     private final ValuesCollector values;

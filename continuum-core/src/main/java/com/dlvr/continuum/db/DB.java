@@ -4,6 +4,7 @@ import com.dlvr.continuum.atom.Atom;
 
 /**
  * Time datastore
+ * TODO: Deprecate in favor of Slab?!
  */
 public interface DB {
 
@@ -27,6 +28,14 @@ public interface DB {
      * @throws Exception on underlying slabs failure
      */
     Atom read(AtomID id) throws Exception;
+
+    /**
+     * Get an iterator for the data store.
+     * WARN Caller MUST Call close()
+     * Available exclusively to caller until close() is called.
+     * @return new iterator
+     */
+    Iterator iterator();
 
     /**
      * The underlying slab storage resource for this datastore

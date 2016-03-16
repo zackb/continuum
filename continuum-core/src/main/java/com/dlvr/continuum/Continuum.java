@@ -4,13 +4,11 @@ import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
+import com.dlvr.continuum.core.db.slice.NScanner;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.db.Slab;
-import com.dlvr.continuum.db.slice.Collector;
-import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.Scan;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.db.slice.*;
 
 import com.dlvr.continuum.core.atom.*;
 import com.dlvr.continuum.core.db.slice.NSlice;
@@ -19,9 +17,11 @@ import com.dlvr.continuum.core.db.RockSlab;
 import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.core.db.slice.NScan;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
+import com.dlvr.continuum.db.slice.Scanner;
 import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.io.file.Reference;
 import com.dlvr.continuum.util.datetime.Interval;
+import com.dlvr.continuum.db.Iterator;
 
 import java.io.Closeable;
 import java.util.*;
@@ -165,6 +165,7 @@ public class Continuum implements Closeable {
         } else {
             this.db = new RockDB(dimension, new Slabs(slabs));
         }
+        this.db.open();
     }
 
     /**
@@ -203,7 +204,19 @@ public class Continuum implements Closeable {
      * @throws Exception error reading or collecting atoms
      */
     public Slice slice(Scan scan) throws Exception {
-        return db().slice(scan);
+        Iterator iterator = db().iterator();
+        try {
+            Scanner scanner = scanner();
+            scanner.dimension(dimension);
+            scanner.iterator(iterator);
+            return scanner.slice(scan);
+        } finally {
+            if (iterator != null) iterator.close();
+        }
+    }
+
+    public Scanner scanner() {
+        return new NScanner();
     }
 
     /**

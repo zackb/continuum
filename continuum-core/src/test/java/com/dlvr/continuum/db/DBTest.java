@@ -1,9 +1,13 @@
 package com.dlvr.continuum.db;
 
+import com.dlvr.continuum.Continuum;
+import com.dlvr.continuum.core.db.slice.NScanner;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.core.db.RockDB;
 import com.dlvr.continuum.db.slice.Function;
+import com.dlvr.continuum.db.slice.Scan;
+import com.dlvr.continuum.db.slice.Scanner;
 import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.util.datetime.Interval;
 import org.junit.Test;
@@ -37,6 +41,7 @@ public class DBTest {
         String name = "testSlice";
         reference.child(name).delete();
         RockDB db = new RockDB(Dimension.SPACE, name, reference);
+        db.open();
         Atom d = satom().name("zack")
                 .timestamp(System.currentTimeMillis())
                 .particles(particles(particles))
@@ -56,9 +61,21 @@ public class DBTest {
         AtomID id = d.ID();
         d = db.read(id);
         assertEquals(98898.124D, d.values().value(), 0.00001);
-        Slice res = db.slice(scan().name("zack").dimension(Dimension.SPACE).end(Interval.valueOf("1d")).function(Function.AVG).build());
-        Double avg = res.values().value();
-        assertEquals((12346555.0000000000D + 98898.124D)/ 2, avg, 0.00001);
+        Scanner scanner = new NScanner();
+        try (Iterator iterator = db.iterator()) {
+            scanner.iterator(iterator);
+            scanner.dimension(Dimension.SPACE);
+            Scan scan = Continuum
+                        .scan().name("zack")
+                        .dimension(Dimension.SPACE)
+                        .end(Interval.valueOf("1d"))
+                        .function(Function.AVG)
+                        .build();
+
+            Slice res = scanner.slice(scan);
+            Double avg = res.values().value();
+            assertEquals((12346555.0000000000D + 98898.124D)/ 2, avg, 0.00001);
+        }
         db.close();
         db.slab().reference().delete();
     }

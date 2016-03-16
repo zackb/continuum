@@ -11,7 +11,7 @@ import java.util.Arrays;
  * Convenience collector to wrap a list of collectors
  * Created by zack on 3/11/16.
  */
-public class AndCollector implements Collector {
+public class AndCollector implements Collector<Atom> {
 
     private final Collector[] collectors;
 

@@ -1,14 +1,8 @@
 package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.core.db.slice.Filters;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.*;
-import com.dlvr.continuum.db.slice.Filter;
-import com.dlvr.continuum.db.slice.Scan;
-import com.dlvr.continuum.db.slice.Slice;
-import com.dlvr.continuum.core.db.slice.Collectors;
-import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.util.Bytes;
 import static com.dlvr.continuum.Continuum.*;
@@ -51,7 +45,7 @@ public class RockDB implements DB {
      */
     @Override
     public void open() throws Exception {
-
+        this.rock.open();
     }
 
     /**
@@ -68,6 +62,14 @@ public class RockDB implements DB {
     @Override
     public Atom read(AtomID id) throws Exception {
         return Bytes.Atom(rock.read(id.bytes()), dimension);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterator iterator() {
+        return new RockIterator(dimension, (RockSlab)slab());
     }
 
     /**

@@ -2,6 +2,7 @@ package com.dlvr.continuum.core.db;
 
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.db.Slab;
+import com.dlvr.continuum.io.file.Reference;
 import org.rocksdb.*;
 
 /**
@@ -76,7 +77,11 @@ public class RockSlab implements Slab {
         return this.rock;
     }
 
-    public FileSystemReference reference() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Reference reference() {
         return dataDirRef;
     }
 

@@ -1,5 +1,7 @@
 package com.dlvr.continuum.db;
 
+import com.dlvr.continuum.io.file.Reference;
+
 /**
  * Slab storage responsible for a big chunk of data
  */
@@ -34,6 +36,12 @@ public interface Slab {
      * @throws Exception error merging slab
      */
     void merge(byte[] key, byte[] value) throws Exception;
+
+    /**
+     * Underlying file reference (fs, s3, hdfs, nas, tape)
+     * @return underlying file reference used by this slab
+     */
+    Reference reference();
 
     /**
      * Close the data store and free all resources

@@ -5,7 +5,22 @@ package com.dlvr.continuum.db.slice;
  * Created by zack on 2/11/16.
  */
 public interface Collector<T> {
+
+    /**
+     * Name / label for this slice
+     * @return name of collected slice
+     */
     String name();
-    void collect(T atom);
+
+    /**
+     * Collect an Atom or an AtomID
+     * @param t atom or id
+     */
+    void collect(T t);
+
+    /**
+     * Get result slice
+     * @return result slice
+     */
     Slice slice();
 }

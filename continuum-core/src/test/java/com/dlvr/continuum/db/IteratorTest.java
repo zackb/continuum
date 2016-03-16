@@ -31,6 +31,7 @@ public class IteratorTest {
         map2.put("fuz", "da'vinci");
         reference.child(name).delete();
         RockDB db = new RockDB(Continuum.Dimension.SPACE, name, reference);
+        db.open();
         long ts1 = System.currentTimeMillis();
         long ts2 = ts1 + 100;
 

@@ -2,6 +2,7 @@ package com.dlvr.continuum.core.db;
 
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Slab;
+import com.dlvr.continuum.io.file.Reference;
 import com.dlvr.continuum.util.Bytes;
 
 import java.util.List;
@@ -30,6 +31,11 @@ public class Slabs implements Slab {
     }
 
     @Override
+    public void open() throws Exception {
+
+    }
+
+    @Override
     public byte[] read(byte[] key) throws Exception {
         return select(key).read(key);
     }
@@ -42,6 +48,11 @@ public class Slabs implements Slab {
     @Override
     public void merge(byte[] key, byte[] value) throws Exception {
         select(key).merge(key, value);
+    }
+
+    @Override
+    public Reference reference() {
+        throw new Error("Not implemented: Sharded slab references. Tee??");
     }
 
     @Override

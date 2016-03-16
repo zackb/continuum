@@ -7,6 +7,7 @@ import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.db.slice.*;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * Base scanner using filters and collectors
@@ -29,9 +30,12 @@ public class NScanner implements Scanner {
         boolean stop = false;
         while (!stop && atom != null) {
             switch (filter.filter(atom)) {
-                case CONTINUE:          if (decode) collectAtom(collector); else collectID(collector); break;
+                case CONTINUE:          if (decode) collectAtom(collector);
+                                        else collectID(collector);
+                                        break;
                 case SKIP:              break;
-                case STOP: default:     stop = true; break;
+                case STOP: default:     stop = true;
+                                        break;
             }
             atom = iterate(iterator);
         }
@@ -39,14 +43,28 @@ public class NScanner implements Scanner {
         return collector.slice();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Iterator iterator() {
         return iterator;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void iterator(Iterator iterator) {
         this.iterator = iterator;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void dimension(Continuum.Dimension dimension) {
+        this.dimension = dimension;
     }
 
     private Atom iterate(Iterator iterator) {
@@ -55,17 +73,16 @@ public class NScanner implements Scanner {
         return iterator.get();
     }
 
-    private boolean decodeBody(Collector collector) {
-        Class clazz =
-                (Class)((ParameterizedType)collector.getClass()
-                        .getGenericSuperclass())
-                        .getActualTypeArguments()[0];
+    private boolean decodeBody(Collector<?> collector) {
+        Class<?> clazz = collector.getClass();
+        Type[] types = clazz.getGenericInterfaces();
+        Type type = ((ParameterizedType)types[0]).getActualTypeArguments()[0];
 
-        if (clazz.isAssignableFrom(Atom.class))
+        if (Atom.class.getTypeName().equals(type.getTypeName()))
             return true;
-        else if (clazz.isAssignableFrom(AtomID.class))
+        else if (AtomID.class.getTypeName().equals(type.getTypeName()))
             return false;
-        throw new Error("Can not collect: " + clazz);
+        throw new Error("Can not collect: " + type);
     }
 
     private void collectAtom(Collector<Atom> collector) {
