@@ -81,6 +81,7 @@ public class ContinuumTest {
     public void testWriteReadTime() throws Exception {
         Continuum continuum = null;
         try {
+            reference.delete();
             continuum = Continuum.continuum()
                     .dimension(Continuum.Dimension.TIME)
                     .name("testWriteReadTime")
