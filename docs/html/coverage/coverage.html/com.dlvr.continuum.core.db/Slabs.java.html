@@ -2,6 +2,7 @@
 
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Slab;
+import com.dlvr.continuum.io.file.Reference;
 import com.dlvr.continuum.util.Bytes;
 
 import java.util.List;
@@ -14,42 +15,52 @@ public class Slabs implements Slab {
 
     private final List&lt;Slab&gt; slabs;
 
-<span class="nc" id="L17">    public Slabs(List&lt;Slab&gt; slabs) {</span>
-<span class="nc" id="L18">        this.slabs = slabs;</span>
-<span class="nc" id="L19">    }</span>
+<span class="nc" id="L18">    public Slabs(List&lt;Slab&gt; slabs) {</span>
+<span class="nc" id="L19">        this.slabs = slabs;</span>
+<span class="nc" id="L20">    }</span>
 
     private int hash(byte[] key) {
         // TODO: SPACE instead
         // parse atom name to use as shard key
-<span class="nc" id="L24">        AtomID id = Bytes.SAtomID(key);</span>
-<span class="nc" id="L25">        return Math.abs(id.name().hashCode() % slabs.size());</span>
+<span class="nc" id="L25">        AtomID id = Bytes.SAtomID(key);</span>
+<span class="nc" id="L26">        return Math.abs(id.name().hashCode() % slabs.size());</span>
     }
 
     private Slab select(byte[] key) {
-<span class="nc" id="L29">        return slabs.get(hash(key));</span>
+<span class="nc" id="L30">        return slabs.get(hash(key));</span>
     }
 
     @Override
-    public byte[] get(byte[] key) throws Exception {
-<span class="nc" id="L34">        return select(key).get(key);</span>
+    public void open() throws Exception {
+
+<span class="nc" id="L36">    }</span>
+
+    @Override
+    public byte[] read(byte[] key) throws Exception {
+<span class="nc" id="L40">        return select(key).read(key);</span>
     }
 
     @Override
-    public void put(byte[] key, byte[] value) throws Exception {
-<span class="nc" id="L39">        select(key).put(key, value);</span>
-<span class="nc" id="L40">    }</span>
+    public void write(byte[] key, byte[] value) throws Exception {
+<span class="nc" id="L45">        select(key).write(key, value);</span>
+<span class="nc" id="L46">    }</span>
 
     @Override
     public void merge(byte[] key, byte[] value) throws Exception {
-<span class="nc" id="L44">        select(key).merge(key, value);</span>
-<span class="nc" id="L45">    }</span>
+<span class="nc" id="L50">        select(key).merge(key, value);</span>
+<span class="nc" id="L51">    }</span>
+
+    @Override
+    public Reference reference() {
+<span class="nc" id="L55">        throw new Error(&quot;Not implemented: Sharded slab references. Tee??&quot;);</span>
+    }
 
     @Override
     public void close() throws Exception {
         //slabs.forEach(Slab::close);
-<span class="nc bnc" id="L50" title="All 2 branches missed.">        for (Slab slab : slabs) {</span>
-<span class="nc" id="L51">            slab.close();</span>
-<span class="nc" id="L52">        }</span>
-<span class="nc" id="L53">    }</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        for (Slab slab : slabs) {</span>
+<span class="nc" id="L62">            slab.close();</span>
+<span class="nc" id="L63">        }</span>
+<span class="nc" id="L64">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

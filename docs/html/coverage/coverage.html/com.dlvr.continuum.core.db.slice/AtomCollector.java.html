@@ -15,7 +15,7 @@ import java.util.List;
  * Collect atoms matching the scan filter. For when neither function nor interval is specified
  * Created by zack on 2/24/16.
  */
-public class AtomCollector implements Collector {
+public class AtomCollector implements Collector&lt;Atom&gt; {
 
     public final List&lt;Atom&gt; atoms;
     private final ValuesCollector values;
@@ -51,10 +51,10 @@ public class AtomCollector implements Collector {
     }
 
     @Override
-    public Slice result() {
+    public Slice slice() {
 <span class="fc" id="L55">        Collections.sort(atoms, (o1, o2) -&gt; o2.timestamp().compareTo(o1.timestamp()));</span>
 <span class="fc" id="L56">        return Continuum.result(name())</span>
-<span class="fc" id="L57">                .values(values.result().values())</span>
+<span class="fc" id="L57">                .values(values.slice().values())</span>
 <span class="fc" id="L58">                .atoms(atoms)</span>
 <span class="fc" id="L59">                .build();</span>
     }

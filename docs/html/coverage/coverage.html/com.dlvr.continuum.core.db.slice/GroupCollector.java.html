@@ -15,7 +15,7 @@ import java.util.*;
  * Results grouped by particles
  * Created by zack on 2/25/16.
  */
-public class GroupCollector implements Collector {
+public class GroupCollector implements Collector&lt;Atom&gt; {
 
     private final String[] groups;
     private final Interval interval;
@@ -38,12 +38,12 @@ public class GroupCollector implements Collector {
 <span class="fc" id="L38">    }</span>
 
     @Override
-    public Slice result() {
+    public Slice slice() {
 <span class="fc" id="L42">        List&lt;Slice&gt; children = new ArrayList&lt;&gt;();</span>
 <span class="fc" id="L43">        final Slice g = Continuum</span>
 <span class="fc" id="L44">                .result(name())</span>
 <span class="fc" id="L45">                .children(children)</span>
-<span class="fc" id="L46">                .values(values.result().values())</span>
+<span class="fc" id="L46">                .values(values.slice().values())</span>
 <span class="fc" id="L47">                .build();</span>
 
 <span class="fc" id="L49">        collectors</span>
@@ -56,7 +56,7 @@ public class GroupCollector implements Collector {
     }
 
     public static Slice result(Tree&lt;Collector&gt; stree) {
-<span class="fc" id="L59">        NSlice s = (NSlice) stree.data.result();</span>
+<span class="fc" id="L59">        NSlice s = (NSlice) stree.data.slice();</span>
 <span class="fc" id="L60">        s.name = stree.data.name();</span>
 
         // prefix name with names of all parents

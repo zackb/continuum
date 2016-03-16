@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RockDB.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">continuum-core</a> &gt; <a href="index.source.html" class="el_package">com.dlvr.continuum.core.db</a> &gt; <span class="el_source">RockDB.java</span></div><h1>RockDB.java</h1><pre class="source lang-java linenums">package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.core.db.slice.Filters;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.*;
-import com.dlvr.continuum.db.slice.Filter;
-import com.dlvr.continuum.db.slice.Scan;
-import com.dlvr.continuum.db.slice.Slice;
-import com.dlvr.continuum.core.db.slice.Collectors;
-import com.dlvr.continuum.db.slice.Collector;
 import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.util.Bytes;
 import static com.dlvr.continuum.Continuum.*;
 
 /**
- * rockdDB implemented with RocksDB
+ * Data store implemented with RocksDB
  */
 public class RockDB implements DB {
 
@@ -29,10 +23,10 @@ public class RockDB implements DB {
      * @param dimension for this data store // TODO: Dont need/want this? (column family)
      * @param slab underlying rock slab to use
      */
-<span class="fc" id="L32">    public RockDB(Dimension dimension, Slab slab) {</span>
-<span class="fc" id="L33">        this.dimension = dimension;</span>
-<span class="fc" id="L34">        this.rock = slab;</span>
-<span class="fc" id="L35">    }</span>
+<span class="fc" id="L26">    public RockDB(Dimension dimension, Slab slab) {</span>
+<span class="fc" id="L27">        this.dimension = dimension;</span>
+<span class="fc" id="L28">        this.rock = slab;</span>
+<span class="fc" id="L29">    }</span>
 
     /**
      * Open or create a new slab
@@ -41,73 +35,33 @@ public class RockDB implements DB {
      * @param base file system reference to use
      * @throws Exception error opening data store
      */
-<span class="fc" id="L44">    public RockDB(Dimension dimension, String name, FileSystemReference base) throws Exception {</span>
-<span class="fc" id="L45">        this.dimension = dimension;</span>
-<span class="fc" id="L46">        this.rock = new RockSlab(name + &quot;.db&quot;, base);</span>
-<span class="fc" id="L47">    }</span>
+<span class="fc" id="L38">    public RockDB(Dimension dimension, String name, FileSystemReference base) throws Exception {</span>
+<span class="fc" id="L39">        this.dimension = dimension;</span>
+<span class="fc" id="L40">        this.rock = new RockSlab(name + &quot;.db&quot;, base);</span>
+<span class="fc" id="L41">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void open() throws Exception {
+<span class="fc" id="L48">        this.rock.open();</span>
+<span class="fc" id="L49">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void write(Atom atom) throws Exception {
-<span class="fc" id="L54">        rock.put(atom.ID().bytes(), Bytes.bytes(atom));</span>
-<span class="fc" id="L55">    }</span>
+<span class="fc" id="L56">        rock.write(atom.ID().bytes(), Bytes.bytes(atom));</span>
+<span class="fc" id="L57">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Atom get(AtomID id) throws Exception {
-<span class="fc" id="L62">        return Bytes.Atom(rock.get(id.bytes()), dimension);</span>
-    }
-
-    /**
-     * TODO: Remove particles from body (just fields, tags are in the ID)
-     * {@inheritDoc}
-     */
-    static Atom decodeAtom(byte[] bytes, Dimension dimension) {
-<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (dimension == Dimension.TIME) {</span>
-<span class="fc" id="L71">            return Bytes.KAtom(bytes);</span>
-<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        } else if (dimension == Dimension.SPACE) {</span>
-<span class="fc" id="L73">            return Bytes.SAtom(bytes);</span>
-        }
-<span class="nc" id="L75">        throw new ZiggyStardustError();</span>
-    }
-
-    /**
-     * TODO: Move out to Scanner class and just get Iterator from DB
-     * {@inheritDoc}
-     */
-    @Override
-    public Slice slice(Scan scan) {
-<span class="fc" id="L84">        Iterator itr = null;</span>
-<span class="fc" id="L85">        Collector collector = Collectors.forSlice(scan);</span>
-<span class="fc" id="L86">        Filter filter = Filters.forSlice(scan, dimension); // TODO: filter fields and values</span>
-        try {
-<span class="fc" id="L88">            itr = iterator();</span>
-<span class="fc" id="L89">            itr.seek(scan.ID().bytes());</span>
-<span class="pc bpc" id="L90" title="1 of 2 branches missed.">            Atom atom = itr.valid() ? itr.get() : null;</span>
-<span class="fc" id="L91">            boolean stop = false;</span>
-<span class="fc bfc" id="L92" title="All 4 branches covered.">            while (!stop &amp;&amp; atom != null) {</span>
-<span class="pc bfc" id="L93" title="All 3 branches covered.">                switch (filter.filter(atom)) {</span>
-<span class="fc" id="L94">                    case CONTINUE:          collector.collect(atom); break;</span>
-<span class="fc" id="L95">                    case SKIP:              break;</span>
-<span class="fc" id="L96">                    case STOP: default:     stop = true; break;</span>
-                }
-<span class="fc" id="L98">                atom = iterate(itr);</span>
-            }
-        } finally {
-<span class="pc bpc" id="L101" title="3 of 4 branches missed.">            if (itr != null) itr.close();</span>
-        }
-
-<span class="fc" id="L104">        return collector.result();</span>
-    }
-
-    private Atom iterate(Iterator iterator) {
-<span class="fc" id="L108">        iterator.next();</span>
-<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (!iterator.valid()) return null;</span>
-<span class="fc" id="L110">        return iterator.get();</span>
+    public Atom read(AtomID id) throws Exception {
+<span class="fc" id="L64">        return Bytes.Atom(rock.read(id.bytes()), dimension);</span>
     }
 
     /**
@@ -115,7 +69,20 @@ public class RockDB implements DB {
      */
     @Override
     public Iterator iterator() {
-<span class="fc" id="L118">        return new RockIterator(dimension, slab());</span>
+<span class="fc" id="L72">        return new RockIterator(dimension, (RockSlab)slab());</span>
+    }
+
+    /**
+     * TODO: Remove particles from body (just fields, tags are in the ID)
+     * {@inheritDoc}
+     */
+    static Atom decodeAtom(byte[] bytes, Dimension dimension) {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (dimension == Dimension.TIME) {</span>
+<span class="fc" id="L81">            return Bytes.KAtom(bytes);</span>
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">        } else if (dimension == Dimension.SPACE) {</span>
+<span class="fc" id="L83">            return Bytes.SAtom(bytes);</span>
+        }
+<span class="nc" id="L85">        throw new ZiggyStardustError();</span>
     }
 
     /**
@@ -123,15 +90,15 @@ public class RockDB implements DB {
      */
     @Override
     public void close() throws Exception {
-<span class="fc" id="L126">        rock.close();</span>
-<span class="fc" id="L127">    }</span>
+<span class="fc" id="L93">        rock.close();</span>
+<span class="fc" id="L94">    }</span>
 
     /**
      * Get the underlying storage resource
      * @return the underlying storage slab for this DB
      */
-    public RockSlab slab() {
-<span class="fc" id="L134">        return (RockSlab)rock;</span>
+    public Slab slab() {
+<span class="fc" id="L101">        return rock;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

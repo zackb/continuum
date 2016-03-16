@@ -177,14 +177,16 @@ public class FileSystemReference implements Reference {
 <span class="fc" id="L177">    private static final FileVisitor&lt;Path&gt; DeleteRecursively = new SimpleFileVisitor&lt;Path&gt;() {</span>
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-<span class="fc" id="L180">            Files.delete(file);</span>
-<span class="fc" id="L181">            return FileVisitResult.CONTINUE;</span>
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">            if (Files.exists(file))</span>
+<span class="fc" id="L181">                Files.delete(file);</span>
+<span class="fc" id="L182">            return FileVisitResult.CONTINUE;</span>
         }
 
         @Override
         public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-<span class="fc" id="L186">            Files.delete(dir);</span>
-<span class="fc" id="L187">            return FileVisitResult.CONTINUE;</span>
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">            if (Files.exists(dir))</span>
+<span class="fc" id="L188">                Files.delete(dir);</span>
+<span class="fc" id="L189">            return FileVisitResult.CONTINUE;</span>
         }
     };
 }

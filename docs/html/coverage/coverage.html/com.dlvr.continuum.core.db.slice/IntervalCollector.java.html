@@ -13,7 +13,7 @@ import java.util.*;
  * Collect sub-aggregated data at a given interval
  * Created by zack on 2/19/16.
  */
-public class IntervalCollector implements Collector {
+public class IntervalCollector implements Collector&lt;Atom&gt; {
 
     private final String name;
     private final Interval interval;
@@ -57,14 +57,14 @@ public class IntervalCollector implements Collector {
     }
 
     @Override
-    public Slice result() {
+    public Slice slice() {
 
-<span class="fc" id="L62">        NSlice result = (NSlice) values.result();</span>
+<span class="fc" id="L62">        NSlice result = (NSlice) values.slice();</span>
 <span class="fc" id="L63">        result.name = name();</span>
 <span class="fc" id="L64">        List&lt;Long&gt; sorted = new ArrayList&lt;&gt;(collectors.keySet());</span>
 <span class="fc" id="L65">        Collections.sort(sorted, (o1, o2) -&gt; o2.compareTo(o1));</span>
 <span class="fc bfc" id="L66" title="All 2 branches covered.">        for (Long ts : sorted) {</span>
-<span class="fc" id="L67">            Slice child = collectors.get(ts).result();</span>
+<span class="fc" id="L67">            Slice child = collectors.get(ts).slice();</span>
 <span class="fc" id="L68">            result.add(child);</span>
 <span class="fc" id="L69">        }</span>
 <span class="fc" id="L70">        return result;</span>
