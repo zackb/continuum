@@ -63,15 +63,14 @@ public class RockDB implements DB {
         try {
             itr = iterator();
             itr.seek(scan.ID().bytes());
-            Atom atom = itr.hasNext() ? itr.get() : null;
+            Atom atom;
             boolean stop = false;
-            while (atom != null && !stop) {
+            while (!stop && (atom = iterate(itr)) != null) {
                 switch (filter.filter(atom)) {
                     case CONTINUE:          collector.collect(atom); break;
                     case SKIP:              break;
                     case STOP: default:     stop = true; break;
                 }
-                atom = iterate(itr);
             }
         } finally {
             if (itr != null) itr.close();
@@ -82,9 +81,7 @@ public class RockDB implements DB {
 
     private Atom iterate(Iterator iterator) {
         if (!iterator.hasNext()) return null;
-        if (dimension == Dimension.TIME)
-             iterator.prev();
-        else iterator.next();
+        iterator.next();
         if (!iterator.hasNext()) return null;
         return iterator.get();
     }

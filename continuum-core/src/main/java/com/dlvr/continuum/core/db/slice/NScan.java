@@ -45,7 +45,7 @@ public class NScan implements Scan {
 
     @Override
     public ScanID TimeID() {
-        return new KScanID(start, name, particles);
+        return new KScanID(end, name, particles);
     }
 
     @Override

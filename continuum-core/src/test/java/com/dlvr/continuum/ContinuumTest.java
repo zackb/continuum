@@ -77,7 +77,7 @@ public class ContinuumTest {
         }
     }
 
-    //@Test
+    @Test
     public void testWriteReadTime() throws Exception {
         Continuum continuum = null;
         try {
@@ -91,7 +91,7 @@ public class ContinuumTest {
                     .atom()
                     .name("user123")
                     .particles("device", "iphone")
-                    .value(54.54)
+                    .value(1)
                     .build();
 
             continuum.write(atom);
@@ -100,7 +100,7 @@ public class ContinuumTest {
                     .atom()
                     .name("user123")
                     .particles("asn", "12334")
-                    .value(1337)
+                    .value(1)
                     .build();
 
             continuum.write(atom);
@@ -108,11 +108,11 @@ public class ContinuumTest {
             atom = continuum.get(atom.ID());
 
             assertEquals("user123", atom.name());
-            assertEquals(1337, atom.values().value(), 0.0);
-            assertEquals(1337, atom.values().max(), 0.0);
-            assertEquals(1337, atom.values().min(), 0.0);
+            assertEquals(1, atom.values().value(), 0.0);
+            assertEquals(1, atom.values().max(), 0.0);
+            assertEquals(1, atom.values().min(), 0.0);
             assertEquals(1, atom.values().count(), 0);
-            assertEquals(1337, atom.values().sum(), 0.0);
+            assertEquals(1, atom.values().sum(), 0.0);
 
 
             Slice slice = continuum.slice(
@@ -121,6 +121,7 @@ public class ContinuumTest {
                                 .build());
 
             assertEquals(2, slice.atoms().size());
+            assertEquals(1, slice.values().value(), 0);
 
         } finally {
             if (continuum != null) continuum.delete();

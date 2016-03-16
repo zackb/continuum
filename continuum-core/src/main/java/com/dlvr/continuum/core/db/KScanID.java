@@ -19,17 +19,17 @@ public class KScanID implements ScanID {
     private final String name;
     private final Particles particles;
 
-    public KScanID(long start, String name, Particles particles) {
+    public KScanID(long end, String name, Particles particles) {
         this.name = name;
         this.particles = particles();
 
-        byte[] bstart = Bytes.bytes(start);   // start at time
+        byte[] bend = Bytes.bytes(end);   // end at time
         byte[] bname = Bytes.bytes(name);     // and name
         byte[] bparticles = SScanID.encode(particles); // same particles encoding logic as series
-        id = new byte[bstart.length + bname.length + bparticles.length + 2];
+        id = new byte[bend.length + bname.length + bparticles.length + 2];
 
         ByteBuffer buff = ByteBuffer.wrap(id);
-        buff.put(bstart);
+        buff.put(bend);
         buff.put(b);
         buff.put(bname);
         buff.put(b);
