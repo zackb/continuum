@@ -24,7 +24,7 @@ public class RockIterator implements Iterator {
 <span class="fc" id="L24">    }</span>
 
     @Override
-    public AtomID id() {
+    public AtomID ID() {
 <span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if (dimension == Continuum.Dimension.SPACE)</span>
 <span class="fc" id="L29">            return Bytes.SAtomID(it.key());</span>
 <span class="nc bnc" id="L30" title="All 2 branches missed.">        else if (dimension == Continuum.Dimension.TIME)</span>
@@ -54,31 +54,20 @@ public class RockIterator implements Iterator {
 <span class="fc" id="L54">    }</span>
 
     @Override
-    public void seekToLast() {
-<span class="nc" id="L58">        it.seekToLast();</span>
-<span class="nc" id="L59">    }</span>
-
-    @Override
-    public boolean hasNext() {
-<span class="fc" id="L63">        return it.isValid();</span>
+    public boolean valid() {
+<span class="fc" id="L58">        return it.isValid();</span>
     }
 
     @Override
     public boolean next() {
-<span class="fc" id="L68">        it.next();</span>
-<span class="fc" id="L69">        return hasNext();</span>
-    }
-
-    @Override
-    public boolean prev() {
-<span class="nc" id="L74">        it.prev();</span>
-<span class="nc" id="L75">        return hasNext();</span>
+<span class="fc" id="L63">        it.next();</span>
+<span class="fc" id="L64">        return valid();</span>
     }
 
     @Override
     public void close() {
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if (it != null)</span>
-<span class="fc" id="L81">            it.dispose();</span>
-<span class="fc" id="L82">    }</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">        if (it != null)</span>
+<span class="fc" id="L70">            it.dispose();</span>
+<span class="fc" id="L71">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
