@@ -1,6 +1,5 @@
 package com.dlvr.continuum.db.slice;
 
-import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.db.Iterator;
 
 /**
@@ -24,6 +23,4 @@ public interface Scanner<T> {
      * @param iterator to use for this scanner
      */
     void iterator(Iterator iterator);
-
-    void dimension(Continuum.Dimension dimension);
 }

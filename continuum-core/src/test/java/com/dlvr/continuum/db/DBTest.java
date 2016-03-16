@@ -4,7 +4,7 @@ import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.core.db.slice.NScanner;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.core.db.RockDB;
+import com.dlvr.continuum.core.db.AtomDB;
 import com.dlvr.continuum.db.slice.Function;
 import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.Scanner;
@@ -40,7 +40,7 @@ public class DBTest {
 
         String name = "testSlice";
         reference.child(name).delete();
-        RockDB db = new RockDB(Dimension.SPACE, name, reference);
+        AtomDB db = new AtomDB(Dimension.SPACE, name, reference);
         db.open();
         Atom d = satom().name("zack")
                 .timestamp(System.currentTimeMillis())

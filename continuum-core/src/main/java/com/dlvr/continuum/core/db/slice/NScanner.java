@@ -1,6 +1,5 @@
 package com.dlvr.continuum.core.db.slice;
 
-import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.Iterator;
@@ -15,7 +14,6 @@ import java.lang.reflect.Type;
 public class NScanner implements Scanner {
 
     private Iterator iterator;
-    private Continuum.Dimension dimension;
 
     /**
      * {@inheritDoc}
@@ -23,7 +21,7 @@ public class NScanner implements Scanner {
     @Override
     public Slice slice(Scan scan) throws Exception {
         Collector collector = Collectors.forSlice(scan);
-        Filter filter = Filters.forSlice(scan, dimension); // TODO: filter fields and values
+        Filter filter = Filters.forScan(scan); // TODO: filter fields and values
         boolean decode = decodeBody(collector);
         iterator.seek(scan.ID().bytes());
         Atom atom = iterator.valid() ? iterator.get() : null;
@@ -49,14 +47,6 @@ public class NScanner implements Scanner {
     @Override
     public void iterator(Iterator iterator) {
         this.iterator = iterator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void dimension(Continuum.Dimension dimension) {
-        this.dimension = dimension;
     }
 
     private Atom iterate(Iterator iterator) {

@@ -3,7 +3,7 @@ package com.dlvr.continuum.db;
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
-import com.dlvr.continuum.core.db.RockDB;
+import com.dlvr.continuum.core.db.AtomDB;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class IteratorTest {
         map2.put("zack", "bar");
         map2.put("fuz", "da'vinci");
         reference.child(name).delete();
-        RockDB db = new RockDB(Continuum.Dimension.SPACE, name, reference);
+        AtomDB db = new AtomDB(Continuum.Dimension.SPACE, name, reference);
         db.open();
         long ts1 = System.currentTimeMillis();
         long ts2 = ts1 + 100;

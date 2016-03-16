@@ -14,7 +14,7 @@ import com.dlvr.continuum.core.atom.*;
 import com.dlvr.continuum.core.db.slice.NSlice;
 import com.dlvr.continuum.core.db.Slabs;
 import com.dlvr.continuum.core.db.RockSlab;
-import com.dlvr.continuum.core.db.RockDB;
+import com.dlvr.continuum.core.db.AtomDB;
 import com.dlvr.continuum.core.db.slice.NScan;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.db.slice.Scanner;
@@ -161,9 +161,9 @@ public class Continuum implements Closeable {
         }
 
         if (slabs.size() == 1) {
-            this.db = new RockDB(dimension, slabs.get(0));
+            this.db = new AtomDB(dimension, slabs.get(0));
         } else {
-            this.db = new RockDB(dimension, new Slabs(slabs));
+            this.db = new AtomDB(dimension, new Slabs(slabs));
         }
         this.db.open();
     }
