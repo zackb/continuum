@@ -14,7 +14,7 @@ import com.dlvr.continuum.util.Bytes;
 import static com.dlvr.continuum.Continuum.*;
 
 /**
- * rockdDB implemented with RocksDB
+ * Data store implemented with RocksDB
  */
 public class RockDB implements DB {
 
@@ -84,49 +84,6 @@ public class RockDB implements DB {
     }
 
     /**
-     * TODO: Move out to Scanner class and just read Iterator from DB
-     * {@inheritDoc}
-     */
-    @Override
-    public Slice slice(Scan scan) {
-        Iterator itr = null;
-        Collector collector = Collectors.forSlice(scan);
-        Filter filter = Filters.forSlice(scan, dimension); // TODO: filter fields and values
-        try {
-            itr = iterator();
-            itr.seek(scan.ID().bytes());
-            Atom atom = itr.valid() ? itr.get() : null;
-            boolean stop = false;
-            while (!stop && atom != null) {
-                switch (filter.filter(atom)) {
-                    case CONTINUE:          collector.collect(atom); break;
-                    case SKIP:              break;
-                    case STOP: default:     stop = true; break;
-                }
-                atom = iterate(itr);
-            }
-        } finally {
-            if (itr != null) itr.close();
-        }
-
-        return collector.slice();
-    }
-
-    private Atom iterate(Iterator iterator) {
-        iterator.next();
-        if (!iterator.valid()) return null;
-        return iterator.get();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Iterator iterator() {
-        return new RockIterator(dimension, slab());
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -138,7 +95,7 @@ public class RockDB implements DB {
      * Get the underlying storage resource
      * @return the underlying storage slab for this DB
      */
-    public RockSlab slab() {
-        return (RockSlab)rock;
+    public Slab slab() {
+        return rock;
     }
 }

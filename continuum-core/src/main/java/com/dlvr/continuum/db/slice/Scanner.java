@@ -6,7 +6,7 @@ import com.dlvr.continuum.db.Iterator;
  * Scan a data store to produce a slice
  * Created by zack on 3/15/16.
  */
-public interface Scanner {
+public interface Scanner<T> {
 
     /**
      * Query: Execute a set of operations on a scan of time from the datastore
