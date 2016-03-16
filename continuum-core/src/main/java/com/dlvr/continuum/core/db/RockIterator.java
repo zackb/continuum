@@ -74,6 +74,12 @@ public class RockIterator implements Iterator {
     }
 
     @Override
+    public boolean prev() {
+        it.prev();
+        return hasNext();
+    }
+
+    @Override
     public void close() {
         if (it != null)
             it.dispose();

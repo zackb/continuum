@@ -33,6 +33,8 @@ public interface Iterator {
 
     boolean next();
 
+    boolean prev();
+
     /**
      * Closes the iterator and releases underlying resources
      */

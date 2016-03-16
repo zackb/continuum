@@ -64,20 +64,27 @@ public class RockDB implements DB {
             itr = iterator();
             ID id = scan.ID();
             itr.seek(id.bytes());
-            while (itr.hasNext()) {
-                Atom atom = itr.get();
-                Filter.Action action = filter.filter(atom);
-                if (action == Filter.Action.CONTINUE)
-                    collector.collect(atom);
-                else if (action == Filter.Action.STOP)
-                    break;
-                itr.next();
+            Atom atom;
+            boolean stop = false;
+            while (itr.hasNext() && (atom = iterate(itr)) != null && !stop) {
+                switch (filter.filter(atom)) {
+                    case CONTINUE:          collector.collect(atom); break;
+                    case SKIP:              break;
+                    case STOP: default:     stop = true; break;
+                }
             }
         } finally {
             if (itr != null) itr.close();
         }
 
         return collector.result();
+    }
+
+    private Atom iterate(Iterator iterator) {
+        if (dimension == Dimension.TIME)
+             iterator.prev();
+        else iterator.next();
+        return iterator.get();
     }
 
     @Override
