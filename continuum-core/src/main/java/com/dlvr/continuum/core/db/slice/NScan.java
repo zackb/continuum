@@ -42,11 +42,14 @@ public class NScan implements Scan {
     }
 
     @Override
+    public Continuum.Dimension dimension() {
+        return dimension;
+    }
+
     public ScanID TimeID() {
         return new KScanID(end, name, particles);
     }
 
-    @Override
     public ScanID SpaceID() {
         return new SScanID(name, particles);
     }

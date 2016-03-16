@@ -4,29 +4,23 @@ import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.util.datetime.Interval;
 
+import static com.dlvr.continuum.Continuum.Dimension;
+
 /**
  * Scan over space time
  */
 public interface Scan {
 
     /**
-     * TODO: How to not need all three of these?
      * Non-unique ID for this scan
-     * @return ID fo use for slicing
+     * @return ID used to begin slab seek
      */
     ScanID ID();
 
     /**
-     * ID for time key
-     * @return ID
+     * The dimension to scan on, space (name) or time (timestamp)
      */
-    ScanID TimeID();
-
-    /**
-     * ID for time series
-     * @return ID
-     */
-    ScanID SpaceID();
+    Dimension dimension();
 
     /**
      * The measurement name to scan for

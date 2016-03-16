@@ -47,14 +47,6 @@ public class NScanner implements Scanner {
      * {@inheritDoc}
      */
     @Override
-    public Iterator iterator() {
-        return iterator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void iterator(Iterator iterator) {
         this.iterator = iterator;
     }
