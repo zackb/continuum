@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Bytes.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">continuum-core</a> &gt; <a href="index.source.html" class="el_package">com.dlvr.continuum.util</a> &gt; <span class="el_source">Bytes.java</span></div><h1>Bytes.java</h1><pre class="source lang-java linenums">package com.dlvr.continuum.util;
+
+import com.dlvr.continuum.Continuum;
+import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.atom.Values;
+import com.dlvr.continuum.core.atom.KAtom;
+import com.dlvr.continuum.core.atom.NAtom;
+import com.dlvr.continuum.core.atom.SAtom;
+import com.dlvr.continuum.core.db.KAtomID;
+import com.dlvr.continuum.db.AtomID;
+import com.dlvr.continuum.core.db.SAtomID;
+import com.dlvr.continuum.except.ZiggyStardustError;
+
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+
+/**
+ * Working with byte arrays
+ */
+<span class="nc" id="L21">public class Bytes {</span>
+
+    public static final byte B = 0x0;
+
+    public static byte[] bytes(int value) {
+<span class="nc" id="L26">        return new byte[] {</span>
+                (byte)(value &gt;&gt;&gt; 24),
+                (byte)(value &gt;&gt;&gt; 16),
+                (byte)(value &gt;&gt;&gt; 8),
+                (byte)value
+        };
+    }
+
+
+    /**
+     * Quark!
+     * TODO: String values
+     * Decode only the values of the atom. If the full body is not needed to be decoded.
+     * @param bytes encoded with {#values(Atom)}
+     * @return 64 bit min, max, count, sum, value from bytes
+     */
+    public static Values Values(byte[] bytes) {
+<span class="nc" id="L43">        int pos = bytes.length;</span>
+<span class="nc" id="L44">        byte[] value = range(bytes, pos - 8, pos);</span>
+<span class="nc" id="L45">        pos -= 9; // null byte divider</span>
+<span class="nc" id="L46">        byte[] sum = range(bytes, pos - 8, pos);</span>
+<span class="nc" id="L47">        pos -= 9;</span>
+<span class="nc" id="L48">        byte[] count = range(bytes, pos - 8, pos);</span>
+<span class="nc" id="L49">        pos -= 9;</span>
+<span class="nc" id="L50">        byte[] min = range(bytes, pos - 8, pos);</span>
+<span class="nc" id="L51">        pos -= 9;</span>
+<span class="nc" id="L52">        byte[] max = range(bytes, pos - 8, pos);</span>
+<span class="nc" id="L53">        return Continuum.values()</span>
+<span class="nc" id="L54">                .min(Double(min))</span>
+<span class="nc" id="L55">                .max(Double(max))</span>
+<span class="nc" id="L56">                .count(Double(count))</span>
+<span class="nc" id="L57">                .sum(Double(sum))</span>
+<span class="nc" id="L58">                .value(Double(value))</span>
+<span class="nc" id="L59">                .build();</span>
+    }
+
+    public static int Int(byte[] bytes) {
+<span class="nc" id="L63">        return Int(bytes[0], bytes[1], bytes[2], bytes[3]);</span>
+    }
+
+    public static int Int(byte b1, byte b2, byte b3, byte b4) {
+<span class="nc" id="L67">        return b1 &lt;&lt; 24 | (b2 &amp; 0xFF) &lt;&lt; 16 | (b3 &amp; 0xFF) &lt;&lt; 8 | (b4 &amp; 0xFF);</span>
+    }
+
+    public static AtomID SAtomID(byte[] bytes) {
+<span class="fc" id="L71">        return new SAtomID(bytes);</span>
+    }
+
+    public static AtomID KAtomID(byte[] bytes) {
+<span class="nc" id="L75">        return new KAtomID(bytes);</span>
+    }
+
+    public static byte[] bytes(AtomID id) {
+<span class="nc" id="L79">        return id.bytes();</span>
+    }
+
+    public static byte[] bytes(double value) {
+<span class="nc" id="L83">        byte[] bytes = new byte[8];</span>
+<span class="nc" id="L84">        ByteBuffer.wrap(bytes).putDouble(value);</span>
+<span class="nc" id="L85">        return bytes;</span>
+    }
+
+    public static double Double(byte[] bytes) {
+<span class="nc" id="L89">        return ByteBuffer.wrap(bytes).getDouble();</span>
+    }
+
+    public static byte[] bytes(long value) {
+<span class="fc" id="L93">        byte[] bytes = new byte[8];</span>
+<span class="fc" id="L94">        ByteBuffer.wrap(bytes).putLong(value);</span>
+<span class="fc" id="L95">        return bytes;</span>
+    }
+
+    public static long Long(byte[] bytes) {
+<span class="fc" id="L99">        return ByteBuffer.wrap(bytes).getLong();</span>
+    }
+
+    /**
+     * // TODO: Store values instead of values/avg?
+     *      Quark! byte[bson(fields)] + 0x0 + byte[min] + 0x0 + byte[max] + 0x0 + byte[sum] + byte[count] + 0x0
+     * // TOOD: String values support
+     *
+     * Encode atom as bytes[bson] + 0x0 + bytes[values]
+     * @param atom to encode
+     * @return values for slab storage
+     */
+    public static byte[] bytes(Atom atom) {
+<span class="fc" id="L112">        return BSON.encode(atom);</span>
+
+        /*
+        Values values = atom.values();
+        natom.values = null;
+        byte[] bson = BSON.encode(natom);
+        natom.values = values;
+
+        byte[] min = bytes(values.min());
+        byte[] max = bytes(values.max());
+        byte[] count = bytes(values.count());
+        byte[] sum = bytes(values.sum());
+        byte[] value = bytes(values.value());
+
+        int valuesLen = min.length + 1 + max.length + 1 + count.length + 1 + sum.length + 1 + value.length;
+
+        byte[] slice = new byte[bson.length + 1 + valuesLen];
+
+        int pos = 0;
+
+        append(slice, 0, bson);
+        pos += bson.length;
+        append(slice, pos, B);
+        pos += 1;
+
+        append(slice, pos, min);
+        pos += min.length;
+        append(slice, pos, B);
+        pos += 1;
+
+        append(slice, pos, max);
+        pos += max.length;
+        append(slice, pos, B);
+        pos += 1;
+
+        append(slice, pos, count);
+        pos += count.length;
+        append(slice, pos, B);
+        pos += 1;
+
+        append(slice, pos, sum);
+        pos += sum.length;
+        append(slice, pos, B);
+        pos += 1;
+
+        append(slice, pos, value);
+
+        return slice;
+*/
+
+    }
+
+    public static Atom SAtom(byte[] bytes) {
+<span class="fc" id="L165">        return Atom(bytes, Continuum.Dimension.SPACE);</span>
+    }
+
+    public static Atom KAtom(byte[] bytes) {
+<span class="fc" id="L169">        return Atom(bytes, Continuum.Dimension.TIME);</span>
+    }
+
+    public static Atom Atom(byte[] bytes, Continuum.Dimension dimension) {
+<span class="fc" id="L173">        Class&lt;? extends NAtom&gt; clazz = null;</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">        if (dimension == Continuum.Dimension.SPACE)</span>
+<span class="fc" id="L175">            clazz = SAtom.class;</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        else if (dimension == Continuum.Dimension.TIME)</span>
+<span class="fc" id="L177">            clazz = KAtom.class;</span>
+<span class="nc" id="L178">        else throw new ZiggyStardustError();</span>
+<span class="fc" id="L179">        NAtom atom = BSON.decodeObject(bytes, clazz);</span>
+<span class="fc" id="L180">        return atom;</span>
+    }
+
+<span class="fc" id="L183">    private static final Charset utf8 = Charset.forName(&quot;UTF-8&quot;);</span>
+
+    public static byte[] bytes(String value) {
+<span class="fc" id="L186">        return value.getBytes(utf8);</span>
+    }
+
+    public static String String(byte[] bytes) {
+<span class="fc" id="L190">        return new String(bytes);</span>
+    }
+
+    public static byte[] copy(byte[] a) {
+<span class="nc" id="L194">        byte[] c = new byte[a.length];</span>
+<span class="nc" id="L195">        System.arraycopy(a, 0, c, 0, a.length);</span>
+<span class="nc" id="L196">        return c;</span>
+    }
+
+    public static byte[] concat(byte[] a, byte[] b) {
+<span class="fc" id="L200">        byte[] c = new byte[a.length + b.length];</span>
+<span class="fc" id="L201">        System.arraycopy(a, 0, c, 0, a.length);</span>
+<span class="fc" id="L202">        System.arraycopy(b, 0, c, a.length, b.length);</span>
+<span class="fc" id="L203">        return c;</span>
+    }
+
+    public static byte[] concat(byte[] a, byte b) {
+<span class="fc" id="L207">        byte[] c = new byte[a.length + 1];</span>
+<span class="fc" id="L208">        System.arraycopy(a, 0, c, 0, a.length);</span>
+<span class="fc" id="L209">        c[c.length - 1] = b;</span>
+<span class="fc" id="L210">        return c;</span>
+    }
+
+    public static byte[] append(byte[] target, int pos, byte[] addition) {
+<span class="fc" id="L214">        return append(target, pos, addition, addition.length);</span>
+    }
+
+    public static byte[] append(byte[] target, int pos, byte[] addition, int count) {
+<span class="fc bfc" id="L218" title="All 2 branches covered.">        for (int i = 0; i &lt; count; i++) {</span>
+<span class="fc" id="L219">            target[pos++] = addition[i];</span>
+        }
+<span class="fc" id="L221">        return target;</span>
+    }
+
+    public static byte[] append(byte[] target, int pos, byte addition) {
+<span class="nc" id="L225">        target[pos] = addition;</span>
+<span class="nc" id="L226">        return target;</span>
+    }
+
+    public static byte[][] split(byte[] target, byte delimit) {
+<span class="nc" id="L230">        int size = 0;</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">        for (byte b : target)</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">            if (b == delimit) size++;</span>
+
+<span class="nc" id="L234">        byte[][] result = new byte[size+1][];</span>
+<span class="nc" id="L235">        int resPos = 0;</span>
+
+<span class="nc" id="L237">        byte[] buffer = new byte[1024];</span>
+<span class="nc" id="L238">        int curPos = 0;</span>
+<span class="nc bnc" id="L239" title="All 2 branches missed.">        for (int i = 0; i &lt; target.length; i++) {</span>
+<span class="nc" id="L240">            byte b = target[i];</span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">            if (b == delimit) {</span>
+<span class="nc" id="L242">                byte[] e = new byte[curPos];</span>
+<span class="nc" id="L243">                append(e, 0, buffer, curPos);</span>
+<span class="nc" id="L244">                result[resPos++] = e;</span>
+<span class="nc" id="L245">                curPos = 0;</span>
+<span class="nc" id="L246">            } else {</span>
+<span class="nc" id="L247">                buffer[curPos++] = b;</span>
+            }
+        }
+<span class="nc bnc" id="L250" title="All 2 branches missed.">        if (curPos &gt; 0) {</span>
+<span class="nc" id="L251">            byte[] e = new byte[curPos];</span>
+<span class="nc" id="L252">            append(e, 0, buffer, curPos);</span>
+<span class="nc" id="L253">            result[resPos++] = e;</span>
+        }
+
+<span class="nc" id="L256">        return result;</span>
+    }
+
+    public static int lastIndexOf(byte[] target, byte b) {
+<span class="nc bnc" id="L260" title="All 2 branches missed.">        for (int i = target.length; i &lt; 0; i++) {</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">            if (target[i] == b) return i;</span>
+        }
+<span class="nc" id="L263">        return -1;</span>
+    }
+
+    public static byte[] range(byte[] target, int start) {
+<span class="fc" id="L267">        return range(target, start, target.length);</span>
+    }
+
+    public static byte[] range(byte[] target, int start, int end) {
+<span class="fc" id="L271">        return Arrays.copyOfRange(target, start, end);</span>
+    }
+
+    public static final byte SEP = 0x00;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
