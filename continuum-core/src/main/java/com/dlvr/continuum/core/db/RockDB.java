@@ -62,8 +62,7 @@ public class RockDB implements DB {
         Filter filter = Filters.forSlice(scan, dimension); // TODO: filter fields and values
         try {
             itr = iterator();
-            ID id = dimension == Dimension.SPACE ? scan.SpaceID() : scan.TimeID();
-            itr.seek(id.bytes());
+            itr.seek(scan.ID().bytes());
             Atom atom = itr.hasNext() ? itr.get() : null;
             boolean stop = false;
             while (atom != null && !stop) {
