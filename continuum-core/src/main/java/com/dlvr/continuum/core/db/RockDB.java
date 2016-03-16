@@ -50,16 +50,24 @@ public class RockDB implements DB {
      * {@inheritDoc}
      */
     @Override
-    public void write(Atom atom) throws Exception {
-        rock.put(atom.ID().bytes(), Bytes.bytes(atom));
+    public void open() throws Exception {
+
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Atom get(AtomID id) throws Exception {
-        return Bytes.Atom(rock.get(id.bytes()), dimension);
+    public void write(Atom atom) throws Exception {
+        rock.write(atom.ID().bytes(), Bytes.bytes(atom));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Atom read(AtomID id) throws Exception {
+        return Bytes.Atom(rock.read(id.bytes()), dimension);
     }
 
     /**
@@ -76,7 +84,7 @@ public class RockDB implements DB {
     }
 
     /**
-     * TODO: Move out to Scanner class and just get Iterator from DB
+     * TODO: Move out to Scanner class and just read Iterator from DB
      * {@inheritDoc}
      */
     @Override
@@ -101,7 +109,7 @@ public class RockDB implements DB {
             if (itr != null) itr.close();
         }
 
-        return collector.result();
+        return collector.slice();
     }
 
     private Atom iterate(Iterator iterator) {

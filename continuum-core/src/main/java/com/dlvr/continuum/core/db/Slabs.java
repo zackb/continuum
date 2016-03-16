@@ -30,13 +30,13 @@ public class Slabs implements Slab {
     }
 
     @Override
-    public byte[] get(byte[] key) throws Exception {
-        return select(key).get(key);
+    public byte[] read(byte[] key) throws Exception {
+        return select(key).read(key);
     }
 
     @Override
-    public void put(byte[] key, byte[] value) throws Exception {
-        select(key).put(key, value);
+    public void write(byte[] key, byte[] value) throws Exception {
+        select(key).write(key, value);
     }
 
     @Override

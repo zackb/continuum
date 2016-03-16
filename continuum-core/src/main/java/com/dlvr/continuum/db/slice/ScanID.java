@@ -1,6 +1,7 @@
-package com.dlvr.continuum.db;
+package com.dlvr.continuum.db.slice;
 
 import com.dlvr.continuum.atom.Particles;
+import com.dlvr.continuum.db.ID;
 
 /**
  * non-unique ID representing the best place to start a seek from in an LSM tree

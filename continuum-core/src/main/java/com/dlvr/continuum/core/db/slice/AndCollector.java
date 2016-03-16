@@ -35,10 +35,10 @@ public class AndCollector implements Collector {
     }
 
     @Override
-    public Slice result() {
-        Slice result = values.result();
+    public Slice slice() {
+        Slice result = values.slice();
         for (Collector collector : collectors) {
-            result.add(collector.result());
+            result.add(collector.slice());
         }
         return result;
     }

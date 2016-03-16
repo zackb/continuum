@@ -54,7 +54,7 @@ public class DBTest {
         db.write(d);
 
         AtomID id = d.ID();
-        d = db.get(id);
+        d = db.read(id);
         assertEquals(98898.124D, d.values().value(), 0.00001);
         Slice res = db.slice(scan().name("zack").dimension(Dimension.SPACE).end(Interval.valueOf("1d")).function(Function.AVG).build());
         Double avg = res.values().value();

@@ -191,7 +191,7 @@ public class Continuum implements Closeable {
      * @throws Exception on underlying slabs failure
      */
     Atom get(AtomID id) throws Exception {
-        return db().get(id);
+        return db().read(id);
     }
 
     /**

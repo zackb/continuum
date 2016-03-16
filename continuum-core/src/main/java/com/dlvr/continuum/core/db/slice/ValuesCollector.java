@@ -72,7 +72,7 @@ public class ValuesCollector implements Collector {
     }
 
     @Override
-    public Slice result() {
+    public Slice slice() {
         if (min == Double.MAX_VALUE) min = 0;
         if (max == Double.MIN_VALUE) max = 0;
         double value;

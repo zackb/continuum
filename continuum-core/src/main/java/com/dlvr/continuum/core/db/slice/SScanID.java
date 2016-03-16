@@ -1,6 +1,6 @@
-package com.dlvr.continuum.core.db;
+package com.dlvr.continuum.core.db.slice;
 
-import com.dlvr.continuum.db.ScanID;
+import com.dlvr.continuum.db.slice.ScanID;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.slice.Const;
 import com.dlvr.continuum.util.Bytes;

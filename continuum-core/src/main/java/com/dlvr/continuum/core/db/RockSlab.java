@@ -15,44 +15,65 @@ public class RockSlab implements Slab {
     private boolean closed;
     private FileSystemReference dataDirRef;
 
-    public RockSlab(String name, FileSystemReference dataDirRef) throws Exception {
-        this.name = name;
-        this.dataDirRef = dataDirRef.child(name);
+    static {
         RocksDB.loadLibrary();
-        open();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public RockSlab(String name, FileSystemReference dataDirRef) {
+        this.name = name;
+        this.dataDirRef = dataDirRef.child(name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void open() throws Exception {
         dataDirRef.mkdir();
         rock = RocksDB.open(createOptions(), dataDirRef.fullPath());
         closed = false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public byte[] get(byte[] key) throws Exception {
+    public byte[] read(byte[] key) throws Exception {
         return rock.get(key);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void put(byte[] key, byte[] value) throws Exception {
+    public void write(byte[] key, byte[] value) throws Exception {
         rock.put(key, value);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void merge(byte[] key, byte[] value) throws Exception {
         rock.merge(key, value);
     }
 
-    RocksDB rockdDB() {
-        return this.rock;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close() {
         if (rock != null) {
             rock.close();
         }
         closed = true;
+    }
+
+    RocksDB rockdDB() {
+        return this.rock;
     }
 
     public FileSystemReference reference() {

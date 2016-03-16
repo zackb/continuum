@@ -125,38 +125,38 @@ public class Bytes {
 
         int valuesLen = min.length + 1 + max.length + 1 + count.length + 1 + sum.length + 1 + value.length;
 
-        byte[] result = new byte[bson.length + 1 + valuesLen];
+        byte[] slice = new byte[bson.length + 1 + valuesLen];
 
         int pos = 0;
 
-        append(result, 0, bson);
+        append(slice, 0, bson);
         pos += bson.length;
-        append(result, pos, B);
+        append(slice, pos, B);
         pos += 1;
 
-        append(result, pos, min);
+        append(slice, pos, min);
         pos += min.length;
-        append(result, pos, B);
+        append(slice, pos, B);
         pos += 1;
 
-        append(result, pos, max);
+        append(slice, pos, max);
         pos += max.length;
-        append(result, pos, B);
+        append(slice, pos, B);
         pos += 1;
 
-        append(result, pos, count);
+        append(slice, pos, count);
         pos += count.length;
-        append(result, pos, B);
+        append(slice, pos, B);
         pos += 1;
 
-        append(result, pos, sum);
+        append(slice, pos, sum);
         pos += sum.length;
-        append(result, pos, B);
+        append(slice, pos, B);
         pos += 1;
 
-        append(result, pos, value);
+        append(slice, pos, value);
 
-        return result;
+        return slice;
 */
 
     }

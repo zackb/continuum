@@ -1,16 +1,23 @@
 package com.dlvr.continuum.db;
 
 /**
- * Big chunk of data
+ * Slab storage responsible for a big chunk of data
  */
 public interface Slab {
+
+    /**
+     * Open underlying resources for this slab storage resource
+     * @throws Exception
+     */
+    void open() throws Exception;
+
     /**
      * Get some data by key
      * @param key ID of data
      * @throws Exception error reading from slab
      * @return bytes of data
      */
-    byte[] get(byte[] key) throws Exception;
+    byte[] read(byte[] key) throws Exception;
 
     /**
      * Store some data by key
@@ -18,7 +25,7 @@ public interface Slab {
      * @param value some bytes to store
      * @throws Exception error writing to slab
      */
-    void put(byte[] key, byte[] value) throws Exception;
+    void write(byte[] key, byte[] value) throws Exception;
 
     /**
      * Store some data by key and push duplicate values instead of overwriting
