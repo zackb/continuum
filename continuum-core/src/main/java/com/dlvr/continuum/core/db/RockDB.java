@@ -18,33 +18,53 @@ import static com.dlvr.continuum.Continuum.*;
  */
 public class RockDB implements DB {
 
+    // underlying storage
     private final Slab rock;
+
+    // dimension of this datastore TODO: column family??
     private final Dimension dimension;
 
+    /**
+     * Open or create a new slab
+     * @param dimension for this data store // TODO: Dont need/want this? (column family)
+     * @param slab underlying rock slab to use
+     */
     public RockDB(Dimension dimension, Slab slab) {
         this.dimension = dimension;
         this.rock = slab;
     }
 
+    /**
+     * Open or create a new slab
+     * @param dimension for this data store // TODO: Dont need/want this? (column family)
+     * @param name unique id of slab
+     * @param base file system reference to use
+     * @throws Exception error opening data store
+     */
     public RockDB(Dimension dimension, String name, FileSystemReference base) throws Exception {
         this.dimension = dimension;
-        rock = new RockSlab(name + ".db", base);
+        this.rock = new RockSlab(name + ".db", base);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void write(Atom atom) throws Exception {
         rock.put(atom.ID().bytes(), Bytes.bytes(atom));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Atom get(AtomID id) throws Exception {
         return Bytes.Atom(rock.get(id.bytes()), dimension);
     }
 
     /**
-     * TODO: Remove particles from body (just fields, tags are in the id)
-     * Decode atom from slab storage
-     * @param bytes encoded with {#values(Atom)}
-     * @return
+     * TODO: Remove particles from body (just fields, tags are in the ID)
+     * {@inheritDoc}
      */
     static Atom decodeAtom(byte[] bytes, Dimension dimension) {
         if (dimension == Dimension.TIME) {
@@ -55,6 +75,10 @@ public class RockDB implements DB {
         throw new ZiggyStardustError();
     }
 
+    /**
+     * TODO: Move out to Scanner class and just get Iterator from DB
+     * {@inheritDoc}
+     */
     @Override
     public Slice slice(Scan scan) {
         Iterator itr = null;
@@ -63,7 +87,7 @@ public class RockDB implements DB {
         try {
             itr = iterator();
             itr.seek(scan.ID().bytes());
-            Atom atom = itr.hasNext() ? itr.get() : null;
+            Atom atom = itr.valid() ? itr.get() : null;
             boolean stop = false;
             while (!stop && atom != null) {
                 switch (filter.filter(atom)) {
@@ -82,20 +106,30 @@ public class RockDB implements DB {
 
     private Atom iterate(Iterator iterator) {
         iterator.next();
-        if (!iterator.hasNext()) return null;
+        if (!iterator.valid()) return null;
         return iterator.get();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Iterator iterator() {
         return new RockIterator(dimension, slab());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close() throws Exception {
         rock.close();
     }
 
+    /**
+     * Get the underlying storage resource
+     * @return the underlying storage slab for this DB
+     */
     public RockSlab slab() {
         return (RockSlab)rock;
     }

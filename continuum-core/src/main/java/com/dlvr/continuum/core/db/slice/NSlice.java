@@ -18,26 +18,41 @@ public class NSlice implements Slice {
     public List<Slice> children;
     public List<Atom> atoms;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String name() {
         return name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Values values() {
         return values;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Slice> slices() {
         return children;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Atom> atoms() {
         return atoms;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Slice add(Slice result) {
         if (children == null) children = new ArrayList<>();
@@ -45,6 +60,9 @@ public class NSlice implements Slice {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Slice remove(Slice result) {
         if (children == null) return result;
@@ -52,6 +70,9 @@ public class NSlice implements Slice {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Slice slice(String name) {
         for (Slice res : children) {
@@ -62,16 +83,25 @@ public class NSlice implements Slice {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Slice slice(int idx) {
         return children.get(idx);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long timestamp() {
         return timestamp;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,6 +118,9 @@ public class NSlice implements Slice {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;

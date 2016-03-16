@@ -9,7 +9,7 @@ import com.dlvr.continuum.atom.Values;
  */
 public interface Iterator {
 
-    AtomID id();
+    AtomID ID();
 
     /**
      * Retreive the Atom with the ID of current()
@@ -23,17 +23,24 @@ public interface Iterator {
      */
     Values values();
 
+    /**
+     * Move iterator to first postion in the data store (oldest)
+     */
     void seekToFirst();
 
     void seek(byte[] target);
 
-    void seekToLast();
+    /**
+     * Check if this iterator can work
+     * @return true if iterator is valid and a call to next() will succeed
+     */
+    boolean valid();
 
-    boolean hasNext();
-
+    /**
+     * Advance iterator position by one
+     * @return true if iterator can be advanced further
+     */
     boolean next();
-
-    boolean prev();
 
     /**
      * Closes the iterator and releases underlying resources

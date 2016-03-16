@@ -24,7 +24,7 @@ public class RockIterator implements Iterator {
     }
 
     @Override
-    public AtomID id() {
+    public AtomID ID() {
         if (dimension == Continuum.Dimension.SPACE)
             return Bytes.SAtomID(it.key());
         else if (dimension == Continuum.Dimension.TIME)
@@ -54,25 +54,14 @@ public class RockIterator implements Iterator {
     }
 
     @Override
-    public void seekToLast() {
-        it.seekToLast();
-    }
-
-    @Override
-    public boolean hasNext() {
+    public boolean valid() {
         return it.isValid();
     }
 
     @Override
     public boolean next() {
         it.next();
-        return hasNext();
-    }
-
-    @Override
-    public boolean prev() {
-        it.prev();
-        return hasNext();
+        return valid();
     }
 
     @Override

@@ -21,26 +21,41 @@ public class CSlice implements Slice {
     public List<SAtom> atoms;
     public long timestamp;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String name() {
         return name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Values values() {
         return values;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Slice> slices() {
         return children;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<? extends Atom> atoms() {
         return atoms;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Slice add(Slice slice) {
         if (children == null) children = new ArrayList<>();
@@ -48,6 +63,9 @@ public class CSlice implements Slice {
         return slice;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Slice remove(Slice slice) {
         if (children != null)
@@ -55,6 +73,9 @@ public class CSlice implements Slice {
         return slice;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Slice slice(String name) {
 
@@ -67,11 +88,17 @@ public class CSlice implements Slice {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Slice slice(int i) {
         return children.get(i);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long timestamp() {
         return timestamp;

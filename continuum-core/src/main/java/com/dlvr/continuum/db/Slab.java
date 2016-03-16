@@ -6,7 +6,7 @@ package com.dlvr.continuum.db;
 public interface Slab {
     /**
      * Get some data by key
-     * @param key id of data
+     * @param key ID of data
      * @throws Exception error reading from slab
      * @return bytes of data
      */

@@ -12,20 +12,20 @@ public interface Scan {
 
     /**
      * TODO: How to not need all three of these?
-     * Non-unique id for this scan
-     * @return id fo use for slicing
+     * Non-unique ID for this scan
+     * @return ID fo use for slicing
      */
     ScanID ID();
 
     /**
      * ID for time key
-     * @return id
+     * @return ID
      */
     ScanID TimeID();
 
     /**
      * ID for time series
-     * @return id
+     * @return ID
      */
     ScanID SpaceID();
 

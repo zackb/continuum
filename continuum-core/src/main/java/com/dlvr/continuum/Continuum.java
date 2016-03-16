@@ -185,9 +185,9 @@ public class Continuum implements Closeable {
     }
 
     /**
-     * Retreive a single atom by id from the datastore
+     * Retreive a single atom by ID from the datastore
      * @param id to retrieve for
-     * @return atom for given id or null if not exist
+     * @return atom for given ID or null if not exist
      * @throws Exception on underlying slabs failure
      */
     Atom get(AtomID id) throws Exception {

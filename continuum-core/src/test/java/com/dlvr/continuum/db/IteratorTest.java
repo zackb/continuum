@@ -54,7 +54,7 @@ public class IteratorTest {
         int i = 0;
         itr.seekToFirst();
         do {
-            AtomID id = itr.id();
+            AtomID id = itr.ID();
             if (i == 0) {
                 assertEquals("testiterate", id.name());
                 assertEquals("bar", id.particles().get("foo"));
