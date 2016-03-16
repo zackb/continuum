@@ -5,6 +5,7 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.AtomID;
 import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.db.Iterator;
+import com.dlvr.continuum.db.Slab;
 import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.rest.http.HTTP;
@@ -32,6 +33,8 @@ public class Client implements DB {
         baseUrl = "http://" + host + ":" + port + "/api/1.0";
     }
 
+    @Override public void open() throws Exception { }
+
     @Override
     public void write(Atom atom) throws Exception {
         Map<String, Object> data = new HashMap<>();
@@ -55,11 +58,11 @@ public class Client implements DB {
     }
 
     @Override
-    public Atom get(AtomID atomID) throws Exception {
+    public Atom read(AtomID atomID) throws Exception {
         throw new UnsupportedOperationException("Mer");
     }
 
-    @Override
+    //@Override
     public Slice slice(Scan scan) throws Exception {
 
         String url = baseUrl + "/read?name=" + scan.name();
@@ -84,6 +87,11 @@ public class Client implements DB {
     @Override
     public Iterator iterator() {
         throw new UnsupportedOperationException("Can not iterate via HTTP");
+    }
+
+    @Override
+    public Slab slab() {
+        return null;
     }
 
     @Override

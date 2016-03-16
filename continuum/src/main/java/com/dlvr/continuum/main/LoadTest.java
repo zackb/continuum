@@ -27,7 +27,7 @@ public class LoadTest {
     private final TimerTask reader = new MetricTimer().schedule(() -> {
         try {
             Metrics.time("read", () -> {
-                continuum.db().slice(
+                continuum.slice(
                     continuum.scan("series" + Maths.randInt(0, 100))
                             .function(Function.AVG)
                             .interval(Interval.valueOf("1m"))

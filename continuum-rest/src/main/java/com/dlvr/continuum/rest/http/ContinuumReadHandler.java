@@ -39,12 +39,9 @@ public class ContinuumReadHandler implements HttpRequestHandler {
                 .group(request.group)
                 .build();
 
-        Slice result = REST.instance()
+        return REST.instance()
                 .continuum()
-                .db()
-                .slice(scan);
-
-        return result;
+                    .slice(scan);
     }
 
     @Override
