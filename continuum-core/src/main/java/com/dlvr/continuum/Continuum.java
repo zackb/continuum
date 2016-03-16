@@ -207,7 +207,6 @@ public class Continuum implements Closeable {
         Iterator iterator = db().iterator();
         try {
             Scanner scanner = scanner();
-            scanner.dimension(dimension);
             scanner.iterator(iterator);
             return scanner.slice(scan);
         } finally {

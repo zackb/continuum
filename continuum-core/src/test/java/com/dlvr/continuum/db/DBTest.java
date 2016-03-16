@@ -64,7 +64,6 @@ public class DBTest {
         Scanner scanner = new NScanner();
         try (Iterator iterator = db.iterator()) {
             scanner.iterator(iterator);
-            scanner.dimension(Dimension.SPACE);
             Scan scan = Continuum
                         .scan().name("zack")
                         .dimension(Dimension.SPACE)
