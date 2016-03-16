@@ -6,18 +6,16 @@ import com.dlvr.continuum.db.slice.Filter;
 import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.except.ZiggyStardustError;
 
-import static com.dlvr.continuum.Continuum.Dimension;
-
 /**
  * Filters engine, factory, and utils
  * Created by zack on 2/12/16.
  */
-<span class="nc" id="L15">public class Filters {</span>
-    public static Filter forSlice(Scan scan, Dimension dimension) {
-<span class="fc" id="L17">        return and(</span>
-<span class="fc" id="L18">            timestamp(dimension, scan.start(), scan.end()),</span>
-<span class="fc" id="L19">            name(scan.name()),</span>
-<span class="fc" id="L20">            particles(scan.particles())</span>
+<span class="nc" id="L13">public class Filters {</span>
+    public static Filter forScan(Scan scan) {
+<span class="fc" id="L15">        return and(</span>
+<span class="fc" id="L16">            timestamp(scan.dimension(), scan.start(), scan.end()),</span>
+<span class="fc" id="L17">            name(scan.name()),</span>
+<span class="fc" id="L18">            particles(scan.particles())</span>
         );
     }
 
@@ -27,7 +25,7 @@ import static com.dlvr.continuum.Continuum.Dimension;
      * @return new particles filter
      */
     public static ParticlesFilter particles(Particles particles) {
-<span class="fc" id="L30">        return new ParticlesFilter(particles);</span>
+<span class="fc" id="L28">        return new ParticlesFilter(particles);</span>
     }
 
     /**
@@ -36,7 +34,7 @@ import static com.dlvr.continuum.Continuum.Dimension;
      * @return new name filter
      */
     public static NameFilter name(String name) {
-<span class="fc" id="L39">        return new NameFilter(name);</span>
+<span class="fc" id="L37">        return new NameFilter(name);</span>
     }
 
     /**
@@ -47,11 +45,11 @@ import static com.dlvr.continuum.Continuum.Dimension;
      * @return new timestamp filter
      */
     public static Filter timestamp(Continuum.Dimension dimension, long start, long end) {
-<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (dimension == Continuum.Dimension.SPACE)</span>
-<span class="fc" id="L51">            return new STimestampFilter(start, end);</span>
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        else if (dimension == Continuum.Dimension.TIME)</span>
-<span class="fc" id="L53">            return new KTimestampFilter(start, end);</span>
-<span class="nc" id="L54">        throw new ZiggyStardustError();</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (dimension == Continuum.Dimension.SPACE)</span>
+<span class="fc" id="L49">            return new STimestampFilter(start, end);</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        else if (dimension == Continuum.Dimension.TIME)</span>
+<span class="fc" id="L51">            return new KTimestampFilter(start, end);</span>
+<span class="nc" id="L52">        throw new ZiggyStardustError();</span>
     }
 
     /**
@@ -60,7 +58,7 @@ import static com.dlvr.continuum.Continuum.Dimension;
      * @return new and filter
      */
     public static AndFilter and(Filter... filters) {
-<span class="fc" id="L63">        return new AndFilter(filters);</span>
+<span class="fc" id="L61">        return new AndFilter(filters);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

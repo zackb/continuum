@@ -42,63 +42,66 @@ import com.dlvr.continuum.util.datetime.Interval;
     }
 
     @Override
-    public ScanID TimeID() {
-<span class="fc" id="L46">        return new KScanID(end, name, particles);</span>
+    public Continuum.Dimension dimension() {
+<span class="fc" id="L46">        return dimension;</span>
     }
 
-    @Override
+    public ScanID TimeID() {
+<span class="fc" id="L50">        return new KScanID(end, name, particles);</span>
+    }
+
     public ScanID SpaceID() {
-<span class="fc" id="L51">        return new SScanID(name, particles);</span>
+<span class="fc" id="L54">        return new SScanID(name, particles);</span>
     }
 
     @Override
     public String name() {
-<span class="fc" id="L56">        return name;</span>
+<span class="fc" id="L59">        return name;</span>
     }
 
     @Override
     public Particles particles() {
-<span class="fc" id="L61">        return particles;</span>
+<span class="fc" id="L64">        return particles;</span>
     }
 
     @Override
     public Fields fields() {
-<span class="nc" id="L66">        return fields;</span>
+<span class="nc" id="L69">        return fields;</span>
     }
 
     @Override
     public Function function() {
-<span class="fc" id="L71">        return function;</span>
+<span class="fc" id="L74">        return function;</span>
     }
 
     @Override
     public long start() {
-<span class="fc" id="L76">        return start;</span>
+<span class="fc" id="L79">        return start;</span>
     }
 
     @Override
     public long end() {
-<span class="fc" id="L81">        return end;</span>
+<span class="fc" id="L84">        return end;</span>
     }
 
     @Override
     public Interval interval() {
-<span class="fc" id="L86">        return interval;</span>
+<span class="fc" id="L89">        return interval;</span>
     }
 
     @Override
     public String[] groups() {
-<span class="fc" id="L91">        return groups;</span>
+<span class="fc" id="L94">        return groups;</span>
     }
 
     @Override
     public Collector collector() {
-<span class="nc" id="L96">        return null;</span>
+<span class="nc" id="L99">        return null;</span>
     }
 
     @Override
     public Filter filter() {
-<span class="nc" id="L101">        return null;</span>
+<span class="nc" id="L104">        return null;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
