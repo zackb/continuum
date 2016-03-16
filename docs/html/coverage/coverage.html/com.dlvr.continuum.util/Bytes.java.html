@@ -166,15 +166,15 @@ import java.util.Arrays;
     }
 
     public static Atom KAtom(byte[] bytes) {
-<span class="nc" id="L169">        return Atom(bytes, Continuum.Dimension.TIME);</span>
+<span class="fc" id="L169">        return Atom(bytes, Continuum.Dimension.TIME);</span>
     }
 
     public static Atom Atom(byte[] bytes, Continuum.Dimension dimension) {
 <span class="fc" id="L173">        Class&lt;? extends NAtom&gt; clazz = null;</span>
-<span class="pc bpc" id="L174" title="1 of 2 branches missed.">        if (dimension == Continuum.Dimension.SPACE)</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">        if (dimension == Continuum.Dimension.SPACE)</span>
 <span class="fc" id="L175">            clazz = SAtom.class;</span>
-<span class="nc bnc" id="L176" title="All 2 branches missed.">        else if (dimension == Continuum.Dimension.TIME)</span>
-<span class="nc" id="L177">            clazz = KAtom.class;</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        else if (dimension == Continuum.Dimension.TIME)</span>
+<span class="fc" id="L177">            clazz = KAtom.class;</span>
 <span class="nc" id="L178">        else throw new ZiggyStardustError();</span>
 <span class="fc" id="L179">        NAtom atom = BSON.decodeObject(bytes, clazz);</span>
 <span class="fc" id="L180">        return atom;</span>

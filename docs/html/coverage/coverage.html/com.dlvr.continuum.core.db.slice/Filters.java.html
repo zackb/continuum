@@ -47,10 +47,10 @@ import static com.dlvr.continuum.Continuum.Dimension;
      * @return new timestamp filter
      */
     public static Filter timestamp(Continuum.Dimension dimension, long start, long end) {
-<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        if (dimension == Continuum.Dimension.SPACE)</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (dimension == Continuum.Dimension.SPACE)</span>
 <span class="fc" id="L51">            return new STimestampFilter(start, end);</span>
-<span class="nc bnc" id="L52" title="All 2 branches missed.">        else if (dimension == Continuum.Dimension.TIME)</span>
-<span class="nc" id="L53">            return new KTimestampFilter(start, end);</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        else if (dimension == Continuum.Dimension.TIME)</span>
+<span class="fc" id="L53">            return new KTimestampFilter(start, end);</span>
 <span class="nc" id="L54">        throw new ZiggyStardustError();</span>
     }
 

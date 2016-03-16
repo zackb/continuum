@@ -49,14 +49,14 @@ public class SScanID implements ScanID {
      * @return bytes to use for scan
      */
     static byte[] encode(Particles particles) {
-<span class="nc" id="L52">        byte[] bid = new byte[1024];</span>
-<span class="nc bnc" id="L53" title="All 2 branches missed.">        List&lt;String&gt; names = particles == null ? new ArrayList&lt;&gt;() : particles.names();</span>
-<span class="nc" id="L54">        int len = names.size();</span>
+<span class="fc" id="L52">        byte[] bid = new byte[1024];</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        List&lt;String&gt; names = particles == null ? new ArrayList&lt;&gt;() : particles.names();</span>
+<span class="fc" id="L54">        int len = names.size();</span>
 
-<span class="nc" id="L56">        int pos = 0;</span>
+<span class="fc" id="L56">        int pos = 0;</span>
         byte[] tmp;
 
-<span class="nc bnc" id="L59" title="All 2 branches missed.">        for (int i = 0; i &lt; names.size(); i++) {</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        for (int i = 0; i &lt; names.size(); i++) {</span>
 <span class="nc" id="L60">            String name = names.get(i);</span>
 <span class="nc" id="L61">            tmp = Bytes.bytes(name);</span>
 <span class="nc" id="L62">            bid = Bytes.append(bid, pos, tmp);</span>
@@ -64,7 +64,7 @@ public class SScanID implements ScanID {
 <span class="nc" id="L64">            bid[pos++] = b;</span>
         }
 
-<span class="nc bnc" id="L67" title="All 2 branches missed.">        for (int i = 0; i &lt; names.size(); i++) {</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        for (int i = 0; i &lt; names.size(); i++) {</span>
 <span class="nc" id="L68">            String val = particles.get(names.get(i));</span>
 <span class="nc bnc" id="L69" title="All 2 branches missed.">            if (val.equals(Const.SWILDCARD)) break;</span>
 <span class="nc" id="L70">            tmp = Bytes.bytes(val);</span>
@@ -73,7 +73,7 @@ public class SScanID implements ScanID {
 <span class="nc bnc" id="L73" title="All 2 branches missed.">            if (i &lt; len - 1) bid[pos++] = b;</span>
         }
 
-<span class="nc" id="L76">        return Bytes.range(bid, 0, pos);</span>
+<span class="fc" id="L76">        return Bytes.range(bid, 0, pos);</span>
     }
 
     @Override

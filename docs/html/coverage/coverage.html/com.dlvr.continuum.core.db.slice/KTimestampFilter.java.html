@@ -12,21 +12,21 @@ public class KTimestampFilter implements Filter {
     private final long start;
     private final long end;
 
-<span class="nc" id="L15">    public KTimestampFilter(long start, long end) {</span>
-<span class="nc" id="L16">        this.start = start;</span>
-<span class="nc" id="L17">        this.end = end;</span>
-<span class="nc" id="L18">    }</span>
+<span class="fc" id="L15">    public KTimestampFilter(long start, long end) {</span>
+<span class="fc" id="L16">        this.start = start;</span>
+<span class="fc" id="L17">        this.end = end;</span>
+<span class="fc" id="L18">    }</span>
 
     @Override
     public Action filter(Atom atom) {
 
-<span class="nc bnc" id="L23" title="All 2 branches missed.">        if (atom.timestamp() &lt; end)</span>
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        if (atom.timestamp() &lt; end)</span>
 <span class="nc" id="L24">            return Action.STOP;</span>
 
-<span class="nc bnc" id="L26" title="All 2 branches missed.">        if (atom.timestamp() &gt; start)</span>
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">        if (atom.timestamp() &gt; start)</span>
 <span class="nc" id="L27">            return Action.STOP;</span>
 
-<span class="nc" id="L29">        return Action.CONTINUE;</span>
+<span class="fc" id="L29">        return Action.CONTINUE;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
