@@ -23,23 +23,23 @@ import java.util.concurrent.TimeUnit;
 <span class="fc" id="L23">    }</span>
 
     public static Unit fromString(String s) {
-<span class="pc bpc" id="L26" title="25 of 34 branches missed.">        switch (s) {</span>
+<span class="pc bpc" id="L26" title="10 of 34 branches missed.">        switch (s) {</span>
             case &quot;ms&quot;:
-<span class="nc" id="L28">                return MILLISECOND;</span>
+<span class="fc" id="L28">                return MILLISECOND;</span>
             case &quot;s&quot;:
 <span class="fc" id="L30">                return SECOND;</span>
             case &quot;m&quot;:
-<span class="nc" id="L32">                return MINUTE;</span>
+<span class="fc" id="L32">                return MINUTE;</span>
             case &quot;h&quot;:
 <span class="fc" id="L34">                return HOUR;</span>
             case &quot;d&quot;:
 <span class="fc" id="L36">                return DAY;</span>
             case &quot;w&quot;:
-<span class="nc" id="L38">                return WEEK;</span>
+<span class="fc" id="L38">                return WEEK;</span>
             case &quot;M&quot;:
-<span class="nc" id="L40">                return MONTH;</span>
+<span class="fc" id="L40">                return MONTH;</span>
             case &quot;y&quot;:
-<span class="nc" id="L42">                return YEAR;</span>
+<span class="fc" id="L42">                return YEAR;</span>
         }
 <span class="nc" id="L44">        return null;</span>
     }
@@ -65,7 +65,7 @@ import java.util.concurrent.TimeUnit;
 
     @Override
     public String toString() {
-<span class="nc" id="L68">        return value;</span>
+<span class="fc" id="L68">        return value;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

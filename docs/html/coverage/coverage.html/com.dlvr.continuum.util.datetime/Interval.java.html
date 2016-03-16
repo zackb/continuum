@@ -52,33 +52,33 @@ public class Interval {
     }
 
     public long seconds() {
-<span class="nc" id="L55">        long secs = count;</span>
-<span class="pc bnc" id="L56" title="All 9 branches missed.">        switch (unit) {</span>
+<span class="fc" id="L55">        long secs = count;</span>
+<span class="pc bpc" id="L56" title="2 of 9 branches missed.">        switch (unit) {</span>
             case MILLISECOND:
-<span class="nc" id="L58">                secs = count / 1000L;</span>
-<span class="nc" id="L59">                break;</span>
+<span class="fc" id="L58">                secs = count / 1000L;</span>
+<span class="fc" id="L59">                break;</span>
             case SECOND:
-<span class="nc" id="L61">                break;</span>
+<span class="fc" id="L61">                break;</span>
             case MINUTE:
-<span class="nc" id="L63">                secs = count * 60;</span>
-<span class="nc" id="L64">                break;</span>
+<span class="fc" id="L63">                secs = count * 60;</span>
+<span class="fc" id="L64">                break;</span>
             case HOUR:
-<span class="nc" id="L66">                secs = count * 60 * 60;</span>
-<span class="nc" id="L67">                break;</span>
+<span class="fc" id="L66">                secs = count * 60 * 60;</span>
+<span class="fc" id="L67">                break;</span>
             case DAY:
-<span class="nc" id="L69">                secs = count * 60 * 60 * 24;</span>
-<span class="nc" id="L70">                break;</span>
+<span class="fc" id="L69">                secs = count * 60 * 60 * 24;</span>
+<span class="fc" id="L70">                break;</span>
             case WEEK:
-<span class="nc" id="L72">                secs = count * 60 * 60 * 24 * 7;</span>
-<span class="nc" id="L73">                break;</span>
+<span class="fc" id="L72">                secs = count * 60 * 60 * 24 * 7;</span>
+<span class="fc" id="L73">                break;</span>
             case MONTH:
-<span class="nc" id="L75">                secs = count * 60 * 60 * 24 * 30;</span>
-<span class="nc" id="L76">                break;</span>
+<span class="fc" id="L75">                secs = count * 60 * 60 * 24 * 30;</span>
+<span class="fc" id="L76">                break;</span>
             case YEAR:
 <span class="nc" id="L78">                secs = count * 60 * 60 * 24 * 365;</span>
                 break;
         }
-<span class="nc" id="L81">        return secs;</span>
+<span class="fc" id="L81">        return secs;</span>
     }
 
     public long millis() {
@@ -117,7 +117,7 @@ public class Interval {
 
     @Override
     public String toString() {
-<span class="nc" id="L120">        return count + unit.toString();</span>
+<span class="fc" id="L120">        return count + unit.toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

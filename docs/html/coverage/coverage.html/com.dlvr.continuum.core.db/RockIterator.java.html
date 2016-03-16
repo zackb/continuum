@@ -20,7 +20,7 @@ public class RockIterator implements Iterator {
 
 <span class="fc" id="L21">    RockIterator(Continuum.Dimension dimension, RockSlab slab) {</span>
 <span class="fc" id="L22">        this.dimension = dimension;</span>
-<span class="fc" id="L23">        this.it = slab.getRocksDB().newIterator();</span>
+<span class="fc" id="L23">        this.it = slab.rockdDB().newIterator();</span>
 <span class="fc" id="L24">    }</span>
 
     @Override

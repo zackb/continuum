@@ -134,41 +134,45 @@ public class Continuum implements Closeable {
 <span class="nc" id="L134">        return fields(fields);</span>
     }
 
-    public static ScanBuilder scan(String name) {
-<span class="fc" id="L138">        return new ScanBuilder(name);</span>
+    public static ScanBuilder scan() {
+<span class="fc" id="L138">        return new ScanBuilder();</span>
+    }
+
+    public ScanBuilder scan(String name) {
+<span class="fc" id="L142">        return new ScanBuilder(name).dimension(dimension);</span>
     }
 
     public static SliceBuilder result(String name) {
-<span class="fc" id="L142">        return new SliceBuilder(name);</span>
+<span class="fc" id="L146">        return new SliceBuilder(name);</span>
     }
 
-<span class="fc" id="L145">    private Continuum(String name, Dimension dimension, List&lt;FileSystemReference&gt; bases) throws Exception {</span>
-<span class="fc" id="L146">        checkNotNull(&quot;name&quot;, name);</span>
-<span class="fc" id="L147">        checkNotNull(&quot;dimension&quot;, dimension);</span>
-<span class="fc" id="L148">        checkNotNull(&quot;base&quot;, bases);</span>
-<span class="fc" id="L149">        this.name = name;</span>
-<span class="fc" id="L150">        this.dimension = dimension;</span>
-<span class="fc" id="L151">        this.bases = bases;</span>
+<span class="fc" id="L149">    private Continuum(String name, Dimension dimension, List&lt;FileSystemReference&gt; bases) throws Exception {</span>
+<span class="fc" id="L150">        checkNotNull(&quot;name&quot;, name);</span>
+<span class="fc" id="L151">        checkNotNull(&quot;dimension&quot;, dimension);</span>
+<span class="fc" id="L152">        checkNotNull(&quot;base&quot;, bases);</span>
+<span class="fc" id="L153">        this.name = name;</span>
+<span class="fc" id="L154">        this.dimension = dimension;</span>
+<span class="fc" id="L155">        this.bases = bases;</span>
 
-<span class="fc" id="L153">        List&lt;Slab&gt; slabs = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L154" title="All 2 branches covered.">        for (int i = 0; i &lt; bases.size(); i++) {</span>
-<span class="fc" id="L155">            Slab slab = new RockSlab(name + &quot;.&quot; + i + &quot;.db&quot;, bases.get(0));</span>
-<span class="fc" id="L156">            slabs.add(slab);</span>
+<span class="fc" id="L157">        List&lt;Slab&gt; slabs = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        for (int i = 0; i &lt; bases.size(); i++) {</span>
+<span class="fc" id="L159">            Slab slab = new RockSlab(name + &quot;.&quot; + i + &quot;.db&quot;, bases.get(0));</span>
+<span class="fc" id="L160">            slabs.add(slab);</span>
         }
 
-<span class="pc bpc" id="L159" title="1 of 2 branches missed.">        if (slabs.size() == 1) {</span>
-<span class="fc" id="L160">            this.db = new RockDB(dimension, slabs.get(0));</span>
+<span class="pc bpc" id="L163" title="1 of 2 branches missed.">        if (slabs.size() == 1) {</span>
+<span class="fc" id="L164">            this.db = new RockDB(dimension, slabs.get(0));</span>
         } else {
-<span class="nc" id="L162">            this.db = new RockDB(dimension, new Slabs(slabs));</span>
+<span class="nc" id="L166">            this.db = new RockDB(dimension, new Slabs(slabs));</span>
         }
-<span class="fc" id="L164">    }</span>
+<span class="fc" id="L168">    }</span>
 
     /**
      * Access the backing datastore for this continuum
      * @return DB datastore engine
      */
     public DB db() {
-<span class="fc" id="L171">        return this.db;</span>
+<span class="fc" id="L175">        return this.db;</span>
     }
 
     /**
@@ -177,8 +181,8 @@ public class Continuum implements Closeable {
      * @throws Exception error writing data
      */
     public void write(Atom atom) throws Exception {
-<span class="fc" id="L180">        db().write(atom);</span>
-<span class="fc" id="L181">    }</span>
+<span class="fc" id="L184">        db().write(atom);</span>
+<span class="fc" id="L185">    }</span>
 
     /**
      * Retreive a single atom by id from the datastore
@@ -187,7 +191,7 @@ public class Continuum implements Closeable {
      * @throws Exception on underlying slabs failure
      */
     Atom get(AtomID id) throws Exception {
-<span class="fc" id="L190">        return db().get(id);</span>
+<span class="fc" id="L194">        return db().get(id);</span>
     }
 
     /**
@@ -199,7 +203,7 @@ public class Continuum implements Closeable {
      * @throws Exception error reading or collecting atoms
      */
     public Slice slice(Scan scan) throws Exception {
-<span class="fc" id="L202">        return db().slice(scan);</span>
+<span class="fc" id="L206">        return db().slice(scan);</span>
     }
 
     /**
@@ -208,26 +212,26 @@ public class Continuum implements Closeable {
     @Override
     public void close() {
         try {
-<span class="nc" id="L211">            db.close();</span>
-<span class="nc" id="L212">        } catch (Exception e) {</span>
-<span class="nc" id="L213">            throw new Error(e);</span>
-<span class="nc" id="L214">        }</span>
-<span class="nc" id="L215">    }</span>
+<span class="nc" id="L215">            db.close();</span>
+<span class="nc" id="L216">        } catch (Exception e) {</span>
+<span class="nc" id="L217">            throw new Error(e);</span>
+<span class="nc" id="L218">        }</span>
+<span class="nc" id="L219">    }</span>
 
     /**
      * CAUTION: Deletes all fileystem resources associated with this continuum
      * @throws Exception on failure
      */
     public void delete() throws Exception {
-<span class="fc" id="L222">        db.close();</span>
+<span class="fc" id="L226">        db.close();</span>
         //bases.forEach(FileSystemReference::delete);
-<span class="fc bfc" id="L224" title="All 2 branches covered.">        for (FileSystemReference reference : bases) {</span>
-<span class="fc" id="L225">            reference.delete();</span>
-<span class="fc" id="L226">        }</span>
-<span class="fc" id="L227">    }</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">        for (FileSystemReference reference : bases) {</span>
+<span class="fc" id="L229">            reference.delete();</span>
+<span class="fc" id="L230">        }</span>
+<span class="fc" id="L231">    }</span>
 
     public static Builder continuum() {
-<span class="fc" id="L230">        return new Builder();</span>
+<span class="fc" id="L234">        return new Builder();</span>
     }
 
     /**
@@ -237,7 +241,7 @@ public class Continuum implements Closeable {
      */
     public void contract(Scan scan) throws Exception {
 
-<span class="nc" id="L240">    }</span>
+<span class="nc" id="L244">    }</span>
 
     /**
      * Expand a continuum (universe)? from cold storage data
@@ -246,78 +250,77 @@ public class Continuum implements Closeable {
      */
     public void expand(Reference reference) throws Exception {
 
-<span class="nc" id="L249">    }</span>
+<span class="nc" id="L253">    }</span>
 
     public void delete(Scan scan) throws Exception {
 
-<span class="nc" id="L253">    }</span>
+<span class="nc" id="L257">    }</span>
 
     public Reference clone(Scan scan) throws Exception {
-<span class="nc" id="L256">        return null;</span>
+<span class="nc" id="L260">        return null;</span>
     }
 
-    // TODO: Dont even need this? atom.id knows what to do
     public static Builder series() {
-<span class="nc" id="L261">        return new Builder().dimension(Dimension.SPACE);</span>
+<span class="nc" id="L264">        return new Builder().dimension(Dimension.SPACE);</span>
     }
 
     public static Builder kv() {
-<span class="nc" id="L265">        return new Builder().dimension(Dimension.TIME);</span>
+<span class="nc" id="L268">        return new Builder().dimension(Dimension.TIME);</span>
     }
 
-<span class="fc" id="L268">    public static class Builder {</span>
-<span class="fc" id="L269">        private Dimension dimension = Dimension.TIME;</span>
-<span class="fc" id="L270">        private List&lt;FileSystemReference&gt; base = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L271">        private String name = &quot;continuum&quot;;</span>
+<span class="fc" id="L271">    public static class Builder {</span>
+<span class="fc" id="L272">        private Dimension dimension = null;</span>
+<span class="fc" id="L273">        private List&lt;FileSystemReference&gt; base = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L274">        private String name = &quot;continuum&quot;;</span>
         public Builder name(String name) {
-<span class="fc" id="L273">            this.name = name;</span>
-<span class="fc" id="L274">            return this;</span>
+<span class="fc" id="L276">            this.name = name;</span>
+<span class="fc" id="L277">            return this;</span>
         }
         public Builder base(FileSystemReference base) {
-<span class="fc" id="L277">            this.base.add(base);</span>
-<span class="fc" id="L278">            return this;</span>
+<span class="fc" id="L280">            this.base.add(base);</span>
+<span class="fc" id="L281">            return this;</span>
         }
         public Builder base(FileSystemReference... bases) {
-<span class="nc bnc" id="L281" title="All 2 branches missed.">            for (FileSystemReference ref : bases) {</span>
-<span class="nc" id="L282">                this.base.add(ref);</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">            for (FileSystemReference ref : bases) {</span>
+<span class="nc" id="L285">                this.base.add(ref);</span>
             }
-<span class="nc" id="L284">            return this;</span>
+<span class="nc" id="L287">            return this;</span>
         }
         public Builder dimension(Dimension dimension) {
-<span class="fc" id="L287">            this.dimension = dimension;</span>
-<span class="fc" id="L288">            return this;</span>
+<span class="fc" id="L290">            this.dimension = dimension;</span>
+<span class="fc" id="L291">            return this;</span>
         }
         public Continuum open() throws Exception {
-<span class="fc" id="L291">            return new Continuum(name, dimension, base);</span>
+<span class="fc" id="L294">            return new Continuum(name, dimension, base);</span>
         }
     }
 
-<span class="fc" id="L295">    public static class ValuesBuilder {</span>
+<span class="fc" id="L298">    public static class ValuesBuilder {</span>
 
-<span class="fc" id="L297">        private NValues target = new NValues();</span>
+<span class="fc" id="L300">        private NValues target = new NValues();</span>
 
         public ValuesBuilder min(double min) {
-<span class="fc" id="L300">            target.min = min;</span>
-<span class="fc" id="L301">            return this;</span>
+<span class="fc" id="L303">            target.min = min;</span>
+<span class="fc" id="L304">            return this;</span>
         }
         public ValuesBuilder max(double max) {
-<span class="fc" id="L304">            target.max = max;</span>
-<span class="fc" id="L305">            return this;</span>
+<span class="fc" id="L307">            target.max = max;</span>
+<span class="fc" id="L308">            return this;</span>
         }
         public ValuesBuilder count(double count) {
-<span class="fc" id="L308">            target.count = count;</span>
-<span class="fc" id="L309">            return this;</span>
+<span class="fc" id="L311">            target.count = count;</span>
+<span class="fc" id="L312">            return this;</span>
         }
         public ValuesBuilder sum(double sum) {
-<span class="fc" id="L312">            target.sum = sum;</span>
-<span class="fc" id="L313">            return this;</span>
+<span class="fc" id="L315">            target.sum = sum;</span>
+<span class="fc" id="L316">            return this;</span>
         }
         public ValuesBuilder value(double value) {
-<span class="fc" id="L316">            target.value = value;</span>
-<span class="fc" id="L317">            return this;</span>
+<span class="fc" id="L319">            target.value = value;</span>
+<span class="fc" id="L320">            return this;</span>
         }
         public Values build() {
-<span class="fc" id="L320">            return target;</span>
+<span class="fc" id="L323">            return target;</span>
         }
     }
 
@@ -326,156 +329,163 @@ public class Continuum implements Closeable {
         protected String name;
         protected NParticles particles;
         protected NFields fields;
-<span class="fc" id="L329">        protected long timestamp = System.currentTimeMillis();</span>
+<span class="fc" id="L332">        protected long timestamp = System.currentTimeMillis();</span>
         protected NValues values;
         protected Dimension dimension;
-<span class="fc" id="L332">        protected AtomBuilder() {}</span>
+<span class="fc" id="L335">        protected AtomBuilder() {}</span>
 
         public AtomBuilder name(String name) {
-<span class="fc" id="L335">            this.name = name;</span>
-<span class="fc" id="L336">            return this;</span>
+<span class="fc" id="L338">            this.name = name;</span>
+<span class="fc" id="L339">            return this;</span>
         }
         public AtomBuilder particles(Particles particles) {
-<span class="fc" id="L339">            this.particles = (NParticles) particles;</span>
-<span class="fc" id="L340">            return this;</span>
+<span class="fc" id="L342">            this.particles = (NParticles) particles;</span>
+<span class="fc" id="L343">            return this;</span>
         }
         public AtomBuilder particles(Map&lt;String, String&gt; particles) {
-<span class="nc" id="L343">            this.particles = (NParticles)Continuum.particles(particles);</span>
-<span class="nc" id="L344">            return this;</span>
+<span class="nc" id="L346">            this.particles = (NParticles)Continuum.particles(particles);</span>
+<span class="nc" id="L347">            return this;</span>
         }
         public AtomBuilder particles(String... particles) {
-<span class="fc" id="L347">            this.particles = (NParticles)Continuum.particles(particles);</span>
-<span class="fc" id="L348">            return this;</span>
+<span class="fc" id="L350">            this.particles = (NParticles)Continuum.particles(particles);</span>
+<span class="fc" id="L351">            return this;</span>
         }
         public AtomBuilder fields(Fields fields) {
-<span class="fc" id="L351">            this.fields = (NFields)fields;</span>
-<span class="fc" id="L352">            return this;</span>
+<span class="fc" id="L354">            this.fields = (NFields)fields;</span>
+<span class="fc" id="L355">            return this;</span>
         }
         public AtomBuilder timestamp(long timestamp) {
-<span class="fc" id="L355">            this.timestamp = timestamp;</span>
-<span class="fc" id="L356">            return this;</span>
+<span class="fc" id="L358">            this.timestamp = timestamp;</span>
+<span class="fc" id="L359">            return this;</span>
         }
         public AtomBuilder value(double value) {
-<span class="fc" id="L359">            this.values = (NValues)Continuum.values(value);</span>
-<span class="fc" id="L360">            return this;</span>
+<span class="fc" id="L362">            this.values = (NValues)Continuum.values(value);</span>
+<span class="fc" id="L363">            return this;</span>
         }
         public AtomBuilder values(Values values) {
-<span class="nc" id="L363">            this.values = (NValues)values;</span>
-<span class="nc" id="L364">            return this;</span>
+<span class="nc" id="L366">            this.values = (NValues)values;</span>
+<span class="nc" id="L367">            return this;</span>
         }
         public AtomBuilder dimension(Dimension dimension) {
-<span class="fc" id="L367">            this.dimension = dimension;</span>
-<span class="fc" id="L368">            return this;</span>
+<span class="fc" id="L370">            this.dimension = dimension;</span>
+<span class="fc" id="L371">            return this;</span>
         }
         public Atom build() {
-<span class="fc bfc" id="L371" title="All 2 branches covered.">            if (dimension == Dimension.SPACE)</span>
-<span class="fc" id="L372">                return new SAtom(name, particles, timestamp, fields, values);</span>
-<span class="pc bpc" id="L373" title="1 of 2 branches missed.">            else if (dimension == Dimension.TIME)</span>
-<span class="fc" id="L374">                return new KAtom(name, particles, timestamp, fields, values);</span>
-<span class="nc" id="L375">            throw new ZiggyStardustError();</span>
+<span class="fc bfc" id="L374" title="All 2 branches covered.">            if (dimension == Dimension.SPACE)</span>
+<span class="fc" id="L375">                return new SAtom(name, particles, timestamp, fields, values);</span>
+<span class="pc bpc" id="L376" title="1 of 2 branches missed.">            else if (dimension == Dimension.TIME)</span>
+<span class="fc" id="L377">                return new KAtom(name, particles, timestamp, fields, values);</span>
+<span class="nc" id="L378">            throw new ZiggyStardustError();</span>
         }
     }
 
     public static class ScanBuilder {
-<span class="pc" id="L380">        private final NScan target = new NScan();</span>
-<span class="nc" id="L381">        private ScanBuilder() {</span>
-<span class="nc" id="L382">            target.start = System.currentTimeMillis();</span>
-<span class="nc" id="L383">        }</span>
-<span class="fc" id="L384">        ScanBuilder(String name) {</span>
-<span class="fc" id="L385">            target.start = System.currentTimeMillis();</span>
-<span class="fc" id="L386">            target.name = name;</span>
-<span class="fc" id="L387">        }</span>
+
+<span class="fc" id="L384">        private final NScan target = new NScan();</span>
+
+        private ScanBuilder() {
+<span class="fc" id="L387">            this(null);</span>
+<span class="fc" id="L388">        }</span>
+<span class="fc" id="L389">        ScanBuilder(String name) {</span>
+<span class="fc" id="L390">            target.start = System.currentTimeMillis() - 1;</span>
+<span class="fc" id="L391">            target.end = target.start - Interval.valueOf(&quot;2d&quot;).millis();</span>
+<span class="fc" id="L392">            target.name = name;</span>
+<span class="fc" id="L393">        }</span>
+        public ScanBuilder name(String name) {
+<span class="fc" id="L395">            target.name = name;</span>
+<span class="fc" id="L396">            return this;</span>
+        }
         public ScanBuilder start(long start) {
-<span class="fc" id="L389">            target.start = start;</span>
-<span class="fc" id="L390">            return this;</span>
+<span class="fc" id="L399">            target.start = start;</span>
+<span class="fc" id="L400">            return this;</span>
         }
         public ScanBuilder start(Interval start) {
-<span class="nc" id="L393">            target.start = System.currentTimeMillis() - start.millis();</span>
-<span class="nc" id="L394">            return this;</span>
+<span class="nc" id="L403">            target.start = System.currentTimeMillis() - start.millis();</span>
+<span class="nc" id="L404">            return this;</span>
         }
         public ScanBuilder end(long end) {
-<span class="fc" id="L397">            target.end = end;</span>
-<span class="fc" id="L398">            return this;</span>
+<span class="fc" id="L407">            target.end = end;</span>
+<span class="fc" id="L408">            return this;</span>
         }
         public ScanBuilder end(Interval end) {
-<span class="fc" id="L401">            target.end = System.currentTimeMillis() - end.millis();</span>
-<span class="fc" id="L402">            return this;</span>
+<span class="fc" id="L411">            target.end = System.currentTimeMillis() - end.millis();</span>
+<span class="fc" id="L412">            return this;</span>
         }
         public ScanBuilder interval(Interval interval) {
-<span class="fc" id="L405">            target.interval = interval;</span>
-<span class="fc" id="L406">            return this;</span>
+<span class="fc" id="L415">            target.interval = interval;</span>
+<span class="fc" id="L416">            return this;</span>
         }
         public ScanBuilder function(Function function) {
-<span class="fc" id="L409">            target.function = function;</span>
-<span class="fc" id="L410">            return this;</span>
+<span class="fc" id="L419">            target.function = function;</span>
+<span class="fc" id="L420">            return this;</span>
         }
         public ScanBuilder group(String group) {
-<span class="nc" id="L413">            target.groups = new String[] { group };</span>
-<span class="nc" id="L414">            return this;</span>
+<span class="nc" id="L423">            target.groups = new String[] { group };</span>
+<span class="nc" id="L424">            return this;</span>
         }
         public ScanBuilder group(String... groups) {
-<span class="fc" id="L417">            target.groups = groups;</span>
-<span class="fc" id="L418">            return this;</span>
+<span class="fc" id="L427">            target.groups = groups;</span>
+<span class="fc" id="L428">            return this;</span>
         }
         public ScanBuilder particles(Map&lt;String, String&gt; particles) {
-<span class="nc" id="L421">            target.particles = Continuum.particles(particles);</span>
-<span class="nc" id="L422">            return this;</span>
+<span class="nc" id="L431">            target.particles = Continuum.particles(particles);</span>
+<span class="nc" id="L432">            return this;</span>
         }
         public ScanBuilder particles(Particles particles) {
-<span class="fc" id="L425">            target.particles = particles;</span>
-<span class="fc" id="L426">            return this;</span>
+<span class="fc" id="L435">            target.particles = particles;</span>
+<span class="fc" id="L436">            return this;</span>
         }
         public ScanBuilder collectors(Collector... collectors) {
-<span class="nc" id="L429">            target.collectors = collectors;</span>
-<span class="nc" id="L430">            return this;</span>
+<span class="nc" id="L439">            target.collectors = collectors;</span>
+<span class="nc" id="L440">            return this;</span>
         }
         public ScanBuilder fields(Fields fields) {
-<span class="nc" id="L433">            target.fields = fields;</span>
-<span class="nc" id="L434">            return this;</span>
+<span class="nc" id="L443">            target.fields = fields;</span>
+<span class="nc" id="L444">            return this;</span>
         }
         public ScanBuilder dimension(Dimension dimension) {
-<span class="fc" id="L437">            target.dimension = dimension;</span>
-<span class="fc" id="L438">            return this;</span>
+<span class="fc" id="L447">            target.dimension = dimension;</span>
+<span class="fc" id="L448">            return this;</span>
         }
         public Scan build() {
-<span class="fc" id="L441">            return target;</span>
+<span class="fc" id="L451">            return target;</span>
         }
     }
 
     public static class SliceBuilder {
-<span class="pc" id="L446">        private final NSlice target = new NSlice();</span>
-<span class="nc" id="L447">        private SliceBuilder() { }</span>
-<span class="fc" id="L448">        SliceBuilder(String name) {</span>
-<span class="fc" id="L449">            target.name = name;</span>
-<span class="fc" id="L450">        }</span>
+<span class="pc" id="L456">        private final NSlice target = new NSlice();</span>
+<span class="nc" id="L457">        private SliceBuilder() { }</span>
+<span class="fc" id="L458">        SliceBuilder(String name) {</span>
+<span class="fc" id="L459">            target.name = name;</span>
+<span class="fc" id="L460">        }</span>
         public SliceBuilder value(Double value) {
-<span class="nc" id="L452">            target.values = Continuum.values(value);</span>
-<span class="nc" id="L453">            return this;</span>
+<span class="nc" id="L462">            target.values = Continuum.values(value);</span>
+<span class="nc" id="L463">            return this;</span>
         }
         public SliceBuilder values(Values values) {
-<span class="fc" id="L456">            target.values = values;</span>
-<span class="fc" id="L457">            return this;</span>
+<span class="fc" id="L466">            target.values = values;</span>
+<span class="fc" id="L467">            return this;</span>
         }
         public SliceBuilder atoms(List&lt;Atom&gt; atoms) {
-<span class="fc" id="L460">            target.atoms = atoms;</span>
-<span class="fc" id="L461">            return this;</span>
+<span class="fc" id="L470">            target.atoms = atoms;</span>
+<span class="fc" id="L471">            return this;</span>
         }
         public SliceBuilder children(List&lt;Slice&gt; children) {
-<span class="fc" id="L464">            target.children = children;</span>
-<span class="fc" id="L465">            return this;</span>
+<span class="fc" id="L474">            target.children = children;</span>
+<span class="fc" id="L475">            return this;</span>
         }
         public SliceBuilder timestamp(long timestamp) {
-<span class="fc" id="L468">            target.timestamp = timestamp;</span>
-<span class="fc" id="L469">            return this;</span>
+<span class="fc" id="L478">            target.timestamp = timestamp;</span>
+<span class="fc" id="L479">            return this;</span>
         }
 
         public Slice build() {
-<span class="fc" id="L473">            return target;</span>
+<span class="fc" id="L483">            return target;</span>
         }
     }
 
-<span class="pc" id="L477">    public enum Dimension {</span>
-<span class="fc" id="L478">        SPACE, TIME</span>
+<span class="pc" id="L487">    public enum Dimension {</span>
+<span class="fc" id="L488">        SPACE, TIME</span>
      // Series / Key
     }
 }
