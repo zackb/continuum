@@ -32,3 +32,6 @@ docs:
 
 deploydocs: docs
 	rsync -aurv docs/html/ zackbart@zackbartel.com:~/web/continuum/
+
+sloc:
+	cloc continuum*/src
