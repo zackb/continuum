@@ -177,13 +177,15 @@ public class FileSystemReference implements Reference {
     private static final FileVisitor<Path> DeleteRecursively = new SimpleFileVisitor<Path>() {
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-            Files.delete(file);
+            if (Files.exists(file))
+                Files.delete(file);
             return FileVisitResult.CONTINUE;
         }
 
         @Override
         public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-            Files.delete(dir);
+            if (Files.exists(dir))
+                Files.delete(dir);
             return FileVisitResult.CONTINUE;
         }
     };

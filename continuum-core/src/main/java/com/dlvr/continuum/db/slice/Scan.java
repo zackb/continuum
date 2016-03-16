@@ -1,6 +1,5 @@
 package com.dlvr.continuum.db.slice;
 
-import com.dlvr.continuum.db.ScanID;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.util.datetime.Interval;
@@ -50,7 +49,7 @@ public interface Scan {
     Fields fields();
 
     /**
-     * Aggregation function for result's 'values' field.
+     * Aggregation function for slice's 'values' field.
      * If non-null, scan results are aggreagate values.
      * If null, scan results will have raw measurement values
      * @return aggregation function

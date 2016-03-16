@@ -7,7 +7,7 @@ import com.dlvr.continuum.atom.Values;
  * Time and Space Scan Iterator
  * Created by zack on 2/11/16.
  */
-public interface Iterator {
+public interface Iterator extends AutoCloseable {
 
     AtomID ID();
 

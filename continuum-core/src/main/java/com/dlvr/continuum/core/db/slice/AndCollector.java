@@ -11,7 +11,7 @@ import java.util.Arrays;
  * Convenience collector to wrap a list of collectors
  * Created by zack on 3/11/16.
  */
-public class AndCollector implements Collector {
+public class AndCollector implements Collector<Atom> {
 
     private final Collector[] collectors;
 
@@ -35,10 +35,10 @@ public class AndCollector implements Collector {
     }
 
     @Override
-    public Slice result() {
-        Slice result = values.result();
+    public Slice slice() {
+        Slice result = values.slice();
         for (Collector collector : collectors) {
-            result.add(collector.result());
+            result.add(collector.slice());
         }
         return result;
     }

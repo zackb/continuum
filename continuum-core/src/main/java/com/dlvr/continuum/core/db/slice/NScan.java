@@ -1,9 +1,7 @@
 package com.dlvr.continuum.core.db.slice;
 
 import com.dlvr.continuum.Continuum;
-import com.dlvr.continuum.core.db.KScanID;
-import com.dlvr.continuum.core.db.SScanID;
-import com.dlvr.continuum.db.ScanID;
+import com.dlvr.continuum.db.slice.ScanID;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.db.slice.Collector;

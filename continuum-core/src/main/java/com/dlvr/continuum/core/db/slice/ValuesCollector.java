@@ -10,9 +10,10 @@ import com.dlvr.continuum.util.Strings;
 
 /**
  * Collect Values
+ * // TODO: Use ID + Values rather tha ID + decoded body?
  * Created by zack on 2/11/16.
  */
-public class ValuesCollector implements Collector {
+public class ValuesCollector implements Collector<Atom> {
 
     private final String name;
     private double max = Double.MIN_VALUE;
@@ -72,7 +73,7 @@ public class ValuesCollector implements Collector {
     }
 
     @Override
-    public Slice result() {
+    public Slice slice() {
         if (min == Double.MAX_VALUE) min = 0;
         if (max == Double.MIN_VALUE) max = 0;
         double value;
