@@ -77,7 +77,7 @@ public class ContinuumTest {
         }
     }
 
-    @Test
+    //@Test
     public void testWriteReadTime() throws Exception {
         Continuum continuum = null;
         try {

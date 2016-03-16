@@ -28,7 +28,8 @@ public class ContinuumReadHandler implements HttpRequestHandler {
     @Override
     public Object onGet(Map<String, Object> params) throws Exception {
         ReadRequest request = new ReadRequest(params);
-        Scan scan = Continuum.scan(request.name)
+        Scan scan = Continuum.scan()
+                .name(request.name)
                 .start(request.start)
                 .end(request.end)
                 .interval(request.interval)

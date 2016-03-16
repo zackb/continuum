@@ -28,7 +28,7 @@ public class LoadTest {
         try {
             Metrics.time("read", () -> {
                 continuum.db().slice(
-                    Continuum.scan("series" + Maths.randInt(0, 100))
+                    continuum.scan("series" + Maths.randInt(0, 100))
                             .function(Function.AVG)
                             .interval(Interval.valueOf("1m"))
                             .build()

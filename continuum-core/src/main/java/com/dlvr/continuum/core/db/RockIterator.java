@@ -65,11 +65,7 @@ public class RockIterator implements Iterator {
 
     @Override
     public boolean next() {
-        if (dimension == Continuum.Dimension.TIME)
-            it.prev();
-        else
-            it.next();
-
+        it.next();
         return hasNext();
     }
 

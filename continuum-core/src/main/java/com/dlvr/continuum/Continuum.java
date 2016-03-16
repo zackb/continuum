@@ -387,7 +387,7 @@ public class Continuum implements Closeable {
             this(null);
         }
         ScanBuilder(String name) {
-            target.start = System.currentTimeMillis();
+            target.start = System.currentTimeMillis() - 1;
             target.end = target.start - Interval.valueOf("2d").millis();
             target.name = name;
         }
