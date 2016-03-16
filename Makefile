@@ -25,7 +25,7 @@ docs:
 	$(MREST) docs
 	cp -r $(CORE)/build/docs/javadoc docs/html/
 	cp -r $(CORE)/build/reports/tests docs/html/
-	cp -r $(CORE)/build/coverage.html docs/html/coverage/
+	cp -r $(CORE)/build/coverage.html docs/html/
 	mkdir -p docs/html/rest
 	cp -r $(REST)/media docs/html/rest/
 	cp -r $(REST)/README.html docs/html/rest/index.html
