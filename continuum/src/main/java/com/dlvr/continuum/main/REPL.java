@@ -23,7 +23,13 @@ public class REPL {
 
     private boolean process(String command) throws IOException {
         if (command == null) return false;
+        if (command.charAt(0) == 12) command = "clear";
         switch (command) {
+            case "^L":
+            case "clear":
+                console.printf("\033[H\033[2J");
+                console.flush();
+                break;
             case "help":
             default:
                 usage();

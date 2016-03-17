@@ -190,6 +190,18 @@ public class Bytes {
         return new String(bytes);
     }
 
+    private static final char[] HEX = "0123456789ABCDEF".toCharArray();
+
+    public static String hex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for ( int j = 0; j < bytes.length; j++ ) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX[v >>> 4];
+            hexChars[j * 2 + 1] = HEX[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+
     public static byte[] copy(byte[] a) {
         byte[] c = new byte[a.length];
         System.arraycopy(a, 0, c, 0, a.length);

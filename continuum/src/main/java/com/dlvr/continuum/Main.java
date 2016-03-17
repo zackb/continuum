@@ -36,7 +36,7 @@ public class Main {
     }
 
     public Main(String[] args) throws Exception {
-        command = args.length > 0 ? Command.from(args[0]) : Command.HELP;
+        command = args.length > 0 ? Command.from(args[0]) : Command.REPL;
 
         for (int i = 1; i < args.length; i++)
             if (args[i].equalsIgnoreCase("-w"))
@@ -50,15 +50,16 @@ public class Main {
             case HELLO:
                 hello();
                 break;
-            case REPL:
-                repl();
-                break;
             case LOAD:
                 LoadTest.load(dataDir, iterations, true);
                 break;
             case HELP:
-            default:
                 usage();
+                break;
+            case REPL:
+            default:
+                repl();
+                break;
         }
     }
 
