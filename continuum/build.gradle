@@ -64,11 +64,13 @@ packaging {
     extraFlags = [ ]
 }
 
+/*
 applicationDefaultJvmArgs = [
 '-XX:+UnlockCommercialFeatures',
 '-XX:+FlightRecorder',
 '-Xprof'
 ]
+*/
 
 publishing {
     publications {

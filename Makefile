@@ -11,9 +11,9 @@ MMAIN := $(MAKE) -C $(MAIN)
 default: all
 
 all:
-	$(MCORE)
-	$(MREST)
-	$(MMAIN)
+	$(MCORE) all
+	$(MREST) all
+	$(MMAIN) all
 
 clean: 
 	$(MCORE) clean

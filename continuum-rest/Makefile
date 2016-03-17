@@ -1,5 +1,5 @@
-default: install
-install:
+default: all
+all:
 	./gradlew install
 docs:
 	~/bin/restdown -b html -m . README.md

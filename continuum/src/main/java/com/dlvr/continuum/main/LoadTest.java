@@ -87,7 +87,8 @@ public class LoadTest {
         Continuum.Builder builder =
                 Continuum.continuum()
                     .name("com.dlvr.continuum.main.LoadTest")
-                        .base(ref);
+                        .dimension(Continuum.Dimension.SPACE)
+                            .base(ref);
 
         LoadTest test = null;
         try (Continuum c = builder.open()){

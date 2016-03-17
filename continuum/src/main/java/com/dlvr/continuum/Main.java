@@ -39,9 +39,9 @@ public class Main {
 
         for (int i = 1; i < args.length; i++)
             if (args[i].equalsIgnoreCase("-w"))
-                iterations = Integer.parseInt(args[i++]);
+                iterations = Integer.parseInt(args[++i]);
             else if (args[i].equalsIgnoreCase("-d"))
-                dataDir = args[i++];
+                dataDir = args[++i];
     }
 
     private void run() throws Exception {
