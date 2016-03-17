@@ -33,8 +33,6 @@ public class Client implements Translator<Atom> {
         baseUrl = "http://" + host + ":" + port + "/api/1.0";
     }
 
-    @Override public void open() throws Exception { }
-
     @Override
     public void write(Atom atom) throws Exception {
         Map<String, Object> data = new HashMap<>();
@@ -93,9 +91,6 @@ public class Client implements Translator<Atom> {
     public Slab slab() {
         return null;
     }
-
-    @Override
-    public void close() throws Exception { }
 
     public class AtomBuilder extends Continuum.AtomBuilder {
 

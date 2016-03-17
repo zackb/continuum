@@ -56,7 +56,7 @@ public class LoadTest {
     private void load(final Continuum continuum, int iterations) {
         for (int i = 0; i < iterations; i++) {
             Metrics.time("write", () -> {
-                continuum.db().write(createAtom());
+                continuum.write(createAtom());
                 return null;
             });
         }

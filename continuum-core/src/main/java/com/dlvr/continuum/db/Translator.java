@@ -6,7 +6,7 @@ package com.dlvr.continuum.db;
 public interface Translator<T> {
 
     /**
-     * Write a datapoint to the time datastore
+     * Write a datapoint to the slab storage
      * @param t atom to write
      * @throws Exception error writing atom
      */
