@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Tree structured results from a db scan
+ * Tree structured results from a translator scan
  */
 public class NSlice implements Slice {
 

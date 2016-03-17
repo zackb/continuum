@@ -37,7 +37,7 @@ public class ContinuumWriteHandler implements HttpRequestHandler {
                         .values(Continuum.values(request.min, request.max, request.count, request.sum, request.value))
                         .timestamp(request.timestamp)
                         .build();
-        continuum.db().write(atom);
+        continuum.write(atom);
         return null;
     }
 

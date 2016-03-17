@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
  */
 public class NScanner implements Scanner {
 
-    private Iterator iterator;
+    private Iterator<Atom> iterator;
 
     /**
      * {@inheritDoc}
@@ -45,11 +45,11 @@ public class NScanner implements Scanner {
      * {@inheritDoc}
      */
     @Override
-    public void iterator(Iterator iterator) {
+    public void iterator(Iterator<Atom> iterator) {
         this.iterator = iterator;
     }
 
-    private Atom iterate(Iterator iterator) {
+    private Atom iterate(Iterator<Atom> iterator) {
         iterator.next();
         if (!iterator.valid()) return null;
         return iterator.get();

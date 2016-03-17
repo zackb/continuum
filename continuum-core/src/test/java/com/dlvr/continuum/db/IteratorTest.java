@@ -2,8 +2,9 @@ package com.dlvr.continuum.db;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Particles;
+import com.dlvr.continuum.core.db.RockSlab;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
-import com.dlvr.continuum.core.db.AtomDB;
+import com.dlvr.continuum.core.db.AtomTranslator;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -21,6 +22,10 @@ public class IteratorTest {
 
     @Test
     public void testIterate() throws Exception {
+
+        Slab slab = new RockSlab("testIterate.0.slab", reference);
+        slab.open();
+
         String name = "testIterate";
         Map<String, String> map = new HashMap<>();
         map.put("foo", "bar");
@@ -30,12 +35,13 @@ public class IteratorTest {
         map2.put("zack", "bar");
         map2.put("fuz", "da'vinci");
         reference.child(name).delete();
-        AtomDB db = new AtomDB(Continuum.Dimension.SPACE, name, reference);
-        db.open();
+
+        AtomTranslator translator = new AtomTranslator(Continuum.Dimension.SPACE, slab);
+
         long ts1 = System.currentTimeMillis();
         long ts2 = ts1 + 100;
 
-        db.write(
+        translator.write(
             Continuum.satom().name("testiterate")
                     .particles(particles(map))
                     .value(123456.3D)
@@ -43,14 +49,14 @@ public class IteratorTest {
                     .build()
         );
 
-        db.write(
+        translator.write(
                 Continuum.satom().name("testiterate")
                         .particles(particles(map2))
                         .value(12341.01234D)
                         .timestamp(ts2)
                         .build()
         );
-        Iterator itr = db.iterator();
+        Iterator itr = translator.iterator();
 
         int i = 0;
         itr.seekToFirst();
@@ -71,8 +77,8 @@ public class IteratorTest {
             i++;
         } while (itr.next());
         itr.close();
-        db.close();
-        db.slab().reference().delete();
+        slab.close();
+        slab.reference().delete();
         assertEquals(2, i);
     }
 }

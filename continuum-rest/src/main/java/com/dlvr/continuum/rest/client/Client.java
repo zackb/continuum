@@ -3,9 +3,9 @@ package com.dlvr.continuum.rest.client;
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.AtomID;
-import com.dlvr.continuum.db.DB;
 import com.dlvr.continuum.db.Iterator;
 import com.dlvr.continuum.db.Slab;
+import com.dlvr.continuum.db.Translator;
 import com.dlvr.continuum.db.slice.Scan;
 import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.rest.http.HTTP;
@@ -17,7 +17,7 @@ import java.util.Map;
  * REST client wrapper
  * Created by zack on 2/23/16.
  */
-public class Client implements DB {
+public class Client implements Translator<Atom> {
 
     private final String baseUrl;
 
@@ -85,7 +85,7 @@ public class Client implements DB {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<Atom> iterator() {
         throw new UnsupportedOperationException("Can not iterate via HTTP");
     }
 
@@ -95,9 +95,7 @@ public class Client implements DB {
     }
 
     @Override
-    public void close() throws Exception {
-
-    }
+    public void close() throws Exception { }
 
     public class AtomBuilder extends Continuum.AtomBuilder {
 

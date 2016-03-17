@@ -1,12 +1,13 @@
 package com.dlvr.continuum.db.slice;
 
+import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.Iterator;
 
 /**
  * Scan a data store to produce a slice
  * Created by zack on 3/15/16.
  */
-public interface Scanner<T> {
+public interface Scanner {
 
     /**
      * Query: Execute a set of operations on a scan of time from the datastore
@@ -19,8 +20,8 @@ public interface Scanner<T> {
     Slice slice(Scan scan) throws Exception;
 
     /**
-     * Set the data store iterator to use for the next slice
+     * Set the slab storage iterator
      * @param iterator to use for this scanner
      */
-    void iterator(Iterator iterator);
+    void iterator(Iterator<Atom> iterator);
 }

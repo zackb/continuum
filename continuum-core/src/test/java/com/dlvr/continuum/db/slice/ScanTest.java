@@ -16,7 +16,7 @@ import static com.dlvr.continuum.Continuum.*;
  */
 public class ScanTest {
 
-    FileSystemReference reference = new FileSystemReference("/tmp/continuum/test.com.dlvr.continuum.db.slice.ScanTest");
+    FileSystemReference reference = new FileSystemReference("/tmp/continuum/test.com.dlvr.continuum.translator.slice.ScanTest");
 
     @Test
     public void testGroup() throws Exception {
@@ -30,7 +30,7 @@ public class ScanTest {
                         .open();
 
 
-            // build temperature db
+            // build temperature translator
             buildTempDB(continuum);
 
             // average over two days

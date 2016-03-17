@@ -62,4 +62,12 @@ public class Slabs implements Slab {
             slab.close();
         }
     }
+
+    public Slab get(int idx) {
+        return slabs.get(idx);
+    }
+
+    public int size() {
+        return slabs.size();
+    }
 }

@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by zack on 2/11/16.
  */
-public class AtomDBTest {
+public class AtomTranslatorTest {
 
     @Test
     public void testEncodeAtom() {

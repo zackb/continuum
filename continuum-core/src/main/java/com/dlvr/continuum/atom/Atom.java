@@ -5,7 +5,7 @@ import com.dlvr.continuum.db.AtomID;
 import java.io.Serializable;
 
 /**
- * Time db data atom
+ * Time translator data atom
  */
 public interface Atom extends Serializable {
 
@@ -23,8 +23,8 @@ public interface Atom extends Serializable {
     String name();
 
     /**
-     * The particles associated with this time db data atom.
-     * Under the hood particles.size() * name time db are created
+     * The particles associated with this time translator data atom.
+     * Under the hood particles.size() * name time translator are created
      * Only use particles for data which needs to be queried scalably
      * @return particles of the atomg
      */

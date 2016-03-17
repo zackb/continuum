@@ -1,6 +1,5 @@
 package com.dlvr.continuum.core.db;
 
-import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.db.*;
 import com.dlvr.continuum.except.ZiggyStardustError;
@@ -10,7 +9,7 @@ import static com.dlvr.continuum.Continuum.*;
 /**
  * Atom data store, uses RockSlab
  */
-public class AtomDB implements DB {
+public class AtomTranslator implements Translator<Atom> {
 
     // underlying storage
     private final Slab slab;
@@ -23,29 +22,9 @@ public class AtomDB implements DB {
      * @param dimension for this data store // TODO: Dont need/want this? (column family)
      * @param slab underlying slab to use
      */
-    public AtomDB(Dimension dimension, Slab slab) {
+    public AtomTranslator(Dimension dimension, Slab slab) {
         this.dimension = dimension;
         this.slab = slab;
-    }
-
-    /**
-     * Open or create a new slab
-     * @param dimension for this data store // TODO: Dont need/want this? (column family)
-     * @param name unique id of slab
-     * @param base file system reference to use
-     * @throws Exception error opening data store
-     */
-    public AtomDB(Dimension dimension, String name, FileSystemReference base) throws Exception {
-        this.dimension = dimension;
-        this.slab = new RockSlab(name + ".db", base);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void open() throws Exception {
-        this.slab.open();
     }
 
     /**
@@ -68,8 +47,8 @@ public class AtomDB implements DB {
      * {@inheritDoc}
      */
     @Override
-    public Iterator iterator() {
-        return new RockIterator(dimension, (RockSlab)slab());
+    public Iterator<Atom> iterator() {
+        return new AtomIterator(dimension, (RockSlab)slab());
     }
 
     /**
@@ -89,14 +68,6 @@ public class AtomDB implements DB {
      * {@inheritDoc}
      */
     @Override
-    public void close() throws Exception {
-        slab.close();
-    }
-
-    /**
-     * Get the underlying storage resource
-     * @return the underlying storage slab for this DB
-     */
     public Slab slab() {
         return slab;
     }

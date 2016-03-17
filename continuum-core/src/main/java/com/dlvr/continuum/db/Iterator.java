@@ -1,13 +1,12 @@
 package com.dlvr.continuum.db;
 
-import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Values;
 
 /**
  * Time and Space Scan Iterator
  * Created by zack on 2/11/16.
  */
-public interface Iterator extends AutoCloseable {
+public interface Iterator<T> extends AutoCloseable {
 
     AtomID ID();
 
@@ -15,7 +14,7 @@ public interface Iterator extends AutoCloseable {
      * Retreive the Atom with the ID of current()
      * @return unmarshalled atom
      */
-    Atom get();
+    T get();
 
     /**
      * Retreive the values of the atom. This can save decoding time if the full Atom object is not needed

@@ -10,15 +10,15 @@ import com.dlvr.continuum.util.Bytes;
 import org.rocksdb.RocksIterator;
 
 /**
- * Rock iterator
+ * Atom translator. Turn slab storage bytes into data objects
  * Created by zack on 2/11/16.
  */
-public class RockIterator implements Iterator {
+public class AtomIterator implements Iterator<Atom> {
 
     private final Continuum.Dimension dimension;
     private final RocksIterator it;
 
-    RockIterator(Continuum.Dimension dimension, RockSlab slab) {
+    AtomIterator(Continuum.Dimension dimension, RockSlab slab) {
         this.dimension = dimension;
         this.it = slab.rockdDB().newIterator();
     }
@@ -34,7 +34,7 @@ public class RockIterator implements Iterator {
 
     @Override
     public Atom get() {
-        return AtomDB.decodeAtom(it.value(), dimension);
+        return AtomTranslator.decodeAtom(it.value(), dimension);
     }
 
     @Override

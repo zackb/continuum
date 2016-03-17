@@ -4,9 +4,10 @@ import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
+import com.dlvr.continuum.core.db.AtomTranslator;
 import com.dlvr.continuum.core.db.slice.NScanner;
 import com.dlvr.continuum.db.AtomID;
-import com.dlvr.continuum.db.DB;
+import com.dlvr.continuum.db.Translator;
 import com.dlvr.continuum.db.Slab;
 import com.dlvr.continuum.db.slice.*;
 
@@ -14,7 +15,6 @@ import com.dlvr.continuum.core.atom.*;
 import com.dlvr.continuum.core.db.slice.NSlice;
 import com.dlvr.continuum.core.db.Slabs;
 import com.dlvr.continuum.core.db.RockSlab;
-import com.dlvr.continuum.core.db.AtomDB;
 import com.dlvr.continuum.core.db.slice.NScan;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.db.slice.Scanner;
@@ -38,7 +38,9 @@ public class Continuum implements Closeable {
 
     private final Dimension dimension;
 
-    private final DB db;
+    private final Translator<Atom> translator;
+
+    private final Slabs slabs;
 
     private final List<FileSystemReference> bases;
 
@@ -154,26 +156,28 @@ public class Continuum implements Closeable {
         this.dimension = dimension;
         this.bases = bases;
 
-        List<Slab> slabs = new ArrayList<>();
+        List<Slab> slabList = new ArrayList<>();
         for (int i = 0; i < bases.size(); i++) {
-            Slab slab = new RockSlab(name + "." + i + ".db", bases.get(0));
-            slabs.add(slab);
+            Slab slab = new RockSlab(name + "." + i + ".slab", bases.get(0));
+            slab.open();
+            slabList.add(slab);
         }
 
+        this.slabs = new Slabs(slabList);
+
         if (slabs.size() == 1) {
-            this.db = new AtomDB(dimension, slabs.get(0));
+            this.translator = new AtomTranslator(dimension, slabs.get(0));
         } else {
-            this.db = new AtomDB(dimension, new Slabs(slabs));
+            this.translator = new AtomTranslator(dimension, slabs);
         }
-        this.db.open();
     }
 
     /**
      * Access the backing datastore for this continuum
-     * @return DB datastore engine
+     * @return Translator datastore engine
      */
-    public DB db() {
-        return this.db;
+    public Translator<Atom> translator() {
+        return this.translator;
     }
 
     /**
@@ -182,7 +186,7 @@ public class Continuum implements Closeable {
      * @throws Exception error writing data
      */
     public void write(Atom atom) throws Exception {
-        db().write(atom);
+        translator().write(atom);
     }
 
     /**
@@ -192,7 +196,7 @@ public class Continuum implements Closeable {
      * @throws Exception on underlying slabs failure
      */
     Atom get(AtomID id) throws Exception {
-        return db().read(id);
+        return translator().read(id);
     }
 
     /**
@@ -204,7 +208,7 @@ public class Continuum implements Closeable {
      * @throws Exception error reading or collecting atoms
      */
     public Slice slice(Scan scan) throws Exception {
-        Iterator iterator = db().iterator();
+        Iterator iterator = translator().iterator();
         try {
             Scanner scanner = scanner();
             scanner.iterator(iterator);
@@ -224,7 +228,7 @@ public class Continuum implements Closeable {
     @Override
     public void close() {
         try {
-            db.close();
+            slabs.close();
         } catch (Exception e) {
             throw new Error(e);
         }
@@ -235,7 +239,7 @@ public class Continuum implements Closeable {
      * @throws Exception on failure
      */
     public void delete() throws Exception {
-        db.close();
+        slabs.close();
         //bases.forEach(FileSystemReference::delete);
         for (FileSystemReference reference : bases) {
             reference.delete();
