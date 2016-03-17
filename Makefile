@@ -20,7 +20,7 @@ clean:
 	$(MREST) clean
 	$(MMAIN) clean
 
-docs:
+docs: all
 	$(MCORE) docs
 	$(MREST) docs
 	cp -r $(CORE)/build/docs/javadoc docs/html/

@@ -1,13 +1,13 @@
 com.dlvr.continuum
 com.dlvr.continuum.atom
 com.dlvr.continuum.core.atom
-com.dlvr.continuum.core.db
-com.dlvr.continuum.core.db.slice
 com.dlvr.continuum.core.io.file
-com.dlvr.continuum.db
-com.dlvr.continuum.db.slice
+com.dlvr.continuum.core.slab
+com.dlvr.continuum.core.slice
 com.dlvr.continuum.except
 com.dlvr.continuum.io.file
+com.dlvr.continuum.slab
+com.dlvr.continuum.slice
 com.dlvr.continuum.space
 com.dlvr.continuum.struct.tree
 com.dlvr.continuum.time
