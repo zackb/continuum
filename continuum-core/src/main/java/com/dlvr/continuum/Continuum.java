@@ -4,6 +4,8 @@ import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
+import com.dlvr.continuum.control.Builder;
+import com.dlvr.continuum.control.Controller;
 import com.dlvr.continuum.core.slab.AtomTranslator;
 import com.dlvr.continuum.core.slice.NScanner;
 import com.dlvr.continuum.atom.AtomID;
@@ -32,7 +34,7 @@ import static com.dlvr.continuum.util.Util.*;
  * Root interface to library
  * Created by zack on 2/10/16.
  */
-public class Continuum implements Closeable {
+public class Continuum implements Controller, Closeable {
 
     private final String name;
 
@@ -42,18 +44,35 @@ public class Continuum implements Closeable {
 
     private final Slabs slabs;
 
-    private final List<FileSystemReference> bases;
+    private final List<Reference> bases;
 
     public static void sayHello() {
         System.out.printf("People of Earth, how are you?\n");
     }
 
-    public AtomBuilder atom() {
-        return new AtomBuilder().dimension(dimension);
-    }
+    private Continuum(String name, Dimension dimension, List<Reference> bases) throws Exception {
+        checkNotNull("name", name);
+        checkNotNull("dimension", dimension);
+        checkNotNull("base", bases);
+        this.name = name;
+        this.dimension = dimension;
+        this.bases = bases;
 
-    public AtomBuilder atom(String name) {
-        return new AtomBuilder().dimension(dimension).name(name);
+        List<Slab> slabList = new ArrayList<>();
+        for (int i = 0; i < bases.size(); i++) {
+            FileSystemReference ref = (FileSystemReference)bases.get(0);
+            Slab slab = new RockSlab(name + "." + i + ".slab", ref);
+            slab.open();
+            slabList.add(slab);
+        }
+
+        this.slabs = new Slabs(slabList);
+
+        if (slabs.size() == 1) {
+            this.translator = new AtomTranslator(dimension, slabs.get(0));
+        } else {
+            this.translator = new AtomTranslator(dimension, slabs);
+        }
     }
 
     public static AtomBuilder satom() {
@@ -140,73 +159,62 @@ public class Continuum implements Closeable {
         return new ScanBuilder();
     }
 
-    public ScanBuilder scan(String name) {
-        return new ScanBuilder(name).dimension(dimension);
-    }
-
     public static SliceBuilder result(String name) {
         return new SliceBuilder(name);
     }
 
-    private Continuum(String name, Dimension dimension, List<FileSystemReference> bases) throws Exception {
-        checkNotNull("name", name);
-        checkNotNull("dimension", dimension);
-        checkNotNull("base", bases);
-        this.name = name;
-        this.dimension = dimension;
-        this.bases = bases;
-
-        List<Slab> slabList = new ArrayList<>();
-        for (int i = 0; i < bases.size(); i++) {
-            Slab slab = new RockSlab(name + "." + i + ".slab", bases.get(0));
-            slab.open();
-            slabList.add(slab);
-        }
-
-        this.slabs = new Slabs(slabList);
-
-        if (slabs.size() == 1) {
-            this.translator = new AtomTranslator(dimension, slabs.get(0));
-        } else {
-            this.translator = new AtomTranslator(dimension, slabs);
-        }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AtomBuilder atom() {
+        return new AtomBuilder().dimension(dimension);
     }
 
     /**
-     * Access the backing datastore for this continuum
-     * @return Translator datastore engine
+     * {@inheritDoc}
      */
+    @Override
+    public AtomBuilder atom(String name) {
+        return new AtomBuilder().dimension(dimension).name(name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ScanBuilder scan(String name) {
+        return new ScanBuilder(name).dimension(dimension);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Translator<Atom> translator() {
         return this.translator;
     }
 
     /**
-     * Write an atom to the time data store
-     * @param atom to write or overwrite
-     * @throws Exception error writing data
+     * {@inheritDoc}
      */
+    @Override
     public void write(Atom atom) throws Exception {
         translator().write(atom);
     }
 
     /**
-     * Retreive a single atom by ID from the datastore
-     * @param id to retrieve for
-     * @return atom for given ID or null if not exist
-     * @throws Exception on underlying slabs failure
+     * {@inheritDoc}
      */
-    Atom get(AtomID id) throws Exception {
+    @Override
+    public Atom get(AtomID id) throws Exception {
         return translator().read(id);
     }
 
     /**
-     * Query: Execute a set of operations on a scan of time from the datastore
-     * Blocking
-     * @param scan description of the view of the slice
-     * @return Slice of atoms resulting from the scan
-     *          includes: aggregate functions, date ranges, and groupings if applicatble
-     * @throws Exception error reading or collecting atoms
+     * {@inheritDoc}
      */
+    @Override
     public Slice slice(Scan scan) throws Exception {
         Iterator iterator = translator().iterator();
         try {
@@ -218,6 +226,10 @@ public class Continuum implements Closeable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Scanner scanner() {
         return new NScanner();
     }
@@ -241,13 +253,13 @@ public class Continuum implements Closeable {
     public void delete() throws Exception {
         slabs.close();
         //bases.forEach(FileSystemReference::delete);
-        for (FileSystemReference reference : bases) {
+        for (Reference reference : bases) {
             reference.delete();
         }
     }
 
-    public static Builder continuum() {
-        return new Builder();
+    public static ContinuumBuilder continuum() {
+        return new ContinuumBuilder();
     }
 
     /**
@@ -255,54 +267,46 @@ public class Continuum implements Closeable {
      * @param scan time scan to compact
      * @throws Exception error contracting
      */
-    public void contract(Scan scan) throws Exception {
-
-    }
+    public void contract(Scan scan) throws Exception { }
 
     /**
      * Expand a continuum (universe)? from cold storage data
      * @param reference incoming reference to add to this continuum
      * @throws Exception error expanding
      */
-    public void expand(Reference reference) throws Exception {
+    public void expand(Reference reference) throws Exception { }
 
+    public void delete(Scan scan) throws Exception { }
+
+    public Reference clone(Scan scan) throws Exception { return null; }
+
+    public static ContinuumBuilder series() {
+        return new ContinuumBuilder().dimension(Dimension.SPACE);
     }
 
-    public void delete(Scan scan) throws Exception {
-
+    public static ContinuumBuilder kv() {
+        return new ContinuumBuilder().dimension(Dimension.TIME);
     }
 
-    public Reference clone(Scan scan) throws Exception {
-        return null;
-    }
-
-    public static Builder series() {
-        return new Builder().dimension(Dimension.SPACE);
-    }
-
-    public static Builder kv() {
-        return new Builder().dimension(Dimension.TIME);
-    }
-
-    public static class Builder {
+    public static class ContinuumBuilder implements Builder {
         private Dimension dimension = null;
-        private List<FileSystemReference> base = new ArrayList<>();
+        private List<Reference> base = new ArrayList<>();
         private String name = "continuum";
-        public Builder name(String name) {
+        public ContinuumBuilder name(String name) {
             this.name = name;
             return this;
         }
-        public Builder base(FileSystemReference base) {
+        public ContinuumBuilder base(Reference base) {
             this.base.add(base);
             return this;
         }
-        public Builder base(FileSystemReference... bases) {
-            for (FileSystemReference ref : bases) {
+        public ContinuumBuilder base(Reference... bases) {
+            for (Reference ref : bases) {
                 this.base.add(ref);
             }
             return this;
         }
-        public Builder dimension(Dimension dimension) {
+        public ContinuumBuilder dimension(Dimension dimension) {
             this.dimension = dimension;
             return this;
         }

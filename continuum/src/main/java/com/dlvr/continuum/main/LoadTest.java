@@ -2,6 +2,7 @@ package com.dlvr.continuum.main;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
+import com.dlvr.continuum.control.Builder;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.slice.Function;
 import com.dlvr.continuum.util.Maths;
@@ -84,7 +85,7 @@ public class LoadTest {
     public static void load(String dataDir, int iterations, boolean delete) throws Exception {
         FileSystemReference ref = new FileSystemReference(dataDir);
 
-        Continuum.Builder builder =
+        Continuum.ContinuumBuilder builder =
                 Continuum.continuum()
                     .name("com.dlvr.continuum.main.LoadTest")
                         .dimension(Continuum.Dimension.SPACE)
