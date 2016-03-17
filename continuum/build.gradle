@@ -1,14 +1,15 @@
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'maven-publish'
+apply plugin: 'fpm-packaging'
+
 group 'com.dlvr'
 version '0.1'
 mainClassName = 'com.dlvr.continuum.Main'
 
 def packageDistDir = '/opt/continuum'
 
-apply plugin: 'groovy'
-apply plugin: 'java'
-apply plugin: 'application'
-apply plugin: 'maven-publish'
-apply plugin: 'fpm-packaging'
 
 sourceCompatibility = 1.8
 
@@ -48,18 +49,11 @@ jar {
 
 task install(dependsOn: ['clean', 'jar', 'test', 'publishToMavenLocal']) //, 'debian'])
 
-def stagingDir = new File(project.buildDir, 'staging')
-task stageFiles(type: Copy) {
-    stagingDir.mkdir()
-    into new File(stagingDir, packageDistDir)
-    from jar.archivePath
-    rename(/$project.name(.+)\.jar/, "${project.name}.jar")
-}
-
 packaging {
     packageName = project.name
-    //dependencies = ['dlvr-java']
-    baseDir = stagingDir
+    //dependencies = ['openjdk-8-jre']
+    baseDir = new File(project.buildDir, 'install')
+    prefix = '/opt'
     extraOptions = [
             '--vendor': 'DLVR',
             '--maintainer': 'Zack Bartel',
@@ -69,9 +63,6 @@ packaging {
     ]
     extraFlags = [ ]
 }
-
-stageFiles.dependsOn jar
-debian.dependsOn stageFiles
 
 applicationDefaultJvmArgs = [
 '-XX:+UnlockCommercialFeatures',

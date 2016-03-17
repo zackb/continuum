@@ -3,7 +3,7 @@ package com.dlvr.continuum.main;
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
-import com.dlvr.continuum.db.slice.Function;
+import com.dlvr.continuum.slice.Function;
 import com.dlvr.continuum.util.Maths;
 import com.dlvr.continuum.util.Metrics;
 import com.dlvr.continuum.util.datetime.Interval;
