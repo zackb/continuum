@@ -1,5 +1,6 @@
 com.dlvr.continuum
 com.dlvr.continuum.atom
+com.dlvr.continuum.control
 com.dlvr.continuum.core.atom
 com.dlvr.continuum.core.io.file
 com.dlvr.continuum.core.slab
