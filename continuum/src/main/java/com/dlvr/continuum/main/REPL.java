@@ -11,18 +11,14 @@ import java.io.*;
  */
 public class REPL {
 
+    private static final String prompt = "continuum> ";
+
     private final Continuum continuum;
-    private final BufferedReader reader;
-    private final BufferedWriter writer;
+    private final Console console;
 
     public REPL(Continuum continuum) {
         this.continuum = continuum;
-        reader = new BufferedReader(new InputStreamReader(System.in));
-        writer = new BufferedWriter(new OutputStreamWriter(System.out));
-    }
-
-    private String read() throws IOException {
-        return reader.readLine();
+        this.console = System.console();
     }
 
     private boolean process(String command) throws IOException {
@@ -37,11 +33,12 @@ public class REPL {
     }
 
     public void run() throws IOException {
-        for (
-            String command = read();
-            process(command);
-            command = read()
-        );
+        String command;
+        do {
+            console.printf("%s", prompt);
+            console.flush();
+            command = console.readLine();
+        } while (process(command));
 
         stop();
     }
@@ -49,18 +46,19 @@ public class REPL {
     public void stop() { }
 
     private void usage() throws IOException {
-        writer.write("\nCommands:\n");
-        writer.write("  help                        show command help\n");
-        writer.write("  slice                       return a slice of the continuum\n");
-        writer.write("      name                    series name or time-key\n");
-        writer.write("      <end>                   end timestamp in millisecond epoch\n");
-        writer.write("      <start>                 start timestamp in millisecond epoch\n");
-        writer.write("  write                       write an atom to the continuum\n");
-        writer.write("      name                    series name or time-key\n");
-        writer.write("      <timestamp>             atom timestamp in millisecond epoch\n");
-        writer.write("      <particles>\n");
-        writer.write("      <fields>\n");
-        writer.write("      <values>\n");
-        writer.flush();
+        console.writer().println("Commands:");
+        console.writer().println("  help                        show command help");
+        console.writer().println("  scan                        return a slice of the continuum");
+        console.writer().println("      name                    series name or time-key");
+        console.writer().println("      <end>                   end timestamp in millisecond epoch");
+        console.writer().println("      <start>                 start timestamp in millisecond epoch");
+        console.writer().println("  write                       write an atom to the continuum");
+        console.writer().println("      name                    series name or time-key");
+        console.writer().println("      <timestamp>             atom timestamp in millisecond epoch");
+        console.writer().println("      <particles>");
+        console.writer().println("      <fields>");
+        console.writer().println("      <values>");
+        console.writer().println("");
+        console.writer().flush();
     }
 }
