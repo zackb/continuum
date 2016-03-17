@@ -1,6 +1,7 @@
 package com.dlvr.continuum;
 
 import com.dlvr.continuum.main.LoadTest;
+import com.dlvr.continuum.main.REPL;
 import com.dlvr.continuum.universe.Universe;
 
 import java.util.stream.Stream;
@@ -63,6 +64,7 @@ public class Main {
 
     private void repl() throws Exception {
         open();
+        new REPL(continuum).run();
         close();
     }
 
@@ -78,6 +80,8 @@ public class Main {
                 .base(universe.hot())
                 .dimension(universe.dimension())
                 .open();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
     }
 
     private void hello() throws Exception {
@@ -86,12 +90,18 @@ public class Main {
         close();
     }
 
+    public void stop() {
+        if (continuum != null) continuum.close();
+        continuum = null;
+    }
+
     private static void usage() {
         System.err.println("");
         System.err.println("Continuum CLI Usage: ");
         System.err.println("continuum <command> <options> <arg...>");
         System.err.println("    help                    show this message");
         System.err.println("    hello                   say hello verifying config");
+        System.err.println("    repl                    REPL: Read Eval Print Loop");
         System.err.println("    load                    load test");
         System.err.println("            -w <writes per> number of writes for load test");
         System.err.println("            -d <data dir>   directory to use for load data");
