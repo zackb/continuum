@@ -3,14 +3,11 @@ package com.dlvr.continuum.rest.http;
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Fields;
 import com.dlvr.continuum.atom.Particles;
-import com.dlvr.continuum.core.db.slice.NSlice;
-import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.Scan;
-import com.dlvr.continuum.db.slice.Slice;
-import com.dlvr.continuum.db.slice.Slice;
 import com.dlvr.continuum.rest.REST;
 import com.dlvr.continuum.rest.http.exception.BadRequestException;
 import com.dlvr.continuum.rest.http.exception.MethodNotAllowedException;
+import com.dlvr.continuum.slice.Function;
+import com.dlvr.continuum.slice.Scan;
 import com.dlvr.continuum.util.datetime.Interval;
 
 import java.util.Map;

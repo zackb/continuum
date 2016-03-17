@@ -1,11 +1,13 @@
 package com.dlvr.continuum.datum;
 
 import com.dlvr.continuum.Continuum;
-import com.dlvr.continuum.core.db.KAtomID;
+import com.dlvr.continuum.atom.AtomID;
+import com.dlvr.continuum.atom.ParticlesID;
+import com.dlvr.continuum.core.atom.KAtomID;
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Particles;
-import com.dlvr.continuum.core.db.SAtomID;
-import com.dlvr.continuum.core.db.NParticlesID;
+import com.dlvr.continuum.core.atom.SAtomID;
+import com.dlvr.continuum.core.atom.NParticlesID;
 import com.dlvr.continuum.util.Bytes;
 import org.junit.Test;
 

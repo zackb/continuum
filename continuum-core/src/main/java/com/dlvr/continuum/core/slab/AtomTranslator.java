@@ -5,7 +5,6 @@ import com.dlvr.continuum.atom.AtomID;
 import com.dlvr.continuum.slab.Iterator;
 import com.dlvr.continuum.slab.Slab;
 import com.dlvr.continuum.slab.Translator;
-import com.dlvr.continuum.db.*;
 import com.dlvr.continuum.except.ZiggyStardustError;
 import com.dlvr.continuum.util.Bytes;
 import static com.dlvr.continuum.Continuum.*;

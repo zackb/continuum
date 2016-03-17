@@ -1,7 +1,5 @@
 package com.dlvr.continuum.atom;
 
-import com.dlvr.continuum.db.AtomID;
-
 import java.io.Serializable;
 
 /**

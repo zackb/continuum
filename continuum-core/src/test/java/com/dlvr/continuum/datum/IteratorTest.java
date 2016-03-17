@@ -1,10 +1,13 @@
 package com.dlvr.continuum.datum;
 
 import com.dlvr.continuum.Continuum;
+import com.dlvr.continuum.atom.AtomID;
 import com.dlvr.continuum.atom.Particles;
-import com.dlvr.continuum.core.db.RockSlab;
+import com.dlvr.continuum.core.slab.RockSlab;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
-import com.dlvr.continuum.core.db.AtomTranslator;
+import com.dlvr.continuum.core.slab.AtomTranslator;
+import com.dlvr.continuum.slab.Iterator;
+import com.dlvr.continuum.slab.Slab;
 import org.junit.Test;
 
 import java.util.HashMap;

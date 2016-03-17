@@ -1,7 +1,7 @@
 package com.dlvr.continuum.slice;
 
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.db.Iterator;
+import com.dlvr.continuum.slab.Iterator;
 
 /**
  * Scan a data store to produce a slice

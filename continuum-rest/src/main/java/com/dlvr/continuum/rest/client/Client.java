@@ -2,13 +2,13 @@ package com.dlvr.continuum.rest.client;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.db.AtomID;
-import com.dlvr.continuum.db.Iterator;
-import com.dlvr.continuum.db.Slab;
-import com.dlvr.continuum.db.Translator;
-import com.dlvr.continuum.db.slice.Scan;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.atom.AtomID;
 import com.dlvr.continuum.rest.http.HTTP;
+import com.dlvr.continuum.slab.Iterator;
+import com.dlvr.continuum.slab.Slab;
+import com.dlvr.continuum.slab.Translator;
+import com.dlvr.continuum.slice.Scan;
+import com.dlvr.continuum.slice.Slice;
 
 import java.util.HashMap;
 import java.util.Map;

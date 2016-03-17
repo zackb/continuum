@@ -1,7 +1,6 @@
 package com.dlvr.continuum.atom;
 
-import com.dlvr.continuum.atom.Particles;
-import com.dlvr.continuum.datum.ID;
+import com.dlvr.continuum.ID;
 
 /**
  * Efficient database representation of particles

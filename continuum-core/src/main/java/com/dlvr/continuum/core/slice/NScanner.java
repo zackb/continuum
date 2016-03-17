@@ -2,8 +2,7 @@ package com.dlvr.continuum.core.slice;
 
 import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.AtomID;
-import com.dlvr.continuum.datum.Iterator;
-import com.dlvr.continuum.db.slice.*;
+import com.dlvr.continuum.slab.Iterator;
 import com.dlvr.continuum.slice.*;
 
 import java.lang.reflect.ParameterizedType;

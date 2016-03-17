@@ -4,9 +4,9 @@ import com.dlvr.continuum.Continuum
 import com.dlvr.continuum.atom.Atom
 import com.dlvr.continuum.atom.Values
 import com.dlvr.continuum.core.io.file.FileSystemReference
-import com.dlvr.continuum.db.slice.Scan
-import com.dlvr.continuum.db.slice.Slice
 import com.dlvr.continuum.rest.client.Client
+import com.dlvr.continuum.slice.Scan
+import com.dlvr.continuum.slice.Slice
 import com.dlvr.continuum.util.datetime.Interval
 import org.junit.Test
 

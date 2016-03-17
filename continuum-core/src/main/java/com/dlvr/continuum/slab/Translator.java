@@ -1,8 +1,6 @@
 package com.dlvr.continuum.slab;
 
 import com.dlvr.continuum.atom.AtomID;
-import com.dlvr.continuum.datum.Iterator;
-import com.dlvr.continuum.slab.Slab;
 
 /**
  * Serde. Time data slab marshaller / demarshaller.

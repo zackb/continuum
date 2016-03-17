@@ -1,8 +1,7 @@
 package com.dlvr.continuum.core.atom;
 
-import com.dlvr.continuum.db.ParticlesID;
+import com.dlvr.continuum.atom.ParticlesID;
 import com.dlvr.continuum.atom.Particles;
-import com.dlvr.continuum.core.db.NParticlesID;
 
 import java.util.*;
 

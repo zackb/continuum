@@ -4,7 +4,7 @@ import com.dlvr.continuum.atom.Atom;
 import com.dlvr.continuum.atom.Values;
 import com.dlvr.continuum.core.atom.NValues;
 import com.dlvr.continuum.core.atom.SAtom;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.slice.Slice;
 
 import java.util.ArrayList;
 import java.util.List;

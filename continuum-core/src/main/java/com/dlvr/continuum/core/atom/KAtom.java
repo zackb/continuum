@@ -1,7 +1,6 @@
 package com.dlvr.continuum.core.atom;
 
-import com.dlvr.continuum.core.db.KAtomID;
-import com.dlvr.continuum.db.AtomID;
+import com.dlvr.continuum.atom.AtomID;
 
 /**
  * An atom in a time key values continuum

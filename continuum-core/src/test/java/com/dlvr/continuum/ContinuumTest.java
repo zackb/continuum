@@ -3,9 +3,9 @@ package com.dlvr.continuum;
 import com.dlvr.continuum.atom.Particles;
 import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.db.slice.Function;
-import com.dlvr.continuum.db.slice.Scan;
-import com.dlvr.continuum.db.slice.Slice;
+import com.dlvr.continuum.slice.Function;
+import com.dlvr.continuum.slice.Scan;
+import com.dlvr.continuum.slice.Slice;
 import com.dlvr.continuum.util.datetime.Interval;
 import org.junit.Test;
 

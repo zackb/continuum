@@ -1,12 +1,8 @@
 package com.dlvr.continuum.rest.client;
 
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.core.atom.NAtom;
-import com.dlvr.continuum.core.atom.NFields;
-import com.dlvr.continuum.core.atom.NParticles;
-import com.dlvr.continuum.core.atom.NValues;
-import com.dlvr.continuum.core.db.SAtomID;
-import com.dlvr.continuum.db.AtomID;
+import com.dlvr.continuum.atom.AtomID;
+import com.dlvr.continuum.core.atom.*;
 
 /**
  * Basic POJO atom DTO
@@ -20,6 +16,6 @@ public class CAtom extends NAtom implements Atom {
 
     @Override
     public AtomID ID() {
-        return new SAtomID(this); // TODO: ? does this matter?
+        return new SAtomID(this); // TODO: ? does this matter? CAtomID?
     }
 }

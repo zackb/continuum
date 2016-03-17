@@ -1,7 +1,6 @@
 package com.dlvr.continuum.atom;
 
-import com.dlvr.continuum.atom.Particles;
-import com.dlvr.continuum.datum.ID;
+import com.dlvr.continuum.ID;
 
 /**
  * Created by zack on 2/11/16.

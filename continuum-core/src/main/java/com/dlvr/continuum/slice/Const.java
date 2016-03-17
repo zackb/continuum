@@ -7,6 +7,6 @@ package com.dlvr.continuum.slice;
 public class Const {
 
     public static final char WILDCARD = '*';
-    public static final String SWILDCARD = "*";
+    public static final String SWILDCARD = "" + WILDCARD;
 
 }

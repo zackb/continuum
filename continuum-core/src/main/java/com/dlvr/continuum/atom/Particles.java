@@ -1,7 +1,5 @@
 package com.dlvr.continuum.atom;
 
-import com.dlvr.continuum.db.ParticlesID;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
