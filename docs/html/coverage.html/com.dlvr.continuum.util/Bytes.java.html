@@ -190,85 +190,97 @@ import java.util.Arrays;
 <span class="fc" id="L190">        return new String(bytes);</span>
     }
 
+<span class="fc" id="L193">    private static final char[] HEX = &quot;0123456789ABCDEF&quot;.toCharArray();</span>
+
+    public static String hex(byte[] bytes) {
+<span class="nc" id="L196">        char[] hexChars = new char[bytes.length * 2];</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">        for ( int j = 0; j &lt; bytes.length; j++ ) {</span>
+<span class="nc" id="L198">            int v = bytes[j] &amp; 0xFF;</span>
+<span class="nc" id="L199">            hexChars[j * 2] = HEX[v &gt;&gt;&gt; 4];</span>
+<span class="nc" id="L200">            hexChars[j * 2 + 1] = HEX[v &amp; 0x0F];</span>
+        }
+<span class="nc" id="L202">        return new String(hexChars);</span>
+    }
+
     public static byte[] copy(byte[] a) {
-<span class="nc" id="L194">        byte[] c = new byte[a.length];</span>
-<span class="nc" id="L195">        System.arraycopy(a, 0, c, 0, a.length);</span>
-<span class="nc" id="L196">        return c;</span>
+<span class="nc" id="L206">        byte[] c = new byte[a.length];</span>
+<span class="nc" id="L207">        System.arraycopy(a, 0, c, 0, a.length);</span>
+<span class="nc" id="L208">        return c;</span>
     }
 
     public static byte[] concat(byte[] a, byte[] b) {
-<span class="fc" id="L200">        byte[] c = new byte[a.length + b.length];</span>
-<span class="fc" id="L201">        System.arraycopy(a, 0, c, 0, a.length);</span>
-<span class="fc" id="L202">        System.arraycopy(b, 0, c, a.length, b.length);</span>
-<span class="fc" id="L203">        return c;</span>
+<span class="fc" id="L212">        byte[] c = new byte[a.length + b.length];</span>
+<span class="fc" id="L213">        System.arraycopy(a, 0, c, 0, a.length);</span>
+<span class="fc" id="L214">        System.arraycopy(b, 0, c, a.length, b.length);</span>
+<span class="fc" id="L215">        return c;</span>
     }
 
     public static byte[] concat(byte[] a, byte b) {
-<span class="fc" id="L207">        byte[] c = new byte[a.length + 1];</span>
-<span class="fc" id="L208">        System.arraycopy(a, 0, c, 0, a.length);</span>
-<span class="fc" id="L209">        c[c.length - 1] = b;</span>
-<span class="fc" id="L210">        return c;</span>
+<span class="fc" id="L219">        byte[] c = new byte[a.length + 1];</span>
+<span class="fc" id="L220">        System.arraycopy(a, 0, c, 0, a.length);</span>
+<span class="fc" id="L221">        c[c.length - 1] = b;</span>
+<span class="fc" id="L222">        return c;</span>
     }
 
     public static byte[] append(byte[] target, int pos, byte[] addition) {
-<span class="fc" id="L214">        return append(target, pos, addition, addition.length);</span>
+<span class="fc" id="L226">        return append(target, pos, addition, addition.length);</span>
     }
 
     public static byte[] append(byte[] target, int pos, byte[] addition, int count) {
-<span class="fc bfc" id="L218" title="All 2 branches covered.">        for (int i = 0; i &lt; count; i++) {</span>
-<span class="fc" id="L219">            target[pos++] = addition[i];</span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">        for (int i = 0; i &lt; count; i++) {</span>
+<span class="fc" id="L231">            target[pos++] = addition[i];</span>
         }
-<span class="fc" id="L221">        return target;</span>
+<span class="fc" id="L233">        return target;</span>
     }
 
     public static byte[] append(byte[] target, int pos, byte addition) {
-<span class="nc" id="L225">        target[pos] = addition;</span>
-<span class="nc" id="L226">        return target;</span>
+<span class="nc" id="L237">        target[pos] = addition;</span>
+<span class="nc" id="L238">        return target;</span>
     }
 
     public static byte[][] split(byte[] target, byte delimit) {
-<span class="nc" id="L230">        int size = 0;</span>
-<span class="nc bnc" id="L231" title="All 2 branches missed.">        for (byte b : target)</span>
-<span class="nc bnc" id="L232" title="All 2 branches missed.">            if (b == delimit) size++;</span>
+<span class="nc" id="L242">        int size = 0;</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">        for (byte b : target)</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">            if (b == delimit) size++;</span>
 
-<span class="nc" id="L234">        byte[][] result = new byte[size+1][];</span>
-<span class="nc" id="L235">        int resPos = 0;</span>
+<span class="nc" id="L246">        byte[][] result = new byte[size+1][];</span>
+<span class="nc" id="L247">        int resPos = 0;</span>
 
-<span class="nc" id="L237">        byte[] buffer = new byte[1024];</span>
-<span class="nc" id="L238">        int curPos = 0;</span>
-<span class="nc bnc" id="L239" title="All 2 branches missed.">        for (int i = 0; i &lt; target.length; i++) {</span>
-<span class="nc" id="L240">            byte b = target[i];</span>
-<span class="nc bnc" id="L241" title="All 2 branches missed.">            if (b == delimit) {</span>
-<span class="nc" id="L242">                byte[] e = new byte[curPos];</span>
-<span class="nc" id="L243">                append(e, 0, buffer, curPos);</span>
-<span class="nc" id="L244">                result[resPos++] = e;</span>
-<span class="nc" id="L245">                curPos = 0;</span>
-<span class="nc" id="L246">            } else {</span>
-<span class="nc" id="L247">                buffer[curPos++] = b;</span>
+<span class="nc" id="L249">        byte[] buffer = new byte[1024];</span>
+<span class="nc" id="L250">        int curPos = 0;</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">        for (int i = 0; i &lt; target.length; i++) {</span>
+<span class="nc" id="L252">            byte b = target[i];</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">            if (b == delimit) {</span>
+<span class="nc" id="L254">                byte[] e = new byte[curPos];</span>
+<span class="nc" id="L255">                append(e, 0, buffer, curPos);</span>
+<span class="nc" id="L256">                result[resPos++] = e;</span>
+<span class="nc" id="L257">                curPos = 0;</span>
+<span class="nc" id="L258">            } else {</span>
+<span class="nc" id="L259">                buffer[curPos++] = b;</span>
             }
         }
-<span class="nc bnc" id="L250" title="All 2 branches missed.">        if (curPos &gt; 0) {</span>
-<span class="nc" id="L251">            byte[] e = new byte[curPos];</span>
-<span class="nc" id="L252">            append(e, 0, buffer, curPos);</span>
-<span class="nc" id="L253">            result[resPos++] = e;</span>
+<span class="nc bnc" id="L262" title="All 2 branches missed.">        if (curPos &gt; 0) {</span>
+<span class="nc" id="L263">            byte[] e = new byte[curPos];</span>
+<span class="nc" id="L264">            append(e, 0, buffer, curPos);</span>
+<span class="nc" id="L265">            result[resPos++] = e;</span>
         }
 
-<span class="nc" id="L256">        return result;</span>
+<span class="nc" id="L268">        return result;</span>
     }
 
     public static int lastIndexOf(byte[] target, byte b) {
-<span class="nc bnc" id="L260" title="All 2 branches missed.">        for (int i = target.length; i &lt; 0; i++) {</span>
-<span class="nc bnc" id="L261" title="All 2 branches missed.">            if (target[i] == b) return i;</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">        for (int i = target.length; i &lt; 0; i++) {</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">            if (target[i] == b) return i;</span>
         }
-<span class="nc" id="L263">        return -1;</span>
+<span class="nc" id="L275">        return -1;</span>
     }
 
     public static byte[] range(byte[] target, int start) {
-<span class="fc" id="L267">        return range(target, start, target.length);</span>
+<span class="fc" id="L279">        return range(target, start, target.length);</span>
     }
 
     public static byte[] range(byte[] target, int start, int end) {
-<span class="fc" id="L271">        return Arrays.copyOfRange(target, start, end);</span>
+<span class="fc" id="L283">        return Arrays.copyOfRange(target, start, end);</span>
     }
 
     public static final byte SEP = 0x00;
