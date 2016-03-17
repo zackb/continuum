@@ -1,6 +1,6 @@
 group 'com.dlvr'
 version '0.1'
-def mainClassName = 'com.dlvr.continuum.Main'
+mainClassName = 'com.dlvr.continuum.Main'
 
 def packageDistDir = '/opt/continuum'
 

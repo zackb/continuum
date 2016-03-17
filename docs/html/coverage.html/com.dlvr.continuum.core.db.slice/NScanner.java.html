@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
  */
 <span class="fc" id="L14">public class NScanner implements Scanner {</span>
 
-    private Iterator iterator;
+    private Iterator&lt;Atom&gt; iterator;
 
     /**
      * {@inheritDoc}
@@ -33,7 +33,7 @@ import java.lang.reflect.Type;
 <span class="nc" id="L33">                                        break;</span>
 <span class="fc" id="L34">                case SKIP:              break;</span>
 <span class="fc" id="L35">                case STOP: default:     stop = true;</span>
-<span class="fc" id="L36">                                        break;</span>
+                                        break;
             }
 <span class="fc" id="L38">            atom = iterate(iterator);</span>
         }
@@ -45,11 +45,11 @@ import java.lang.reflect.Type;
      * {@inheritDoc}
      */
     @Override
-    public void iterator(Iterator iterator) {
+    public void iterator(Iterator&lt;Atom&gt; iterator) {
 <span class="fc" id="L49">        this.iterator = iterator;</span>
 <span class="fc" id="L50">    }</span>
 
-    private Atom iterate(Iterator iterator) {
+    private Atom iterate(Iterator&lt;Atom&gt; iterator) {
 <span class="fc" id="L53">        iterator.next();</span>
 <span class="fc bfc" id="L54" title="All 2 branches covered.">        if (!iterator.valid()) return null;</span>
 <span class="fc" id="L55">        return iterator.get();</span>
