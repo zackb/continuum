@@ -28,7 +28,7 @@ public class NScanner implements Scanner {
         boolean stop = false;
         while (!stop && atom != null) {
             switch (filter.filter(atom)) {
-                case CONTINUE:          if (decode) collectAtom(collector);
+                case CONTINUE:          if (decode) collect(collector);
                                         else collectID(collector);
                                         break;
                 case SKIP:              break;
@@ -67,7 +67,7 @@ public class NScanner implements Scanner {
         throw new Error("Can not collect: " + type);
     }
 
-    private void collectAtom(Collector<Atom> collector) {
+    private void collect(Collector<Atom> collector) {
         collector.collect(iterator.get());
     }
 
