@@ -7,6 +7,8 @@ import continuum.slice.*;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
@@ -23,7 +25,7 @@ public class AScanner implements Scanner {
      */
     @Override
     public Slice slice(Scan scan) throws Exception {
-        Collector collector = Collectors.forScan(scan);
+        Collector collector = scan.collector();
         Filter filter = Filters.forScan(scan); // TODO: filter fields and values
         boolean decode = decodeBody(collector);
         byte[] start = previousScan == null ? scan.ID().bytes() : previousScan;
@@ -49,7 +51,22 @@ public class AScanner implements Scanner {
 
     @Override
     public Stream<Slice> stream(Scan scan) throws Exception {
-        return null;
+        return Stream.generate(AScanner.wrap(() -> slice(scan)));
+    }
+
+
+    public static <T> Supplier<T> wrap(Callable<T> callable) {
+        return () -> {
+            try {
+                return callable.call();
+            }
+            catch (RuntimeException e) {
+                throw e;
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        };
     }
 
     /**
