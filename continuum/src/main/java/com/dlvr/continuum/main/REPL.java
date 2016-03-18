@@ -70,8 +70,7 @@ public class REPL {
             console.writer().println("      <fields>");
             console.writer().println("      <values>");
             console.writer().println(" load                         load test");
-            console.writer().println("   -w <writes count>          number of writes for load test");
-            console.writer().println("   -d <data dir>              directory to use for load data");
+            console.writer().println("      <writes count>          number of writes for load test");
             console.writer().println("");
             console.writer().flush();
             return true;
@@ -146,14 +145,9 @@ public class REPL {
     private final Command LOAD = new Command() {
 
         private int iterations = 1000;
-        private String dataDir = "/tmp/LOAD-tmp";
 
         boolean execute(String[] args) throws Exception {
-            for (int i = 1; i < args.length; i++)
-                if (args[i].equalsIgnoreCase("-w"))
-                    iterations = Integer.parseInt(args[++i]);
-                else if (args[i].equalsIgnoreCase("-d"))
-                    dataDir = args[++i];
+            iterations = Integer.parseInt(args[0]);
             LoadTest.perform(continuum, iterations);
             return true;
         }

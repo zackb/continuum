@@ -22,6 +22,7 @@ public class Main {
         continuum = Continuum.continuum()
                 .name(universe.name())
                 .dimension(universe.dimension())
+                .base(universe.hot())
                 .open();
         Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
         new REPL(continuum).run();
