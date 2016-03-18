@@ -1,7 +1,7 @@
 default: all
 install:package
 all:
-	./gradlew clean jar test
+	./gradlew all
 bin:
 	./gradlew bin
 deb:

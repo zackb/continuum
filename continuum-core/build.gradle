@@ -42,7 +42,7 @@ task all(dependsOn:
          'test', 
          'publishToMavenLocal'])
          
-task docs(dependsOn:['all', 'javadoc', 'jacocoTestReport'])
+task docs(dependsOn:['test', 'javadoc', 'jacocoTestReport'])
 
 publishing {
     publications {
