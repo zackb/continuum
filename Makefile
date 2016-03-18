@@ -13,18 +13,16 @@ GRADLE := ./gradlew
 default: all
 
 all:
-	$(GRADLE) :$(CORE):all
-	$(GRADLE) :$(REST):all
-	$(GRADLE) :$(MAIN):all
+	$(GRADLE) all
 
-bin: all
-	$(GRADLE) :$(MAIN):bin
+bin:
+	$(GRADLE) bin
 
-deb: bin
-	$(GRADLE) :$(MAIN):deb
+deb:
+	$(GRADLE) deb
 
-docs: all
-	$(GRADLE) :$(CORE):docs
+docs:
+	$(GRADLE) docs
 	$(MREST) docs
 	cp -r $(CORE)/build/docs/javadoc docs/html/
 	cp -r $(CORE)/build/reports/tests docs/html/
@@ -41,6 +39,4 @@ sloc:
 	cloc continuum*/src
 
 clean: 
-	$(GRADLE) :$(CORE):clean
-	$(GRADLE) :$(REST):clean
-	$(GRADLE) :$(MAIN):clean
+	$(GRADLE) clean
