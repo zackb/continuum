@@ -1,4 +1,4 @@
-group 'com.dlvr'
+group 'continuum'
 version '0.1'
 
 apply plugin: 'java'
@@ -15,7 +15,7 @@ repositories {
 dependencies {
 
     // Continuum core
-    compile 'com.dlvr:continuum-core:+'
+    compile 'continuum:core:0.+'
 
     // RxNetty
     compile 'io.reactivex:rxnetty:0.4.+'
@@ -30,7 +30,7 @@ publishing {
     publications {
         api(MavenPublication) {
             groupId group
-            artifactId 'continuum-rest'
+            artifactId 'rest'
             version version
             from components.java
         }

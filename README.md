@@ -23,9 +23,9 @@ continuum is a JVM library for storing and analyzing large amounts of time based
 ### Maven
 ```
 		<dependency>
-			<groupId>com.dlvr</groupId>
-			<artifactId>continuum-core</artifactId>
-			<version>0.1</version>
+			<groupId>continuum</groupId>
+			<artifactId>core</artifactId>
+			<version>0.+</version>
 		</dependency>
 ```
 

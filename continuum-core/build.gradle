@@ -1,4 +1,4 @@
-group 'com.dlvr'
+group 'continuum'
 version '0.1'
 
 apply plugin: 'java'
@@ -47,7 +47,7 @@ publishing {
     publications {
         api(MavenPublication) {
             groupId group
-            artifactId 'continuum-core'
+            artifactId 'core'
             version version
             from components.java
         }
