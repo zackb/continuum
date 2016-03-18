@@ -28,7 +28,7 @@ import java.lang.reflect.Type;
 <span class="fc" id="L28">        boolean stop = false;</span>
 <span class="fc bfc" id="L29" title="All 4 branches covered.">        while (!stop &amp;&amp; atom != null) {</span>
 <span class="pc bfc" id="L30" title="All 3 branches covered.">            switch (filter.filter(atom)) {</span>
-<span class="pc bpc" id="L31" title="1 of 2 branches missed.">                case CONTINUE:          if (decode) collectAtom(collector);</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">                case CONTINUE:          if (decode) collect(collector);</span>
 <span class="nc" id="L32">                                        else collectID(collector);</span>
 <span class="nc" id="L33">                                        break;</span>
 <span class="fc" id="L34">                case SKIP:              break;</span>
@@ -67,7 +67,7 @@ import java.lang.reflect.Type;
 <span class="nc" id="L67">        throw new Error(&quot;Can not collect: &quot; + type);</span>
     }
 
-    private void collectAtom(Collector&lt;Atom&gt; collector) {
+    private void collect(Collector&lt;Atom&gt; collector) {
 <span class="fc" id="L71">        collector.collect(iterator.get());</span>
 <span class="fc" id="L72">    }</span>
 
