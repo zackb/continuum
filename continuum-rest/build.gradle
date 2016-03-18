@@ -28,6 +28,13 @@ dependencies {
 }
 
 task all(dependsOn: ['clean', 'jar', 'test', 'publishToMavenLocal'])
+task docs(dependsOn: ['all'], type:Exec) {
+    commandLine 'restdown', '-b', 'html', '-m', '.', 'README.md'
+    standardOutput = new ByteArrayOutputStream()
+    ext.output = {
+        return standardOutput.toString()
+    }
+}
 
 publishing {
     publications {

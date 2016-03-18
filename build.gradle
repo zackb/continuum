@@ -14,6 +14,6 @@ dependencies {
 }
 
 task all(dependsOn: getTasksByName('all', true))
-task docs(dependsOn: ['all', ':continuum-core:docs'])
+task docs(dependsOn: ['all', ':continuum-core:docs', 'continuum-rest:docs'])
 task bin(dependsOn: ['all', ':continuum-main:bin'])
 task deb(dependsOn: [':bin', ':continuum-main:deb'])

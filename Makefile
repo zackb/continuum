@@ -4,10 +4,6 @@ CORE := continuum-core
 REST := continuum-rest
 MAIN := continuum-main
 
-MCORE := $(MAKE) -C $(CORE)
-MREST := $(MAKE) -C $(REST)
-MMAIN := $(MAKE) -C $(MAIN)
-
 GRADLE := ./gradlew
 
 default: all
@@ -23,7 +19,6 @@ deb:
 
 docs:
 	$(GRADLE) docs
-	$(MREST) docs
 	cp -r $(CORE)/build/docs/javadoc docs/html/
 	cp -r $(CORE)/build/reports/tests docs/html/
 	cp -r $(CORE)/build/coverage.html docs/html/
