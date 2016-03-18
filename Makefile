@@ -2,7 +2,7 @@
 
 CORE := continuum-core
 REST := continuum-rest
-MAIN := continuum
+MAIN := continuum-main
 
 MCORE := $(MAKE) -C $(CORE)
 MREST := $(MAKE) -C $(REST)

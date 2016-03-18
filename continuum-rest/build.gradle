@@ -20,6 +20,9 @@ dependencies {
     // RxNetty
     compile 'io.reactivex:rxnetty:0.4.+'
 
+    // RDF4J
+    compile 'org.openrdf.sesame:sesame-rio-rdfxml:4.+'
+
     testCompile 'org.codehaus.groovy:groovy-test:2.4+'
     testCompile group: 'junit', name: 'junit', version: '4+'
 }
