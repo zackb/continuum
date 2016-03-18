@@ -8,15 +8,13 @@ import continuum.control.Builder;
 import continuum.control.Controller;
 import continuum.core.atom.*;
 import continuum.core.slab.AtomTranslator;
-import continuum.core.slice.AScanner;
+import continuum.core.slice.*;
 import continuum.atom.AtomID;
 import continuum.slab.Translator;
 import continuum.slab.Slab;
 
-import continuum.core.slice.ASlice;
 import continuum.core.slab.Slabs;
 import continuum.core.slab.RockSlab;
-import continuum.core.slice.AScan;
 import continuum.core.io.file.FileSystemReference;
 import continuum.except.ZiggyStardustError;
 import continuum.file.Reference;
@@ -455,8 +453,8 @@ public class Continuum implements Controller, Closeable {
             target.particles = particles;
             return this;
         }
-        public ScanBuilder collectors(Collector... collectors) {
-            target.collectors = collectors;
+        public ScanBuilder collector(Collector collector) {
+            target.collector = collector;
             return this;
         }
         public ScanBuilder fields(Fields fields) {
@@ -468,6 +466,15 @@ public class Continuum implements Controller, Closeable {
             return this;
         }
         public Scan build() {
+
+            // add default collectors for this scan
+            Collector defaul = Collectors.forScan(target);
+            if (target.collector == null)
+                target.collector = defaul;
+            else if (target.collector instanceof AndCollector)
+                 target.collector = new AndCollector(defaul,
+                         ((AndCollector)target.collector).collectors());
+
             return target;
         }
     }

@@ -10,7 +10,7 @@ import continuum.util.datetime.Interval;
  */
 public class Collectors {
 
-    public static Collector forSlice(Scan scan) {
+    public static Collector forScan(Scan scan) {
 
         Collector collector = null;
 

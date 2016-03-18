@@ -23,7 +23,7 @@ public class AScanner implements Scanner {
      */
     @Override
     public Slice slice(Scan scan) throws Exception {
-        Collector collector = Collectors.forSlice(scan);
+        Collector collector = Collectors.forScan(scan);
         Filter filter = Filters.forScan(scan); // TODO: filter fields and values
         boolean decode = decodeBody(collector);
         byte[] start = previousScan == null ? scan.ID().bytes() : previousScan;

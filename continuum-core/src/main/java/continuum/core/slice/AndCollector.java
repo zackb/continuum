@@ -5,7 +5,9 @@ import continuum.slice.Collector;
 import continuum.slice.Function;
 import continuum.slice.Slice;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Convenience collector to wrap a list of collectors
@@ -20,6 +22,13 @@ public class AndCollector implements Collector<Atom> {
     public AndCollector(Collector... collectors) {
         this.collectors = collectors;
         this.values = Collectors.values(Function.AVG);
+    }
+
+    public AndCollector(Collector collector, Collector... collectors) {
+        this.values = Collectors.values(Function.AVG);
+        List<Collector> list = Arrays.asList(collectors);
+        list.add(collector);
+        this.collectors = list.toArray(collectors);
     }
 
     @Override
@@ -41,6 +50,10 @@ public class AndCollector implements Collector<Atom> {
             result.add(collector.slice());
         }
         return result;
+    }
+
+    public Collector[] collectors() {
+        return collectors;
     }
 
     @Override

@@ -25,7 +25,7 @@ public class AScan implements Scan {
     public Particles particles;
     public Fields fields;
     public double value;
-    public Collector[] collectors;
+    public Collector collector;
     public Continuum.Dimension dimension;
     public String[] groups;
 
@@ -96,7 +96,7 @@ public class AScan implements Scan {
 
     @Override
     public Collector collector() {
-        return null;
+        return collector;
     }
 
     @Override
