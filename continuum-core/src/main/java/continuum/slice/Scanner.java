@@ -3,6 +3,8 @@ package continuum.slice;
 import continuum.atom.Atom;
 import continuum.slab.Iterator;
 
+import java.util.stream.Stream;
+
 /**
  * Scan a data store to produce a slice
  * Created by zack on 3/15/16.
@@ -18,6 +20,11 @@ public interface Scanner {
      * @throws Exception error reading or collecting atoms
      */
     Slice slice(Scan scan) throws Exception;
+
+    /**
+     * TODO
+     */
+    Stream<Slice> stream(Scan scan) throws Exception;
 
     /**
      * Set the slab storage iterator

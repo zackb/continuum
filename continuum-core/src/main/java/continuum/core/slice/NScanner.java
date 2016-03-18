@@ -7,6 +7,7 @@ import continuum.slice.*;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.stream.Stream;
 
 /**
  * Base scanner using filters and collectors
@@ -14,6 +15,8 @@ import java.lang.reflect.Type;
 public class NScanner implements Scanner {
 
     private Iterator<Atom> iterator;
+
+    private byte[] previousScan = null;
 
     /**
      * {@inheritDoc}
@@ -23,7 +26,8 @@ public class NScanner implements Scanner {
         Collector collector = Collectors.forSlice(scan);
         Filter filter = Filters.forScan(scan); // TODO: filter fields and values
         boolean decode = decodeBody(collector);
-        iterator.seek(scan.ID().bytes());
+        byte[] start = previousScan == null ? scan.ID().bytes() : previousScan;
+        iterator.seek(start);
         Atom atom = iterator.valid() ? iterator.get() : null;
         boolean stop = false;
         while (!stop && atom != null) {
@@ -38,7 +42,14 @@ public class NScanner implements Scanner {
             atom = iterate(iterator);
         }
 
+        previousScan = iterator.ID().bytes();
+
         return collector.slice();
+    }
+
+    @Override
+    public Stream<Slice> stream(Scan scan) throws Exception {
+        return null;
     }
 
     /**
