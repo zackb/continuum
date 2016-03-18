@@ -56,6 +56,14 @@ public class AtomTranslator implements Translator<Atom> {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterator<Atom> iterator(boolean streaming) {
+        return new TailingIterator(dimension, (RockSlab)slab());
+    }
+
+    /**
      * TODO: Remove particles from body (just fields, tags are in the ID)
      * {@inheritDoc}
      */

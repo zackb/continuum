@@ -7,6 +7,8 @@ import continuum.slice.Scan;
 import continuum.slice.Scanner;
 import continuum.slice.Slice;
 
+import java.util.stream.Stream;
+
 import static continuum.Continuum.*;
 
 
@@ -56,6 +58,13 @@ public interface Controller {
      * @throws Exception error reading or collecting atoms
      */
     Slice slice(Scan scan) throws Exception;
+
+    /**
+     * Continuously scan the continuum for new data
+     * @param scan to run on new data
+     * @return stream of slices resulting from scans
+     */
+    Stream<Slice> stream(Scan scan) throws Exception;
 
     Scanner scanner();
 }

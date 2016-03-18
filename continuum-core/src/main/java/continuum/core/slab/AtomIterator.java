@@ -7,6 +7,7 @@ import continuum.atom.AtomID;
 import continuum.slab.Iterator;
 import continuum.except.ZiggyStardustError;
 import continuum.util.Bytes;
+import org.rocksdb.ReadOptions;
 import org.rocksdb.RocksIterator;
 
 /**
@@ -17,10 +18,27 @@ public class AtomIterator implements Iterator<Atom> {
 
     private final Continuum.Dimension dimension;
     private final RocksIterator it;
+    private final ReadOptions readOptions;
 
-    AtomIterator(Continuum.Dimension dimension, RockSlab slab) {
+    /**
+     * Create a new iterator for a given dimension
+     * @param dimension TODO: NOT NEEDED!?!
+     * @param slab to iterate over
+     * @param tailing if true will stream new data written to the slab until close()
+     */
+    AtomIterator(Continuum.Dimension dimension, RockSlab slab, boolean tailing) {
         this.dimension = dimension;
-        this.it = slab.rockdDB().newIterator();
+        this.readOptions = new ReadOptions().setTailing(tailing);
+        this.it = slab.rockdDB().newIterator(this.readOptions);
+    }
+
+    /**
+     * Create a new iterator for a given dimension
+     * @param dimension TODO: NOT NEEDED!?!
+     * @param slab to iterate over
+     */
+    AtomIterator(Continuum.Dimension dimension, RockSlab slab) {
+        this(dimension, slab, false);
     }
 
     @Override
@@ -66,6 +84,8 @@ public class AtomIterator implements Iterator<Atom> {
 
     @Override
     public void close() {
+        if (readOptions != null)
+            readOptions.dispose();
         if (it != null)
             it.dispose();
     }

@@ -25,6 +25,7 @@ import continuum.slab.Iterator;
 
 import java.io.Closeable;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static continuum.util.Util.*;
 
@@ -222,6 +223,17 @@ public class Continuum implements Controller, Closeable {
         } finally {
             if (iterator != null) iterator.close();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Stream<Slice> stream(Scan scan) throws Exception {
+        Iterator iterator = translator().iterator();
+        Scanner scanner = scanner();
+        scanner.iterator(iterator);
+        return scanner.stream(scan);
     }
 
     /**

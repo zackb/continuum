@@ -14,6 +14,7 @@ import continuum.rest.http.HTTP;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static continuum.Continuum.*;
 
@@ -131,11 +132,17 @@ public class Client implements Controller, Translator<Atom> {
         return HTTP.getJSONObject(url, CSlice.class);
     }
 
+    @Override
+    public Stream<Slice> stream(Scan scan) throws Exception {
+        throw new Exception("HTTP Streaming not yet supported");
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public Scanner scanner() {
+        System.err.println("Client.scanner() not implemented!!!");
         return null;
     }
 
@@ -145,6 +152,11 @@ public class Client implements Controller, Translator<Atom> {
     @Override
     public Iterator<Atom> iterator() {
         throw new UnsupportedOperationException("Can not iterate via HTTP");
+    }
+
+    @Override
+    public Iterator<Atom> iterator(boolean b) {
+        return null;
     }
 
     /**

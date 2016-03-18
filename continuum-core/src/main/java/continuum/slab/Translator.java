@@ -31,6 +31,14 @@ public interface Translator<T> {
     Iterator<T> iterator();
 
     /**
+     * Get an iterator for the data store.
+     * WARN Caller MUST Call close()
+     * Available exclusively to caller until close() is called.
+     * @return new iterator
+     */
+    Iterator<T> iterator(boolean streaming);
+
+    /**
      * The underlying slab storage resource for this translator
      * @return this slab storage
      */
