@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>JSON.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">continuum-core</a> &gt; <a href="index.source.html" class="el_package">continuum.util</a> &gt; <span class="el_source">JSON.java</span></div><h1>JSON.java</h1><pre class="source lang-java linenums">package continuum.util;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * JSON Curios
+ * Created by zack on 2/23/16.
+ */
+<span class="nc" id="L19">public class JSON {</span>
+
+    private static final ObjectMapper mapper;
+    public static final Class MAP_CLASS;
+
+    static {
+<span class="fc" id="L25">        mapper = new ObjectMapper();</span>
+<span class="fc" id="L26">        configureMapper(mapper);</span>
+
+<span class="fc" id="L28">        MAP_CLASS = new HashMap&lt;String, Object&gt;().getClass();</span>
+<span class="fc" id="L29">    }</span>
+
+    public static void configureMapper(ObjectMapper objectMapper) {
+
+<span class="fc" id="L33">        objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)</span>
+<span class="fc" id="L34">                .setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE)</span>
+<span class="fc" id="L35">                .setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.NONE)</span>
+<span class="fc" id="L36">                .setVisibility(PropertyAccessor.CREATOR, JsonAutoDetect.Visibility.NONE)</span>
+<span class="fc" id="L37">                .setVisibility(PropertyAccessor.IS_GETTER, JsonAutoDetect.Visibility.NONE)</span>
+                //.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+<span class="fc" id="L39">                .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)</span>
+<span class="fc" id="L40">                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)</span>
+<span class="fc" id="L41">                .setSerializationInclusion(JsonInclude.Include.NON_NULL)</span>
+<span class="fc" id="L42">                .configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);</span>
+        //.enableDefaultTyping()
+<span class="fc" id="L44">    }</span>
+
+    public static String encode(Object obj) {
+        try {
+<span class="nc" id="L48">            return mapper.writeValueAsString(obj);</span>
+<span class="nc" id="L49">        } catch (Exception e) {</span>
+<span class="nc" id="L50">            System.err.println(&quot;Failed encoding object: &quot; + obj);</span>
+        }
+<span class="nc" id="L52">        return null;</span>
+    }
+
+    public static &lt;T&gt; T decodeObject(String data, Class&lt;T&gt; clazz) {
+        try {
+<span class="nc" id="L57">            return mapper.readValue(data.getBytes(&quot;UTF-8&quot;), clazz);</span>
+<span class="nc" id="L58">        } catch (Exception e) {</span>
+<span class="nc" id="L59">            System.err.println(&quot;Failed decoding object: &quot; + clazz + &quot; : &quot; + data);</span>
+        }
+<span class="nc" id="L61">        return null;</span>
+    }
+
+    public static &lt;T&gt; List&lt;T&gt; decodeList(String data, Class&lt;T&gt; clazz) {
+        try {
+<span class="nc" id="L66">            return mapper.readValue(data, mapper.getTypeFactory().constructCollectionType(List.class, clazz));</span>
+<span class="nc" id="L67">        } catch (Exception e) {</span>
+<span class="nc" id="L68">            System.err.println(&quot;Failed decoding list: &quot; + clazz + &quot; : &quot; + data);</span>
+        }
+<span class="nc" id="L70">        return null;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public static Map&lt;String, Object&gt; decode(String data) {
+<span class="nc" id="L75">        return (Map&lt;String, Object&gt;)decodeObject(data, MAP_CLASS);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

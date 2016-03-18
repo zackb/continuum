@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>BreadthFirst.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">continuum-core</a> &gt; <a href="index.source.html" class="el_package">continuum.tree</a> &gt; <span class="el_source">BreadthFirst.java</span></div><h1>BreadthFirst.java</h1><pre class="source lang-java linenums">package continuum.tree;
+
+/**
+ * Breadth first search a tree
+ * Created by zack on 3/13/16.
+ */
+public class BreadthFirst&lt;V&gt; implements Visitor&lt;V&gt; {
+
+    private final Consumer&lt;V&gt; consumer;
+    private int level;
+
+    public BreadthFirst(Consumer&lt;V&gt; consumer) {
+<span class="nc" id="L13">        this(0, consumer);</span>
+<span class="nc" id="L14">    }</span>
+
+<span class="nc" id="L16">    public BreadthFirst(int level, Consumer&lt;V&gt; consumer) {</span>
+<span class="nc" id="L17">        this.level = level;</span>
+<span class="nc" id="L18">        this.consumer = consumer;</span>
+<span class="nc" id="L19">    }</span>
+
+    @Override
+    public Visitor&lt;V&gt; visitTree(Tree&lt;V&gt; tree) {
+<span class="nc" id="L23">        boolean cont = consumer.visitTree(level, tree);</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        return cont ? new BreadthFirst(level + 1, consumer) : null;</span>
+    }
+    @Override
+    public void visitData(Tree&lt;V&gt; parent, V data) {
+<span class="nc" id="L28">        consumer.visitNode(level, parent, data);</span>
+<span class="nc" id="L29">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
