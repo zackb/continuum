@@ -4,7 +4,7 @@ import continuum.Continuum;
 import continuum.atom.Atom;
 import continuum.atom.Values;
 import continuum.core.atom.KAtom;
-import continuum.core.atom.NAtom;
+import continuum.core.atom.AAtom;
 import continuum.core.atom.SAtom;
 import continuum.core.atom.KAtomID;
 import continuum.atom.AtomID;
@@ -72,7 +72,7 @@ import java.util.Arrays;
     }
 
     public static AtomID KAtomID(byte[] bytes) {
-<span class="nc" id="L75">        return new KAtomID(bytes);</span>
+<span class="fc" id="L75">        return new KAtomID(bytes);</span>
     }
 
     public static byte[] bytes(AtomID id) {
@@ -170,13 +170,13 @@ import java.util.Arrays;
     }
 
     public static Atom Atom(byte[] bytes, Continuum.Dimension dimension) {
-<span class="fc" id="L173">        Class&lt;? extends NAtom&gt; clazz = null;</span>
+<span class="fc" id="L173">        Class&lt;? extends AAtom&gt; clazz = null;</span>
 <span class="fc bfc" id="L174" title="All 2 branches covered.">        if (dimension == Continuum.Dimension.SPACE)</span>
 <span class="fc" id="L175">            clazz = SAtom.class;</span>
 <span class="pc bpc" id="L176" title="1 of 2 branches missed.">        else if (dimension == Continuum.Dimension.TIME)</span>
 <span class="fc" id="L177">            clazz = KAtom.class;</span>
 <span class="nc" id="L178">        else throw new ZiggyStardustError();</span>
-<span class="fc" id="L179">        NAtom atom = BSON.decodeObject(bytes, clazz);</span>
+<span class="fc" id="L179">        AAtom atom = BSON.decodeObject(bytes, clazz);</span>
 <span class="fc" id="L180">        return atom;</span>
     }
 

@@ -7,6 +7,7 @@ import continuum.atom.AtomID;
 import continuum.slab.Iterator;
 import continuum.except.ZiggyStardustError;
 import continuum.util.Bytes;
+import org.rocksdb.ReadOptions;
 import org.rocksdb.RocksIterator;
 
 /**
@@ -17,57 +18,76 @@ public class AtomIterator implements Iterator&lt;Atom&gt; {
 
     private final Continuum.Dimension dimension;
     private final RocksIterator it;
+    private final ReadOptions readOptions;
 
-<span class="fc" id="L21">    AtomIterator(Continuum.Dimension dimension, RockSlab slab) {</span>
-<span class="fc" id="L22">        this.dimension = dimension;</span>
-<span class="fc" id="L23">        this.it = slab.rockdDB().newIterator();</span>
-<span class="fc" id="L24">    }</span>
+    /**
+     * Create a new iterator for a given dimension
+     * @param dimension TODO: NOT NEEDED!?!
+     * @param slab to iterate over
+     * @param tailing if true will stream new data written to the slab until close()
+     */
+<span class="fc" id="L29">    AtomIterator(Continuum.Dimension dimension, RockSlab slab, boolean tailing) {</span>
+<span class="fc" id="L30">        this.dimension = dimension;</span>
+<span class="fc" id="L31">        this.readOptions = new ReadOptions().setTailing(tailing);</span>
+<span class="fc" id="L32">        this.it = slab.rockdDB().newIterator(this.readOptions);</span>
+<span class="fc" id="L33">    }</span>
+
+    /**
+     * Create a new iterator for a given dimension
+     * @param dimension TODO: NOT NEEDED!?!
+     * @param slab to iterate over
+     */
+    AtomIterator(Continuum.Dimension dimension, RockSlab slab) {
+<span class="fc" id="L41">        this(dimension, slab, false);</span>
+<span class="fc" id="L42">    }</span>
 
     @Override
     public AtomID ID() {
-<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if (dimension == Continuum.Dimension.SPACE)</span>
-<span class="fc" id="L29">            return Bytes.SAtomID(it.key());</span>
-<span class="nc bnc" id="L30" title="All 2 branches missed.">        else if (dimension == Continuum.Dimension.TIME)</span>
-<span class="nc" id="L31">            return Bytes.KAtomID(it.key());</span>
-<span class="nc" id="L32">        throw new ZiggyStardustError();</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (dimension == Continuum.Dimension.SPACE)</span>
+<span class="fc" id="L47">            return Bytes.SAtomID(it.key());</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        else if (dimension == Continuum.Dimension.TIME)</span>
+<span class="fc" id="L49">            return Bytes.KAtomID(it.key());</span>
+<span class="nc" id="L50">        throw new ZiggyStardustError();</span>
     }
 
     @Override
     public Atom get() {
-<span class="fc" id="L37">        return AtomTranslator.decodeAtom(it.value(), dimension);</span>
+<span class="fc" id="L55">        return AtomTranslator.decodeAtom(it.value(), dimension);</span>
     }
 
     @Override
     public Values values() {
         // TODO: Lazy decode?
-<span class="fc" id="L43">        return Bytes.Atom(it.value(), dimension).values();</span>
+<span class="fc" id="L61">        return Bytes.Atom(it.value(), dimension).values();</span>
     }
 
     @Override
     public void seekToFirst() {
-<span class="fc" id="L48">        it.seekToFirst();</span>
-<span class="fc" id="L49">    }</span>
+<span class="fc" id="L66">        it.seekToFirst();</span>
+<span class="fc" id="L67">    }</span>
 
     @Override
     public void seek(byte[] pos) {
-<span class="fc" id="L53">        it.seek(pos);</span>
-<span class="fc" id="L54">    }</span>
+<span class="fc" id="L71">        it.seek(pos);</span>
+<span class="fc" id="L72">    }</span>
 
     @Override
     public boolean valid() {
-<span class="fc" id="L58">        return it.isValid();</span>
+<span class="fc" id="L76">        return it.isValid();</span>
     }
 
     @Override
     public boolean next() {
-<span class="fc" id="L63">        it.next();</span>
-<span class="fc" id="L64">        return valid();</span>
+<span class="fc" id="L81">        it.next();</span>
+<span class="fc" id="L82">        return valid();</span>
     }
 
     @Override
     public void close() {
-<span class="pc bpc" id="L69" title="1 of 2 branches missed.">        if (it != null)</span>
-<span class="fc" id="L70">            it.dispose();</span>
-<span class="fc" id="L71">    }</span>
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if (readOptions != null)</span>
+<span class="fc" id="L88">            readOptions.dispose();</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if (it != null)</span>
+<span class="fc" id="L90">            it.dispose();</span>
+<span class="fc" id="L91">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

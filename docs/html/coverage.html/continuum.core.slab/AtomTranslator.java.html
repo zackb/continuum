@@ -56,16 +56,24 @@ public class AtomTranslator implements Translator&lt;Atom&gt; {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterator&lt;Atom&gt; iterator(boolean streaming) {
+<span class="nc" id="L63">        return new TailingIterator(dimension, (RockSlab)slab());</span>
+    }
+
+    /**
      * TODO: Remove particles from body (just fields, tags are in the ID)
      * {@inheritDoc}
      */
     static Atom decodeAtom(byte[] bytes, Dimension dimension) {
-<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (dimension == Dimension.TIME) {</span>
-<span class="fc" id="L64">            return Bytes.KAtom(bytes);</span>
-<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        } else if (dimension == Dimension.SPACE) {</span>
-<span class="fc" id="L66">            return Bytes.SAtom(bytes);</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (dimension == Dimension.TIME) {</span>
+<span class="fc" id="L72">            return Bytes.KAtom(bytes);</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        } else if (dimension == Dimension.SPACE) {</span>
+<span class="fc" id="L74">            return Bytes.SAtom(bytes);</span>
         }
-<span class="nc" id="L68">        throw new ZiggyStardustError();</span>
+<span class="nc" id="L76">        throw new ZiggyStardustError();</span>
     }
 
     /**
@@ -73,7 +81,7 @@ public class AtomTranslator implements Translator&lt;Atom&gt; {
      */
     @Override
     public Slab slab() {
-<span class="fc" id="L76">        return slab;</span>
+<span class="fc" id="L84">        return slab;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

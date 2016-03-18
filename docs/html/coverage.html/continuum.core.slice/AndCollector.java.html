@@ -5,7 +5,9 @@ import continuum.slice.Collector;
 import continuum.slice.Function;
 import continuum.slice.Slice;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Convenience collector to wrap a list of collectors
@@ -17,45 +19,56 @@ public class AndCollector implements Collector&lt;Atom&gt; {
 
     private final Collector values;
 
-<span class="nc" id="L20">    public AndCollector(Collector... collectors) {</span>
-<span class="nc" id="L21">        this.collectors = collectors;</span>
-<span class="nc" id="L22">        this.values = Collectors.values(Function.AVG);</span>
-<span class="nc" id="L23">    }</span>
+<span class="nc" id="L22">    public AndCollector(Collector... collectors) {</span>
+<span class="nc" id="L23">        this.collectors = collectors;</span>
+<span class="nc" id="L24">        this.values = Collectors.values(Function.AVG);</span>
+<span class="nc" id="L25">    }</span>
+
+<span class="nc" id="L27">    public AndCollector(Collector collector, Collector... collectors) {</span>
+<span class="nc" id="L28">        this.values = Collectors.values(Function.AVG);</span>
+<span class="nc" id="L29">        List&lt;Collector&gt; list = Arrays.asList(collectors);</span>
+<span class="nc" id="L30">        list.add(collector);</span>
+<span class="nc" id="L31">        this.collectors = list.toArray(collectors);</span>
+<span class="nc" id="L32">    }</span>
 
     @Override
     public void collect(Atom atom) {
-<span class="nc bnc" id="L27" title="All 2 branches missed.">        for (Collector collector : collectors) {</span>
-<span class="nc" id="L28">            collector.collect(atom);</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        for (Collector collector : collectors) {</span>
+<span class="nc" id="L37">            collector.collect(atom);</span>
         }
-<span class="nc" id="L30">    }</span>
+<span class="nc" id="L39">    }</span>
 
     @Override
     public String name() {
-<span class="nc" id="L34">        return &quot;and&quot;;</span>
+<span class="nc" id="L43">        return &quot;and&quot;;</span>
     }
 
     @Override
     public Slice slice() {
-<span class="nc" id="L39">        Slice result = values.slice();</span>
-<span class="nc bnc" id="L40" title="All 2 branches missed.">        for (Collector collector : collectors) {</span>
-<span class="nc" id="L41">            result.add(collector.slice());</span>
+<span class="nc" id="L48">        Slice result = values.slice();</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        for (Collector collector : collectors) {</span>
+<span class="nc" id="L50">            result.add(collector.slice());</span>
         }
-<span class="nc" id="L43">        return result;</span>
+<span class="nc" id="L52">        return result;</span>
+    }
+
+    public Collector[] collectors() {
+<span class="nc" id="L56">        return collectors;</span>
     }
 
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (!(o instanceof AndCollector)) return false;</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (!(o instanceof AndCollector)) return false;</span>
 
-<span class="nc" id="L51">        AndCollector that = (AndCollector) o;</span>
+<span class="nc" id="L64">        AndCollector that = (AndCollector) o;</span>
 
-<span class="nc" id="L53">        return Arrays.equals(collectors, that.collectors);</span>
+<span class="nc" id="L66">        return Arrays.equals(collectors, that.collectors);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="nc" id="L58">        return Arrays.hashCode(collectors);</span>
+<span class="nc" id="L71">        return Arrays.hashCode(collectors);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

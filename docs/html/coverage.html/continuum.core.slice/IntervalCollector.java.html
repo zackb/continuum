@@ -59,7 +59,7 @@ public class IntervalCollector implements Collector&lt;Atom&gt; {
     @Override
     public Slice slice() {
 
-<span class="fc" id="L62">        NSlice result = (NSlice) values.slice();</span>
+<span class="fc" id="L62">        ASlice result = (ASlice) values.slice();</span>
 <span class="fc" id="L63">        result.name = name();</span>
 <span class="fc" id="L64">        List&lt;Long&gt; sorted = new ArrayList&lt;&gt;(collectors.keySet());</span>
 <span class="fc" id="L65">        Collections.sort(sorted, (o1, o2) -&gt; o2.compareTo(o1));</span>
