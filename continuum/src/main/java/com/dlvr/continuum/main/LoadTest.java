@@ -2,8 +2,6 @@ package com.dlvr.continuum.main;
 
 import com.dlvr.continuum.Continuum;
 import com.dlvr.continuum.atom.Atom;
-import com.dlvr.continuum.control.Builder;
-import com.dlvr.continuum.core.io.file.FileSystemReference;
 import com.dlvr.continuum.slice.Function;
 import com.dlvr.continuum.util.Maths;
 import com.dlvr.continuum.util.Metrics;
@@ -73,31 +71,16 @@ public class LoadTest {
         }
     }
 
-    public static void load(String dataDir) throws Exception {
-        load(dataDir, 2000000);
-    }
-
-    public static void load(String dataDir, int iterations) throws Exception {
-        load(dataDir, iterations, true);
-    }
-
     // 50MB/10M metrics
-    public static void load(String dataDir, int iterations, boolean delete) throws Exception {
-        FileSystemReference ref = new FileSystemReference(dataDir);
-
-        Continuum.ContinuumBuilder builder =
-                Continuum.continuum()
-                    .name("com.dlvr.continuum.main.LoadTest")
-                        .dimension(Continuum.Dimension.SPACE)
-                            .base(ref);
+    public static void perform(Continuum continuum, int iterations) throws Exception {
 
         LoadTest test = null;
-        try (Continuum c = builder.open()){
-            test = new LoadTest(c);
-            test.load(c, iterations);
+        try {
+            test = new LoadTest(continuum);
+            test.load(continuum, iterations);
         } finally {
             if (test != null) test.stop();
-            if (delete) ref.delete();
+            //if (delete) ref.delete();
         }
     }
 }
