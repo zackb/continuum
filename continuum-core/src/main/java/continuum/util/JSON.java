@@ -43,9 +43,23 @@ public class JSON {
         //.enableDefaultTyping()
     }
 
-    public static String encode(Object obj) {
+    public static <T> String encode(T obj) {
         try {
             return mapper.writeValueAsString(obj);
+        } catch (Exception e) {
+            System.err.println("Failed encoding object: " + obj);
+        }
+        return null;
+    }
+
+    /**
+     * JSON string pretty formatted
+     * @param obj to format as string
+     * @return prettified json string
+     */
+    public static <T> String pretty(T obj) {
+        try {
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
         } catch (Exception e) {
             System.err.println("Failed encoding object: " + obj);
         }

@@ -1,6 +1,7 @@
 package continuum.core.slice;
 
 import continuum.atom.Atom;
+import continuum.slice.Const;
 import continuum.slice.Filter;
 
 /**
@@ -18,6 +19,7 @@ public class NameFilter implements Filter {
     @Override
     public Action filter(Atom atom) {
         if (prefix == null) return Action.CONTINUE;
+        if (Const.SWILDCARD.equals(prefix)) return Action.CONTINUE;
         // TODO: StartsWith or equals()?
         if (!atom.name().equals(prefix)) return Action.STOP;
         return Action.CONTINUE;

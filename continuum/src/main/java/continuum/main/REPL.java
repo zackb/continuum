@@ -1,6 +1,10 @@
 package continuum.main;
 
 import continuum.Continuum;
+import continuum.slice.Slice;
+import continuum.util.JSON;
+import continuum.util.datetime.Interval;
+import static continuum.util.datetime.Util.*;
 
 import java.io.*;
 import java.util.Arrays;
@@ -17,7 +21,6 @@ public class REPL {
 
     private Continuum continuum;
     private final Console console;
-    private boolean run = true;
 
     public REPL(Continuum continuum) {
         this.continuum = continuum;
@@ -112,6 +115,27 @@ public class REPL {
 
     private final Command SCAN = new Command() {
         boolean execute(String[] args) throws Exception {
+            String prefix = args[0];
+            Interval end = Interval.valueOf(hoursAgo(1)),
+                     start = Interval.valueOf(now()),
+                     interval = null;
+
+            if (args.length > 1)
+                end = Interval.valueOf(args[1]);
+
+            if (args.length > 2)
+                interval = Interval.valueOf(args[2]);
+
+            if (args.length > 3)
+                start = Interval.valueOf(args[3]);
+
+            Slice slice = continuum.slice(
+                            continuum.scan("series1")
+                                    .start(start)
+                                    .end(end)
+                                    .interval(interval)
+                                    .build());
+            console.writer().println(JSON.pretty(slice));
             return true;
         }
 

@@ -20,6 +20,9 @@ public class AScanner implements Scanner {
 
     private byte[] previousScan = null;
 
+    // TODO: Buffer based on scan.interval()
+    private long previousTimestamp = 0;
+
     /**
      * {@inheritDoc}
      */
