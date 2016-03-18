@@ -8,15 +8,15 @@ import continuum.control.Builder;
 import continuum.control.Controller;
 import continuum.core.atom.*;
 import continuum.core.slab.AtomTranslator;
-import continuum.core.slice.NScanner;
+import continuum.core.slice.AScanner;
 import continuum.atom.AtomID;
 import continuum.slab.Translator;
 import continuum.slab.Slab;
 
-import continuum.core.slice.NSlice;
+import continuum.core.slice.ASlice;
 import continuum.core.slab.Slabs;
 import continuum.core.slab.RockSlab;
-import continuum.core.slice.NScan;
+import continuum.core.slice.AScan;
 import continuum.core.io.file.FileSystemReference;
 import continuum.except.ZiggyStardustError;
 import continuum.file.Reference;
@@ -110,11 +110,11 @@ public class Continuum implements Controller, Closeable {
     }
 
     public static Particles particles() {
-        return new NParticles(new HashMap<>());
+        return new AParticles(new HashMap<>());
     }
 
     public static Particles particles(Map<String, String> particles) {
-        return new NParticles(particles);
+        return new AParticles(particles);
     }
 
     public static Particles particles(String... strings) {
@@ -135,7 +135,7 @@ public class Continuum implements Controller, Closeable {
     }
 
     public static Fields fields(Map<String, Object> fields) {
-        return new NFields(fields);
+        return new AFields(fields);
     }
 
     public static Fields fields(Object... stringObject) {
@@ -231,7 +231,7 @@ public class Continuum implements Controller, Closeable {
      */
     @Override
     public Scanner scanner() {
-        return new NScanner();
+        return new AScanner();
     }
 
     /**
@@ -317,7 +317,7 @@ public class Continuum implements Controller, Closeable {
 
     public static class ValuesBuilder {
 
-        private NValues target = new NValues();
+        private AValues target = new AValues();
 
         public ValuesBuilder min(double min) {
             target.min = min;
@@ -347,10 +347,10 @@ public class Continuum implements Controller, Closeable {
     public static class AtomBuilder {
 
         protected String name;
-        protected NParticles particles;
-        protected NFields fields;
+        protected AParticles particles;
+        protected AFields fields;
         protected long timestamp = System.currentTimeMillis();
-        protected NValues values;
+        protected AValues values;
         protected Dimension dimension;
         protected AtomBuilder() {}
 
@@ -359,19 +359,19 @@ public class Continuum implements Controller, Closeable {
             return this;
         }
         public AtomBuilder particles(Particles particles) {
-            this.particles = (NParticles) particles;
+            this.particles = (AParticles) particles;
             return this;
         }
         public AtomBuilder particles(Map<String, String> particles) {
-            this.particles = (NParticles)Continuum.particles(particles);
+            this.particles = (AParticles)Continuum.particles(particles);
             return this;
         }
         public AtomBuilder particles(String... particles) {
-            this.particles = (NParticles)Continuum.particles(particles);
+            this.particles = (AParticles)Continuum.particles(particles);
             return this;
         }
         public AtomBuilder fields(Fields fields) {
-            this.fields = (NFields)fields;
+            this.fields = (AFields)fields;
             return this;
         }
         public AtomBuilder timestamp(long timestamp) {
@@ -379,11 +379,11 @@ public class Continuum implements Controller, Closeable {
             return this;
         }
         public AtomBuilder value(double value) {
-            this.values = (NValues)Continuum.values(value);
+            this.values = (AValues)Continuum.values(value);
             return this;
         }
         public AtomBuilder values(Values values) {
-            this.values = (NValues)values;
+            this.values = (AValues)values;
             return this;
         }
         public AtomBuilder dimension(Dimension dimension) {
@@ -401,7 +401,7 @@ public class Continuum implements Controller, Closeable {
 
     public static class ScanBuilder {
 
-        private final NScan target = new NScan();
+        private final AScan target = new AScan();
 
         private ScanBuilder() {
             this(null);
@@ -473,7 +473,7 @@ public class Continuum implements Controller, Closeable {
     }
 
     public static class SliceBuilder {
-        private final NSlice target = new NSlice();
+        private final ASlice target = new ASlice();
         private SliceBuilder() { }
         SliceBuilder(String name) {
             target.name = name;

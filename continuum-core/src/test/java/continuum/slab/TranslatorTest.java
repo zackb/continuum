@@ -4,11 +4,9 @@ import continuum.Continuum;
 import continuum.atom.AtomID;
 import continuum.core.slab.AtomTranslator;
 import continuum.core.slab.RockSlab;
-import continuum.core.slice.NScanner;
+import continuum.core.slice.AScanner;
 import continuum.core.io.file.FileSystemReference;
 import continuum.atom.Atom;
-import continuum.slab.Iterator;
-import continuum.slab.Slab;
 import continuum.slice.Function;
 import continuum.slice.Scan;
 import continuum.slice.Scanner;
@@ -69,7 +67,7 @@ public class TranslatorTest {
         AtomID id = d.ID();
         d = translator.read(id);
         assertEquals(98898.124D, d.values().value(), 0.00001);
-        Scanner scanner = new NScanner();
+        Scanner scanner = new AScanner();
         try (Iterator iterator = translator.iterator()) {
             scanner.iterator(iterator);
             Scan scan = Continuum

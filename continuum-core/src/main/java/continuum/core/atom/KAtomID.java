@@ -72,7 +72,7 @@ public class KAtomID implements AtomID {
 
     @Override
     public Particles particles() {
-        return new NParticlesID(particles).particles();
+        return new AParticlesID(particles).particles();
     }
 
     @Override

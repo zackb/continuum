@@ -14,14 +14,14 @@ import java.util.Map;
  * Particles ID for series and time key values data
  * Created by zack on 2/11/16.
  */
-public class NParticlesID implements ParticlesID {
+public class AParticlesID implements ParticlesID {
 
     private static final byte b = 0x0;
 
     private final transient byte[] cachedId;
     private final transient int[] positions;
 
-    public NParticlesID(byte[] bytes) {
+    public AParticlesID(byte[] bytes) {
         int count = 0;
         for (byte by : bytes)
             if (by == b) count++;
@@ -35,7 +35,7 @@ public class NParticlesID implements ParticlesID {
         this.cachedId = bytes;
     }
 
-    public NParticlesID(Particles particles) {
+    public AParticlesID(Particles particles) {
         byte[] id = new byte[1024];
         List<String> names = particles.names();
         int len = names.size();

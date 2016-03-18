@@ -6,7 +6,7 @@ import continuum.atom.Values;
  * Base values implementation
  * Created by zack on 2/24/16.
  */
-public class NValues implements Values {
+public class AValues implements Values {
 
     public double min = 0;
     public double max = 0;

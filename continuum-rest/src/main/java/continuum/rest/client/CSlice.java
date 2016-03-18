@@ -3,7 +3,7 @@ package continuum.rest.client;
 
 import continuum.atom.Atom;
 import continuum.atom.Values;
-import continuum.core.atom.NValues;
+import continuum.core.atom.AValues;
 import continuum.core.atom.SAtom;
 import continuum.slice.Slice;
 
@@ -17,7 +17,7 @@ import java.util.List;
 public class CSlice implements Slice {
 
     public String name;
-    public NValues values;
+    public AValues values;
     public List<Slice> children;
     public List<SAtom> atoms;
     public long timestamp;

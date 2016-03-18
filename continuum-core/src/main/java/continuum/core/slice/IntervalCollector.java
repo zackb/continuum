@@ -59,7 +59,7 @@ public class IntervalCollector implements Collector<Atom> {
     @Override
     public Slice slice() {
 
-        NSlice result = (NSlice) values.slice();
+        ASlice result = (ASlice) values.slice();
         result.name = name();
         List<Long> sorted = new ArrayList<>(collectors.keySet());
         Collections.sort(sorted, (o1, o2) -> o2.compareTo(o1));

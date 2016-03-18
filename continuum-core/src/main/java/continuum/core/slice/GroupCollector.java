@@ -56,7 +56,7 @@ public class GroupCollector implements Collector<Atom> {
     }
 
     public static Slice result(Tree<Collector> stree) {
-        NSlice s = (NSlice) stree.data.slice();
+        ASlice s = (ASlice) stree.data.slice();
         s.name = stree.data.name();
 
         // prefix name with names of all parents

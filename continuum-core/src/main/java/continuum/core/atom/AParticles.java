@@ -8,13 +8,13 @@ import java.util.*;
 /**
  * Base Tags implementation
  */
-public class NParticles extends HashMap<String, String> implements Particles {
+public class AParticles extends HashMap<String, String> implements Particles {
 
     private transient List<String> sortedNames;
 
-    NParticles() { super(); }
+    AParticles() { super(); }
 
-    public NParticles(Map<String, String> raw) {
+    public AParticles(Map<String, String> raw) {
         super(raw);
     }
 
@@ -41,6 +41,6 @@ public class NParticles extends HashMap<String, String> implements Particles {
     @Override
     public ParticlesID ID() {
         // TODO: Cache? Mutability?
-        return new NParticlesID(this);
+        return new AParticlesID(this);
     }
 }

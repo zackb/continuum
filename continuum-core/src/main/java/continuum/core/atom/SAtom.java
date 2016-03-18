@@ -6,12 +6,12 @@ import continuum.atom.AtomID;
  * An atom in a time key values continuum
  * Created by zack on 2/12/16.
  */
-public class SAtom extends NAtom {
+public class SAtom extends AAtom {
 
     // for serde
     public SAtom() { }
 
-    public SAtom(String name, NParticles particles, long timestamp, NFields fields, NValues values) {
+    public SAtom(String name, AParticles particles, long timestamp, AFields fields, AValues values) {
         super(name, particles, timestamp, fields, values);
     }
 

@@ -8,9 +8,9 @@ import continuum.core.atom.*;
  * Basic POJO atom DTO
  * Created by zack on 2/26/16.
  */
-public class CAtom extends NAtom implements Atom {
+public class CAtom extends AAtom implements Atom {
 
-    public CAtom(String name, NParticles particles, long timestamp, NFields fields, NValues values) {
+    public CAtom(String name, AParticles particles, long timestamp, AFields fields, AValues values) {
         super(name, particles, timestamp, fields, values);
     }
 

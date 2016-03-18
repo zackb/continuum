@@ -4,7 +4,7 @@ import continuum.Continuum;
 import continuum.atom.Atom;
 import continuum.atom.Values;
 import continuum.core.atom.KAtom;
-import continuum.core.atom.NAtom;
+import continuum.core.atom.AAtom;
 import continuum.core.atom.SAtom;
 import continuum.core.atom.KAtomID;
 import continuum.atom.AtomID;
@@ -170,13 +170,13 @@ public class Bytes {
     }
 
     public static Atom Atom(byte[] bytes, Continuum.Dimension dimension) {
-        Class<? extends NAtom> clazz = null;
+        Class<? extends AAtom> clazz = null;
         if (dimension == Continuum.Dimension.SPACE)
             clazz = SAtom.class;
         else if (dimension == Continuum.Dimension.TIME)
             clazz = KAtom.class;
         else throw new ZiggyStardustError();
-        NAtom atom = BSON.decodeObject(bytes, clazz);
+        AAtom atom = BSON.decodeObject(bytes, clazz);
         return atom;
     }
 

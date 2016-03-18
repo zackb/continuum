@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 /**
  * Base scanner using filters and collectors
  */
-public class NScanner implements Scanner {
+public class AScanner implements Scanner {
 
     private Iterator<Atom> iterator;
 

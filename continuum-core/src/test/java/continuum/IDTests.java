@@ -1,13 +1,12 @@
 package continuum;
 
-import continuum.Continuum;
 import continuum.atom.AtomID;
 import continuum.atom.ParticlesID;
 import continuum.core.atom.KAtomID;
 import continuum.atom.Atom;
 import continuum.atom.Particles;
 import continuum.core.atom.SAtomID;
-import continuum.core.atom.NParticlesID;
+import continuum.core.atom.AParticlesID;
 import continuum.util.Bytes;
 import org.junit.Test;
 
@@ -36,7 +35,7 @@ public class IDTests {
     @Test
     public void testTagsIdUnmarshallMeta() {
         byte[] e = { 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
-        ParticlesID id = new NParticlesID(e);
+        ParticlesID id = new AParticlesID(e);
         Particles particles = id.particles();
         assertEquals("bat", particles.get("baz"));
         assertEquals("bar", particles.get("foo"));

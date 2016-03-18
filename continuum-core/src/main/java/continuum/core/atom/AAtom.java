@@ -8,16 +8,16 @@ import continuum.atom.Values;
 /**
  * An atom in the continuum
  */
-public abstract class NAtom implements Atom {
+public abstract class AAtom implements Atom {
     public String name;
-    public NParticles particles;
+    public AParticles particles;
     public Long timestamp;
-    public NFields fields;
-    public NValues values;
+    public AFields fields;
+    public AValues values;
 
-    public NAtom() { }
+    public AAtom() { }
 
-    public NAtom(String name, NParticles particles, long timestamp, NFields fields, NValues values) {
+    public AAtom(String name, AParticles particles, long timestamp, AFields fields, AValues values) {
         this.name = name;
         this.particles = particles;
         this.timestamp = timestamp;

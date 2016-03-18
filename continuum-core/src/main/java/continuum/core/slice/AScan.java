@@ -15,7 +15,7 @@ import continuum.util.datetime.Interval;
 /**
  * Base Scan implementation
  */
-public class NScan implements Scan {
+public class AScan implements Scan {
 
     public String name;
     public Function function;

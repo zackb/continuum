@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Tree structured results from a translator scan
  */
-public class NSlice implements Slice {
+public class ASlice implements Slice {
 
     public String name;
     public Values values;
@@ -105,9 +105,9 @@ public class NSlice implements Slice {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof NSlice)) return false;
+        if (!(o instanceof ASlice)) return false;
 
-        NSlice that = (NSlice) o;
+        ASlice that = (ASlice) o;
 
         if (timestamp != that.timestamp) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
