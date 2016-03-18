@@ -2,10 +2,10 @@ default: all
 install:package
 all:
 	./gradlew clean jar test
-tgz:
-	./gradlew clean jar test installDist
-package:
-	./gradlew clean jar test installDist debian
+bin:
+	./gradlew bin
+deb:
+	./gradlew deb
 docs:
 
 clean:

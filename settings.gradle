@@ -1,1 +1,3 @@
-include 'continuum-core', 'continuum-rest', 'continuum'
+rootProject.name = 'all'
+include 'continuum-core', 'continuum-rest', 'continuum-main'
+

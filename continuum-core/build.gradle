@@ -36,12 +36,13 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4+'
 }
 
-task install(dependsOn:
+task all(dependsOn:
         ['clean',
          'jar',
-         'test',
-         'javadoc',
-         'jacocoTestReport', 'publishToMavenLocal'])
+         'test', 
+         'publishToMavenLocal'])
+         
+task docs(dependsOn:['all', 'javadoc', 'jacocoTestReport'])
 
 publishing {
     publications {

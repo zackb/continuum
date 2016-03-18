@@ -1,6 +1,6 @@
 default: all
 all:
-	./gradlew install
+	./gradlew all
 docs:
 	~/bin/restdown -b html -m . README.md
 clean:

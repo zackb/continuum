@@ -1,6 +1,6 @@
 default: all
 all:
-	./gradlew install
+	./gradlew all
 docs:
 	./gradlew test javadoc jacocoTestReport
 clean:

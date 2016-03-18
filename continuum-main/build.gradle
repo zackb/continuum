@@ -47,18 +47,21 @@ jar {
     }
 }
 
-task install(dependsOn: ['clean', 'jar', 'test', 'publishToMavenLocal']) //, 'debian'])
+task all(dependsOn: ['clean', 'jar', 'test', 'publishToMavenLocal'])
+task bin(dependsOn: ['all', 'installDist'])
+task deb(dependsOn: ['bin', 'debian'])
 
 packaging {
-    packageName = project.name
+    def pname = 'continuum' //project.name
+    packageName = pname
     //dependencies = ['openjdk-8-jre']
     baseDir = new File(project.buildDir, 'install')
     prefix = '/opt'
     extraOptions = [
             '--vendor': 'DLVR',
             '--maintainer': 'Zack Bartel',
-            '--description': "${project.name} ${System.getenv('VERSION')} ${System.getenv('GIT_COMMIT')} ${System.getenv('GIT_BRANCH')}",
-            '-n': project.name,
+            '--description': "${pname} ${System.getenv('VERSION')} ${System.getenv('GIT_COMMIT')} ${System.getenv('GIT_BRANCH')}",
+            '-n': pname,
             '-a': 'amd64'
     ]
     extraFlags = [ ]

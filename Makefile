@@ -8,20 +8,23 @@ MCORE := $(MAKE) -C $(CORE)
 MREST := $(MAKE) -C $(REST)
 MMAIN := $(MAKE) -C $(MAIN)
 
+GRADLE := ./gradlew
+
 default: all
 
 all:
-	$(MCORE) all
-	$(MREST) all
-	$(MMAIN) all
+	$(GRADLE) :$(CORE):all
+	$(GRADLE) :$(REST):all
+	$(GRADLE) :$(MAIN):all
 
-clean: 
-	$(MCORE) clean
-	$(MREST) clean
-	$(MMAIN) clean
+bin: all
+	$(GRADLE) :$(MAIN):bin
+
+deb: bin
+	$(GRADLE) :$(MAIN):deb
 
 docs: all
-	$(MCORE) docs
+	$(GRADLE) :$(CORE):docs
 	$(MREST) docs
 	cp -r $(CORE)/build/docs/javadoc docs/html/
 	cp -r $(CORE)/build/reports/tests docs/html/
@@ -30,8 +33,14 @@ docs: all
 	cp -r $(REST)/media docs/html/rest/
 	cp -r $(REST)/README.html docs/html/rest/index.html
 
+
 deploydocs: docs
 	rsync -aurv docs/html/ zackbart@zackbartel.com:~/web/continuum/
 
 sloc:
 	cloc continuum*/src
+
+clean: 
+	$(GRADLE) :$(CORE):clean
+	$(GRADLE) :$(REST):clean
+	$(GRADLE) :$(MAIN):clean
