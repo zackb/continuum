@@ -1,6 +1,7 @@
 package continuum;
 
 
+import continuum.file.Reference;
 import continuum.main.REPL;
 import continuum.universe.Universe;
 
@@ -22,7 +23,7 @@ public class Main {
         continuum = Continuum.continuum()
                 .name(universe.name())
                 .dimension(universe.dimension())
-                .base(universe.hot())
+                .base((Reference[]) universe.hot())
                 .open();
         Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
         new REPL(continuum).run();

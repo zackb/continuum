@@ -14,13 +14,15 @@ public class AndFilter implements Filter {
     }
     @Override
     public Action filter(Atom atom) {
+
+        Action action = Action.CONTINUE;
         for (Filter filter : filters) {
             Action a = filter.filter(atom);
             if (a == Action.STOP)
                 return Action.STOP;
             if (a == Action.SKIP)
-                return Action.SKIP;
+                action = Action.SKIP;
         }
-        return Action.CONTINUE;
+        return action;
     }
 }

@@ -8,6 +8,7 @@ import static continuum.util.datetime.Util.*;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.Scanner;
 import java.util.stream.Stream;
 
 /**
@@ -20,22 +21,25 @@ public class REPL {
     private static final String prompt = "continuum> ";
 
     private Continuum continuum;
-    private final Console console;
+    private final PrintWriter stdout;
+    private final Scanner stdin;
 
     public REPL(Continuum continuum) {
         this.continuum = continuum;
-        this.console = System.console();
+        this.stdout = new PrintWriter(System.out);
+        this.stdin = new Scanner(System.in);
     }
 
     public void run() throws Exception {
         do {
-            console.printf("%s", prompt);
-            console.flush();
-        } while (execute(console.readLine()));
+            stdout.printf("%s", prompt);
+            stdout.flush();
+        } while (execute(stdin.nextLine()));
     }
 
     private boolean execute(String input) throws Exception {
         String[] parts = input.split(" ");
+        if (parts.length < 1) return HELP.execute(parts);
         Command command = from(parts[0].toLowerCase());
         return command.execute(
             Arrays.asList(parts)
@@ -60,22 +64,22 @@ public class REPL {
     private final Command HELP = new Command() {
         @Override
         boolean execute(String[] args) throws Exception {
-            console.writer().println("Commands:");
-            console.writer().println(" help                         show command help");
-            console.writer().println(" scan                         return a slice of the continuum");
-            console.writer().println("      name                    series name or time-key");
-            console.writer().println("      <end>                   end timestamp in millisecond epoch");
-            console.writer().println("      <start>                 start timestamp in millisecond epoch");
-            console.writer().println(" write                        write an atom to the continuum");
-            console.writer().println("      name                    series name or time-key");
-            console.writer().println("      <timestamp>             atom timestamp in millisecond epoch");
-            console.writer().println("      <particles>");
-            console.writer().println("      <fields>");
-            console.writer().println("      <values>");
-            console.writer().println(" load                         load test");
-            console.writer().println("      <writes count>          number of writes for load test");
-            console.writer().println("");
-            console.writer().flush();
+            stdout.println("Commands:");
+            stdout.println(" help                         show command help");
+            stdout.println(" scan                         return a slice of the continuum");
+            stdout.println("      name                    series name or time-key");
+            stdout.println("      <end>                   end timestamp in millisecond epoch");
+            stdout.println("      <start>                 start timestamp in millisecond epoch");
+            stdout.println(" write                        write an atom to the continuum");
+            stdout.println("      name                    series name or time-key");
+            stdout.println("      <timestamp>             atom timestamp in millisecond epoch");
+            stdout.println("      <particles>");
+            stdout.println("      <fields>");
+            stdout.println("      <values>");
+            stdout.println(" load                         load test");
+            stdout.println("      <writes count>          number of writes for load test");
+            stdout.println("");
+            stdout.flush();
             return true;
         }
 
@@ -102,8 +106,8 @@ public class REPL {
 
     private final Command CLEAR = new Command() {
         boolean execute(String[] args) throws Exception {
-            console.printf("\033[H\033[2J");
-            console.flush();
+            stdout.printf("\033[H\033[2J");
+            stdout.flush();
             return true;
         }
 
@@ -116,8 +120,8 @@ public class REPL {
     private final Command SCAN = new Command() {
         boolean execute(String[] args) throws Exception {
             String prefix = args[0];
-            Interval end = Interval.valueOf(hoursAgo(1)),
-                     start = Interval.valueOf(now()),
+            Interval end = Interval.valueOf("1h"),
+                     start = Interval.valueOf(0),
                      interval = null;
 
             if (args.length > 1)
@@ -130,12 +134,12 @@ public class REPL {
                 start = Interval.valueOf(args[3]);
 
             Slice slice = continuum.slice(
-                            continuum.scan("series1")
+                            continuum.scan(prefix)
                                     .start(start)
                                     .end(end)
                                     .interval(interval)
                                     .build());
-            console.writer().println(JSON.pretty(slice));
+            stdout.println(JSON.pretty(slice));
             return true;
         }
 
@@ -149,7 +153,6 @@ public class REPL {
         boolean execute(String[] args) throws Exception {
             return true;
         }
-
         @Override
         boolean accepts(String input) {
             return input.startsWith("read");
@@ -157,7 +160,23 @@ public class REPL {
     };
 
     private final Command WRITE = new Command() {
+        // write key value <timestamp>
         boolean execute(String[] args) throws Exception {
+            if (args.length < 2) return HELP.execute(args);
+
+            String key = args[0];
+            Double value = Double.parseDouble(args[1]);
+            Long timestamp = System.currentTimeMillis();
+            if (args.length > 2)
+                timestamp = Long.parseLong(args[2]);
+
+            continuum.write(
+                    continuum.atom()
+                        .name(key)
+                        .particles("k", "v")
+                        .value(value)
+                        .timestamp(timestamp)
+                        .build());
             return true;
         }
         @Override

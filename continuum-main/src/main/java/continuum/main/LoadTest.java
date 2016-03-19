@@ -42,7 +42,7 @@ public class LoadTest {
     private static Atom createAtom() {
         return Continuum.satom()
                 .name("series" + Maths.randInt(0, 100))
-                .value(Maths.randDouble(Double.MIN_VALUE, Double.MAX_VALUE))
+                .value(Maths.randDouble(1.0, 322453244.29394))
                 .timestamp(System.currentTimeMillis())
                 .build();
     }
