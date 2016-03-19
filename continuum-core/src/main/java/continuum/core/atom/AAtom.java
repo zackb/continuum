@@ -5,6 +5,8 @@ import continuum.atom.Fields;
 import continuum.atom.Particles;
 import continuum.atom.Values;
 
+import static continuum.Continuum.Dimension;
+
 /**
  * An atom in the continuum
  */
@@ -14,6 +16,7 @@ public abstract class AAtom implements Atom {
     public Long timestamp;
     public AFields fields;
     public AValues values;
+    public Dimension dimension;
 
     public AAtom() { }
 
@@ -44,5 +47,9 @@ public abstract class AAtom implements Atom {
     @Override
     public Long timestamp() {
         return timestamp;
+    }
+    @Override
+    public Dimension dimension() {
+        return dimension;
     }
 }

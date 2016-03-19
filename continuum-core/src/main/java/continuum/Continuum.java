@@ -37,6 +37,7 @@ public class Continuum implements Controller, Closeable {
 
     private final String name;
 
+    // The DEFAULT dimenstion for atoms and scans on this continuum
     private final Dimension dimension;
 
     private final Translator<Atom> translator;

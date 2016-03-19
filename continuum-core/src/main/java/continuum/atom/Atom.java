@@ -1,6 +1,10 @@
 package continuum.atom;
 
+import continuum.Continuum;
+
 import java.io.Serializable;
+
+import static continuum.Continuum.Dimension;
 
 /**
  * Time translator data atom
@@ -46,4 +50,10 @@ public interface Atom extends Serializable {
      * @return timestamp of the atom
      */
     Long timestamp();
+
+    /**
+     * The dimenstion of this Atom
+     * @return Time or Space
+     */
+    Dimension dimension();
 }
