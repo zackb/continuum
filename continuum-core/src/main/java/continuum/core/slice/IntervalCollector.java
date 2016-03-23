@@ -64,7 +64,8 @@ public class IntervalCollector implements Collector<Atom> {
         List<Long> sorted = new ArrayList<>(collectors.keySet());
         Collections.sort(sorted, (o1, o2) -> o2.compareTo(o1));
         for (Long ts : sorted) {
-            Slice child = collectors.get(ts).slice();
+            ASlice child = (ASlice)collectors.get(ts).slice();
+            child.timestamp = ts;
             result.add(child);
         }
         return result;
