@@ -39,7 +39,7 @@ public interface Slice {
      * Sub-slices of this slice for grouping and time intervals
      * @return sub-slices
      */
-    List<Slice> slices();
+    List<? extends Slice> slices();
 
     /**
      * Get a sub-slice by name

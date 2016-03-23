@@ -18,7 +18,7 @@ public class CSlice implements Slice {
 
     public String name;
     public AValues values;
-    public List<Slice> children;
+    public List<CSlice> children;
     public List<SAtom> atoms;
     public long timestamp;
 
@@ -42,7 +42,7 @@ public class CSlice implements Slice {
      * {@inheritDoc}
      */
     @Override
-    public List<Slice> slices() {
+    public List<? extends Slice> slices() {
         return children;
     }
 
@@ -60,7 +60,7 @@ public class CSlice implements Slice {
     @Override
     public Slice add(Slice slice) {
         if (children == null) children = new ArrayList<>();
-        children.add(slice);
+        children.add((CSlice)slice);
         return slice;
     }
 
