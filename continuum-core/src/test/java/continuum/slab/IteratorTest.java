@@ -6,8 +6,6 @@ import continuum.atom.Particles;
 import continuum.core.slab.RockSlab;
 import continuum.core.io.file.FileSystemReference;
 import continuum.core.slab.AtomTranslator;
-import continuum.slab.Iterator;
-import continuum.slab.Slab;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -26,6 +24,7 @@ public class IteratorTest {
     @Test
     public void testIterate() throws Exception {
 
+        reference.delete();
         Slab slab = new RockSlab("testIterate.0.slab", reference);
         slab.open();
 
