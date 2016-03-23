@@ -1,5 +1,5 @@
 group 'continuum'
-version '0.1'
+version = '0.1.' + (System.getenv('BUILD_NUMBER') ?: 2)
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'

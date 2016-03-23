@@ -5,7 +5,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'fpm-packaging'
 
 group 'continuum'
-version '0.1'
+version = '0.1.' + (System.getenv('BUILD_NUMBER') ?: 2)
 mainClassName = 'continuum.Main'
 
 def packageDistDir = '/opt/continuum'
