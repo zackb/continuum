@@ -121,6 +121,11 @@ public class Client implements Controller, Translator<Atom> {
         String url = baseUrl + "/read?name=" + scan.name();
         url += "&start=" + scan.start();
         url += "&end=" + scan.end();
+        if (scan.function() != null)
+            url += "&fn=" + scan.function().name();
+
+        if (scan.interval() != null)
+            url += "&interval=" + scan.interval().toString();
 
         if (scan.particles() != null) {
             for (String name : scan.particles().keySet()) {
