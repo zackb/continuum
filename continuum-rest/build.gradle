@@ -2,7 +2,6 @@ group 'continuum'
 version '0.1'
 
 apply plugin: 'java'
-apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.8
@@ -23,7 +22,6 @@ dependencies {
     // RDF4J
     compile 'org.openrdf.sesame:sesame-rio-rdfxml:4.+'
 
-    testCompile 'org.codehaus.groovy:groovy-test:2.4+'
     testCompile group: 'junit', name: 'junit', version: '4+'
 }
 

@@ -79,7 +79,7 @@ publishing {
     publications {
         api(MavenPublication) {
             groupId group
-            artifactId name
+            artifactId 'main'
             version version
             from components.java
         }
