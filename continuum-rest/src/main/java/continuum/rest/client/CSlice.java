@@ -9,6 +9,7 @@ import continuum.slice.Slice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * POJO version of a slice result
@@ -103,5 +104,19 @@ public class CSlice implements Slice {
     @Override
     public long timestamp() {
         return timestamp;
+    }
+
+    @Override
+    public Stream<Slice> flattened() {
+        return children == null ? stream() : Stream.concat(
+                this.stream(),
+                children.stream()
+                        .flatMap(CSlice::flattened)
+        );
+    }
+
+    @Override
+    public Stream<Slice> stream() {
+        return Stream.of(this);
     }
 }

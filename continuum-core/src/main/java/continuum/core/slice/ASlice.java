@@ -6,6 +6,7 @@ import continuum.slice.Slice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Tree structured results from a translator scan
@@ -129,5 +130,18 @@ public class ASlice implements Slice {
         result = 31 * result + (children != null ? children.hashCode() : 0);
         result = 31 * result + (atoms != null ? atoms.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public Stream<Slice> flattened() {
+        return children == null ? stream() : Stream.concat(
+                this.stream(),
+                children.stream()
+                        .flatMap(Slice::flattened));
+    }
+
+    @Override
+    public Stream<Slice> stream() {
+        return Stream.of(this);
     }
 }

@@ -4,6 +4,7 @@ import continuum.atom.Atom;
 import continuum.atom.Values;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Slice of space time.
@@ -68,4 +69,8 @@ public interface Slice {
      * @return sub-slice that was removed
      */
     Slice remove(Slice result);
+
+    Stream<Slice> flattened();
+
+    Stream<Slice> stream();
 }

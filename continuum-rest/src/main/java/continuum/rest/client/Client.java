@@ -134,6 +134,19 @@ public class Client implements Controller, Translator<Atom> {
             }
         }
 
+        if (scan.fields() != null) {
+            String fields = "";
+            for (String name : scan.fields().keySet()) {
+                Object value = scan.fields().get(name);
+                fields += name + ":" + value;
+            }
+            url += "&fields=" + fields;
+        }
+
+        if (scan.groups() != null) {
+            url += "&group=" + String.join(",", scan.groups());
+        }
+
         return HTTP.getJSONObject(url, CSlice.class);
     }
 
