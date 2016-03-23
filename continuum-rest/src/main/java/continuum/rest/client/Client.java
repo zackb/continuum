@@ -60,7 +60,7 @@ public class Client implements Controller, Translator<Atom> {
      */
     @Override
     public ScanBuilder scan(String name) {
-        return Continuum.scan();
+        return Continuum.scan().name(name);
     }
 
     /**
