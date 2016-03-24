@@ -14,6 +14,7 @@ public class Request {
     String url;
     String method;
     Map<String, String> headers;
+    boolean compress = false;
     Object data = "";
     int readTimeout = 1000 * 60 * 20; // 20 seconds
     int connectTimeout = 1000 * 60 * 10; // 10 seconds
@@ -40,6 +41,10 @@ public class Request {
     }
     public Request connectTimeout(int connectTimeout) {
         this.connectTimeout = connectTimeout;
+        return this;
+    }
+    public Request compress(boolean compress) {
+        this.compress = compress;
         return this;
     }
 

@@ -2,6 +2,7 @@ package continuum.rest.http;
 
 import continuum.util.IO;
 import continuum.util.JSON;
+import continuum.util.Strings;
 
 import javax.net.ssl.*;
 import java.io.InputStream;
@@ -11,6 +12,7 @@ import java.net.URL;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 /**
  * HTTP client
@@ -28,6 +30,7 @@ public class HTTP {
         DEFAULT_HEADERS.put("Accept-Language",   "en-us,en;q=0.8");
         DEFAULT_HEADERS.put("Accept-Charset",    "utf-8,ISO-8859-1;q=0.7,*;q=0.7");
         DEFAULT_HEADERS.put("Connection",        "keep-alive");
+        DEFAULT_HEADERS.put("Accept-Encoding",   "gzip, deflate");
 
         JSON_CONTENT_TYPE.put("Content-Type",    "application/json");
 
@@ -98,11 +101,14 @@ public class HTTP {
 
         Response response = new Response();
         String contentType = conn.getHeaderField("Content-Type");
+        String contentEnc = conn.getHeaderField("Content-Encoding");
+        boolean gz = !Strings.empty(contentEnc) && contentEnc.contains("gzip");
+
 
         response.contentType(contentType);
 
         try {
-            response.inputStream = conn.getInputStream();
+            response.inputStream = gz ? new GZIPInputStream(conn.getInputStream()) : conn.getInputStream();
         } catch (Exception e) {
             response.inputStream = conn.getErrorStream();
         }
