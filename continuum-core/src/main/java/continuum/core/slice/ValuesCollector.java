@@ -33,6 +33,12 @@ public class ValuesCollector implements Collector<Atom> {
         this.function = function;
     }
 
+    public ValuesCollector(String name, Function function, long timestamp) {
+        this.name = name;
+        this.function = function;
+        this.timestamp = timestamp;
+    }
+
     @Override
     public void collect(Atom atom) {
         double value = atom.values().value();

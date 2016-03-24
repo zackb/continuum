@@ -98,6 +98,17 @@ public class Collectors {
     }
 
     /**
+     * Collect values min,max,sum,count,value
+     * @param name to refer to the values collection
+     * @param function to report on in addition to standard 5 values
+     * @param timestamp convenience to override the timestamp for the collector to use. defaults to first atom collected
+     * @return new values collector
+     */
+    public static ValuesCollector values(String name, Function function, long timestamp) {
+        return new ValuesCollector(name, function, timestamp);
+    }
+
+    /**
      * Raw atom collector. Used instead of aggregations
      * @return new raw atom collector
      */

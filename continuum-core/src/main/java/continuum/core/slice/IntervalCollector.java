@@ -20,7 +20,6 @@ public class IntervalCollector implements Collector<Atom> {
     private final Function function;
     final Map<Long, ValuesCollector> collectors = new HashMap<>();
     final Collector values;
-    private long timestamp = 0L;
 
     public IntervalCollector(Interval interval) {
         this("interval", interval, Function.AVG);
@@ -40,12 +39,10 @@ public class IntervalCollector implements Collector<Atom> {
     @Override
     public void collect(Atom atom) {
 
-        if (timestamp == 0L) timestamp = atom.timestamp();
-
         long ts = atom.timestamp();
         long bucket = ts - (ts % interval.millis());
 
-        if (collectors.get(bucket) == null) collectors.put(bucket, Collectors.values(function));
+        collectors.putIfAbsent(bucket, Collectors.values("values", function, bucket));
 
         collectors.get(bucket).collect(atom);
         values.collect(atom);
@@ -78,7 +75,6 @@ public class IntervalCollector implements Collector<Atom> {
 
         IntervalCollector that = (IntervalCollector) o;
 
-        if (timestamp != that.timestamp) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (interval != null ? !interval.equals(that.interval) : that.interval != null) return false;
         if (function != that.function) return false;
@@ -92,18 +88,16 @@ public class IntervalCollector implements Collector<Atom> {
         result = 31 * result + (interval != null ? interval.hashCode() : 0);
         result = 31 * result + (function != null ? function.hashCode() : 0);
         result = 31 * result + (collectors != null ? collectors.hashCode() : 0);
-        result = 31 * result + (values != null ? values.hashCode() : 0);
-        result = 31 * result + (int) (timestamp ^ (timestamp >>> 32));
+        //result = 31 * result + (values != null ? values.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return Strings.sprintf("%s,%s,%s,%d:: %s",
+        return Strings.sprintf("%s,%s,%s:: %s",
                 name,
                 interval,
                 function,
-                timestamp,
                 collectors != null ? collectors.toString() : "()"
         );
     }
