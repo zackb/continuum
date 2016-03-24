@@ -63,7 +63,8 @@ public class IntervalCollector implements Collector<Atom> {
         for (Long ts : sorted) {
             ASlice child = (ASlice)collectors.get(ts).slice();
             child.timestamp = ts;
-            child.name = new Date(child.timestamp).toString();
+            // use human date instead of interval
+            //child.name = new Date(child.timestamp).toString();
             result.add(child);
         }
         return result;
