@@ -98,11 +98,22 @@ import continuum.util.datetime.Interval;
     }
 
     /**
+     * Collect values min,max,sum,count,value
+     * @param name to refer to the values collection
+     * @param function to report on in addition to standard 5 values
+     * @param timestamp convenience to override the timestamp for the collector to use. defaults to first atom collected
+     * @return new values collector
+     */
+    public static ValuesCollector values(String name, Function function, long timestamp) {
+<span class="fc" id="L108">        return new ValuesCollector(name, function, timestamp);</span>
+    }
+
+    /**
      * Raw atom collector. Used instead of aggregations
      * @return new raw atom collector
      */
     public static AtomCollector atoms() {
-<span class="nc" id="L105">        return new AtomCollector();</span>
+<span class="nc" id="L116">        return new AtomCollector();</span>
     }
 
     /**
@@ -111,7 +122,7 @@ import continuum.util.datetime.Interval;
      * @return new raw atom collector
      */
     public static AtomCollector atoms(String name) {
-<span class="nc" id="L114">        return new AtomCollector(name);</span>
+<span class="nc" id="L125">        return new AtomCollector(name);</span>
     }
 
     /**
@@ -120,7 +131,7 @@ import continuum.util.datetime.Interval;
      * @return new raw atom collector
      */
     public static AtomCollector atoms(Function function) {
-<span class="fc" id="L123">        return new AtomCollector(function);</span>
+<span class="fc" id="L134">        return new AtomCollector(function);</span>
     }
 
     /**
@@ -130,7 +141,7 @@ import continuum.util.datetime.Interval;
      * @return new raw atom collector
      */
     public static AtomCollector atoms(String name, Function function) {
-<span class="nc" id="L133">        return new AtomCollector(name, function);</span>
+<span class="nc" id="L144">        return new AtomCollector(name, function);</span>
     }
 
     /**
@@ -139,7 +150,7 @@ import continuum.util.datetime.Interval;
      * @return collector that calls collect() on all collectors
      */
     public static Collector and(Collector... collectors) {
-<span class="nc" id="L142">        return new AndCollector(collectors);</span>
+<span class="nc" id="L153">        return new AndCollector(collectors);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
