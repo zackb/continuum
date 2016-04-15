@@ -31,7 +31,7 @@ public class Collectors {
                 scan.function()
             );
         else
-            collector = atoms(scan.function());
+            collector = atoms(scan.function(), scan.limit());
 
         return collector;
     }
@@ -132,6 +132,15 @@ public class Collectors {
      */
     public static AtomCollector atoms(Function function) {
         return new AtomCollector(function);
+    }
+
+    /**
+     * Raw atom collector. Used instead of aggregations
+     * @param function to apply
+     * @return new raw atom collector
+     */
+    public static AtomCollector atoms(Function function, Integer limit) {
+        return new AtomCollector(function, limit);
     }
 
     /**

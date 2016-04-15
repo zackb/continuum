@@ -28,6 +28,7 @@ public class AScan implements Scan {
     public Collector collector;
     public Continuum.Dimension dimension;
     public String[] groups;
+    public int limit;
 
     @Override
     public ScanID ID() {
@@ -102,5 +103,10 @@ public class AScan implements Scan {
     @Override
     public Filter filter() {
         return null;
+    }
+
+    @Override
+    public int limit() {
+        return limit;
     }
 }

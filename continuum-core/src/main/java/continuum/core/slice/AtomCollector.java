@@ -20,28 +20,42 @@ public class AtomCollector implements Collector<Atom> {
     public final List<Atom> atoms;
     private final ValuesCollector values;
     private final String name;
+    private final int limit;
+
+    private static final int LIMIT_NONE = 0;
 
     public AtomCollector() {
-        this("atoms", Function.AVG);
+        this("atoms", Function.AVG, LIMIT_NONE);
     }
 
     public AtomCollector(String name) {
-        this(name, Function.AVG);
+        this(name, Function.AVG, LIMIT_NONE);
     }
 
     public AtomCollector(Function function) {
-        this("atoms", function);
+        this("atoms", function, LIMIT_NONE);
+    }
+
+    public AtomCollector(Function function, Integer limit) {
+        this("atoms", function, limit);
     }
 
     public AtomCollector(String name, Function function) {
+        this(name, function, LIMIT_NONE);
+    }
+
+    public AtomCollector(String name, Function function, Integer limit) {
         this.name = name;
         this.atoms = new ArrayList<>();
         this.values = new ValuesCollector(function == null ? Function.AVG : function);
+        if (limit != null && limit > 0) this.limit = limit;
+        else this.limit = LIMIT_NONE;
     }
 
     @Override
     public void collect(Atom atom) {
-        atoms.add(atom);
+        if (limit == LIMIT_NONE || atoms.size() < limit)
+            atoms.add(atom);
         values.collect(atom);
     }
 

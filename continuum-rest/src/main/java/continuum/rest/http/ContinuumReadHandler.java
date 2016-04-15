@@ -49,6 +49,7 @@ public class ContinuumReadHandler implements HttpRequestHandler {
                 .particles(request.particles)
                 .fields(request.fields)
                 .group(request.group)
+                .limit(request.limit)
                 .build();
 
         return REST.instance()
@@ -80,6 +81,7 @@ public class ContinuumReadHandler implements HttpRequestHandler {
         Particles particles;
         Fields fields;
         String[] group;
+        Integer limit;
 
         @SuppressWarnings("unchecked")
         public ReadRequest(Map<String, Object> data) throws Exception {
@@ -108,6 +110,8 @@ public class ContinuumReadHandler implements HttpRequestHandler {
                     case "group":
                         group = ((String)value).split(",");
                         break;
+                    case "limit":
+                        limit = (int)value;
                     case "fields":
                         fields.putAll((Map<String, Object>)value);
                         break;

@@ -478,6 +478,11 @@ public class Continuum implements Controller, Closeable {
             target.dimension = dimension;
             return this;
         }
+        public ScanBuilder limit(Integer limit) {
+            if (limit != null && limit > 0)
+                target.limit = limit;
+            return this;
+        }
         public Scan build() {
 
             // add default collectors for this scan

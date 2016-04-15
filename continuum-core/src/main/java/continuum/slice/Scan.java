@@ -89,4 +89,10 @@ public interface Scan {
      * @return optional user defined filter
      */
     Filter filter();
+
+    /**
+     * The limit of number of results returned
+     * @return limit
+     */
+    int limit();
 }
