@@ -27,6 +27,7 @@ import java.io.Closeable;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static continuum.slice.Const.LIMIT_NONE;
 import static continuum.util.Util.*;
 
 /**
@@ -479,7 +480,7 @@ public class Continuum implements Controller, Closeable {
             return this;
         }
         public ScanBuilder limit(Integer limit) {
-            if (limit != null && limit > 0)
+            if (limit != null && limit != LIMIT_NONE)
                 target.limit = limit;
             return this;
         }

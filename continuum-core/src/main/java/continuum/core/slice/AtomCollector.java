@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static continuum.slice.Const.LIMIT_NONE;
+
 /**
  * Collect atoms matching the scan filter. For when neither function nor interval is specified
  * Created by zack on 2/24/16.
@@ -21,8 +23,6 @@ public class AtomCollector implements Collector<Atom> {
     private final ValuesCollector values;
     private final String name;
     private final int limit;
-
-    private static final int LIMIT_NONE = 0;
 
     public AtomCollector() {
         this("atoms", Function.AVG, LIMIT_NONE);

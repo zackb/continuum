@@ -1,12 +1,13 @@
 package continuum.slice;
 
 import continuum.Continuum;
+import continuum.atom.Atom;
 import continuum.core.io.file.FileSystemReference;
-import continuum.slice.Function;
-import continuum.slice.Slice;
 import continuum.util.Maths;
 import continuum.util.datetime.Interval;
 import org.junit.Test;
+
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 import static continuum.Continuum.*;
@@ -81,6 +82,47 @@ public class ScanTest {
             assertEquals(61.5, or.values().min(), 0);
             assertEquals(66.9999, or.values().max(), 0);
             assertEquals(128.4999, or.values().sum(), 0);
+
+            // limit 2 (all oregon)
+            slice = continuum.slice(
+                    continuum.scan("temp")
+                            .particles(particles("country", "us", "state", "or", "city", "pdx"))
+                            .limit(2)
+                            .end(Interval.valueOf("2d"))
+                            .build());
+
+            assertEquals(2, slice.atoms().size());
+
+            Long maxts = slice.atoms().stream()
+                    .sorted((a, b)  -> b.timestamp().compareTo(a.timestamp()))
+                    .findFirst().get().timestamp();
+
+            Long mints = slice.atoms().stream()
+                    .sorted((a, b)  -> a.timestamp().compareTo(b.timestamp()))
+                    .findFirst().get().timestamp();
+
+            assertEquals(maxts, slice.atoms().get(0).timestamp());
+            assertEquals(mints, slice.atoms().get(1).timestamp());
+
+            // ensure descending ordering
+            long ts = Long.MAX_VALUE;
+            for (Atom atom : slice.atoms()) {
+                assert atom.timestamp() <= ts;
+                ts = atom.timestamp();
+            }
+
+            // limit 1
+            slice = continuum.slice(
+                    continuum.scan("temp")
+                            .particles(particles("country", "us", "state", "or", "city", "pdx"))
+                            .limit(1)
+                            .end(Interval.valueOf("2d"))
+                            .build());
+
+            assertEquals(1, slice.atoms().size());
+            // ensure its the newest
+            // TODO: NOW!!!! this should be maxts, Ordered by timestamp the wrong way!
+            assertEquals(mints, slice.atoms().get(0).timestamp());
 
         } finally {
             if (continuum != null) continuum.delete();

@@ -9,4 +9,6 @@ public class Const {
     public static final char WILDCARD = '*';
     public static final String SWILDCARD = "" + WILDCARD;
 
+    public static final int LIMIT_NONE = 0;
+
 }

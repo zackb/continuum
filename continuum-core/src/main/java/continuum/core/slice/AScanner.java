@@ -20,9 +20,6 @@ public class AScanner implements Scanner {
 
     private byte[] previousScan = null;
 
-    // TODO: Buffer based on scan.interval()
-    private long previousTimestamp = 0;
-
     /**
      * {@inheritDoc}
      */
@@ -35,19 +32,31 @@ public class AScanner implements Scanner {
         iterator.seek(start);
         Atom atom = iterator.valid() ? iterator.get() : null;
         boolean stop = false;
+
+        int totalRowsScanned = 0;
+        int totalRowsCollected = 0;
         while (!stop && atom != null) {
+            totalRowsScanned++;
             switch (filter.filter(atom)) {
                 case CONTINUE:          if (decode) collect(collector);
                                         else collectID(collector);
+                                        totalRowsCollected++;
                                         break;
                 case SKIP:              break;
                 case STOP: default:     stop = true;
                                         break;
             }
+
+            if (scan.limit() != Const.LIMIT_NONE &&
+                scan.limit() <= totalRowsCollected)
+                break;
+
             atom = iterate(iterator);
         }
 
         previousScan = iterator.ID().bytes();
+
+        System.out.println("For Key: " + scan.name() + " Scanned: " + totalRowsScanned + " and Collected: " + totalRowsCollected);
 
         return collector.slice();
     }
