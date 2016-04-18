@@ -33,8 +33,8 @@ public class SAtomID implements AtomID {
         }
         this.cachedId = bytes;
         name = Bytes.range(cachedId, 0, positions[0]);
-        particles = Bytes.range(cachedId, positions[0] + 1, positions[positions.length - 1] - 2);
-        timestamp = Bytes.range(cachedId, positions[positions.length - 1] - 1, cachedId.length);
+        particles = Bytes.range(cachedId, positions[0] + 1, cachedId.length - 8 - 1);
+        timestamp = Bytes.range(cachedId, cachedId.length - 8, cachedId.length);
     }
 
     public SAtomID(Atom atom) {
@@ -42,7 +42,7 @@ public class SAtomID implements AtomID {
         name = Bytes.bytes(atom.name());
         particles = pids == null ? null : pids.bytes();
         int plen = particles == null ? 1 : particles.length;
-        timestamp = Bytes.bytes(atom.timestamp());
+        timestamp = Bytes.bytes(Long.MAX_VALUE - atom.timestamp());
         byte[] id = new byte[name.length + plen + timestamp.length + 2];
 
         positions = new int[] { name.length + 1, plen + 1, timestamp.length + 2 };
@@ -79,6 +79,6 @@ public class SAtomID implements AtomID {
 
     @Override
     public long timestamp() {
-        return Bytes.Long(timestamp);
+        return Long.MAX_VALUE - Bytes.Long(timestamp);
     }
 }

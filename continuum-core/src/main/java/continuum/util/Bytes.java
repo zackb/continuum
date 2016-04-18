@@ -283,5 +283,20 @@ public class Bytes {
         return Arrays.copyOfRange(target, start, end);
     }
 
+    /**
+     * Reverse the order of an array inline
+     * @param target array to reverse and mutate
+     */
+    public static void reverse(byte[] target) {
+        byte tmp;
+        for (int i = 0; i < target.length / 2; i++) {
+            int right = target.length - 1 - i;
+            tmp = target[right];
+            target[right] = target[i];
+            target[i] = tmp;
+        }
+        System.out.println(target);
+    }
+
     public static final byte SEP = 0x00;
 }

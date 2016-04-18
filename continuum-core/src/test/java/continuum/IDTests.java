@@ -47,7 +47,7 @@ public class IDTests {
         long ts = 1455219259015L;
         byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
         byte[] expected = Bytes.concat(e, (byte)0x0);
-        expected = Bytes.concat(expected, Bytes.bytes(ts));
+        expected = Bytes.concat(expected, Bytes.bytes(Long.MAX_VALUE - ts));
         Map<String, String> map = new HashMap<>();
         map.put("fooz", "bar");
         map.put("baz", "bat");
@@ -58,9 +58,8 @@ public class IDTests {
     @Test
     public void testSeriesAtomIdUnMarshall() {
         long ts = 1455219259015L;
-        byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
-        byte[] expected = Bytes.concat(e, (byte)0x0);
-        expected = Bytes.concat(expected, Bytes.bytes(ts));
+        byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r', 0x0 };
+        byte[] expected = Bytes.concat(e, Bytes.bytes(Long.MAX_VALUE - ts));
         AtomID id = new SAtomID(expected);
         assertEquals("zame", id.name());
         assertEquals(ts, id.timestamp());
@@ -73,7 +72,7 @@ public class IDTests {
         long ts = 1455219259015L;
         byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
 
-        byte[] expected = Bytes.concat(Bytes.bytes(ts), (byte)0x0);
+        byte[] expected = Bytes.concat(Bytes.bytes(Long.MAX_VALUE - ts), (byte)0x0);
         expected = Bytes.concat(expected, e);
         Map<String, String> map = new HashMap<>();
         map.put("fooz", "bar");
@@ -86,7 +85,7 @@ public class IDTests {
     public void testKeyValueAtomIdUnMarshall() {
         long ts = 1455219259015L;
         byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
-        byte[] expected = Bytes.concat(Bytes.bytes(ts), (byte)0x0);
+        byte[] expected = Bytes.concat(Bytes.bytes(Long.MAX_VALUE - ts), (byte)0x0);
         expected = Bytes.concat(expected, e);
         AtomID id = new KAtomID(expected);
         assertEquals("zame", id.name());

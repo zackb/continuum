@@ -40,7 +40,7 @@ public class KAtomID implements AtomID {
     public KAtomID(Atom atom) {
         name = Bytes.bytes(atom.name());
         particles = atom.particles().ID().bytes();
-        timestamp = Bytes.bytes(atom.timestamp());
+        timestamp = Bytes.bytes(Long.MAX_VALUE - atom.timestamp());
 
         byte[] id = new byte[timestamp.length + name.length + particles.length + 2];
 
@@ -77,6 +77,6 @@ public class KAtomID implements AtomID {
 
     @Override
     public long timestamp() {
-        return Bytes.Long(timestamp);
+        return Long.MAX_VALUE - Bytes.Long(timestamp);
     }
 }

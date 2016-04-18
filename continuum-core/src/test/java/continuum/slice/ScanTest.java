@@ -121,8 +121,7 @@ public class ScanTest {
 
             assertEquals(1, slice.atoms().size());
             // ensure its the newest
-            // TODO: NOW!!!! this should be maxts, Ordered by timestamp the wrong way!
-            assertEquals(mints, slice.atoms().get(0).timestamp());
+            assertEquals(maxts, slice.atoms().get(0).timestamp());
 
         } finally {
             if (continuum != null) continuum.delete();
