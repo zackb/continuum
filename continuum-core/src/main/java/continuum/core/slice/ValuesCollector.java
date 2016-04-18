@@ -41,6 +41,10 @@ public class ValuesCollector implements Collector<Atom> {
 
     @Override
     public void collect(Atom atom) {
+        if (atom.values() == null) {
+            sum += 1;
+            return;
+        }
         double value = atom.values().value();
         if (value > max) max = value;
         if (value < min) min = value;
