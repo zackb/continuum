@@ -362,7 +362,7 @@ public class Continuum implements Controller, Closeable {
         protected AParticles particles;
         protected AFields fields;
         protected long timestamp = System.currentTimeMillis();
-        protected AValues values;
+        protected AValues values = new AValues();
         protected Dimension dimension;
         protected AtomBuilder() {}
 
