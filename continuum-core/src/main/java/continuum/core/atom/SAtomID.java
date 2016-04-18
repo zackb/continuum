@@ -33,7 +33,9 @@ public class SAtomID implements AtomID {
         }
         this.cachedId = bytes;
         name = Bytes.range(cachedId, 0, positions[0]);
-        particles = Bytes.range(cachedId, positions[0] + 1, cachedId.length - 8 - 1);
+        if (positions[0] < cachedId.length - 9)
+            particles = Bytes.range(cachedId, positions[0] + 1, cachedId.length - 8 - 1);
+        else particles = null;
         timestamp = Bytes.range(cachedId, cachedId.length - 8, cachedId.length);
     }
 
@@ -74,7 +76,7 @@ public class SAtomID implements AtomID {
 
     @Override
     public Particles particles() {
-        return new AParticlesID(particles).particles();
+        return particles == null ? null : new AParticlesID(particles).particles();
     }
 
     @Override
