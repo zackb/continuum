@@ -386,6 +386,10 @@ public class Continuum implements Controller, Closeable {
             this.fields = (AFields)fields;
             return this;
         }
+        public AtomBuilder fields(Object... fields) {
+            this.fields = (AFields)Continuum.fields(fields);
+            return this;
+        }
         public AtomBuilder timestamp(long timestamp) {
             this.timestamp = timestamp;
             return this;
