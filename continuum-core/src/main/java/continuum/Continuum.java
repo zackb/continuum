@@ -216,6 +216,22 @@ public class Continuum implements Controller, Closeable {
      * {@inheritDoc}
      */
     @Override
+    public void delete(AtomID id) throws Exception {
+        translator().delete(id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void delete(Atom atom) throws Exception {
+        delete(atom.ID());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Slice slice(Scan scan) throws Exception {
         Iterator iterator = translator().iterator();
         try {

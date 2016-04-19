@@ -23,6 +23,13 @@ public interface Translator<T> {
     T read(AtomID id) throws Exception;
 
     /**
+     * Delete a datapoint from slab storage
+     * @param id atom id to delete
+     * @throws Exception error deleting atom
+     */
+    void delete(AtomID id) throws Exception;
+
+    /**
      * Get an iterator for the data store.
      * WARN Caller MUST Call close()
      * Available exclusively to caller until close() is called.

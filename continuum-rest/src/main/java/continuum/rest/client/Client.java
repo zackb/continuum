@@ -104,6 +104,16 @@ public class Client implements Controller, Translator<Atom> {
         return read(atomID);
     }
 
+    @Override
+    public void delete(AtomID atomId) throws Exception {
+        throw new UnsupportedOperationException("Deleting via REST not allowed");
+    }
+
+    @Override
+    public void delete(Atom atom) throws Exception {
+        throw new UnsupportedOperationException("Deleting via REST not allowed");
+    }
+
     /**
      * {@inheritDoc}
      */

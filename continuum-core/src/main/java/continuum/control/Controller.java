@@ -50,6 +50,20 @@ public interface Controller {
     Atom get(AtomID id) throws Exception;
 
     /**
+     * Delete an atom fron the datastore
+     * @param atomId id of atom to delete
+     * @throws Exception on underlying slab failure
+     */
+    void delete(AtomID atomId) throws Exception;
+
+    /**
+     * Delete an atom fron the datastore
+     * @param atom to delete
+     * @throws Exception on underlying slab failure
+     */
+    void delete(Atom atom) throws Exception;
+
+    /**
      * Query: Execute a set of operations on a scan of time from the datastore
      * Blocking
      * @param scan description of the view of the slice

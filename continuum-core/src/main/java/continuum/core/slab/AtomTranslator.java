@@ -51,6 +51,14 @@ public class AtomTranslator implements Translator<Atom> {
      * {@inheritDoc}
      */
     @Override
+    public void delete(AtomID id) throws Exception {
+        slab.delete(id.bytes());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Iterator<Atom> iterator() {
         return new AtomIterator(dimension, (RockSlab)slab());
     }
