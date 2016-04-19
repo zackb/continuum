@@ -30,6 +30,13 @@ public interface Slab {
     void write(byte[] key, byte[] value) throws Exception;
 
     /**
+     * Delete some data by key
+     * @param key to delete
+     * @throws Exception error writing to slab
+     */
+    void delete(byte[] key) throws Exception;
+
+    /**
      * Store some data by key and push duplicate values instead of overwriting
      * @param key to store, duplicates' will be push()'d
      * @param value some bytes to store

@@ -54,6 +54,11 @@ public class RockSlab implements Slab {
         rock.put(key, value);
     }
 
+    @Override
+    public void delete(byte[] key) throws Exception {
+        rock.remove(key);
+    }
+
     /**
      * {@inheritDoc}
      */

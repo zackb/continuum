@@ -46,6 +46,11 @@ public class Slabs implements Slab {
     }
 
     @Override
+    public void delete(byte[] key) throws Exception {
+        select(key).delete(key);
+    }
+
+    @Override
     public void merge(byte[] key, byte[] value) throws Exception {
         select(key).merge(key, value);
     }
