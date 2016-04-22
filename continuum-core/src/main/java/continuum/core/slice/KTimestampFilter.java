@@ -21,10 +21,10 @@ public class KTimestampFilter implements Filter {
     public Action filter(Atom atom) {
 
         if (atom.timestamp() < end)
-            return Action.STOP;
+            return Action.SKIP;
 
         if (atom.timestamp() > start)
-            return Action.STOP;
+            return Action.SKIP;
 
         return Action.CONTINUE;
     }
