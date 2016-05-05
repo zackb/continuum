@@ -77,8 +77,10 @@ public class GroupCollector implements Collector<Atom> {
     @Override
     public void collect(Atom atom) {
 
-        values.collect(atom);
         String[] keys = keys(atom);
+        if (keys == null) return;
+
+        values.collect(atom);
 
         Tree<Collector> current = collectors;
         for (int i = 0; i < keys.length; i++) {
@@ -101,9 +103,10 @@ public class GroupCollector implements Collector<Atom> {
     }
 
     /**
-     * tag values for this key (groups)
-     * @param atom to compute
-     * @return keys
+     * Tag values for this key (groups)
+     * The values for each of the particles in the "group" clause
+     * @param atom to get the values of the keys in the grouping
+     * @return keys or null if the atom does not have the grouping particles
      */
     private String[] keys(Atom atom) {
         String[] keys = new String[groups.length];
@@ -111,9 +114,12 @@ public class GroupCollector implements Collector<Atom> {
         int i = 0;
         for (String group : groups) {
             String val = atom.particles().get(group);
-            if (!Strings.empty(val)) {
-                keys[i++] = val;
+
+            if (Strings.empty(val)) {// If this atom does not have a particle matching the grouping, skip it
+                return null;
             }
+
+            keys[i++] = val;
         }
 
         return keys.length > i ? Strings.range(keys, 0, i) : keys;
