@@ -291,7 +291,7 @@ public class Continuum implements Controller, Closeable {
     }
 
     /**
-     * Compact atoms into quarks given a given time range and size
+     * Downsampling, compact atoms given a time range and size
      * @param scan time scan to compact
      * @throws Exception error contracting
      */
