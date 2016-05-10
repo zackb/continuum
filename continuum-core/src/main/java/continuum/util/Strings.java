@@ -183,6 +183,17 @@ public class Strings {
     }
 
     /**
+     * Check string equality with null checks
+     * @param s1 string to compare
+     * @param s2 string to compare
+     * @return true if the strings case-sensitive match and are both non null
+     */
+    public static boolean equals(String s1, String s2) {
+        if (s1 == null || s2 == null) return false;
+        return s1.equals(s2);
+    }
+
+    /**
      * Sprintf to a string.
      *
      * @param format a format string

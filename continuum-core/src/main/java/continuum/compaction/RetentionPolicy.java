@@ -1,4 +1,4 @@
-package continuum.slice;
+package continuum.compaction;
 
 import continuum.util.datetime.Interval;
 
