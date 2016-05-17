@@ -234,7 +234,15 @@ public class Continuum implements Controller, Closeable {
      */
     @Override
     public void delete(Interval interval) throws Exception {
-        Scan scan = scan("*")
+        delete(Const.SWILDCARD, interval);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void delete(String name, Interval interval) throws Exception {
+        Scan scan = scan(name)
                 .start(interval)
                 .end(Interval.valueOf("1y"))
                 .limit(100000)
@@ -249,6 +257,7 @@ public class Continuum implements Controller, Closeable {
             atoms = slice(scan).atoms();
         }
     }
+
 
     /**
      * {@inheritDoc}

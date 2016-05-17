@@ -120,6 +120,11 @@ public class Client implements Controller, Translator<Atom> {
         throw new UnsupportedOperationException("Deleting via REST not allowed");
     }
 
+    @Override
+    public void delete(String name, Interval interval) throws Exception {
+        throw new UnsupportedOperationException("Deleting via REST not allowed");
+    }
+
     /**
      * {@inheritDoc}
      */

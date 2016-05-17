@@ -1,6 +1,8 @@
 package continuum.rest.http;
 
 import continuum.REST;
+import continuum.slice.Const;
+import continuum.util.Strings;
 import continuum.util.datetime.Interval;
 
 import java.util.HashMap;
@@ -19,6 +21,10 @@ public class ContinuumUtilHandler implements HttpRequestHandler {
     public Object onGet(Map<String, Object> params) throws Exception {
 
         String cmd = (String)params.get("cmd");
+        String name = (String)params.get("name");
+        if (Strings.empty(name)) {
+            name = Const.SWILDCARD;
+        }
 
         Map<String, String> result = new HashMap<>(1);
 

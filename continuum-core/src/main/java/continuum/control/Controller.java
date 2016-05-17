@@ -74,6 +74,16 @@ public interface Controller {
     void delete(Interval interval) throws Exception;
 
     /**
+     * Delete atoms in a given series that are older than the given time period
+     * TODO: This is ONLY for short term data cleaning until compaction is ready
+     * @param name series name
+     * @param interval to delete data older than
+     * @throws Exception on underlying slab failure
+     */
+    @Deprecated
+    void delete(String name, Interval interval) throws Exception;
+
+    /**
      * Query: Execute a set of operations on a scan of time from the datastore
      * Blocking
      * @param scan description of the view of the slice
