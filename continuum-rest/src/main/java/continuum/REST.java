@@ -1,10 +1,7 @@
 package continuum;
 
 import continuum.rest.client.Client;
-import continuum.rest.http.ContinuumReadHandler;
-import continuum.rest.http.ContinuumWriteHandler;
-import continuum.rest.http.HttpServerConfig;
-import continuum.rest.http.IHttpServer;
+import continuum.rest.http.*;
 import continuum.rest.http.netty.NettyHttpServer;
 import continuum.universe.Universe;
 
@@ -33,6 +30,7 @@ public class REST {
         config.port = port;
         config.handlers.add(new ContinuumReadHandler());
         config.handlers.add(new ContinuumWriteHandler());
+        config.handlers.add(new ContinuumUtilHandler());
         this.httpServer = new NettyHttpServer(config);
         instance = this; // AHHHH!
     }
