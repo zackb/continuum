@@ -11,6 +11,7 @@ import continuum.slice.Scan;
 import continuum.slice.Scanner;
 import continuum.slice.Slice;
 import continuum.rest.http.HTTP;
+import continuum.util.datetime.Interval;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -111,6 +112,11 @@ public class Client implements Controller, Translator<Atom> {
 
     @Override
     public void delete(Atom atom) throws Exception {
+        throw new UnsupportedOperationException("Deleting via REST not allowed");
+    }
+
+    @Override
+    public void delete(Interval interval) throws Exception {
         throw new UnsupportedOperationException("Deleting via REST not allowed");
     }
 

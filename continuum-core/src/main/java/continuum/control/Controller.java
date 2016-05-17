@@ -6,6 +6,7 @@ import continuum.slab.Translator;
 import continuum.slice.Scan;
 import continuum.slice.Scanner;
 import continuum.slice.Slice;
+import continuum.util.datetime.Interval;
 
 import java.util.stream.Stream;
 
@@ -62,6 +63,15 @@ public interface Controller {
      * @throws Exception on underlying slab failure
      */
     void delete(Atom atom) throws Exception;
+
+    /**
+     * Delete all atoms that are older than the given time period
+     * TODO: This is ONLY for short term data cleaning until compaction is ready
+     * @param interval to delete data older than
+     * @throws Exception on underlying slab failure
+     */
+    @Deprecated
+    void delete(Interval interval) throws Exception;
 
     /**
      * Query: Execute a set of operations on a scan of time from the datastore

@@ -25,6 +25,7 @@ import continuum.slab.Iterator;
 
 import java.io.Closeable;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static continuum.slice.Const.LIMIT_NONE;
@@ -38,7 +39,7 @@ public class Continuum implements Controller, Closeable {
 
     private final String name;
 
-    // The DEFAULT dimenstion for atoms and scans on this continuum
+    // The DEFAULT dimension for atoms and scans on this continuum
     private final Dimension dimension;
 
     private final Translator<Atom> translator;
@@ -226,6 +227,20 @@ public class Continuum implements Controller, Closeable {
     @Override
     public void delete(Atom atom) throws Exception {
         delete(atom.ID());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void delete(Interval interval) throws Exception {
+        List<? extends Atom> atoms = slice(scan("*")
+                .start(interval)
+                .end(Interval.valueOf("1y"))
+                .build()).atoms();
+
+        for (Atom atom : atoms)
+            delete(atom);
     }
 
     /**
