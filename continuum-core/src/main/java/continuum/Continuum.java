@@ -242,7 +242,7 @@ public class Continuum implements Controller, Closeable {
 
         List<? extends Atom> atoms = slice(scan).atoms();
 
-        while (atoms != null && atoms.size() > 0)) {
+        while (atoms != null && atoms.size() > 0) {
             for (Atom atom : atoms)
                 delete(atom);
 
