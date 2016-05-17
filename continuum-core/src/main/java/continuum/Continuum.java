@@ -234,13 +234,20 @@ public class Continuum implements Controller, Closeable {
      */
     @Override
     public void delete(Interval interval) throws Exception {
-        List<? extends Atom> atoms = slice(scan("*")
+        Scan scan = scan("*")
                 .start(interval)
                 .end(Interval.valueOf("1y"))
-                .build()).atoms();
+                .limit(1000)
+                .build();
 
-        for (Atom atom : atoms)
-            delete(atom);
+        List<? extends Atom> atoms = slice(scan).atoms();
+
+        while (atoms != null && atoms.size() > 0)) {
+            for (Atom atom : atoms)
+                delete(atom);
+
+            atoms = slice(scan).atoms();
+        }
     }
 
     /**
