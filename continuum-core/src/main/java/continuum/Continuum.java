@@ -237,7 +237,7 @@ public class Continuum implements Controller, Closeable {
         Scan scan = scan("*")
                 .start(interval)
                 .end(Interval.valueOf("1y"))
-                .limit(1000)
+                .limit(100000)
                 .build();
 
         List<? extends Atom> atoms = slice(scan).atoms();

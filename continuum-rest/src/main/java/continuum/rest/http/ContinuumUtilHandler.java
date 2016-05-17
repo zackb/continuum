@@ -1,6 +1,5 @@
 package continuum.rest.http;
 
-import continuum.Continuum;
 import continuum.REST;
 import continuum.util.datetime.Interval;
 
