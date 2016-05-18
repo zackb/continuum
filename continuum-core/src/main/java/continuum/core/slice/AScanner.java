@@ -56,6 +56,8 @@ public class AScanner implements Scanner {
 
         previousScan = iterator.ID().bytes();
 
+        System.out.println("For Key: " + scan.name() + " Scanned: " + totalRowsScanned + " and Collected: " + totalRowsCollected);
+
         return collector.slice();
     }
 
