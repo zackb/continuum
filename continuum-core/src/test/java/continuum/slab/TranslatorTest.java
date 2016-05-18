@@ -97,9 +97,6 @@ public class TranslatorTest {
                             .dimension(Dimension.SPACE)
                             .build())
                     .atoms();
-
-            System.out.println("FOO: " + d2.ID().timestamp());
-            atoms.forEach(a -> System.out.println(a.ID().timestamp()));
         }
 
         slab.close();

@@ -295,7 +295,6 @@ public class Bytes {
             target[right] = target[i];
             target[i] = tmp;
         }
-        System.out.println(target);
     }
 
     public static final byte SEP = 0x00;

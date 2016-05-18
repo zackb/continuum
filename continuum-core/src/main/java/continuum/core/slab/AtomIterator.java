@@ -52,9 +52,7 @@ public class AtomIterator implements Iterator<Atom> {
 
     @Override
     public Atom get() {
-        Atom atom = AtomTranslator.decodeAtom(it.value(), dimension);
-        System.out.println("Read: " + atom.ID().string());
-        return atom;
+        return AtomTranslator.decodeAtom(it.value(), dimension);
     }
 
     @Override

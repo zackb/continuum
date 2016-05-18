@@ -217,7 +217,6 @@ public class Continuum implements Controller, Closeable {
      */
     @Override
     public void delete(AtomID id) throws Exception {
-        System.out.println("Deleting: " + id.string());
         translator().delete(id);
     }
 
@@ -254,7 +253,6 @@ public class Continuum implements Controller, Closeable {
             for (Atom atom : atoms)
                 delete(atom);
 
-            System.out.println("DONE");
             atoms = slice(scan).atoms();
         }
     }
