@@ -15,6 +15,7 @@ import continuum.util.datetime.Interval;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -65,8 +66,12 @@ public class TranslatorTest {
         translator.write(d);
 
         AtomID id = d.ID();
-        d = translator.read(id);
-        assertEquals(98898.124D, d.values().value(), 0.00001);
+        Atom d2 = translator.read(id);
+        assertEquals(d.timestamp(), d2.timestamp());
+        assertEquals(98898.124D, d2.values().value(), 0.00001);
+        assertEquals(d.ID().string(), d2.ID().string());
+        assertEquals(d.ID().name(), d2.ID().name());
+        assertArrayEquals(d.ID().bytes(), d2.ID().bytes());
         Scanner scanner = new AScanner();
         try (Iterator iterator = translator.iterator()) {
             scanner.iterator(iterator);
@@ -81,6 +86,21 @@ public class TranslatorTest {
             Double avg = res.values().value();
             assertEquals((12346555.0000000000D + 98898.124D)/ 2, avg, 0.00001);
         }
+
+        try (Iterator iterator = translator.iterator()) {
+            scanner.iterator(iterator);
+
+            List<? extends Atom> atoms = scanner.slice(
+                    Continuum.scan().name("zack")
+                            .end(Interval.valueOf("1d"))
+                            .dimension(Dimension.SPACE)
+                            .build())
+                    .atoms();
+
+            System.out.println("FOO: " + d2.ID().timestamp());
+            atoms.forEach(a -> System.out.println(a.ID().timestamp()));
+        }
+
         slab.close();
         slab.reference().delete();
     }

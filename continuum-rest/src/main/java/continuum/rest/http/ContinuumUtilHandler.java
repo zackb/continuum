@@ -29,7 +29,7 @@ public class ContinuumUtilHandler implements HttpRequestHandler {
         Map<String, String> result = new HashMap<>(1);
 
         if (cmd.equals("trim")) {
-            REST.instance().continuum().delete(Interval.valueOf("5d"));
+            REST.instance().continuum().delete(name, Interval.valueOf("5d"));
         }
 
         result.put("message", "OK");

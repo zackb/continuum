@@ -25,7 +25,6 @@ import continuum.slab.Iterator;
 
 import java.io.Closeable;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static continuum.slice.Const.LIMIT_NONE;
@@ -218,6 +217,7 @@ public class Continuum implements Controller, Closeable {
      */
     @Override
     public void delete(AtomID id) throws Exception {
+        System.out.println("Deleting: " + id.string());
         translator().delete(id);
     }
 
@@ -245,7 +245,7 @@ public class Continuum implements Controller, Closeable {
         Scan scan = scan(name)
                 .start(interval)
                 .end(Interval.valueOf("1y"))
-                .limit(100000)
+                .limit(1)
                 .build();
 
         List<? extends Atom> atoms = slice(scan).atoms();
@@ -254,6 +254,7 @@ public class Continuum implements Controller, Closeable {
             for (Atom atom : atoms)
                 delete(atom);
 
+            System.out.println("DONE");
             atoms = slice(scan).atoms();
         }
     }
@@ -584,5 +585,16 @@ public class Continuum implements Controller, Closeable {
     public enum Dimension {
         SPACE, TIME
      // Series / Key
+    }
+
+    public static void main(String[] args) throws Exception {
+        Continuum continuum = Continuum.continuum()
+                .name("chewie-staging")
+                .base(new FileSystemReference("/Users/zack/Desktop/chewie-staging"))
+                .dimension(Dimension.SPACE)
+                .open();
+
+
+        continuum.delete("buffer_event", Interval.valueOf("5d"));
     }
 }
