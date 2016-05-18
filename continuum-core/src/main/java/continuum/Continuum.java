@@ -244,7 +244,7 @@ public class Continuum implements Controller, Closeable {
         List<? extends Atom> atoms = slice(scan(name)
                 .start(interval)
                 .end(Interval.valueOf("1y"))
-                .limit(2)
+                .limit(100000)
                 .build()).atoms();
 
         while (atoms != null && atoms.size() > 0) {
