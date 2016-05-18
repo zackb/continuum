@@ -56,8 +56,6 @@ public class AScanner implements Scanner {
 
         previousScan = iterator.ID().bytes();
 
-        System.out.println("For Key: " + scan.name() + " Scanned: " + totalRowsScanned + " and Collected: " + totalRowsCollected);
-
         return collector.slice();
     }
 
@@ -108,7 +106,8 @@ public class AScanner implements Scanner {
     }
 
     private void collect(Collector<Atom> collector) {
-        collector.collect(iterator.get());
+        Atom atom = iterator.get();
+        collector.collect(atom);
     }
 
     private void collectID(Collector<AtomID> collector) {

@@ -241,19 +241,22 @@ public class Continuum implements Controller, Closeable {
      */
     @Override
     public void delete(String name, Interval interval) throws Exception {
-        Scan scan = scan(name)
+        List<? extends Atom> atoms = slice(scan(name)
                 .start(interval)
                 .end(Interval.valueOf("1y"))
-                .limit(1)
-                .build();
-
-        List<? extends Atom> atoms = slice(scan).atoms();
+                .limit(2)
+                .build()).atoms();
 
         while (atoms != null && atoms.size() > 0) {
-            for (Atom atom : atoms)
+            for (Atom atom : atoms) {
                 delete(atom);
+            }
 
-            atoms = slice(scan).atoms();
+            atoms = slice(scan(name)
+                    .start(interval)
+                    .end(Interval.valueOf("1y"))
+                    .limit(2)
+                    .build()).atoms();
         }
     }
 
@@ -263,13 +266,10 @@ public class Continuum implements Controller, Closeable {
      */
     @Override
     public Slice slice(Scan scan) throws Exception {
-        Iterator iterator = translator().iterator();
-        try {
+        try (Iterator iterator = translator().iterator()) {
             Scanner scanner = scanner();
             scanner.iterator(iterator);
             return scanner.slice(scan);
-        } finally {
-            if (iterator != null) iterator.close();
         }
     }
 
@@ -585,6 +585,7 @@ public class Continuum implements Controller, Closeable {
      // Series / Key
     }
 
+    /*
     public static void main(String[] args) throws Exception {
         Continuum continuum = Continuum.continuum()
                 .name("chewie-staging")
@@ -595,4 +596,5 @@ public class Continuum implements Controller, Closeable {
 
         continuum.delete("buffer_event", Interval.valueOf("5d"));
     }
+    */
 }
