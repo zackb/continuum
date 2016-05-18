@@ -88,6 +88,7 @@ public class TranslatorTest {
         }
 
         try (Iterator iterator = translator.iterator()) {
+            scanner = new AScanner();
             scanner.iterator(iterator);
 
             List<? extends Atom> atoms = scanner.slice(

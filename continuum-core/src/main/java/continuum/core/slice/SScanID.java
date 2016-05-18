@@ -35,12 +35,15 @@ public class SScanID implements ScanID {
             bparticles = encode(particles);
         else
             bparticles = new byte[0];
+
         id = new byte[bname.length + bparticles.length + 1];
 
         ByteBuffer buff = ByteBuffer.wrap(id);
         buff.put(bname);
-        buff.put(b);
-        buff.put(bparticles);
+        if (bparticles.length > 0) {
+            buff.put(b);
+            buff.put(bparticles);
+        }
     }
 
     /**
@@ -56,7 +59,7 @@ public class SScanID implements ScanID {
         int pos = 0;
         byte[] tmp;
 
-        for (int i = 0; i < names.size(); i++) {
+        for (int i = 0; i < len; i++) {
             String name = names.get(i);
             tmp = Bytes.bytes(name);
             bid = Bytes.append(bid, pos, tmp);
@@ -64,7 +67,7 @@ public class SScanID implements ScanID {
             bid[pos++] = b;
         }
 
-        for (int i = 0; i < names.size(); i++) {
+        for (int i = 0; i < len; i++) {
             String val = particles.get(names.get(i));
             if (val.equals(Const.SWILDCARD)) break;
             tmp = Bytes.bytes(val);
