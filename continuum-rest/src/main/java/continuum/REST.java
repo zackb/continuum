@@ -31,6 +31,7 @@ public class REST {
         config.handlers.add(new ContinuumReadHandler());
         config.handlers.add(new ContinuumWriteHandler());
         config.handlers.add(new ContinuumUtilHandler());
+        config.handlers.add(new ContinuumCountHandler());
         this.httpServer = new NettyHttpServer(config);
         instance = this; // AHHHH!
     }

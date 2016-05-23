@@ -65,6 +65,13 @@ public interface Controller {
     void delete(Atom atom) throws Exception;
 
     /**
+     * Get an estimated number of atoms in the datastore
+     * @return number of atoms (estimated)
+     * @throws Exception on underlying slab failure
+     */
+    long count() throws Exception;
+
+    /**
      * Delete all atoms that are older than the given time period
      * TODO: This is ONLY for short term data cleaning until compaction is ready
      * @param interval to delete data older than

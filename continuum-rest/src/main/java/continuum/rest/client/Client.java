@@ -39,8 +39,7 @@ public class Client implements Controller, Translator<Atom> {
     public Client(String host, int port) {
         baseUrl = "http://" + host + ":" + port + "/api/1.0";
     }
-
-    /**
+/**
      * {@inheritDoc}
      */
     @Override
@@ -105,14 +104,30 @@ public class Client implements Controller, Translator<Atom> {
         return read(atomID);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void delete(AtomID atomId) throws Exception {
         throw new UnsupportedOperationException("Deleting via REST not allowed");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void delete(Atom atom) throws Exception {
         throw new UnsupportedOperationException("Deleting via REST not allowed");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long count() throws Exception {
+        String url = baseUrl + "/count";
+        Map<String, Object> data = HTTP.getJSON(url);
+        return (long)data.get("count");
     }
 
     @Override

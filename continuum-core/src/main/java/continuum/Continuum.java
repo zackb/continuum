@@ -260,6 +260,14 @@ public class Continuum implements Controller, Closeable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long count() throws Exception {
+        return slabs.count();
+    }
+
 
     /**
      * {@inheritDoc}
@@ -585,6 +593,7 @@ public class Continuum implements Controller, Closeable {
      // Series / Key
     }
 
+    /*
     public static void main(String[] args) throws Exception {
         Continuum continuum = Continuum.continuum()
                 .name("chewie-staging")
@@ -592,7 +601,7 @@ public class Continuum implements Controller, Closeable {
                 .dimension(Dimension.SPACE)
                 .open();
 
-
         continuum.delete("prov_br_dn", Interval.valueOf("2d"));
     }
+    */
 }

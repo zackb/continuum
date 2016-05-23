@@ -56,6 +56,13 @@ public class Slabs implements Slab {
     }
 
     @Override
+    public Long count() throws Exception {
+        long count = 0L;
+        for (Slab slab : slabs) count += slab.count();
+        return count;
+    }
+
+    @Override
     public Reference reference() {
         throw new Error("Not implemented: Sharded slab references. Tee??");
     }

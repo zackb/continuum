@@ -45,6 +45,13 @@ public interface Slab {
     void merge(byte[] key, byte[] value) throws Exception;
 
     /**
+     * Get an estimated number of atoms in this slab.
+     * @return estimated count
+     * @throws Exception on undelying slab failure
+     */
+    Long count() throws Exception;
+
+    /**
      * Underlying file reference (fs, s3, hdfs, nas, tape)
      * @return underlying file reference used by this slab
      */

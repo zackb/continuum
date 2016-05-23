@@ -67,6 +67,11 @@ public class RockSlab implements Slab {
         rock.merge(key, value);
     }
 
+    @Override
+    public Long count() throws Exception {
+        return rock.getLongProperty("rocksdb.estimate-num-keys");
+    }
+
     /**
      * {@inheritDoc}
      */
