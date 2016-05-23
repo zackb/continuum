@@ -255,7 +255,7 @@ public class Continuum implements Controller, Closeable {
             atoms = slice(scan(name)
                     .start(interval)
                     .end(Interval.valueOf("1y"))
-                    .limit(2)
+                    .limit(100000)
                     .build()).atoms();
         }
     }
@@ -585,7 +585,6 @@ public class Continuum implements Controller, Closeable {
      // Series / Key
     }
 
-    /*
     public static void main(String[] args) throws Exception {
         Continuum continuum = Continuum.continuum()
                 .name("chewie-staging")
@@ -594,7 +593,6 @@ public class Continuum implements Controller, Closeable {
                 .open();
 
 
-        continuum.delete("buffer_event", Interval.valueOf("5d"));
+        continuum.delete("prov_br_dn", Interval.valueOf("2d"));
     }
-    */
 }
