@@ -38,6 +38,7 @@ public class JSON {
                 //.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
                 .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .enable(SerializationFeature.WRITE_BIGDECIMAL_AS_PLAIN)
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
         //.enableDefaultTyping()
