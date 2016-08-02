@@ -66,15 +66,17 @@ public class IteratorTest {
             AtomID id = itr.ID();
             if (i == 0) {
                 assertEquals("testiterate", id.name());
-                assertEquals("bar", id.particles().get("foo"));
-                assertEquals("bat", id.particles().get("baz"));
-                assertEquals(123456.3D, itr.values().value(), 0.0001);
-            } else if (i == 1) {
-                assertEquals("testiterate", id.name());
                 Particles particles = id.particles();
                 assertEquals("da'vinci", particles.get("fuz"));
                 assertEquals("bar", particles.get("zack"));
                 assertEquals(12341.01234, itr.values().value(), 0.0001);
+                assertEquals(id.timestamp(), ts2);
+            } else if (i == 1) {
+                assertEquals("testiterate", id.name());
+                assertEquals("bar", id.particles().get("foo"));
+                assertEquals("bat", id.particles().get("baz"));
+                assertEquals(123456.3D, itr.values().value(), 0.0001);
+                assertEquals(id.timestamp(), ts1);
             }
             i++;
         } while (itr.next());

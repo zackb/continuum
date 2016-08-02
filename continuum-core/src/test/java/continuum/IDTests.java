@@ -45,9 +45,7 @@ public class IDTests {
     @Test
     public void testSeriesAtomIdMarshall() {
         long ts = 1455219259015L;
-        byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
-        byte[] expected = Bytes.concat(e, (byte)0x0);
-        expected = Bytes.concat(expected, Bytes.bytes(Long.MAX_VALUE - ts));
+        byte[] expected = {'z', 'a', 'm', 'e', 0x0, 0x7F, (byte)0xFF, (byte)0xFE, (byte)0xAD, (byte)0x2E, (byte)0x2C, (byte)0x49, (byte)0x78, (byte)0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r' };
         Map<String, String> map = new HashMap<>();
         map.put("fooz", "bar");
         map.put("baz", "bat");
@@ -58,8 +56,7 @@ public class IDTests {
     @Test
     public void testSeriesAtomIdUnMarshall() {
         long ts = 1455219259015L;
-        byte[] e = {'z', 'a', 'm', 'e', 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r', 0x0 };
-        byte[] expected = Bytes.concat(e, Bytes.bytes(Long.MAX_VALUE - ts));
+        byte[] expected = {'z', 'a', 'm', 'e', 0x0, (byte)0x7F, (byte)0xFF, (byte)0xFE, (byte)0xAD, (byte)0x2E, (byte)0x2C, (byte)0x49, (byte)0x78, 0x0, 'b', 'a', 'z', 0x0, 'f', 'o', 'o', 'z', 0x0, 'b', 'a', 't', 0x0, 'b', 'a', 'r'};
         AtomID id = new SAtomID(expected);
         assertEquals("zame", id.name());
         assertEquals(ts, id.timestamp());

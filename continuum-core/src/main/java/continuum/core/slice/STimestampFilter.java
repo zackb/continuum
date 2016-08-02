@@ -22,7 +22,7 @@ public class STimestampFilter implements Filter {
     public Action filter(Atom atom) {
 
         if (atom.timestamp() < end)
-            return Action.SKIP;
+            return Action.STOP;
 
         if (atom.timestamp() > start)
             return Action.SKIP;
