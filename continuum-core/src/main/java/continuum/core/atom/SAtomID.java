@@ -17,26 +17,25 @@ public class SAtomID implements AtomID {
     private static final byte b = 0x0;
 
     private final transient byte[] cachedId;
-    private final transient int[] positions;
     private final transient byte[] name;
     private final transient byte[] particles;
     private final transient byte[] timestamp;
 
     public SAtomID(byte[] bytes) {
-        int count = 0;
-        for (byte by : bytes)
-            if (by == b) count++;
-        positions = new int[count];
-        int posi = 0;
-        for (int i = 0; i < bytes.length; i++) {
-            if (bytes[i] == b) positions[posi++] = i;
-        }
+        int timestampPos = 0;
+
+        while (bytes[timestampPos] != b)
+            timestampPos++;
+
+        int particlesPos = timestampPos + 9;
+
         this.cachedId = bytes;
-        name = Bytes.range(cachedId, 0, positions[0]);
-        if (positions[0] < cachedId.length - 9)
-            particles = Bytes.range(cachedId, positions[0] + 1, cachedId.length - 8 - 1);
+        name = Bytes.range(cachedId, 0, timestampPos);
+        timestamp = Bytes.range(cachedId, timestampPos + 1, particlesPos);
+
+        if (particlesPos < cachedId.length)
+            particles = Bytes.range(cachedId, particlesPos + 1, cachedId.length);
         else particles = null;
-        timestamp = Bytes.range(cachedId, cachedId.length - 8, cachedId.length);
     }
 
     public SAtomID(Atom atom) {
@@ -47,15 +46,13 @@ public class SAtomID implements AtomID {
         timestamp = Bytes.bytes(Long.MAX_VALUE - atom.timestamp());
         byte[] id = new byte[name.length + plen + timestamp.length + 2];
 
-        positions = new int[] { name.length + 1, plen + 1, timestamp.length + 2 };
-
         ByteBuffer buff = ByteBuffer.wrap(id);
         buff.put(name);
         buff.put(b);
+        buff.put(timestamp);
+        buff.put(b);
         if (particles != null)
             buff.put(particles);
-        buff.put(b);
-        buff.put(timestamp);
         cachedId = id;
     }
 
