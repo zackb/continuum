@@ -101,6 +101,10 @@ public class Universe {
         return new FileSystemReference("/dev/null");
     }
 
+    public final int ttl() {
+        return ttl;
+    }
+
     public final Continuum.Dimension dimension() {
         return dimension;
     }
