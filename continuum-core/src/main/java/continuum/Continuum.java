@@ -52,6 +52,10 @@ public class Continuum implements Controller, Closeable {
     }
 
     private Continuum(String name, Dimension dimension, List<Reference> bases) throws Exception {
+        this(name, dimension, bases, 0);
+    }
+
+    private Continuum(String name, Dimension dimension, List<Reference> bases, int ttl) throws Exception {
         checkNotNull("name", name);
         checkNotNull("dimension", dimension);
         checkNotNull("base", bases);
@@ -62,7 +66,7 @@ public class Continuum implements Controller, Closeable {
         List<Slab> slabList = new ArrayList<>();
         for (int i = 0; i < bases.size(); i++) {
             FileSystemReference ref = (FileSystemReference)bases.get(0);
-            Slab slab = new RockSlab(name + "." + i + ".slab", ref);
+            Slab slab = new RockSlab(name + "." + i + ".slab", ref, ttl);
             slab.open();
             slabList.add(slab);
         }
@@ -358,6 +362,7 @@ public class Continuum implements Controller, Closeable {
         private Dimension dimension = null;
         private List<Reference> base = new ArrayList<>();
         private String name = "continuum";
+        private int ttl = 0;
         public ContinuumBuilder name(String name) {
             this.name = name;
             return this;
@@ -375,6 +380,12 @@ public class Continuum implements Controller, Closeable {
         public ContinuumBuilder dimension(Dimension dimension) {
             this.dimension = dimension;
             return this;
+        }
+        public ContinuumBuilder ttl(Integer ttl) {
+            if (ttl != null)
+                this.ttl = ttl;
+            return this;
+
         }
         public Continuum open() throws Exception {
             return new Continuum(name, dimension, base);

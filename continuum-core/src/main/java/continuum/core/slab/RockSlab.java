@@ -14,6 +14,7 @@ public class RockSlab implements Slab {
     private RocksDB rock;
     public final String name;
     private boolean closed;
+    private final int ttl;
     private FileSystemReference dataDirRef;
 
     static {
@@ -21,11 +22,24 @@ public class RockSlab implements Slab {
     }
 
     /**
-     * {@inheritDoc}
+     * Create a new slab with RocksDB storage
+     * @param name unique name for this slab
+     * @param dataDirRef location on the filesystem to store data
      */
     public RockSlab(String name, FileSystemReference dataDirRef) {
+        this(name, dataDirRef, 0);
+    }
+
+    /**
+     * Create a new slab with RocksDB storage
+     * @param name unique name for this slab
+     * @param dataDirRef location on the filesystem to store data
+     * @param ttl time in seconds for each data point to live
+     */
+    public RockSlab(String name, FileSystemReference dataDirRef, int ttl) {
         this.name = name;
         this.dataDirRef = dataDirRef.child(name);
+        this.ttl = ttl;
     }
 
     /**
@@ -34,7 +48,11 @@ public class RockSlab implements Slab {
     @Override
     public void open() throws Exception {
         dataDirRef.mkdir();
-        rock = RocksDB.open(createOptions(), dataDirRef.fullPath());
+        if (ttl > 0) {
+            rock = TtlDB.open(createOptions(), dataDirRef.fullPath(), ttl, false);
+        } else {
+            rock = RocksDB.open(createOptions(), dataDirRef.fullPath());
+        }
         closed = false;
     }
 
@@ -57,6 +75,14 @@ public class RockSlab implements Slab {
     @Override
     public void delete(byte[] key) throws Exception {
         rock.remove(key);
+    }
+
+    /**
+     * Internal RocksDB specific hook to force a compaction
+     * @throws Exception on rocksdb failure
+     */
+    public void compactRange() throws Exception {
+        rock.compactRange();
     }
 
     /**

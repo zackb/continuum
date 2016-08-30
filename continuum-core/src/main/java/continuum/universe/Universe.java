@@ -21,6 +21,9 @@ public class Universe {
     private final FileSystemReference[] hot;
     private final FileSystemReference cold;
 
+    // default ttl for data points in seconds
+    private final int ttl;
+
     private final Map<String, Object> meta;
 
     /**
@@ -55,6 +58,12 @@ public class Universe {
         String hotRefs = (String)meta.get("hot");
         String[] parts = hotRefs.split(",");
         hot = new FileSystemReference[parts.length];
+        Integer ttl = (Integer)meta.get("ttl");
+
+        if (ttl != null)
+            this.ttl = ttl;
+        else this.ttl = 0;
+
         int i = 0;
         for (String sref : parts) hot[i++] = new FileSystemReference(sref);
         this.cold = null; // TODO:

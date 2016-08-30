@@ -10,8 +10,11 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 
 import static continuum.Continuum.particles;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -84,5 +87,29 @@ public class IteratorTest {
         slab.close();
         slab.reference().delete();
         assertEquals(2, i);
+    }
+
+    @Test
+    public void testTtl() throws Exception {
+
+        int ttl = 2; // 2 second ttl
+
+        reference.delete();
+        RockSlab slab = new RockSlab("testTtl.0.slab", reference, ttl);
+
+        slab.open();
+
+        slab.write("foo".getBytes(), "bar".getBytes());
+
+        assertArrayEquals("bar".getBytes(), slab.read("foo".getBytes()));
+
+        TimeUnit.SECONDS.sleep(ttl + 1);
+
+        slab.compactRange();
+
+        assertEquals(null, slab.read("foo".getBytes()));
+
+        slab.close();
+        slab.reference().delete();
     }
 }
