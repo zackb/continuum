@@ -388,7 +388,7 @@ public class Continuum implements Controller, Closeable {
 
         }
         public Continuum open() throws Exception {
-            return new Continuum(name, dimension, base);
+            return new Continuum(name, dimension, base, ttl);
         }
     }
 
