@@ -1,15 +1,9 @@
 package continuum.rest.http;
 
-import continuum.Continuum;
-import continuum.atom.Fields;
-import continuum.atom.Particles;
 import continuum.REST;
-import continuum.rest.http.exception.BadRequestException;
 import continuum.rest.http.exception.MethodNotAllowedException;
-import continuum.slice.Function;
 import continuum.slice.Scan;
 import continuum.slice.Slice;
-import continuum.util.datetime.Interval;
 import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
@@ -68,71 +62,6 @@ public class ContinuumReadHandler implements HttpRequestHandler {
     @Override
     public Object onDelete() throws Exception {
         throw new MethodNotAllowedException("");
-    }
-
-    class ReadRequest {
-        public String name;
-        public long start = System.currentTimeMillis();
-        public long end = System.currentTimeMillis() - Interval.valueOf("1h").millis();
-        Interval interval;
-        Function function;
-        Particles particles;
-        Fields fields;
-        String[] group;
-        Integer limit;
-
-        @SuppressWarnings("unchecked")
-        public ReadRequest(Map<String, Object> data) throws Exception {
-
-            particles = Continuum.particles();
-            fields = Continuum.fields();
-
-            for (String key : data.keySet()) {
-                Object value = data.get(key);
-                switch (key) {
-                    case "name":
-                        name = (String)value;
-                        break;
-                    case "start":
-                        start = Interval.valueOf((String)value).epoch();
-                        break;
-                    case "end":
-                        end = Interval.valueOf((String)value).epoch();
-                        break;
-                    case "interval":
-                        interval = Interval.valueOf((String)value);
-                        break;
-                    case "fn":
-                        function = Function.fromString((String)value);
-                        break;
-                    case "group":
-                        group = ((String)value).split(",");
-                        break;
-                    case "limit":
-                        limit = (int)value;
-                    case "fields":
-                        fields.putAll((Map<String, Object>)value);
-                        break;
-                    case "timestamp":
-                    case "value":
-                    case "values":
-                        break;
-                    case "particles":
-                    default:
-                        particles.put(key, (String)value);
-                        break;
-                }
-            }
-            check("name", name);
-            check("start", start);
-            check("end", end);
-        }
-
-        private void check(String name, Object value) throws Exception {
-            if (value == null) {
-                throw new BadRequestException("Parameter: " + name + " is required");
-            }
-        }
     }
 
     public static void main(String[] args) throws Exception {

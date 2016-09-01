@@ -24,4 +24,9 @@ public class HttpServerConfig {
         config.handlers.add(new VitalsMetricsHandler());
         return config;
     }
+
+    public HttpServerConfig port(int port) {
+        this.port = port;
+        return this;
+    }
 }

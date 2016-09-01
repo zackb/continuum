@@ -21,13 +21,31 @@ public class REST {
         this(continuum, 1337);
     }
 
+
+    /**
+     * Create a new REST wrapper around the data store
+     * @param continuum data store to expose REST endpoints for
+     * @param port to bind the http server to
+     * @throws Exception
+     */
     public REST(Continuum continuum, int port) throws Exception {
+        this(continuum,
+             HttpServerConfig
+                     .basicConfig()
+                        .port(port));
+    }
+
+    /**
+     * Create a new REST wrapper around the data store
+     * @param continuum data store to expose REST endpoints for
+     * @param config http server configuration values and custome endpoint handlers
+     * @throws Exception
+     */
+    public REST(Continuum continuum, HttpServerConfig config) throws Exception {
         if (instance != null) {
             throw new Exception("Already Running!");
         }
         this.continuum = continuum;
-        HttpServerConfig config = HttpServerConfig.basicConfig();
-        config.port = port;
         config.handlers.add(new ContinuumReadHandler());
         config.handlers.add(new ContinuumWriteHandler());
         config.handlers.add(new ContinuumUtilHandler());
@@ -36,6 +54,10 @@ public class REST {
         instance = this; // AHHHH!
     }
 
+    /**
+     * Starts the http server. Bind and listen on the configured port
+     * @return a reference to this object
+     */
     public REST start() {
         httpServer.start();
         return this;
