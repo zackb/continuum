@@ -48,7 +48,7 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<Object> 
 
 
     public NettyHttpServerHandler(HttpServerConfig config) {
-        this.handlers = config.handlers;
+        this.handlers = config.getHandlers();
     }
 
     @Override

@@ -26,7 +26,7 @@ public class REST {
      * Create a new REST wrapper around the data store
      * @param continuum data store to expose REST endpoints for
      * @param port to bind the http server to
-     * @throws Exception
+     * @throws Exception if the webserver is already running
      */
     public REST(Continuum continuum, int port) throws Exception {
         this(continuum,
@@ -39,17 +39,17 @@ public class REST {
      * Create a new REST wrapper around the data store
      * @param continuum data store to expose REST endpoints for
      * @param config http server configuration values and custome endpoint handlers
-     * @throws Exception
+     * @throws Exception if the webserver is already running
      */
     public REST(Continuum continuum, HttpServerConfig config) throws Exception {
         if (instance != null) {
             throw new Exception("Already Running!");
         }
         this.continuum = continuum;
-        config.handlers.add(new ContinuumReadHandler());
-        config.handlers.add(new ContinuumWriteHandler());
-        config.handlers.add(new ContinuumUtilHandler());
-        config.handlers.add(new ContinuumCountHandler());
+        config.addHandler(new ContinuumReadHandler());
+        config.addHandler(new ContinuumWriteHandler());
+        config.addHandler(new ContinuumUtilHandler());
+        config.addHandler(new ContinuumCountHandler());
         this.httpServer = new NettyHttpServer(config);
         instance = this; // AHHHH!
     }
