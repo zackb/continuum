@@ -26,9 +26,9 @@ dependencies {
     compile 'org.rocksdb:rocksdbjni:4.+'
 
     // Jackson
-    compile 'com.fasterxml.jackson.core:jackson-core:2.4+'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.4+'
-    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.4+'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.7+'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7+'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.7+'
 
     // CodaHale Metrics
     compile 'io.dropwizard.metrics:metrics-core:3+'
