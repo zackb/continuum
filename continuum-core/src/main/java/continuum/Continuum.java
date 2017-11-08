@@ -290,10 +290,11 @@ public class Continuum implements Controller, Closeable {
      */
     @Override
     public Stream<Slice> stream(Scan scan) throws Exception {
-        Iterator iterator = translator().iterator();
-        Scanner scanner = scanner();
-        scanner.iterator(iterator);
-        return scanner.stream(scan);
+        try (Iterator iterator = translator().iterator()) {
+            Scanner scanner = scanner();
+            scanner.iterator(iterator);
+            return scanner.stream(scan);
+        }
     }
 
     /**

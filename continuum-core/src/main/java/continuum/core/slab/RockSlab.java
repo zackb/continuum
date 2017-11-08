@@ -129,8 +129,8 @@ public class RockSlab implements Slab {
                 .setCompressionType(CompressionType.SNAPPY_COMPRESSION)
                 .setMaxOpenFiles(-1)
                 .setMaxBackgroundCompactions(4)
-                .setMaxBackgroundFlushes(1)
-                .createStatistics();
+                .setMaxBackgroundFlushes(1);
+                //.createStatistics();
 
         options.getEnv().setBackgroundThreads(cpus, Env.COMPACTION_POOL);
         options.getEnv().setBackgroundThreads(1, Env.FLUSH_POOL);

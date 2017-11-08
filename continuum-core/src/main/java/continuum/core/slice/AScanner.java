@@ -51,10 +51,13 @@ public class AScanner implements Scanner {
                 scan.limit() <= totalRowsCollected)
                 break;
 
-            atom = iterate(iterator);
-        }
 
-        previousScan = iterator.ID().bytes();
+            atom = iterate(iterator);
+            if (iterator.valid()) {
+                previousScan = iterator.ID().bytes();
+            }
+
+        }
 
         //System.out.println("For Key: " + scan.name() + " Scanned: " + totalRowsScanned + " and Collected: " + totalRowsCollected);
 
