@@ -9,7 +9,7 @@ continuum is a JVM library for storing and analyzing large amounts of time based
 
 ## tl;dr
 <p align="center">
-![alt tag](/docs/html/img/spacetime.png)
+<img src="/docs/html/img/spacetime.png"/>
 <p>
 
 ## Building
